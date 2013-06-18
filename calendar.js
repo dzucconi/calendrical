@@ -919,6 +919,7 @@
 
     // Update Julian Calendar
     julcal = this.jd_to_julian(j);
+
     data.juliancalendar.year  = julcal[0];
     data.juliancalendar.month = JULIAN_MONTHS[julcal[1] - 1];
     data.juliancalendar.day   = julcal[2];
@@ -967,6 +968,7 @@
 
     // Update Islamic Calendar
     islcal = this.jd_to_islamic(j);
+
     data.islamic.year  = islcal[0];
     data.islamic.month = ISLAMIC_MONTHS[islcal[1] - 1];
     data.islamic.day   = islcal[2];
@@ -975,6 +977,7 @@
 
     // Update Persian Calendar
     perscal = this.jd_to_persian(j);
+
     data.persian.year  = perscal[0];
     data.persian.month = PERSIAN_MONTHS[perscal[1] - 1];
     data.persian.day   = perscal[2];
@@ -983,6 +986,7 @@
 
     // Update Persian Astronomical Calendar
     perscal = this.jd_to_persiana(j);
+
     data.persiana.year  = perscal[0];
     data.persiana.month = PERSIAN_MONTHS[perscal[1] - 1];
     data.persiana.day   = perscal[2];
@@ -991,18 +995,20 @@
 
     // Update Mayan Calendars
     may_countcal = this.jd_to_mayan_count(j);
-    data.mayancount.baktun = may_countcal[0];
-    data.mayancount.katun  = may_countcal[1];
-    data.mayancount.tun    = may_countcal[2];
-    data.mayancount.uinal  = may_countcal[3];
-    data.mayancount.kin    = may_countcal[4];
-    mayhaabcal = this.jd_to_mayan_haab(j);
-    data.mayancount.haab = "" + mayhaabcal[1] + " " + MAYAN_HAAB_MONTHS[mayhaabcal[0] - 1];
-    maytzolkincal = this.jd_to_mayan_tzolkin(j);
+
+    data.mayancount.baktun  = may_countcal[0];
+    data.mayancount.katun   = may_countcal[1];
+    data.mayancount.tun     = may_countcal[2];
+    data.mayancount.uinal   = may_countcal[3];
+    data.mayancount.kin     = may_countcal[4];
+    mayhaabcal              = this.jd_to_mayan_haab(j);
+    data.mayancount.haab    = "" + mayhaabcal[1] + " " + MAYAN_HAAB_MONTHS[mayhaabcal[0] - 1];
+    maytzolkincal           = this.jd_to_mayan_tzolkin(j);
     data.mayancount.tzolkin = "" + maytzolkincal[1] + " " + MAYAN_TZOLKIN_MONTHS[maytzolkincal[0] - 1];
 
     // Update Bahai Calendar
     bahcal = this.jd_to_bahai(j);
+
     data.bahai.kull_i_shay = bahcal[0];
     data.bahai.vahid       = bahcal[1];
     data.bahai.year        = BAHAI_YEARS[bahcal[2] - 1];
@@ -1013,6 +1019,7 @@
 
     // Update Indian Civil Calendar
     indcal = this.jd_to_indian_civil(j);
+
     data.indiancivilcalendar.year    = indcal[0];
     data.indiancivilcalendar.month   = INDIAN_CIVIL_MONTHS[indcal[1] - 1];
     data.indiancivilcalendar.day     = indcal[2];
@@ -1021,6 +1028,7 @@
 
     // Update French Republican Calendar
     frrcal = this.jd_to_french_revolutionary(j);
+
     data.french.an     = frrcal[0];
     data.french.mois   = FRENCH_MOIS[frrcal[1] - 1];
     data.french.decade = FRENCH_DECADE[frrcal[2] - 1];
@@ -1044,16 +1052,19 @@
 
     // Update Unix time()
     utime = (j - J1970) * (60 * 60 * 24 * 1000);
+
     data.unixtime.time = Math.round(utime / 1000);
 
     // Update ISO Week
     isoweek = this.jd_to_iso(j);
+
     data.isoweek.year = isoweek[0];
     data.isoweek.week = isoweek[1];
     data.isoweek.day  = isoweek[2];
 
     // Update ISO Day
     isoday = this.jd_to_iso_day(j);
+
     data.isoday.year = isoday[0];
     data.isoday.day  = isoday[1];
   }
@@ -1067,7 +1078,7 @@
   cal.calcJulian = function() {
     var j, date, time;
 
-    j = new Number(data.julianday.day);
+    j    = new Number(data.julianday.day);
     date = this.jd_to_gregorian(j);
     time = jhms(j);
 
@@ -1238,7 +1249,6 @@
 
     this.setJulian(this.iso_day_to_julian(year, day));
   }
-
 
   /**
    * setDateToToday: Preset the fields in
