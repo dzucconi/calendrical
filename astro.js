@@ -8,11 +8,11 @@
  */
 
 // Frequently-used constants
-var J2000 = 2451545.0, // Julian day of J2000 epoch
-  JulianCentury = 36525.0, // Days in Julian century
-  JulianMillennium = (JulianCentury * 10), // Days in Julian millennium
-  AstronomicalUnit = 149597870.0, // Astronomical unit in kilometres
-  TropicalYear = 365.24219878; // Mean solar tropical year
+var J2000            = 2451545.0,            // Julian day of J2000 epoch
+    JulianCentury    = 36525.0,              // Days in Julian century
+    JulianMillennium = (JulianCentury * 10), // Days in Julian millennium
+    AstronomicalUnit = 149597870.0,          // Astronomical unit in kilometres
+    TropicalYear     = 365.24219878;         // Mean solar tropical year
 
 // ASTOR: Arc-seconds to radians
 function astor(a) {
