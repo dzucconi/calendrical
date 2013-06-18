@@ -1,76 +1,66 @@
-/*
-            JavaScript functions for positional astronomy
+/**
+ * JavaScript functions for positional astronomy
+ *
+ * by John Walker: September, MIM
+ * http://www.fourmilab.ch/
+ *
+ * This program is in the public domain.
+ */
 
-                  by John Walker  --  September, MIM
-                       http://www.fourmilab.ch/
-
-                This program is in the public domain.
-*/
-//  Frequently-used constants
-var
-J2000 = 2451545.0, // Julian day of J2000 epoch
+// Frequently-used constants
+var J2000 = 2451545.0, // Julian day of J2000 epoch
   JulianCentury = 36525.0, // Days in Julian century
   JulianMillennium = (JulianCentury * 10), // Days in Julian millennium
   AstronomicalUnit = 149597870.0, // Astronomical unit in kilometres
   TropicalYear = 365.24219878; // Mean solar tropical year
 
-/*  ASTOR  --  Arc-seconds to radians.  */
-
+// ASTOR: Arc-seconds to radians
 function astor(a) {
   return a * (Math.PI / (180.0 * 3600.0));
 }
 
-/*  DTR  --  Degrees to radians.  */
-
+// DTR: Degrees to radians
 function dtr(d) {
   return (d * Math.PI) / 180.0;
 }
 
-/*  RTD  --  Radians to degrees.  */
-
+// RTD: Radians to degrees
 function rtd(r) {
   return (r * 180.0) / Math.PI;
 }
 
-/*  FIXANGLE  --  Range reduce angle in degrees.  */
-
+// FIXANGLE: Range reduce angle in degrees
 function fixangle(a) {
   return a - 360.0 * (Math.floor(a / 360.0));
 }
 
-/*  FIXANGR  --  Range reduce angle in radians.  */
-
+// FIXANGR: Range reduce angle in radians
 function fixangr(a) {
   return a - (2 * Math.PI) * (Math.floor(a / (2 * Math.PI)));
 }
 
-//  DSIN  --  Sine of an angle in degrees
-
+// DSIN: Sine of an angle in degrees
 function dsin(d) {
   return Math.sin(dtr(d));
 }
 
-//  DCOS  --  Cosine of an angle in degrees
-
+// DCOS: Cosine of an angle in degrees
 function dcos(d) {
   return Math.cos(dtr(d));
 }
 
-/*  MOD  --  Modulus function which works for non-integers.  */
-
+// MOD: Modulus function which works for non-integers
 function mod(a, b) {
   return a - (b * Math.floor(a / b));
 }
 
-//  AMOD  --  Modulus function which returns numerator if modulus is zero
-
+// AMOD: Modulus function which returns numerator if modulus is zero
 function amod(a, b) {
   return mod(a - 1, b) + 1;
 }
 
-/*  JHMS  --  Convert Julian time to hour, minutes, and seconds,
-              returned as a three-element array.  */
-
+// JHMS: Convert Julian time to hour, minutes, and seconds,
+// returned as a three-element array
 function jhms(j) {
   var ij;
 
@@ -82,8 +72,7 @@ function jhms(j) {
     Math.floor(ij % 60));
 }
 
-//  JWDAY  --  Calculate day of week from Julian day
-
+// JWDAY: Calculate day of week from Julian day
 var Weekdays = new Array("Sunday", "Monday", "Tuesday", "Wednesday",
   "Thursday", "Friday", "Saturday");
 
@@ -91,17 +80,18 @@ function jwday(j) {
   return mod(Math.floor((j + 1.5)), 7);
 }
 
-/*  OBLIQEQ  --  Calculate the obliquity of the ecliptic for a given
-                 Julian date.  This uses Laskar's tenth-degree
-                 polynomial fit (J. Laskar, Astronomy and
-                 Astrophysics, Vol. 157, page 68 [1986]) which is
-                 accurate to within 0.01 arc second between AD 1000
-                 and AD 3000, and within a few seconds of arc for
-                 +/-10000 years around AD 2000.  If we're outside the
-                 range in which this fit is valid (deep time) we
-                 simply return the J2000 value of the obliquity, which
-                 happens to be almost precisely the mean.  */
-
+/**
+ * OBLIQEQ: Calculate the obliquity of the ecliptic for a given
+ * Julian date. This uses Laskar's tenth-degree
+ * polynomial fit (J. Laskar, Astronomy and
+ * Astrophysics, Vol. 157, page 68 [1986]) which is
+ * accurate to within 0.01 arc second between AD 1000
+ * and AD 3000, and within a few seconds of arc for
+ * +/-10000 years around AD 2000. If we're outside the
+ * range in which this fit is valid (deep time) we
+ * simply return the J2000 value of the obliquity, which
+ * happens to be almost precisely the mean.
+ */
 var oterms = new Array(-4680.93, -1.55,
   1999.25, -51.38, -249.67, -39.05,
   7.12,
@@ -126,10 +116,11 @@ function obliqeq(jd) {
   return eps;
 }
 
-/* Periodic terms for nutation in longiude (delta \Psi) and
-   obliquity (delta \Epsilon) as given in table 21.A of
-   Meeus, "Astronomical Algorithms", first edition. */
-
+/**
+ * Periodic terms for nutation in longiude (delta \Psi) and
+ * obliquity (delta \Epsilon) as given in table 21.A of
+ * Meeus, "Astronomical Algorithms", first edition.
+ */
 var nutArgMult = new Array(
   0, 0, 0, 0, 1, -2, 0, 0, 2, 2,
   0, 0, 0, 2, 2,
@@ -205,11 +196,12 @@ var nutArgCoeff = new Array(-171996, -1742, 92095, 89, /*  0,  0,  0,  0,  1 */ 
   3, 0, 0, 0, /*  0,  0,  1,  2,  0 */ -3, 0, 0, 0, /* -1, -1,  1,  0,  0 */ -3, 0, 0, 0, /*  0,  1,  1,  0,  0 */ -3, 0, 0, 0, /*  0, -1,  1,  2,  2 */ -3, 0, 0, 0, /*  2, -1, -1,  2,  2 */ -3, 0, 0, 0, /*  0,  0, -2,  2,  2 */ -3, 0, 0, 0, /*  0,  0,  3,  2,  2 */ -3, 0, 0, 0 /*  2, -1,  0,  2,  2 */
 );
 
-/*  NUTATION  --  Calculate the nutation in longitude, deltaPsi, and
-                  obliquity, deltaEpsilon for a given Julian date
-                  jd.  Results are returned as a two element Array
-                  giving (deltaPsi, deltaEpsilon) in degrees.  */
-
+/**
+ * NUTATION: Calculate the nutation in longitude, deltaPsi, and
+ * obliquity, deltaEpsilon for a given Julian date
+ * jd. Results are returned as a two element Array
+ * giving (deltaPsi, deltaEpsilon) in degrees.
+ */
 function nutation(jd) {
   var deltaPsi, deltaEpsilon,
     i, j,
@@ -222,13 +214,12 @@ function nutation(jd) {
 
   t3 = t * (t2 = t * t);
 
-  /* Calculate angles.  The correspondence between the elements
-       of our array and the terms cited in Meeus are:
-
-       ta[0] = D  ta[0] = M  ta[2] = M'  ta[3] = F  ta[4] = \Omega
-
-    */
-
+  /**
+   * Calculate angles. The correspondence between the elements
+   * of our array and the terms cited in Meeus are:
+   *
+   * ta[0] = D  ta[0] = M  ta[2] = M'  ta[3] = F  ta[4] = \Omega
+   */
   ta[0] = dtr(297.850363 + 445267.11148 * t - 0.0019142 * t2 +
     t3 / 189474.0);
   ta[1] = dtr(357.52772 + 35999.05034 * t - 0.0001603 * t2 -
@@ -240,9 +231,10 @@ function nutation(jd) {
   ta[4] = dtr(125.04452 - 1934.136261 * t + 0.0020708 * t2 +
     t3 / 450000.0);
 
-  /* Range reduce the angles in case the sine and cosine functions
-       don't do it as accurately or quickly. */
-
+  /**
+   * Range reduce the angles in case the sine and cosine functions
+   * don't do it as accurately or quickly.
+   */
   for (i = 0; i < 5; i++) {
     ta[i] = fixangr(ta[i]);
   }
@@ -259,28 +251,29 @@ function nutation(jd) {
     de += (nutArgCoeff[(i * 4) + 2] + nutArgCoeff[(i * 4) + 3] * to10) * Math.cos(ang);
   }
 
-  /* Return the result, converting from ten thousandths of arc
-       seconds to radians in the process. */
-
+  /**
+   * Return the result, converting from ten thousandths of arc
+   * seconds to radians in the process.
+   */
   deltaPsi = dp / (3600.0 * 10000.0);
   deltaEpsilon = de / (3600.0 * 10000.0);
 
   return new Array(deltaPsi, deltaEpsilon);
 }
 
-/*  ECLIPTOEQ  --  Convert celestial (ecliptical) longitude and
-                   latitude into right ascension (in degrees) and
-                   declination.  We must supply the time of the
-                   conversion in order to compensate correctly for the
-                   varying obliquity of the ecliptic over time.
-                   The right ascension and declination are returned
-                   as a two-element Array in that order.  */
-
+/**
+ * ECLIPTOEQ: Convert celestial (ecliptical) longitude and
+ * latitude into right ascension (in degrees) and
+ * declination. We must supply the time of the
+ * conversion in order to compensate correctly for the
+ * varying obliquity of the ecliptic over time.
+ * The right ascension and declination are returned
+ * as a two-element Array in that order.
+ */
 function ecliptoeq(jd, Lambda, Beta) {
   var eps, Ra, Dec;
 
-  /* Obliquity of the ecliptic. */
-
+  // Obliquity of the ecliptic
   eps = dtr(obliqeq(jd));
   log += "Obliquity: " + rtd(eps) + "\n";
 
@@ -298,12 +291,15 @@ function ecliptoeq(jd, Lambda, Beta) {
 }
 
 
-/*  DELTAT  --  Determine the difference, in seconds, between
-                Dynamical time and Universal time.  */
+/**
+ * DELTAT: Determine the difference, in seconds, between
+ * Dynamical time and Universal time.
+ */
 
-/*  Table of observed Delta T values at the beginning of
-    even numbered years from 1620 through 2002.  */
-
+/**
+ * Table of observed Delta T values at the beginning of
+ * even numbered years from 1620 through 2002.
+ */
 var deltaTtab = new Array(
   121, 112, 103, 95, 88, 82, 77, 72, 68, 63, 60, 56, 53, 51, 48, 46,
   44, 42, 40, 38, 35, 33, 31, 29, 26, 24, 22, 20, 18, 16, 14, 12,
@@ -341,19 +337,18 @@ function deltat(year) {
   return dt;
 }
 
-/*  EQUINOX  --  Determine the Julian Ephemeris Day of an
-                 equinox or solstice.  The "which" argument
-                 selects the item to be computed:
+/**
+ * EQUINOX: Determine the Julian Ephemeris Day of an
+ * equinox or solstice. The "which" argument
+ * selects the item to be computed:
+ *
+ * 0   March equinox
+ * 1   June solstice
+ * 2   September equinox
+ * 3   December solstice
+ */
 
-                    0   March equinox
-                    1   June solstice
-                    2   September equinox
-                    3   December solstice
-
-*/
-
-//  Periodic terms to obtain true time
-
+// Periodic terms to obtain true time
 var EquinoxpTerms = new Array(
   485, 324.96, 1934.136,
   203, 337.23, 32964.467,
@@ -398,10 +393,11 @@ JDE0tab2000 = new Array(
 function equinox(year, which) {
   var deltaL, i, j, JDE0, JDE, JDE0tab, S, T, W, Y;
 
-  /*  Initialise terms for mean equinox and solstices.  We
-        have two sets: one for years prior to 1000 and a second
-        for subsequent years.  */
-
+  /**
+   * Initialise terms for mean equinox and solstices. We
+   * have two sets: one for years prior to 1000 and a second
+   * for subsequent years.
+   */
   if (year < 1000) {
     JDE0tab = JDE0tab1000;
     Y = year / 1000;
@@ -416,131 +412,132 @@ function equinox(year, which) {
     (JDE0tab[which][3] * Y * Y * Y) +
     (JDE0tab[which][4] * Y * Y * Y * Y);
 
-  //document.debug.log.value += "JDE0 = " + JDE0 + "\n";
+  // console.log.value += "JDE0 = " + JDE0 + "\n";
 
   T = (JDE0 - 2451545.0) / 36525;
-  //document.debug.log.value += "T = " + T + "\n";
+  // console.log.value += "T = " + T + "\n";
   W = (35999.373 * T) - 2.47;
-  //document.debug.log.value += "W = " + W + "\n";
+  // console.log.value += "W = " + W + "\n";
   deltaL = 1 + (0.0334 * dcos(W)) + (0.0007 * dcos(2 * W));
-  //document.debug.log.value += "deltaL = " + deltaL + "\n";
+  // console.log.value += "deltaL = " + deltaL + "\n";
 
-  //  Sum the periodic terms for time T
-
+  // Sum the periodic terms for time T
   S = 0;
   for (i = j = 0; i < 24; i++) {
     S += EquinoxpTerms[j] * dcos(EquinoxpTerms[j + 1] + (EquinoxpTerms[j + 2] * T));
     j += 3;
   }
 
-  //document.debug.log.value += "S = " + S + "\n";
-  //document.debug.log.value += "Corr = " + ((S * 0.00001) / deltaL) + "\n";
+  // console.log.value += "S = " + S + "\n";
+  // console.log.value += "Corr = " + ((S * 0.00001) / deltaL) + "\n";
 
   JDE = JDE0 + ((S * 0.00001) / deltaL);
 
   return JDE;
 }
 
-/*  SUNPOS  --  Position of the Sun.  Please see the comments
-                on the return statement at the end of this function
-                which describe the array it returns.  We return
-                intermediate values because they are useful in a
-                variety of other contexts.  */
-
+/**
+ * SUNPOS: Position of the Sun. Please see the comments
+ * on the return statement at the end of this function
+ * which describe the array it returns. We return
+ * intermediate values because they are useful in a
+ * variety of other contexts.
+ */
 function sunpos(jd) {
   var T, T2, L0, M, e, C, sunLong, sunAnomaly, sunR,
     Omega, Lambda, epsilon, epsilon0, Alpha, Delta,
     AlphaApp, DeltaApp;
 
   T = (jd - J2000) / JulianCentury;
-  //document.debug.log.value += "Sunpos.  T = " + T + "\n";
+  // console.log.value += "Sunpos. T = " + T + "\n";
   T2 = T * T;
   L0 = 280.46646 + (36000.76983 * T) + (0.0003032 * T2);
-  //document.debug.log.value += "L0 = " + L0 + "\n";
+  // console.log.value += "L0 = " + L0 + "\n";
   L0 = fixangle(L0);
-  //document.debug.log.value += "L0 = " + L0 + "\n";
+  // console.log.value += "L0 = " + L0 + "\n";
   M = 357.52911 + (35999.05029 * T) + (-0.0001537 * T2);
-  //document.debug.log.value += "M = " + M + "\n";
+  // console.log.value += "M = " + M + "\n";
   M = fixangle(M);
-  //document.debug.log.value += "M = " + M + "\n";
+  // console.log.value += "M = " + M + "\n";
   e = 0.016708634 + (-0.000042037 * T) + (-0.0000001267 * T2);
-  //document.debug.log.value += "e = " + e + "\n";
+  // console.log.value += "e = " + e + "\n";
   C = ((1.914602 + (-0.004817 * T) + (-0.000014 * T2)) * dsin(M)) +
     ((0.019993 - (0.000101 * T)) * dsin(2 * M)) +
     (0.000289 * dsin(3 * M));
-  //document.debug.log.value += "C = " + C + "\n";
+  // console.log.value += "C = " + C + "\n";
   sunLong = L0 + C;
-  //document.debug.log.value += "sunLong = " + sunLong + "\n";
+  // console.log.value += "sunLong = " + sunLong + "\n";
   sunAnomaly = M + C;
-  //document.debug.log.value += "sunAnomaly = " + sunAnomaly + "\n";
+  // console.log.value += "sunAnomaly = " + sunAnomaly + "\n";
   sunR = (1.000001018 * (1 - (e * e))) / (1 + (e * dcos(sunAnomaly)));
-  //document.debug.log.value += "sunR = " + sunR + "\n";
+  // console.log.value += "sunR = " + sunR + "\n";
   Omega = 125.04 - (1934.136 * T);
-  //document.debug.log.value += "Omega = " + Omega + "\n";
+  // console.log.value += "Omega = " + Omega + "\n";
   Lambda = sunLong + (-0.00569) + (-0.00478 * dsin(Omega));
-  //document.debug.log.value += "Lambda = " + Lambda + "\n";
+  // console.log.value += "Lambda = " + Lambda + "\n";
   epsilon0 = obliqeq(jd);
-  //document.debug.log.value += "epsilon0 = " + epsilon0 + "\n";
+  // console.log.value += "epsilon0 = " + epsilon0 + "\n";
   epsilon = epsilon0 + (0.00256 * dcos(Omega));
-  //document.debug.log.value += "epsilon = " + epsilon + "\n";
+  // console.log.value += "epsilon = " + epsilon + "\n";
   Alpha = rtd(Math.atan2(dcos(epsilon0) * dsin(sunLong), dcos(sunLong)));
-  //document.debug.log.value += "Alpha = " + Alpha + "\n";
+  // console.log.value += "Alpha = " + Alpha + "\n";
   Alpha = fixangle(Alpha);
-  ////document.debug.log.value += "Alpha = " + Alpha + "\n";
+  //// console.log.value += "Alpha = " + Alpha + "\n";
   Delta = rtd(Math.asin(dsin(epsilon0) * dsin(sunLong)));
-  ////document.debug.log.value += "Delta = " + Delta + "\n";
+  //// console.log.value += "Delta = " + Delta + "\n";
   AlphaApp = rtd(Math.atan2(dcos(epsilon) * dsin(Lambda), dcos(Lambda)));
-  //document.debug.log.value += "AlphaApp = " + AlphaApp + "\n";
+  // console.log.value += "AlphaApp = " + AlphaApp + "\n";
   AlphaApp = fixangle(AlphaApp);
-  //document.debug.log.value += "AlphaApp = " + AlphaApp + "\n";
+  // console.log.value += "AlphaApp = " + AlphaApp + "\n";
   DeltaApp = rtd(Math.asin(dsin(epsilon) * dsin(Lambda)));
-  //document.debug.log.value += "DeltaApp = " + DeltaApp + "\n";
+  // console.log.value += "DeltaApp = " + DeltaApp + "\n";
 
-  return new Array( //  Angular quantities are expressed in decimal degrees
-    L0, //  [0] Geometric mean longitude of the Sun
-    M, //  [1] Mean anomaly of the Sun
-    e, //  [2] Eccentricity of the Earth's orbit
-    C, //  [3] Sun's equation of the Centre
-    sunLong, //  [4] Sun's true longitude
-    sunAnomaly, //  [5] Sun's true anomaly
-    sunR, //  [6] Sun's radius vector in AU
-    Lambda, //  [7] Sun's apparent longitude at true equinox of the date
-    Alpha, //  [8] Sun's true right ascension
-    Delta, //  [9] Sun's true declination
+  return new Array( // Angular quantities are expressed in decimal degrees
+    L0, // [0] Geometric mean longitude of the Sun
+    M, // [1] Mean anomaly of the Sun
+    e, // [2] Eccentricity of the Earth's orbit
+    C, // [3] Sun's equation of the Centre
+    sunLong, // [4] Sun's true longitude
+    sunAnomaly, // [5] Sun's true anomaly
+    sunR, // [6] Sun's radius vector in AU
+    Lambda, // [7] Sun's apparent longitude at true equinox of the date
+    Alpha, // [8] Sun's true right ascension
+    Delta, // [9] Sun's true declination
     AlphaApp, // [10] Sun's apparent right ascension
     DeltaApp // [11] Sun's apparent declination
   );
 }
 
-/*  EQUATIONOFTIME  --  Compute equation of time for a given moment.
-                        Returns the equation of time as a fraction of
-                        a day.  */
-
+/**
+ * EQUATIONOFTIME: Compute equation of time for a given moment.
+ * Returns the equation of time as a fraction of
+ * a day.
+ */
 function equationOfTime(jd) {
-  var alpha, deltaPsi, E, epsilon, L0, tau
+  var alpha, deltaPsi, E, epsilon, L0, tau;
 
-    tau = (jd - J2000) / JulianMillennium;
-  //document.debug.log.value += "equationOfTime.  tau = " + tau + "\n";
+  tau = (jd - J2000) / JulianMillennium;
+  // console.log.value += "equationOfTime. tau = " + tau + "\n";
   L0 = 280.4664567 + (360007.6982779 * tau) +
     (0.03032028 * tau * tau) +
     ((tau * tau * tau) / 49931) +
     (-((tau * tau * tau * tau) / 15300)) +
     (-((tau * tau * tau * tau * tau) / 2000000));
-  //document.debug.log.value += "L0 = " + L0 + "\n";
+  // console.log.value += "L0 = " + L0 + "\n";
   L0 = fixangle(L0);
-  //document.debug.log.value += "L0 = " + L0 + "\n";
+  // console.log.value += "L0 = " + L0 + "\n";
   alpha = sunpos(jd)[10];
-  //document.debug.log.value += "alpha = " + alpha + "\n";
+  // console.log.value += "alpha = " + alpha + "\n";
   deltaPsi = nutation(jd)[0];
-  //document.debug.log.value += "deltaPsi = " + deltaPsi + "\n";
+  // console.log.value += "deltaPsi = " + deltaPsi + "\n";
   epsilon = obliqeq(jd) + nutation(jd)[1];
-  //document.debug.log.value += "epsilon = " + epsilon + "\n";
+  // console.log.value += "epsilon = " + epsilon + "\n";
   E = L0 + (-0.0057183) + (-alpha) + (deltaPsi * dcos(epsilon));
-  //document.debug.log.value += "E = " + E + "\n";
+  // console.log.value += "E = " + E + "\n";
   E = E - 20.0 * (Math.floor(E / 20.0));
-  //document.debug.log.value += "Efixed = " + E + "\n";
+  // console.log.value += "Efixed = " + E + "\n";
   E = E / (24 * 60);
-  //document.debug.log.value += "Eday = " + E + "\n";
+  // console.log.value += "Eday = " + E + "\n";
 
   return E;
 }
