@@ -515,30 +515,41 @@ function sunpos(jd) {
  * a day.
  */
 function equationOfTime(jd) {
-  var alpha, deltaPsi, E, epsilon, L0, tau;
+  var alpha, deltaPsi, E, epsilon, L0, tau, _log;
+  // _log = "equationOfTime:\n";
 
   tau = (jd - J2000) / JulianMillennium;
-  // document.debug.log.value += "equationOfTime. tau = " + tau + "\n";
+  // _log += "tau = " + tau + "\n";
+
   L0 = 280.4664567 + (360007.6982779 * tau) +
     (0.03032028 * tau * tau) +
     ((tau * tau * tau) / 49931) +
     (-((tau * tau * tau * tau) / 15300)) +
     (-((tau * tau * tau * tau * tau) / 2000000));
-  // document.debug.log.value += "L0 = " + L0 + "\n";
+  // _log += "L0 = " + L0 + "\n";
+
   L0 = fixangle(L0);
-  // document.debug.log.value += "L0 = " + L0 + "\n";
+  // _log += "L0 = " + L0 + "\n";
+
   alpha = sunpos(jd)[10];
-  // document.debug.log.value += "alpha = " + alpha + "\n";
+  // _log += "alpha = " + alpha + "\n";
+
   deltaPsi = nutation(jd)[0];
-  // document.debug.log.value += "deltaPsi = " + deltaPsi + "\n";
+  // _log += "deltaPsi = " + deltaPsi + "\n";
+
   epsilon = obliqeq(jd) + nutation(jd)[1];
-  // document.debug.log.value += "epsilon = " + epsilon + "\n";
+  // _log += "epsilon = " + epsilon + "\n";
+
   E = L0 + (-0.0057183) + (-alpha) + (deltaPsi * dcos(epsilon));
-  // document.debug.log.value += "E = " + E + "\n";
+  // _log += "E = " + E + "\n";
+
   E = E - 20.0 * (Math.floor(E / 20.0));
-  // document.debug.log.value += "Efixed = " + E + "\n";
+  // _log += "Efixed = " + E + "\n";
+
   E = E / (24 * 60);
-  // document.debug.log.value += "Eday = " + E + "\n";
+  // _log += "Eday = " + E + "\n";
+
+  // $("#console").html(_log);
 
   return E;
 }
