@@ -1,43 +1,31 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
     <script src="astro.js"></script>
     <script src="calendar.js"></script>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
-
-    <style type="text/css">
-      #console {
-        position:fixed;
-        top:1em;
-        right:1em;
-        border:1px solid;
-        width:300px;
-        height:200px;
-        margin: 0;
-        padding: 1em;
-        font-family: monospace;
-        font-size: 14px;
-        display: none;
-      }
-    </style>
   </head>
 
   <body>
     <pre id="output"></pre>
-    <pre id="console"></pre>
   </body>
 
 <script>
   $(function() {
-    setInterval(function() {
-      var now = new Date();
+    // setInterval(function() {
+    //   var now = new Date();
 
-      Ephemerides.calendar.setDateTo(now);
-      Ephemerides.calendar.calcGregorian();
+    //   Ephemerides.calendar.setDateTo(now);
+    //   Ephemerides.calendar.calcGregorian();
 
-      $("#output").html(JSON.stringify(Ephemerides.data, undefined, 2))
-    }, 1000);
+    //   $("#output").html(JSON.stringify(Ephemerides.data, undefined, 2));
+    // }, 1000);
+
+    Ephemerides.calendar.setDateToToday();
+    Ephemerides.calendar.calcGregorian();
+    $("#output").html(JSON.stringify(Ephemerides.data, undefined, 2))
   });
 </script>
 </html>
