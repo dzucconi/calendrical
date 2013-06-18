@@ -1268,39 +1268,30 @@ function calcIsoDay() {
 }
 
 
-/*  setDateToToday: Preset the fields in
-    the request form to today's date. */
-
+/**
+ * setDateToToday: Preset the fields in
+ * the request form to today's date.
+ */
 function setDateToToday() {
   var today = new Date();
 
-  /*  The following idiocy is due to bizarre incompatibilities
-        in the behaviour of getYear() between Netscrape and
-        Exploder. The ideal solution is to use getFullYear(),
-        which returns the actual year number, but that would
-        break this code on versions of JavaScript prior to
-        1.2. So, for the moment we use the following code
-        which works for all versions of JavaScript and browsers
-        for all year numbers greater than 1000. When we're willing
-        to require JavaScript 1.2, this may be replaced by
-        the single line:
-
-            document.gregorian.year.value = today.getFullYear();
-
-        Thanks to Larry Gilbert for pointing out this problem.
-    */
-
-  var y = today.getYear();
-  if (y < 1000) {
-    y += 1900;
-  }
-
-  document.gregorian.year.value = y;
+  document.gregorian.year.value          = today.getFullYear();
   document.gregorian.month.selectedIndex = today.getMonth();
-  document.gregorian.day.value = today.getDate();
-  document.gregorian.hour.value =
-    document.gregorian.min.value =
-    document.gregorian.sec.value = "00";
+  document.gregorian.day.value           = today.getDate();
+  document.gregorian.hour.value          = "00";
+  document.gregorian.min.value           = "00";
+  document.gregorian.sec.value           = "00";
+}
+
+function setDateToNow() {
+  var today = new Date();
+
+  document.gregorian.year.value          = today.getFullYear();
+  document.gregorian.month.selectedIndex = today.getMonth();
+  document.gregorian.day.value           = today.getDate();
+  document.gregorian.hour.value          = today.getHours();
+  document.gregorian.min.value           = today.getMinutes();
+  document.gregorian.sec.value           = today.getSeconds();
 }
 
 /*  presetDataToRequest: Preset the Gregorian date to the
