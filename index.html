@@ -142,7 +142,13 @@
 
   <script language="JavaScript" type="text/javascript">
     // Preset the fields in the request form to today's date.
-    setDateToToday();
+    // setDateToToday();
+
+    // Update every second
+    window.setInterval(function(){
+      setDateToNow();
+      calcGregorian();
+    }, 1000);
   </script>
 
   <h3><a id="julianday" name="julianday">Julian Day</a></h3>
