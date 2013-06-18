@@ -377,7 +377,7 @@
       month++;
     }
     day = (jd - this.hebrew_to_jd(year, month, 1)) + 1;
-    return new Array(year, month, day);
+    return [year, month, day];
   }
 
   /**
@@ -450,7 +450,7 @@
     }
     adr = Math.round((lasteq - FRENCH_REVOLUTIONARY_EPOCH) / TropicalYear) + 1;
 
-    return new Array(adr, lasteq);
+    return [adr, lasteq];
   }
 
   /**
@@ -472,7 +472,7 @@
     decade = Math.floor(jour / 10) + 1;
     jour = (jour % 10) + 1;
 
-    return new Array(an, mois, decade, jour);
+    return [an, mois, decade, jour];
   }
 
   /**
@@ -483,7 +483,7 @@
     var adr, equinoxe, guess, jd;
 
     guess = FRENCH_REVOLUTIONARY_EPOCH + (TropicalYear * ((an - 1) - 1));
-    adr = new Array(an - 1, 0);
+    adr = [an - 1, 0];
 
     while (adr[0] < an) {
       adr = this.annee_da_la_revolution(guess);
@@ -502,9 +502,9 @@
 
   // ISLAMIC_TO_JD: Determine Julian day from Islamic date
   var ISLAMIC_EPOCH = 1948439.5;
-  var ISLAMIC_WEEKDAYS = new Array("al-'ahad", "al-'ithnayn",
+  var ISLAMIC_WEEKDAYS = ["al-'ahad", "al-'ithnayn",
     "ath-thalatha'", "al-'arb`a'",
-    "al-khamis", "al-jum`a", "as-sabt");
+    "al-khamis", "al-jum`a", "as-sabt"];
 
   cal.islamic_to_jd = function(year, month, day) {
     return (day +
@@ -580,9 +580,9 @@
    * [1]  Julian day number containing equinox for this year.
    */
   var PERSIAN_EPOCH = 1948320.5;
-  var PERSIAN_WEEKDAYS = new Array("Yekshanbeh", "Doshanbeh",
+  var PERSIAN_WEEKDAYS = ["Yekshanbeh", "Doshanbeh",
     "Seshhanbeh", "Chaharshanbeh",
-    "Panjshanbeh", "Jomeh", "Shanbeh");
+    "Panjshanbeh", "Jomeh", "Shanbeh"];
 
   cal.persiana_year = function(jd) {
     var guess = this.jd_to_gregorian(jd)[0] - 2,
@@ -622,7 +622,7 @@
     month = (yday <= 186) ? Math.ceil(yday / 31) : Math.ceil((yday - 6) / 30);
     day = (Math.floor(jd) - this.persiana_to_jd(year, month, 1)) + 1;
 
-    return new Array(year, month, day);
+    return [year, month, day];
   }
 
   /**
@@ -633,7 +633,7 @@
     var adr, equinox, guess, jd;
 
     guess = (PERSIAN_EPOCH - 1) + (TropicalYear * ((year - 1) - 1));
-    adr = new Array(year - 1, 0);
+    adr = [year - 1, 0];
 
     while (adr[0] < year) {
       adr = this.persiana_year(guess);
@@ -871,7 +871,7 @@
       }
     }
 
-    return new Array(year, month, day);
+    return [year, month, day];
   }
 
   /**
