@@ -16,24 +16,24 @@
 
   // Representation of the document
   Ephemerides.data = {
-    bahai: { day: {}, kull_i_shay: {}, leap: {}, month: {}, vahid: {}, weekday: {}, year: {} },
-    excelserial1900: { day: {} },
-    excelserial1904: { day: {} },
-    french: { an: {}, decade: {}, jour: {}, mois: {} },
-    gregorian: { day: {}, hour: {}, leap: {}, min: {}, month: {}, sec: {}, wday: {}, year: {} },
-    gregserial: { day: {} },
-    hebrew: { day: {}, hebmonth: { src: {} }, leap: {}, month: { options: { length: {} } }, year: {} },
-    indiancivilcalendar: { day: {}, leap: {}, month: {}, weekday: {}, year: {} },
-    islamic: { day: {}, leap: {}, month: {}, wday: {}, year: {} },
-    isoday: { day: {}, year: {} },
-    isoweek: { day: {}, week: {}, year: {} },
-    juliancalendar: { day: {}, leap: {}, month: {}, wday: {}, year: {} },
-    julianday: { day: {} },
-    mayancount: { baktun: {}, haab: {}, katun: {}, kin: {}, tun: {}, tzolkin: {}, uinal: {} },
-    modifiedjulianday: { day: {} },
-    persian: { day: {}, leap: {}, month: {}, wday: {}, year: {} },
-    persiana: { day: {}, leap: {}, month: {}, wday: {}, year: {} },
-    unixtime: { time: {} }
+    bahai               : {},
+    excelserial1900     : {},
+    excelserial1904     : {},
+    french              : {},
+    gregorian           : {},
+    gregserial          : {},
+    hebrew              : {},
+    indiancivilcalendar : {},
+    islamic             : {},
+    isoday              : {},
+    isoweek             : {},
+    juliancalendar      : {},
+    julianday           : {},
+    mayancount          : {},
+    modifiedjulianday   : {},
+    persian             : {},
+    persiana            : {},
+    unixtime            : {}
   };
 
   // Aliases
@@ -96,15 +96,13 @@
     return this.search_weekday(weekday, jd, 1, 0);
   }
 
-  cal.TestSomething = function() {}
-
   // LEAP_GREGORIAN: Is a given year in the Gregorian calendar a leap year ?
   cal.leap_gregorian = function(year) {
     return ((year % 4) == 0) &&
       (!(((year % 100) == 0) && ((year % 400) != 0)));
   }
 
-  // this.GREGORIAN_TO_JD: Determine Julian day number from Gregorian calendar date
+  // GREGORIAN_TO_JD: Determine Julian day number from Gregorian calendar date
   var GREGORIAN_EPOCH = 1721425.5;
 
   cal.gregorian_to_jd = function(year, month, day) {
@@ -121,6 +119,8 @@
   }
 
   // JD_TO_GREGORIAN: Calculate Gregorian calendar date from Julian day
+  var GREGORIAN_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
   cal.jd_to_gregorian = function(jd) {
     var wjd, depoch, quadricent, dqc, cent, dcent, quad, dquad,
       yindex, dyindex, year, yearday, leapadj, month, day;
@@ -231,6 +231,8 @@
   }
 
   // JD_TO_JULIAN: Calculate Julian calendar date from Julian day
+  var JULIAN_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
   cal.jd_to_julian = function(td) {
     var z, a, alpha, b, c, d, e, year, month, day;
 
@@ -274,7 +276,6 @@
 
   // Test for delay of start of new year and to avoid
   // Sunday, Wednesday, and Friday as start of the new year.
-
   cal.hebrew_delay_1 = function(year) {
     var months, day, parts;
 
@@ -362,6 +363,9 @@
    * the inverse function, and is this very
    * slow.
    */
+  var HEBREW_MONTHS = ["Nisan", "Iyyar", "Sivan", "Tammuz", "Av", "Elul", "Tishri", "Marẖeshvan", "Kislev", "Teveth", "Shevat", "Adar", "Veadar"],
+      HEBREW_WORD_MONTHS = ["נִיסָן", "אייר", "סיוון", "תַּמּוּז", "אָב", "אֱלוּל", "תִּשׁרִי", "מרחשוון", "כסליו", "טֵבֵת", "שְׁבָט", "אֲדָר א׳", "אֲדָר א׳"];
+
   cal.jd_to_hebrew = function(jd) {
     var year, month, day, i, count, first;
 
@@ -459,6 +463,10 @@
    * "sansculottides" are considered a thirteenth
    * month in the results of this function.
    */
+  var FRENCH_MOIS = ["Vendémiaire", "Brumaire", "Frimaire", "Nivôse", "Pluviôse", "Ventôse", "Germinal", "Floréal", "Prairial", "Messidor", "Thermidor", "Fructidor", "(Sans-culottides)"],
+      FRENCH_DECADE = ["I", "II", "III"],
+      FRENCH_JOUR = ["du Primidi (1)", "du Duodi (2)", "du Tridi (3)", "du Quartidi (4)", "du Quintidi (5)", "du Sextidi (6)", "du Septidi (7)", "du Octid (8)i", "du Nonidi (9)", "du Décadi (10)", "------------", "de la Vertu (1)", "du Génie (2)", "du Travail (3)", "de l'Opinion (4)", "des Récompenses (5)", "de la Révolution (6)"];
+
   cal.jd_to_french_revolutionary = function(jd) {
     var an, mois, decade, jour,
       adr, equinoxe;
@@ -501,10 +509,9 @@
   }
 
   // ISLAMIC_TO_JD: Determine Julian day from Islamic date
-  var ISLAMIC_EPOCH = 1948439.5;
-  var ISLAMIC_WEEKDAYS = ["al-'ahad", "al-'ithnayn",
-    "ath-thalatha'", "al-'arb`a'",
-    "al-khamis", "al-jum`a", "as-sabt"];
+  var ISLAMIC_EPOCH    = 1948439.5,
+      ISLAMIC_WEEKDAYS = ["al-'ahad", "al-'ithnayn", "ath-thalatha'", "al-'arb`a'", "al-khamis", "al-jum`a", "as-sabt"],
+      ISLAMIC_MONTHS   = ["Muharram", "Safar", "Rabi`al-Awwal", "Rabi`ath-Thani", "Jumada l-Ula", "Jumada t-Tania", "Rajab", "Sha`ban", "Ramadan", "Shawwal", "Dhu l-Qa`da", "Dhu l-Hijja"];
 
   cal.islamic_to_jd = function(year, month, day) {
     return (day +
@@ -579,10 +586,9 @@
    * [0]  Persian year
    * [1]  Julian day number containing equinox for this year.
    */
-  var PERSIAN_EPOCH = 1948320.5;
-  var PERSIAN_WEEKDAYS = ["Yekshanbeh", "Doshanbeh",
-    "Seshhanbeh", "Chaharshanbeh",
-    "Panjshanbeh", "Jomeh", "Shanbeh"];
+  var PERSIAN_EPOCH    = 1948320.5,
+      PERSIAN_WEEKDAYS = ["Yekshanbeh", "Doshanbeh", "Seshhanbeh", "Chaharshanbeh", "Panjshanbeh", "Jomeh", "Shanbeh"],
+      PERSIAN_MONTHS   = ["Farvardin", "Ordibehesht", "Khordad", "Tir", "Mordad", "Shahrivar", "Mehr", "Aban", "Azar", "Dey", "Bahman", "Esfand"];
 
   cal.persiana_year = function(jd) {
     var guess = this.jd_to_gregorian(jd)[0] - 2,
@@ -770,9 +776,11 @@
   }
 
   // BAHAI_TO_JD: Determine Julian day from Bahai date
-  var BAHAI_EPOCH = 2394646.5;
-  var BAHAI_WEEKDAYS = ["Jamál", "Kamál", "Fidál", "Idál",
-    "Istijlál", "Istiqlál", "Jalál"];
+  var BAHAI_EPOCH    = 2394646.5,
+      BAHAI_WEEKDAYS = ["Jamál", "Kamál", "Fidál", "Idál", "Istijlál", "Istiqlál", "Jalál"],
+      BAHAI_YEARS    = ["Alif", "Bá", "Ab", "Dál", "Báb", "Váv", "Abad", "Jád", "Bahá", "Hubb", "Bahháj", "Javáb", "Ahad", "Vahháb", "Vidád", "Badí", "Bahí", "Abhá", "Vahíd"],
+      BAHAI_MONTHS   = ["Bahá", "Jalál", "Jamál", "`Azamat", "Núr", "Rahmat", "Kalimát", "Kamál", "Asmá", "`Izzat", "Mashíyyat", "`Ilm", "Qudrat", "Qawl", "Masáil", "Sharaf", "Sultán", "Mulk", "Ayyám-i-Há", "`Alá'"],
+      BAHAI_DAYS     = ["Bahá", "Jalál", "Jamál", "`Azamat", "Núr", "Rahmat", "Kalimát", "Kamál", "Asmá", "`Izzat", "Mashíyyat", "`Ilm", "Qudrat", "Qawl", "Masáil", "Sharaf", "Sultán", "Mulk", "`Alá'"];
 
   cal.bahai_to_jd = function(major, cycle, year, month, day) {
     var gy;
@@ -805,9 +813,8 @@
   }
 
   // INDIAN_CIVIL_TO_JD: Obtain Julian day for Indian Civil date
-  var INDIAN_CIVIL_WEEKDAYS = [
-    "ravivara", "somavara", "mangalavara", "budhavara",
-    "brahaspativara", "sukravara", "sanivara"];
+  var INDIAN_CIVIL_WEEKDAYS = ["ravivara", "somavara", "mangalavara", "budhavara", "brahaspativara", "sukravara", "sanivara"],
+      INDIAN_CIVIL_MONTHS = ["Caitra", "Vaisakha", "Jyaistha", "Asadha", "Sravana", "Bhadra", "Asvina", "Kartika", "Agrahayana", "Pausa", "Magha", "Phalguna"];
 
   cal.indian_civil_to_jd = function(year, month, day) {
     var Caitra, gyear, leap, start, jd, m;
@@ -884,161 +891,148 @@
    */
   cal.updateFromGregorian = function() {
     var j, year, mon, mday, hour, min, sec,
-      weekday, julcal, perscal, hebcal, islcal, hmindex, utime, isoweek,
+      weekday, julcal, perscal, hebcal, islcal, utime, isoweek,
       may_countcal, mayhaabcal, maytzolkincal, bahcal, frrcal,
       indcal, isoday, xgregcal;
 
-    year = new Number(data.gregorian.year.value);
-    mon  = data.gregorian.month.selectedIndex;
-    mday = new Number(data.gregorian.day.value);
+    year = new Number(data.gregorian.year);
+    mon  = data.gregorian.month;
+    mday = new Number(data.gregorian.day);
     hour = min = sec = 0;
-    hour = new Number(data.gregorian.hour.value);
-    min  = new Number(data.gregorian.min.value);
-    sec  = new Number(data.gregorian.sec.value);
+    hour = new Number(data.gregorian.hour);
+    min  = new Number(data.gregorian.min);
+    sec  = new Number(data.gregorian.sec);
 
     // Update Julian day
     j = this.gregorian_to_jd(year, mon + 1, mday) +
       (Math.floor(sec + 60 * (min + 60 * hour) + 0.5) / 86400.0);
 
-    data.julianday.day.value = j;
-    data.modifiedjulianday.day.value = j - JMJD;
+    data.julianday.day = j;
+    data.modifiedjulianday.day = j - JMJD;
 
     // Update day of week in Gregorian box
     weekday = jwday(j);
-    data.gregorian.wday.value = Weekdays[weekday];
+    data.gregorian.wday = Weekdays[weekday];
 
     // Update leap year status in Gregorian box
-    data.gregorian.leap.value = NormLeap[this.leap_gregorian(year) ? 1 : 0];
+    data.gregorian.leap = NormLeap[this.leap_gregorian(year) ? 1 : 0];
 
     // Update Julian Calendar
     julcal = this.jd_to_julian(j);
-    data.juliancalendar.year.value          = julcal[0];
-    data.juliancalendar.month.selectedIndex = julcal[1] - 1;
-    data.juliancalendar.day.value           = julcal[2];
-    data.juliancalendar.leap.value          = NormLeap[this.leap_julian(julcal[0]) ? 1 : 0];
-    weekday = jwday(j);
-    data.juliancalendar.wday.value = Weekdays[weekday];
+    data.juliancalendar.year  = julcal[0];
+    data.juliancalendar.month = JULIAN_MONTHS[julcal[1] - 1];
+    data.juliancalendar.day   = julcal[2];
+    data.juliancalendar.leap  = NormLeap[this.leap_julian(julcal[0]) ? 1 : 0];
+    weekday                   = jwday(j);
+    data.juliancalendar.wday  = Weekdays[weekday];
 
     // Update Hebrew Calendar
     hebcal = this.jd_to_hebrew(j);
-    if (this.hebrew_leap(hebcal[0])) {
-      data.hebrew.month.options.length = 13;
-      // xxx
-      // data.hebrew.month.options[11]    = new Option("Adar I");
-      // data.hebrew.month.options[12]    = new Option("Veadar");
-    } else {
-      data.hebrew.month.options.length = 12;
-      // xxx
-      // data.hebrew.month.options[11]    = new Option("Adar");
-    }
-    data.hebrew.year.value          = hebcal[0];
-    data.hebrew.month.selectedIndex = hebcal[1] - 1;
-    data.hebrew.day.value           = hebcal[2];
-    hmindex = hebcal[1];
-    if (hmindex == 12 && !this.hebrew_leap(hebcal[0])) {
-      hmindex = 14;
-    }
-    data.hebrew.hebmonth.src = "figures/hebrew_month_" +
-      hmindex + ".gif";
+
+    data.hebrew.year     = hebcal[0];
+    data.hebrew.month    = HEBREW_MONTHS[hebcal[1] - 1];
+    data.hebrew.day      = hebcal[2];
+    data.hebrew.hebmonth = HEBREW_WORD_MONTHS[hebcal[1] - 1];
+
     switch (this.hebrew_year_days(hebcal[0])) {
     case 353:
-      data.hebrew.leap.value = "Common deficient (353 days)";
+      data.hebrew.leap = "Common deficient (353 days)";
       break;
 
     case 354:
-      data.hebrew.leap.value = "Common regular (354 days)";
+      data.hebrew.leap = "Common regular (354 days)";
       break;
 
     case 355:
-      data.hebrew.leap.value = "Common complete (355 days)";
+      data.hebrew.leap = "Common complete (355 days)";
       break;
 
     case 383:
-      data.hebrew.leap.value = "Embolismic deficient (383 days)";
+      data.hebrew.leap = "Embolismic deficient (383 days)";
       break;
 
     case 384:
-      data.hebrew.leap.value = "Embolismic regular (384 days)";
+      data.hebrew.leap = "Embolismic regular (384 days)";
       break;
 
     case 385:
-      data.hebrew.leap.value = "Embolismic complete (385 days)";
+      data.hebrew.leap = "Embolismic complete (385 days)";
       break;
 
     default:
-      data.hebrew.leap.value = "Invalid year length: " +
+      data.hebrew.leap = "Invalid year length: " +
         this.hebrew_year_days(hebcal[0]) + " days.";
       break;
     }
 
     // Update Islamic Calendar
     islcal = this.jd_to_islamic(j);
-    data.islamic.year.value          = islcal[0];
-    data.islamic.month.selectedIndex = islcal[1] - 1;
-    data.islamic.day.value           = islcal[2];
-    data.islamic.wday.value          = "yawm " + ISLAMIC_WEEKDAYS[weekday];
-    data.islamic.leap.value          = NormLeap[this.leap_islamic(islcal[0]) ? 1 : 0];
+    data.islamic.year  = islcal[0];
+    data.islamic.month = ISLAMIC_MONTHS[islcal[1] - 1];
+    data.islamic.day   = islcal[2];
+    data.islamic.wday  = "yawm " + ISLAMIC_WEEKDAYS[weekday];
+    data.islamic.leap  = NormLeap[this.leap_islamic(islcal[0]) ? 1 : 0];
 
     // Update Persian Calendar
     perscal = this.jd_to_persian(j);
-    data.persian.year.value          = perscal[0];
-    data.persian.month.selectedIndex = perscal[1] - 1;
-    data.persian.day.value           = perscal[2];
-    data.persian.wday.value          = PERSIAN_WEEKDAYS[weekday];
-    data.persian.leap.value          = NormLeap[this.leap_persian(perscal[0]) ? 1 : 0];
+    data.persian.year  = perscal[0];
+    data.persian.month = PERSIAN_MONTHS[perscal[1] - 1];
+    data.persian.day   = perscal[2];
+    data.persian.wday  = PERSIAN_WEEKDAYS[weekday];
+    data.persian.leap  = NormLeap[this.leap_persian(perscal[0]) ? 1 : 0];
 
     // Update Persian Astronomical Calendar
     perscal = this.jd_to_persiana(j);
-    data.persiana.year.value          = perscal[0];
-    data.persiana.month.selectedIndex = perscal[1] - 1;
-    data.persiana.day.value           = perscal[2];
-    data.persiana.wday.value          = PERSIAN_WEEKDAYS[weekday];
-    data.persiana.leap.value          = NormLeap[this.leap_persiana(perscal[0]) ? 1 : 0];
+    data.persiana.year  = perscal[0];
+    data.persiana.month = PERSIAN_MONTHS[perscal[1] - 1];
+    data.persiana.day   = perscal[2];
+    data.persiana.wday  = PERSIAN_WEEKDAYS[weekday];
+    data.persiana.leap  = NormLeap[this.leap_persiana(perscal[0]) ? 1 : 0];
 
     // Update Mayan Calendars
     may_countcal = this.jd_to_mayan_count(j);
-    data.mayancount.baktun.value = may_countcal[0];
-    data.mayancount.katun.value  = may_countcal[1];
-    data.mayancount.tun.value    = may_countcal[2];
-    data.mayancount.uinal.value  = may_countcal[3];
-    data.mayancount.kin.value    = may_countcal[4];
+    data.mayancount.baktun = may_countcal[0];
+    data.mayancount.katun  = may_countcal[1];
+    data.mayancount.tun    = may_countcal[2];
+    data.mayancount.uinal  = may_countcal[3];
+    data.mayancount.kin    = may_countcal[4];
     mayhaabcal = this.jd_to_mayan_haab(j);
-    data.mayancount.haab.value = "" + mayhaabcal[1] + " " + MAYAN_HAAB_MONTHS[mayhaabcal[0] - 1];
+    data.mayancount.haab = "" + mayhaabcal[1] + " " + MAYAN_HAAB_MONTHS[mayhaabcal[0] - 1];
     maytzolkincal = this.jd_to_mayan_tzolkin(j);
-    data.mayancount.tzolkin.value = "" + maytzolkincal[1] + " " + MAYAN_TZOLKIN_MONTHS[maytzolkincal[0] - 1];
+    data.mayancount.tzolkin = "" + maytzolkincal[1] + " " + MAYAN_TZOLKIN_MONTHS[maytzolkincal[0] - 1];
 
     // Update Bahai Calendar
     bahcal = this.jd_to_bahai(j);
-    data.bahai.kull_i_shay.value   = bahcal[0];
-    data.bahai.vahid.value         = bahcal[1];
-    data.bahai.year.selectedIndex  = bahcal[2] - 1;
-    data.bahai.month.selectedIndex = bahcal[3] - 1;
-    data.bahai.day.selectedIndex   = bahcal[4] - 1;
-    data.bahai.weekday.value       = BAHAI_WEEKDAYS[weekday];
-    data.bahai.leap.value          = NormLeap[this.leap_gregorian(year) ? 1 : 0]; // Bahai uses same leap rule as Gregorian
+    data.bahai.kull_i_shay = bahcal[0];
+    data.bahai.vahid       = bahcal[1];
+    data.bahai.year        = BAHAI_YEARS[bahcal[2] - 1];
+    data.bahai.month       = BAHAI_MONTHS[bahcal[3] - 1];
+    data.bahai.day         = BAHAI_DAYS[bahcal[4] - 1];
+    data.bahai.weekday     = BAHAI_WEEKDAYS[weekday];
+    data.bahai.leap        = NormLeap[this.leap_gregorian(year) ? 1 : 0]; // Bahai uses same leap rule as Gregorian
 
     // Update Indian Civil Calendar
     indcal = this.jd_to_indian_civil(j);
-    data.indiancivilcalendar.year.value          = indcal[0];
-    data.indiancivilcalendar.month.selectedIndex = indcal[1] - 1;
-    data.indiancivilcalendar.day.value           = indcal[2];
-    data.indiancivilcalendar.weekday.value       = INDIAN_CIVIL_WEEKDAYS[weekday];
-    data.indiancivilcalendar.leap.value          = NormLeap[this.leap_gregorian(indcal[0] + 78) ? 1 : 0];
+    data.indiancivilcalendar.year    = indcal[0];
+    data.indiancivilcalendar.month   = INDIAN_CIVIL_MONTHS[indcal[1] - 1];
+    data.indiancivilcalendar.day     = indcal[2];
+    data.indiancivilcalendar.weekday = INDIAN_CIVIL_WEEKDAYS[weekday];
+    data.indiancivilcalendar.leap    = NormLeap[this.leap_gregorian(indcal[0] + 78) ? 1 : 0];
 
     // Update French Republican Calendar
     frrcal = this.jd_to_french_revolutionary(j);
-    data.french.an.value             = frrcal[0];
-    data.french.mois.selectedIndex   = frrcal[1] - 1;
-    data.french.decade.selectedIndex = frrcal[2] - 1;
-    data.french.jour.selectedIndex   = ((frrcal[1] <= 12) ? frrcal[3] : (frrcal[3] + 11)) - 1;
+    data.french.an     = frrcal[0];
+    data.french.mois   = FRENCH_MOIS[frrcal[1] - 1];
+    data.french.decade = FRENCH_DECADE[frrcal[2] - 1];
+    data.french.jour   = FRENCH_JOUR[((frrcal[1] <= 12) ? frrcal[3] : (frrcal[3] + 11)) - 1];
 
     // Update Gregorian serial number
     if (data.gregserial != null) {
-      data.gregserial.day.value = j - J0000;
+      data.gregserial.day = j - J0000;
     }
 
     // Update Excel 1900 and 1904 day serial numbers
-    data.excelserial1900.day.value = (j - J1900) + 1 +
+    data.excelserial1900.day = (j - J1900) + 1 +
 
     /**
      * Microsoft marching morons thought 1900 was a leap year.
@@ -1046,22 +1040,22 @@
      * idiocy.
      */
     ((j > 2415078.5) ? 1 : 0);
-    data.excelserial1904.day.value = j - J1904;
+    data.excelserial1904.day = j - J1904;
 
     // Update Unix time()
     utime = (j - J1970) * (60 * 60 * 24 * 1000);
-    data.unixtime.time.value = Math.round(utime / 1000);
+    data.unixtime.time = Math.round(utime / 1000);
 
     // Update ISO Week
     isoweek = this.jd_to_iso(j);
-    data.isoweek.year.value = isoweek[0];
-    data.isoweek.week.value = isoweek[1];
-    data.isoweek.day.value  = isoweek[2];
+    data.isoweek.year = isoweek[0];
+    data.isoweek.week = isoweek[1];
+    data.isoweek.day  = isoweek[2];
 
     // Update ISO Day
     isoday = this.jd_to_iso_day(j);
-    data.isoday.year.value = isoday[0];
-    data.isoday.day.value  = isoday[1];
+    data.isoday.year = isoday[0];
+    data.isoday.day  = isoday[1];
   }
 
   // calcGregorian: Perform calculation starting with a Gregorian date
@@ -1073,69 +1067,69 @@
   cal.calcJulian = function() {
     var j, date, time;
 
-    j = new Number(data.julianday.day.value);
+    j = new Number(data.julianday.day);
     date = this.jd_to_gregorian(j);
     time = jhms(j);
 
-    data.gregorian.year.value          = date[0];
-    data.gregorian.month.selectedIndex = date[1] - 1;
-    data.gregorian.day.value           = date[2];
-    data.gregorian.hour.value          = pad(time[0], 2, " ");
-    data.gregorian.min.value           = pad(time[1], 2, "0");
-    data.gregorian.sec.value           = pad(time[2], 2, "0");
+    data.gregorian.year  = date[0];
+    data.gregorian.month = date[1] - 1;
+    data.gregorian.day   = date[2];
+    data.gregorian.hour  = pad(time[0], 2, " ");
+    data.gregorian.min   = pad(time[1], 2, "0");
+    data.gregorian.sec   = pad(time[2], 2, "0");
 
     this.updateFromGregorian();
   }
 
   // setJulian: Set Julian date and update all calendars
   cal.setJulian = function(j) {
-    data.julianday.day.value = new Number(j);
+    data.julianday.day = new Number(j);
     this.calcJulian();
   }
 
   // calcModifiedJulian: Update from Modified Julian day
   cal.calcModifiedJulian = function() {
-    this.setJulian((new Number(data.modifiedjulianday.day.value)) + JMJD);
+    this.setJulian((new Number(data.modifiedjulianday.day)) + JMJD);
   }
 
   // calcJulianCalendar: Update from Julian calendar
   cal.calcJulianCalendar = function() {
-    this.setJulian(this.julian_to_jd((new Number(data.juliancalendar.year.value)),
-      data.juliancalendar.month.selectedIndex + 1, (new Number(data.juliancalendar.day.value))));
+    this.setJulian(this.julian_to_jd((new Number(data.juliancalendar.year)),
+      data.juliancalendar.month.selectedIndex + 1, (new Number(data.juliancalendar.day))));
   }
 
   // calcHebrew: Update from Hebrew calendar
   cal.calcHebrew = function() {
-    this.setJulian(this.hebrew_to_jd((new Number(data.hebrew.year.value)),
-      data.hebrew.month.selectedIndex + 1, (new Number(data.hebrew.day.value))));
+    this.setJulian(this.hebrew_to_jd((new Number(data.hebrew.year)),
+      data.hebrew.month.selectedIndex + 1, (new Number(data.hebrew.day))));
   }
 
   // calcIslamic: Update from Islamic calendar
   cal.calcIslamic = function() {
-    this.setJulian(this.islamic_to_jd((new Number(data.islamic.year.value)),
-      data.islamic.month.selectedIndex + 1, (new Number(data.islamic.day.value))));
+    this.setJulian(this.islamic_to_jd((new Number(data.islamic.year)),
+      data.islamic.month.selectedIndex + 1, (new Number(data.islamic.day))));
   }
 
   // calcPersian: Update from Persian calendar
   cal.calcPersian = function() {
-    this.setJulian(this.persian_to_jd((new Number(data.persian.year.value)),
-      data.persian.month.selectedIndex + 1, (new Number(data.persian.day.value))));
+    this.setJulian(this.persian_to_jd((new Number(data.persian.year)),
+      data.persian.month.selectedIndex + 1, (new Number(data.persian.day))));
   }
 
   // calcPersiana: Update from Persian astronomical calendar
   cal.calcPersiana = function() {
-    this.setJulian(this.persiana_to_jd((new Number(data.persiana.year.value)),
-      data.persiana.month.selectedIndex + 1, (new Number(data.persiana.day.value))) + 0.5);
+    this.setJulian(this.persiana_to_jd((new Number(data.persiana.year)),
+      data.persiana.month.selectedIndex + 1, (new Number(data.persiana.day))) + 0.5);
   }
 
   // calcMayanCount: Update from the Mayan Long Count
   cal.calcMayanCount = function() {
-    this.setJulian(this.mayan_count_to_jd((new Number(data.mayancount.baktun.value)), (new Number(data.mayancount.katun.value)), (new Number(data.mayancount.tun.value)), (new Number(data.mayancount.uinal.value)), (new Number(data.mayancount.kin.value))));
+    this.setJulian(this.mayan_count_to_jd((new Number(data.mayancount.baktun)), (new Number(data.mayancount.katun)), (new Number(data.mayancount.tun)), (new Number(data.mayancount.uinal)), (new Number(data.mayancount.kin))));
   }
 
   // calcBahai: Update from Bahai calendar
   cal.calcBahai = function() {
-    this.setJulian(this.bahai_to_jd((new Number(data.bahai.kull_i_shay.value)), (new Number(data.bahai.vahid.value)),
+    this.setJulian(this.bahai_to_jd((new Number(data.bahai.kull_i_shay)), (new Number(data.bahai.vahid)),
       data.bahai.year.selectedIndex + 1,
       data.bahai.month.selectedIndex + 1,
       data.bahai.day.selectedIndex + 1));
@@ -1144,8 +1138,8 @@
   // calcIndianCivilCalendar: Update from Indian Civil Calendar
   cal.calcIndianCivilCalendar = function() {
     this.setJulian(this.indian_civil_to_jd(
-      (new Number(data.indiancivilcalendar.year.value)),
-      data.indiancivilcalendar.month.selectedIndex + 1, (new Number(data.indiancivilcalendar.day.value))));
+      (new Number(data.indiancivilcalendar.year)),
+      data.indiancivilcalendar.month.selectedIndex + 1, (new Number(data.indiancivilcalendar.day))));
   }
 
   // calcFrench: Update from French Republican calendar
@@ -1183,7 +1177,7 @@
       }
     }
 
-    this.setJulian(this.french_revolutionary_to_jd((new Number(data.french.an.value)),
+    this.setJulian(this.french_revolutionary_to_jd((new Number(data.french.an)),
       mois + 1,
       decade + 1,
       j + 1));
@@ -1191,12 +1185,12 @@
 
   // calcGregSerial: Update from Gregorian serial day number
   cal.calcGregSerial = function() {
-    this.setJulian((new Number(data.gregserial.day.value)) + J0000);
+    this.setJulian((new Number(data.gregserial.day)) + J0000);
   }
 
   // calcExcelSerial1900: Perform calculation starting with an Excel 1900 serial date
   cal.calcExcelSerial1900 = function() {
-    var d = new Number(data.excelserial1900.day.value);
+    var d = new Number(data.excelserial1900.day);
 
     /* Idiot Kode Kiddies didn't twig to the fact
      * (proclaimed in 1582) that 1900 wasn't a leap year,
@@ -1218,29 +1212,29 @@
 
   // calcExcelSerial1904: Perform calculation starting with an Excel 1904 serial date
   cal.calcExcelSerial1904 = function() {
-    this.setJulian((new Number(data.excelserial1904.day.value)) + J1904);
+    this.setJulian((new Number(data.excelserial1904.day)) + J1904);
   }
 
   // calcUnixTime: Update from specified Unix time() value
   cal.calcUnixTime = function() {
-    var t = new Number(data.unixtime.time.value);
+    var t = new Number(data.unixtime.time);
 
     this.setJulian(J1970 + (t / (60 * 60 * 24)));
   }
 
   // calcIsoWeek: Update from specified ISO year, week, and day
   cal.calcIsoWeek = function() {
-    var year = new Number(data.isoweek.year.value),
-      week = new Number(data.isoweek.week.value),
-      day = new Number(data.isoweek.day.value);
+    var year = new Number(data.isoweek.year),
+      week = new Number(data.isoweek.week),
+      day = new Number(data.isoweek.day);
 
     this.setJulian(iso_to_julian(year, week, day));
   }
 
   // calcIsoDay: Update from specified ISO year and day of year
   cal.calcIsoDay = function() {
-    var year = new Number(data.isoday.year.value),
-      day = new Number(data.isoday.day.value);
+    var year = new Number(data.isoday.year),
+      day = new Number(data.isoday.day);
 
     this.setJulian(this.iso_day_to_julian(year, day));
   }
@@ -1253,12 +1247,12 @@
   cal.setDateToToday = function() {
     var today = new Date();
 
-    data.gregorian.year.value          = today.getFullYear();
-    data.gregorian.month.selectedIndex = today.getMonth();
-    data.gregorian.day.value           = today.getDate();
-    data.gregorian.hour.value          = "00";
-    data.gregorian.min.value           = "00";
-    data.gregorian.sec.value           = "00";
+    data.gregorian.year  = today.getFullYear();
+    data.gregorian.month = today.getMonth();
+    data.gregorian.day   = today.getDate();
+    data.gregorian.hour  = 0;
+    data.gregorian.min   = 0;
+    data.gregorian.sec   = 0;
   }
 
   /**
@@ -1266,12 +1260,12 @@
    * the request form to the time passed in.
    */
   cal.setDateTo = function(date) {
-    data.gregorian.year.value          = date.getFullYear();
-    data.gregorian.month.selectedIndex = date.getMonth();
-    data.gregorian.day.value           = date.getDate();
-    data.gregorian.hour.value          = date.getHours();
-    data.gregorian.min.value           = date.getMinutes();
-    data.gregorian.sec.value           = date.getSeconds();
+    data.gregorian.year  = date.getFullYear();
+    data.gregorian.month = date.getMonth();
+    data.gregorian.day   = date.getDate();
+    data.gregorian.hour  = date.getHours();
+    data.gregorian.min   = date.getMinutes();
+    data.gregorian.sec   = date.getSeconds();
   }
 
   /**
@@ -1307,14 +1301,14 @@
               ((d[5].substring(1) >= 0) && (d[5].substring(1) <= 59))) &&
             ((d[6] == undefined) ||
               ((d[6].substring(1) >= 0) && (d[6].substring(1) <= 59)))) {
-            data.gregorian.year.value = d[1];
-            data.gregorian.month.selectedIndex = d[2] - 1;
-            data.gregorian.day.value = Number(d[3]);
-            data.gregorian.hour.value = d[4] == undefined ? "00" :
+            data.gregorian.year  = d[1];
+            data.gregorian.month = d[2] - 1;
+            data.gregorian.day   = Number(d[3]);
+            data.gregorian.hour  = d[4] == undefined ? 0 :
               d[4].substring(1);
-            data.gregorian.min.value = d[5] == undefined ? "00" :
+            data.gregorian.min = d[5] == undefined ? 0 :
               d[5].substring(1);
-            data.gregorian.sec.value = d[6] == undefined ? "00" :
+            data.gregorian.sec = d[6] == undefined ? 0 :
               d[6].substring(1);
             this.calcGregorian();
             set = true;
@@ -1339,15 +1333,15 @@
               ((d[5].substring(1) >= 0) && (d[5].substring(1) <= 59))) &&
             ((d[6] == undefined) ||
               ((d[6].substring(1) >= 0) && (d[6].substring(1) <= 59)))) {
-            data.juliancalendar.year.value = d[1];
+            data.juliancalendar.year = d[1];
             data.juliancalendar.month.selectedIndex = d[2] - 1;
-            data.juliancalendar.day.value = Number(d[3]);
+            data.juliancalendar.day = Number(d[3]);
             this.calcJulianCalendar();
-            data.gregorian.hour.value = d[4] == undefined ? "00" :
+            data.gregorian.hour = d[4] == undefined ? 0 :
               d[4].substring(1);
-            data.gregorian.min.value = d[5] == undefined ? "00" :
+            data.gregorian.min = d[5] == undefined ? 0 :
               d[5].substring(1);
-            data.gregorian.sec.value = d[6] == undefined ? "00" :
+            data.gregorian.sec = d[6] == undefined ? 0 :
               d[6].substring(1);
             set = true;
           } else {
@@ -1372,7 +1366,7 @@
       } else if (calendar.toLowerCase() == "mjd") {
         var d = date.match(/^(\-?\d+\.?\d*)/);
         if (d != null) {
-          data.modifiedjulianday.day.value = d[1];
+          data.modifiedjulianday.day = d[1];
           this.calcModifiedJulian();
           set = 1;
         } else {
@@ -1383,7 +1377,7 @@
       } else if (calendar.toLowerCase() == "unixtime") {
         var d = date.match(/^(\-?\d+\.?\d*)/);
         if (d != null) {
-          data.unixtime.time.value = d[1];
+          data.unixtime.time = d[1];
           this.calcUnixTime();
           set = 1;
         } else {
@@ -1394,14 +1388,14 @@
       } else if (calendar.toLowerCase() == "iso") {
         var d;
         if ((d = date.match(/^(\-?\d+)\-(\d\d\d)/)) != null) {
-          data.isoday.year.value = d[1];
-          data.isoday.day.value = d[2];
+          data.isoday.year = d[1];
+          data.isoday.day = d[2];
           this.calcIsoDay();
           set = 1;
         } else if ((d = date.match(/^(\-?\d+)\-?W(\d\d)\-?(\d)/i)) != null) {
-          data.isoweek.year.value = d[1];
-          data.isoweek.week.value = d[2];
-          data.isoweek.day.value = d[3];
+          data.isoweek.year = d[1];
+          data.isoweek.week = d[2];
+          data.isoweek.day = d[3];
           this.calcIsoWeek();
           set = 1;
         } else {
@@ -1412,7 +1406,7 @@
       } else if (calendar.toLowerCase() == "excel") {
         var d = date.match(/^(\-?\d+\.?\d*)/);
         if (d != null) {
-          data.excelserial1900.day.value = d[1];
+          data.excelserial1900.day = d[1];
           this.calcExcelSerial1900();
           set = 1;
         } else {
@@ -1423,7 +1417,7 @@
       } else if (calendar.toLowerCase() == "excel1904") {
         var d = date.match(/^(\-?\d+\.?\d*)/);
         if (d != null) {
-          data.excelserial1904.day.value = d[1];
+          data.excelserial1904.day = d[1];
           this.calcExcelSerial1904();
           set = 1;
         } else {
