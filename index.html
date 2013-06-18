@@ -14,18 +14,18 @@
 
 <script>
   $(function() {
-    // setInterval(function() {
-    //   var now = new Date();
+    setInterval(function() {
+      var now = new Date();
 
-    //   Ephemerides.calendar.setDateTo(now);
-    //   Ephemerides.calendar.calcGregorian();
+      Ephemerides.calendar.setDateTo(now);
+      Ephemerides.calendar.calcGregorian();
 
-    //   $("#output").html(JSON.stringify(Ephemerides.data, undefined, 2));
-    // }, 1000);
+      $("#output").html(JSON.stringify(Ephemerides.data, undefined, 2));
+    }, 1000);
 
-    Ephemerides.calendar.setDateToToday();
-    Ephemerides.calendar.calcGregorian();
-    $("#output").html(JSON.stringify(Ephemerides.data, undefined, 2))
+    // Ephemerides.calendar.setDateToToday();
+    // Ephemerides.calendar.calcGregorian();
+    // $("#output").html(JSON.stringify(Ephemerides.data, undefined, 2))
   });
 </script>
 </html>
