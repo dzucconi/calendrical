@@ -52,7 +52,7 @@
   <form action="javascript:return%20false;" id="debug" name="debug">
     <textarea cols="80" name="log" rows="16" wrap="off"></textarea><br />
 
-    <input onclick="document.debug.log.value = '';" type="button" value=" Clear " /> &nbsp; <input onclick="TestSomething();" type="button" value=" Test " /><br />
+    <input onclick="document.debug.log.value = '';" type="button" value=" Clear " /> &nbsp; <input onclick="Ephemerides.calendar.TestSomething();" type="button" value=" Test " /><br />
   </form><br />
 
   <h4><a href="javascript:">JavaScript Console</a></h4>
@@ -135,20 +135,20 @@
       </tr>
 
       <tr>
-        <td align="center" colspan="2"><input onclick="calcGregorian();" type="button" value="Calculate" /> &nbsp; &nbsp; <input onclick="setDateToToday(); calcGregorian();" type="button" value="Today" /></td>
+        <td align="center" colspan="2"><input onclick="Ephemerides.calendar.calcGregorian();" type="button" value="Calculate" /> &nbsp; &nbsp; <input onclick="Ephemerides.calendar.setDateToToday(); Ephemerides.calendar.calcGregorian();" type="button" value="Today" /></td>
       </tr>
     </table>
   </form>
 
   <script language="JavaScript" type="text/javascript">
     // Preset the fields in the request form to today's date.
-    // setDateToToday();
+    Ephemerides.calendar.setDateToToday();
 
     // Update every second
-    window.setInterval(function(){
-      setDateToNow();
-      calcGregorian();
-    }, 1000);
+    // window.setInterval(Ephemerides.calendar.function(){
+    //   Ephemerides.calendar.setDateToNow();
+    //   Ephemerides.calendar.calcGregorian();
+    // }, 1000);
   </script>
 
   <h3><a id="julianday" name="julianday">Julian Day</a></h3>
@@ -160,7 +160,7 @@
       </tr>
 
       <tr>
-        <td align="center" colspan="2"><input onclick="calcJulian();" type="button" value="Calculate" /></td>
+        <td align="center" colspan="2"><input onclick="Ephemerides.calendar.calcJulian();" type="button" value="Calculate" /></td>
       </tr>
     </table>
   </form>
@@ -172,7 +172,7 @@
       </tr>
 
       <tr>
-        <td align="center" colspan="2"><input onclick="calcModifiedJulian();" type="button" value="Calculate" /></td>
+        <td align="center" colspan="2"><input onclick="Ephemerides.calendar.calcModifiedJulian();" type="button" value="Calculate" /></td>
       </tr>
     </table>
   </form>
@@ -238,7 +238,7 @@
       </tr>
 
       <tr>
-        <td align="center" colspan="2"><input onclick="calcJulianCalendar();" type="button" value="Calculate" /></td>
+        <td align="center" colspan="2"><input onclick="Ephemerides.calendar.calcJulianCalendar();" type="button" value="Calculate" /></td>
       </tr>
     </table>
   </form>
@@ -313,7 +313,7 @@
       </tr>
 
       <tr>
-        <td align="center" colspan="2"><input onclick="calcHebrew();" type="button" value="Calculate" /></td>
+        <td align="center" colspan="2"><input onclick="Ephemerides.calendar.calcHebrew();" type="button" value="Calculate" /></td>
       </tr>
     </table>
   </form>
@@ -384,7 +384,7 @@
       </tr>
 
       <tr>
-        <td align="center" colspan="2"><input onclick="calcIslamic();" type="button" value="Calculate" /></td>
+        <td align="center" colspan="2"><input onclick="Ephemerides.calendar.calcIslamic();" type="button" value="Calculate" /></td>
       </tr>
     </table>
   </form>
@@ -455,7 +455,7 @@
       </tr>
 
       <tr>
-        <td align="center" colspan="2"><input onclick="calcPersiana();" type="button" value="Calculate" /></td>
+        <td align="center" colspan="2"><input onclick="Ephemerides.calendar.calcPersiana();" type="button" value="Calculate" /></td>
       </tr>
     </table>
   </form>
@@ -526,7 +526,7 @@
       </tr>
 
       <tr>
-        <td align="center" colspan="2"><input onclick="calcPersian();" type="button" value="Calculate" /></td>
+        <td align="center" colspan="2"><input onclick="Ephemerides.calendar.calcPersian();" type="button" value="Calculate" /></td>
       </tr>
     </table>
   </form>
@@ -546,7 +546,7 @@
       </tr>
 
       <tr>
-        <td align="center" colspan="2"><input onclick="calcMayanCount();" type="button" value="Calculate" /></td>
+        <td align="center" colspan="2"><input onclick="Ephemerides.calendar.calcMayanCount();" type="button" value="Calculate" /></td>
       </tr>
     </table>
   </form>
@@ -903,7 +903,7 @@
       </tr>
 
       <tr>
-        <td align="center" colspan="2"><input onclick="calcBahai();" type="button" value="Calculate" /></td>
+        <td align="center" colspan="2"><input onclick="Ephemerides.calendar.calcBahai();" type="button" value="Calculate" /></td>
       </tr>
     </table>
   </form>
@@ -969,7 +969,7 @@
       </tr>
 
       <tr>
-        <td align="center" colspan="2"><input onclick="calcIndianCivilCalendar();" type="button" value="Calculate" /></td>
+        <td align="center" colspan="2"><input onclick="Ephemerides.calendar.calcIndianCivilCalendar();" type="button" value="Calculate" /></td>
       </tr>
     </table>
   </form>
@@ -1119,7 +1119,7 @@
       </tr>
 
       <tr>
-        <td align="center" colspan="2"><input onclick="calcFrench();" type="button" value="Calculate" /></td>
+        <td align="center" colspan="2"><input onclick="Ephemerides.calendar.calcFrench();" type="button" value="Calculate" /></td>
       </tr>
     </table>
   </form>
@@ -1133,7 +1133,7 @@
       </tr>
 
       <tr>
-        <td align="center"><input onclick="calcIsoWeek();" type="button" value="Calculate" /></td>
+        <td align="center"><input onclick="Ephemerides.calendar.calcIsoWeek();" type="button" value="Calculate" /></td>
       </tr>
     </table>
   </form>
@@ -1145,21 +1145,21 @@
       </tr>
 
       <tr>
-        <td align="center"><input onclick="calcIsoDay();" type="button" value="Calculate" /></td>
+        <td align="center"><input onclick="Ephemerides.calendar.calcIsoDay();" type="button" value="Calculate" /></td>
       </tr>
     </table>
   </form>
 
-  <h3><a id="unixtime" name="unixtime">Unix <tt>time()</tt> value</a></h3>
+  <h3><a id="unixtime" name="unixtime">Unix <tt>Ephemerides.calendar.time()</tt> value</a></h3>
 
   <form action="javascript:return%20false;" id="unixtime" name="unixtime">
     <table class="l">
       <tr>
-        <td align="center"><strong>Unix time() value:</strong> <input name="time" size="14" type="text" value="" /></td>
+        <td align="center"><strong>Unix Ephemerides.calendar.time() value:</strong> <input name="time" size="14" type="text" value="" /></td>
       </tr>
 
       <tr>
-        <td align="center" colspan="2"><input onclick="calcUnixTime();" type="button" value="Calculate" /></td>
+        <td align="center" colspan="2"><input onclick="Ephemerides.calendar.calcUnixTime();" type="button" value="Calculate" /></td>
       </tr>
     </table>
   </form>
@@ -1174,7 +1174,7 @@
       </tr>
 
       <tr>
-        <td align="center" colspan="2"><input onclick="calcExcelSerial1900();" type="button" value="Calculate" /></td>
+        <td align="center" colspan="2"><input onclick="Ephemerides.calendar.calcExcelSerial1900();" type="button" value="Calculate" /></td>
       </tr>
     </table>
   </form>
@@ -1187,7 +1187,7 @@
       </tr>
 
       <tr>
-        <td align="center" colspan="2"><input onclick="calcExcelSerial1904();" type="button" value="Calculate" /></td>
+        <td align="center" colspan="2"><input onclick="Ephemerides.calendar.calcExcelSerial1904();" type="button" value="Calculate" /></td>
       </tr>
     </table>
   </form>
@@ -1196,7 +1196,7 @@
     if (location.search != "") {
       presetDataToRequest(location.search.substring(1));
     } else {
-      calcGregorian(); // Calculate today's values in other calendars
+      Ephemerides.calendar.calcGregorian(); // Calculate today's values in other calendars
     }
   </script>
 </body>
