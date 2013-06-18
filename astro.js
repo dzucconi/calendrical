@@ -412,14 +412,14 @@ function equinox(year, which) {
     (JDE0tab[which][3] * Y * Y * Y) +
     (JDE0tab[which][4] * Y * Y * Y * Y);
 
-  // console.log.value += "JDE0 = " + JDE0 + "\n";
+  // document.debug.log.value += "JDE0 = " + JDE0 + "\n";
 
   T = (JDE0 - 2451545.0) / 36525;
-  // console.log.value += "T = " + T + "\n";
+  // document.debug.log.value += "T = " + T + "\n";
   W = (35999.373 * T) - 2.47;
-  // console.log.value += "W = " + W + "\n";
+  // document.debug.log.value += "W = " + W + "\n";
   deltaL = 1 + (0.0334 * dcos(W)) + (0.0007 * dcos(2 * W));
-  // console.log.value += "deltaL = " + deltaL + "\n";
+  // document.debug.log.value += "deltaL = " + deltaL + "\n";
 
   // Sum the periodic terms for time T
   S = 0;
@@ -428,8 +428,8 @@ function equinox(year, which) {
     j += 3;
   }
 
-  // console.log.value += "S = " + S + "\n";
-  // console.log.value += "Corr = " + ((S * 0.00001) / deltaL) + "\n";
+  // document.debug.log.value += "S = " + S + "\n";
+  // document.debug.log.value += "Corr = " + ((S * 0.00001) / deltaL) + "\n";
 
   JDE = JDE0 + ((S * 0.00001) / deltaL);
 
@@ -449,62 +449,63 @@ function sunpos(jd) {
     AlphaApp, DeltaApp;
 
   T = (jd - J2000) / JulianCentury;
-  // console.log.value += "Sunpos. T = " + T + "\n";
+  // document.debug.log.value += "Sunpos. T = " + T + "\n";
   T2 = T * T;
   L0 = 280.46646 + (36000.76983 * T) + (0.0003032 * T2);
-  // console.log.value += "L0 = " + L0 + "\n";
+  // document.debug.log.value += "L0 = " + L0 + "\n";
   L0 = fixangle(L0);
-  // console.log.value += "L0 = " + L0 + "\n";
+  // document.debug.log.value += "L0 = " + L0 + "\n";
   M = 357.52911 + (35999.05029 * T) + (-0.0001537 * T2);
-  // console.log.value += "M = " + M + "\n";
+  // document.debug.log.value += "M = " + M + "\n";
   M = fixangle(M);
-  // console.log.value += "M = " + M + "\n";
+  // document.debug.log.value += "M = " + M + "\n";
   e = 0.016708634 + (-0.000042037 * T) + (-0.0000001267 * T2);
-  // console.log.value += "e = " + e + "\n";
+  // document.debug.log.value += "e = " + e + "\n";
   C = ((1.914602 + (-0.004817 * T) + (-0.000014 * T2)) * dsin(M)) +
     ((0.019993 - (0.000101 * T)) * dsin(2 * M)) +
     (0.000289 * dsin(3 * M));
-  // console.log.value += "C = " + C + "\n";
+  // document.debug.log.value += "C = " + C + "\n";
   sunLong = L0 + C;
-  // console.log.value += "sunLong = " + sunLong + "\n";
+  // document.debug.log.value += "sunLong = " + sunLong + "\n";
   sunAnomaly = M + C;
-  // console.log.value += "sunAnomaly = " + sunAnomaly + "\n";
+  // document.debug.log.value += "sunAnomaly = " + sunAnomaly + "\n";
   sunR = (1.000001018 * (1 - (e * e))) / (1 + (e * dcos(sunAnomaly)));
-  // console.log.value += "sunR = " + sunR + "\n";
+  // document.debug.log.value += "sunR = " + sunR + "\n";
   Omega = 125.04 - (1934.136 * T);
-  // console.log.value += "Omega = " + Omega + "\n";
+  // document.debug.log.value += "Omega = " + Omega + "\n";
   Lambda = sunLong + (-0.00569) + (-0.00478 * dsin(Omega));
-  // console.log.value += "Lambda = " + Lambda + "\n";
+  // document.debug.log.value += "Lambda = " + Lambda + "\n";
   epsilon0 = obliqeq(jd);
-  // console.log.value += "epsilon0 = " + epsilon0 + "\n";
+  // document.debug.log.value += "epsilon0 = " + epsilon0 + "\n";
   epsilon = epsilon0 + (0.00256 * dcos(Omega));
-  // console.log.value += "epsilon = " + epsilon + "\n";
+  // document.debug.log.value += "epsilon = " + epsilon + "\n";
   Alpha = rtd(Math.atan2(dcos(epsilon0) * dsin(sunLong), dcos(sunLong)));
-  // console.log.value += "Alpha = " + Alpha + "\n";
+  // document.debug.log.value += "Alpha = " + Alpha + "\n";
   Alpha = fixangle(Alpha);
-  //// console.log.value += "Alpha = " + Alpha + "\n";
+  //// document.debug.log.value += "Alpha = " + Alpha + "\n";
   Delta = rtd(Math.asin(dsin(epsilon0) * dsin(sunLong)));
-  //// console.log.value += "Delta = " + Delta + "\n";
+  //// document.debug.log.value += "Delta = " + Delta + "\n";
   AlphaApp = rtd(Math.atan2(dcos(epsilon) * dsin(Lambda), dcos(Lambda)));
-  // console.log.value += "AlphaApp = " + AlphaApp + "\n";
+  // document.debug.log.value += "AlphaApp = " + AlphaApp + "\n";
   AlphaApp = fixangle(AlphaApp);
-  // console.log.value += "AlphaApp = " + AlphaApp + "\n";
+  // document.debug.log.value += "AlphaApp = " + AlphaApp + "\n";
   DeltaApp = rtd(Math.asin(dsin(epsilon) * dsin(Lambda)));
-  // console.log.value += "DeltaApp = " + DeltaApp + "\n";
+  // document.debug.log.value += "DeltaApp = " + DeltaApp + "\n";
 
-  return new Array( // Angular quantities are expressed in decimal degrees
-    L0, // [0] Geometric mean longitude of the Sun
-    M, // [1] Mean anomaly of the Sun
-    e, // [2] Eccentricity of the Earth's orbit
-    C, // [3] Sun's equation of the Centre
-    sunLong, // [4] Sun's true longitude
+  // Angular quantities are expressed in decimal degrees
+  return new Array(
+    L0,         // [0] Geometric mean longitude of the Sun
+    M,          // [1] Mean anomaly of the Sun
+    e,          // [2] Eccentricity of the Earth's orbit
+    C,          // [3] Sun's equation of the Centre
+    sunLong,    // [4] Sun's true longitude
     sunAnomaly, // [5] Sun's true anomaly
-    sunR, // [6] Sun's radius vector in AU
-    Lambda, // [7] Sun's apparent longitude at true equinox of the date
-    Alpha, // [8] Sun's true right ascension
-    Delta, // [9] Sun's true declination
-    AlphaApp, // [10] Sun's apparent right ascension
-    DeltaApp // [11] Sun's apparent declination
+    sunR,       // [6] Sun's radius vector in AU
+    Lambda,     // [7] Sun's apparent longitude at true equinox of the date
+    Alpha,      // [8] Sun's true right ascension
+    Delta,      // [9] Sun's true declination
+    AlphaApp,   // [10] Sun's apparent right ascension
+    DeltaApp    // [11] Sun's apparent declination
   );
 }
 
@@ -517,27 +518,27 @@ function equationOfTime(jd) {
   var alpha, deltaPsi, E, epsilon, L0, tau;
 
   tau = (jd - J2000) / JulianMillennium;
-  // console.log.value += "equationOfTime. tau = " + tau + "\n";
+  // document.debug.log.value += "equationOfTime. tau = " + tau + "\n";
   L0 = 280.4664567 + (360007.6982779 * tau) +
     (0.03032028 * tau * tau) +
     ((tau * tau * tau) / 49931) +
     (-((tau * tau * tau * tau) / 15300)) +
     (-((tau * tau * tau * tau * tau) / 2000000));
-  // console.log.value += "L0 = " + L0 + "\n";
+  // document.debug.log.value += "L0 = " + L0 + "\n";
   L0 = fixangle(L0);
-  // console.log.value += "L0 = " + L0 + "\n";
+  // document.debug.log.value += "L0 = " + L0 + "\n";
   alpha = sunpos(jd)[10];
-  // console.log.value += "alpha = " + alpha + "\n";
+  // document.debug.log.value += "alpha = " + alpha + "\n";
   deltaPsi = nutation(jd)[0];
-  // console.log.value += "deltaPsi = " + deltaPsi + "\n";
+  // document.debug.log.value += "deltaPsi = " + deltaPsi + "\n";
   epsilon = obliqeq(jd) + nutation(jd)[1];
-  // console.log.value += "epsilon = " + epsilon + "\n";
+  // document.debug.log.value += "epsilon = " + epsilon + "\n";
   E = L0 + (-0.0057183) + (-alpha) + (deltaPsi * dcos(epsilon));
-  // console.log.value += "E = " + E + "\n";
+  // document.debug.log.value += "E = " + E + "\n";
   E = E - 20.0 * (Math.floor(E / 20.0));
-  // console.log.value += "Efixed = " + E + "\n";
+  // document.debug.log.value += "Efixed = " + E + "\n";
   E = E / (24 * 60);
-  // console.log.value += "Eday = " + E + "\n";
+  // document.debug.log.value += "Eday = " + E + "\n";
 
   return E;
 }
