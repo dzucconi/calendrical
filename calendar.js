@@ -13,6 +13,8 @@
   // Namespaces
   var Ephemerides = {};
   Ephemerides.calendar = {};
+
+  // Representation of the document
   Ephemerides.data = {
     bahai: { day: {}, kull_i_shay: {}, leap: {}, month: {}, vahid: {}, weekday: {}, year: {} },
     excelserial1900: { day: {} },
@@ -921,11 +923,13 @@
     hebcal = this.jd_to_hebrew(j);
     if (this.hebrew_leap(hebcal[0])) {
       data.hebrew.month.options.length = 13;
-      data.hebrew.month.options[11]    = new Option("Adar I");
-      data.hebrew.month.options[12]    = new Option("Veadar");
+      // xxx
+      // data.hebrew.month.options[11]    = new Option("Adar I");
+      // data.hebrew.month.options[12]    = new Option("Veadar");
     } else {
       data.hebrew.month.options.length = 12;
-      data.hebrew.month.options[11]    = new Option("Adar");
+      // xxx
+      // data.hebrew.month.options[11]    = new Option("Adar");
     }
     data.hebrew.year.value          = hebcal[0];
     data.hebrew.month.selectedIndex = hebcal[1] - 1;
@@ -1144,7 +1148,7 @@
       data.indiancivilcalendar.month.selectedIndex + 1, (new Number(data.indiancivilcalendar.day.value))));
   }
 
-  // calcFrench  -- Update from French Republican calendar
+  // calcFrench: Update from French Republican calendar
   cal.calcFrench = function() {
     var decade, j, mois;
 
@@ -1258,18 +1262,26 @@
   }
 
   /**
+   * setDate: Preset the fields in
+   * the request form to the time passed in.
+   */
+  cal.setDateTo = function(date) {
+    data.gregorian.year.value          = date.getFullYear();
+    data.gregorian.month.selectedIndex = date.getMonth();
+    data.gregorian.day.value           = date.getDate();
+    data.gregorian.hour.value          = date.getHours();
+    data.gregorian.min.value           = date.getMinutes();
+    data.gregorian.sec.value           = date.getSeconds();
+  }
+
+  /**
    * setDateToNow: Preset the fields in
    * the request form to the time now.
    */
   cal.setDateToNow = function() {
     var today = new Date();
 
-    data.gregorian.year.value          = today.getFullYear();
-    data.gregorian.month.selectedIndex = today.getMonth();
-    data.gregorian.day.value           = today.getDate();
-    data.gregorian.hour.value          = today.getHours();
-    data.gregorian.min.value           = today.getMinutes();
-    data.gregorian.sec.value           = today.getSeconds();
+    this.setDateTo(today);
   }
 
   /**
