@@ -11,18 +11,163 @@ var Ephemerides = (function(exports) {
     J2000: 2451545.0,
 
     // *Days in Julian century*
-    JulianCentury: 36525.0,
+    JULIAN_CENTURY: 36525.0,
 
     // *Days in Julian millennium*
-    JulianMillennium: (36525.0 * 10),
+    JULIAN_MILLENIUM: (36525.0 * 10),
 
     // *Astronomical unit in kilometres*
-    AstronomicalUnit: 149597870.0,
+    ASTRONOMICAL_UNIT: 149597870.0,
 
     // *Mean solar tropical year*
-    TropicalYear: 365.24219878,
+    TROPICAL_YEAR: 365.24219878,
 
-    Weekdays : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+    // *Weekdays*
+    WEEKDAYS: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+
+    // *Terms used in calculating the obliquity of the ecliptic*
+    // from **Astronomy and Astrophysics**, Vol 157, p68 (1986),
+    // *New Formulas for the Precession, Valid Over 10000 years*, Table 8.
+    O_TERMS: [-4680.93, -1.55, 1999.25, -51.38, -249.67, -39.05, 7.12, 27.87, 5.79, 2.45],
+
+    // Periodic terms for nutation in longiude (delta \Psi) and
+    // obliquity (delta \Epsilon) as given in table 21.A of
+    // *Meeus, **Astronomical Algorithms**, first edition*.
+
+    // *Argument of Multiple*
+    NUT_ARG_MULT: [
+       0, 0, 0, 0, 1,
+      -2, 0, 0, 2, 2,
+       0, 0, 0, 2, 2,
+       0, 0, 0, 0, 2,
+       0, 1, 0, 0, 0,
+       0, 0, 1, 0, 0,
+      -2, 1, 0, 2, 2,
+       0, 0, 0, 2, 1,
+       0, 0, 1, 2, 2,
+      -2,-1, 0, 2, 2,
+      -2, 0, 1, 0, 0,
+      -2, 0, 0, 2, 1,
+      0, 0, -1, 2, 2,
+      2, 0, 0, 0, 0,
+      0, 0, 1, 0, 1,
+      2, 0, -1, 2, 2,
+      0, 0, -1, 0, 1,
+      0, 0, 1, 2, 1,
+      -2, 0, 2, 0, 0,
+      0, 0, -2, 2, 1,
+      2, 0, 0, 2, 2,
+      0, 0, 2, 2, 2,
+      0, 0, 2, 0, 0,
+      -2, 0, 1, 2, 2,
+      0, 0, 0, 2, 0,
+      -2, 0, 0, 2, 0,
+      0, 0, -1, 2, 1,
+      0, 2, 0, 0, 0,
+      2, 0, -1, 0, 1,
+      -2, 2, 0, 2, 2,
+      0, 1, 0, 0, 1,
+      -2, 0, 1, 0, 1,
+      0, -1, 0, 0, 1,
+      0, 0, 2, -2, 0,
+      2, 0, -1, 2, 1,
+      2, 0, 1, 2, 2,
+      0, 1, 0, 2, 2,
+      -2, 1, 1, 0, 0,
+      0, -1, 0, 2, 2,
+      2, 0, 0, 2, 1,
+      2, 0, 1, 0, 0,
+      -2, 0, 2, 2, 2,
+      -2, 0, 1, 2, 1,
+      2, 0, -2, 0, 1,
+      2, 0, 0, 0, 1,
+      0, -1, 1, 0, 0,
+      -2, -1, 0, 2, 1,
+      -2, 0, 0, 0, 1,
+      0, 0, 2, 2, 1,
+      -2, 0, 2, 0, 1,
+      -2, 1, 0, 2, 1,
+      0, 0, 1, -2, 0,
+      -1, 0, 1, 0, 0,
+      -2, 1, 0, 0, 0,
+      1, 0, 0, 0, 0,
+      0, 0, 1, 2, 0,
+      -1, -1, 1, 0, 0,
+      0, 1, 1, 0, 0,
+      0, -1, 1, 2, 2,
+      2, -1, -1, 2, 2,
+      0, 0, -2, 2, 2,
+      0, 0, 3, 2, 2,
+      2, -1, 0, 2, 2
+    ],
+
+    // *Coefficient of the sine of the argument*
+    // and *Coefficient of the cosine of the argument*
+    NUT_ARG_COEFF: [
+      -171996, -1742, 92095, 89, // 0, 0, 0, 0, 1
+      -13187, -16, 5736, -31, // -2, 0, 0, 2, 2
+      -2274, -2, 977, -5, // 0, 0, 0, 2, 2
+      2062, 2, -895, 5, // 0, 0, 0, 0, 2
+      1426, -34, 54, -1, // 0, 1, 0, 0, 0
+      712, 1, -7, 0, // 0, 0, 1, 0, 0
+      -517, 12, 224, -6, // -2, 1, 0, 2, 2
+      -386, -4, 200, 0, // 0, 0, 0, 2, 1
+      -301, 0, 129, -1, // 0, 0, 1, 2, 2
+      217, -5, -95, 3, // -2, -1, 0, 2, 2
+      -158, 0, 0, 0, // -2, 0, 1, 0, 0
+      129, 1, -70, 0, // -2, 0, 0, 2, 1
+      123, 0, -53, 0, // 0, 0, -1, 2, 2
+      63, 0, 0, 0, // 2, 0, 0, 0, 0
+      63, 1, -33, 0, // 0, 0, 1, 0, 1
+      -59, 0, 26, 0, // 2, 0, -1, 2, 2
+      -58, -1, 32, 0, // 0, 0, -1, 0, 1
+      -51, 0, 27, 0, // 0, 0, 1, 2, 1
+      48, 0, 0, 0, // -2, 0, 2, 0, 0
+      46, 0, -24, 0, // 0, 0, -2, 2, 1
+      -38, 0, 16, 0, // 2, 0, 0, 2, 2
+      -31, 0, 13, 0, // 0, 0, 2, 2, 2
+      29, 0, 0, 0, // 0, 0, 2, 0, 0
+      29, 0, -12, 0, // -2, 0, 1, 2, 2
+      26, 0, 0, 0, // 0, 0, 0, 2, 0
+      -22, 0, 0, 0, // -2, 0, 0, 2, 0
+      21, 0, -10, 0, // 0, 0, -1, 2, 1
+      17, -1, 0, 0, // 0, 2, 0, 0, 0
+      16, 0, -8, 0, // 2, 0, -1, 0, 1
+      -16, 1, 7, 0, // -2, 2, 0, 2, 2
+      -15, 0, 9, 0, // 0, 1, 0, 0, 1
+      -13, 0, 7, 0, // -2, 0, 1, 0, 1
+      -12, 0, 6, 0, // 0, -1, 0, 0, 1
+      11, 0, 0, 0, // 0, 0, 2, -2, 0
+      -10, 0, 5, 0, // 2, 0, -1, 2, 1
+      -8, 0, 3, 0, // 2, 0, 1, 2, 2
+      7, 0, -3, 0, // 0, 1, 0, 2, 2
+      -7, 0, 0, 0, // -2, 1, 1, 0, 0
+      -7, 0, 3, 0, // 0, -1, 0, 2, 2
+      -7, 0, 3, 0, // 2, 0, 0, 2, 1
+      6, 0, 0, 0, // 2, 0, 1, 0, 0
+      6, 0, -3, 0, // -2, 0, 2, 2, 2
+      6, 0, -3, 0, // -2, 0, 1, 2, 1
+      -6, 0, 3, 0, // 2, 0, -2, 0, 1
+      -6, 0, 3, 0, // 2, 0, 0, 0, 1
+      5, 0, 0, 0, // 0, -1, 1, 0, 0
+      -5, 0, 3, 0, // -2, -1, 0, 2, 1
+      -5, 0, 3, 0, // -2, 0, 0, 0, 1
+      -5, 0, 3, 0, // 0, 0, 2, 2, 1
+      4, 0, 0, 0, // -2, 0, 2, 0, 1
+      4, 0, 0, 0, // -2, 1, 0, 2, 1
+      4, 0, 0, 0, // 0, 0, 1, -2, 0
+      -4, 0, 0, 0, // -1, 0, 1, 0, 0
+      -4, 0, 0, 0, // -2, 1, 0, 0, 0
+      -4, 0, 0, 0, // 1, 0, 0, 0, 0
+      3, 0, 0, 0, // 0, 0, 1, 2, 0
+      -3, 0, 0, 0, // -1, -1, 1, 0, 0
+      -3, 0, 0, 0, // 0, 1, 1, 0, 0
+      -3, 0, 0, 0, // 0, -1, 1, 2, 2
+      -3, 0, 0, 0, // 2, -1, -1, 2, 2
+      -3, 0, 0, 0, // 0, 0, -2, 2, 2
+      -3, 0, 0, 0, // 0, 0, 3, 2, 2
+      -3, 0, 0, 0 // 2, -1, 0, 2, 2
+    ]
   }
 
   // astro Functions
@@ -77,7 +222,9 @@ var Ephemerides = (function(exports) {
   astro.jhms = function(j) {
     var ij;
 
-    j += 0.5; // Astronomical to civil
+    // Astronomical to civil
+    j += 0.5;
+
     ij = ((j - Math.floor(j)) * 86400.0) + 0.5;
 
     return [
@@ -92,15 +239,6 @@ var Ephemerides = (function(exports) {
     return this.mod(Math.floor((j + 1.5)), 7);
   }
 
-  var oterms = [
-    -4680.93, -1.55,
-    1999.25, -51.38, -249.67, -39.05,
-    7.12,
-    27.87,
-    5.79,
-    2.45
-  ];
-
   // Calculate the obliquity of the ecliptic for a given
   // Julian date. This uses Laskar's tenth-degree
   // polynomial fit (*J. Laskar, **Astronomy and
@@ -114,98 +252,19 @@ var Ephemerides = (function(exports) {
   astro.obliqeq = function(jd) {
     var eps, u, v, i;
 
-    v = u = (jd - this.constants.J2000) / (this.constants.JulianCentury * 100);
+    v = u = (jd - this.constants.J2000) / (this.constants.JULIAN_CENTURY * 100);
 
     eps = 23 + (26 / 60.0) + (21.448 / 3600.0);
 
     if (Math.abs(u) < 1.0) {
       for (i = 0; i < 10; i++) {
-        eps += (oterms[i] / 3600.0) * v;
+        eps += (this.constants.O_TERMS[i] / 3600.0) * v;
         v *= u;
       }
     }
 
     return eps;
   }
-
-  // Periodic terms for nutation in longiude `(delta \Psi)` and
-  // obliquity `(delta \Epsilon)` as given in table 21.A of
-  // *Meeus, **Astronomical Algorithms**, first edition*.
-  var nutArgMult = [
-    0, 0, 0, 0, 1, -2, 0, 0, 2, 2,
-    0, 0, 0, 2, 2,
-    0, 0, 0, 0, 2,
-    0, 1, 0, 0, 0,
-    0, 0, 1, 0, 0, -2, 1, 0, 2, 2,
-    0, 0, 0, 2, 1,
-    0, 0, 1, 2, 2, -2, -1, 0, 2, 2, -2, 0, 1, 0, 0, -2, 0, 0, 2, 1,
-    0, 0, -1, 2, 2,
-    2, 0, 0, 0, 0,
-    0, 0, 1, 0, 1,
-    2, 0, -1, 2, 2,
-    0, 0, -1, 0, 1,
-    0, 0, 1, 2, 1, -2, 0, 2, 0, 0,
-    0, 0, -2, 2, 1,
-    2, 0, 0, 2, 2,
-    0, 0, 2, 2, 2,
-    0, 0, 2, 0, 0, -2, 0, 1, 2, 2,
-    0, 0, 0, 2, 0, -2, 0, 0, 2, 0,
-    0, 0, -1, 2, 1,
-    0, 2, 0, 0, 0,
-    2, 0, -1, 0, 1, -2, 2, 0, 2, 2,
-    0, 1, 0, 0, 1, -2, 0, 1, 0, 1,
-    0, -1, 0, 0, 1,
-    0, 0, 2, -2, 0,
-    2, 0, -1, 2, 1,
-    2, 0, 1, 2, 2,
-    0, 1, 0, 2, 2, -2, 1, 1, 0, 0,
-    0, -1, 0, 2, 2,
-    2, 0, 0, 2, 1,
-    2, 0, 1, 0, 0, -2, 0, 2, 2, 2, -2, 0, 1, 2, 1,
-    2, 0, -2, 0, 1,
-    2, 0, 0, 0, 1,
-    0, -1, 1, 0, 0, -2, -1, 0, 2, 1, -2, 0, 0, 0, 1,
-    0, 0, 2, 2, 1, -2, 0, 2, 0, 1, -2, 1, 0, 2, 1,
-    0, 0, 1, -2, 0, -1, 0, 1, 0, 0, -2, 1, 0, 0, 0,
-    1, 0, 0, 0, 0,
-    0, 0, 1, 2, 0, -1, -1, 1, 0, 0,
-    0, 1, 1, 0, 0,
-    0, -1, 1, 2, 2,
-    2, -1, -1, 2, 2,
-    0, 0, -2, 2, 2,
-    0, 0, 3, 2, 2,
-    2, -1, 0, 2, 2
-  ];
-
-  var nutArgCoeff = [
-    -171996, -1742, 92095, 89, /*  0,  0,  0,  0,  1 */ -13187, -16, 5736, -31, /* -2,  0,  0,  2,  2 */ -2274, -2, 977, -5, /*  0,  0,  0,  2,  2 */
-    2062, 2, -895, 5, /*  0,  0,  0,  0,  2 */
-    1426, -34, 54, -1, /*  0,  1,  0,  0,  0 */
-    712, 1, -7, 0, /*  0,  0,  1,  0,  0 */ -517, 12, 224, -6, /* -2,  1,  0,  2,  2 */ -386, -4, 200, 0, /*  0,  0,  0,  2,  1 */ -301, 0, 129, -1, /*  0,  0,  1,  2,  2 */
-    217, -5, -95, 3, /* -2, -1,  0,  2,  2 */ -158, 0, 0, 0, /* -2,  0,  1,  0,  0 */
-    129, 1, -70, 0, /* -2,  0,  0,  2,  1 */
-    123, 0, -53, 0, /*  0,  0, -1,  2,  2 */
-    63, 0, 0, 0, /*  2,  0,  0,  0,  0 */
-    63, 1, -33, 0, /*  0,  0,  1,  0,  1 */ -59, 0, 26, 0, /*  2,  0, -1,  2,  2 */ -58, -1, 32, 0, /*  0,  0, -1,  0,  1 */ -51, 0, 27, 0, /*  0,  0,  1,  2,  1 */
-    48, 0, 0, 0, /* -2,  0,  2,  0,  0 */
-    46, 0, -24, 0, /*  0,  0, -2,  2,  1 */ -38, 0, 16, 0, /*  2,  0,  0,  2,  2 */ -31, 0, 13, 0, /*  0,  0,  2,  2,  2 */
-    29, 0, 0, 0, /*  0,  0,  2,  0,  0 */
-    29, 0, -12, 0, /* -2,  0,  1,  2,  2 */
-    26, 0, 0, 0, /*  0,  0,  0,  2,  0 */ -22, 0, 0, 0, /* -2,  0,  0,  2,  0 */
-    21, 0, -10, 0, /*  0,  0, -1,  2,  1 */
-    17, -1, 0, 0, /*  0,  2,  0,  0,  0 */
-    16, 0, -8, 0, /*  2,  0, -1,  0,  1 */ -16, 1, 7, 0, /* -2,  2,  0,  2,  2 */ -15, 0, 9, 0, /*  0,  1,  0,  0,  1 */ -13, 0, 7, 0, /* -2,  0,  1,  0,  1 */ -12, 0, 6, 0, /*  0, -1,  0,  0,  1 */
-    11, 0, 0, 0, /*  0,  0,  2, -2,  0 */ -10, 0, 5, 0, /*  2,  0, -1,  2,  1 */ -8, 0, 3, 0, /*  2,  0,  1,  2,  2 */
-    7, 0, -3, 0, /*  0,  1,  0,  2,  2 */ -7, 0, 0, 0, /* -2,  1,  1,  0,  0 */ -7, 0, 3, 0, /*  0, -1,  0,  2,  2 */ -7, 0, 3, 0, /*  2,  0,  0,  2,  1 */
-    6, 0, 0, 0, /*  2,  0,  1,  0,  0 */
-    6, 0, -3, 0, /* -2,  0,  2,  2,  2 */
-    6, 0, -3, 0, /* -2,  0,  1,  2,  1 */ -6, 0, 3, 0, /*  2,  0, -2,  0,  1 */ -6, 0, 3, 0, /*  2,  0,  0,  0,  1 */
-    5, 0, 0, 0, /*  0, -1,  1,  0,  0 */ -5, 0, 3, 0, /* -2, -1,  0,  2,  1 */ -5, 0, 3, 0, /* -2,  0,  0,  0,  1 */ -5, 0, 3, 0, /*  0,  0,  2,  2,  1 */
-    4, 0, 0, 0, /* -2,  0,  2,  0,  1 */
-    4, 0, 0, 0, /* -2,  1,  0,  2,  1 */
-    4, 0, 0, 0, /*  0,  0,  1, -2,  0 */ -4, 0, 0, 0, /* -1,  0,  1,  0,  0 */ -4, 0, 0, 0, /* -2,  1,  0,  0,  0 */ -4, 0, 0, 0, /*  1,  0,  0,  0,  0 */
-    3, 0, 0, 0, /*  0,  0,  1,  2,  0 */ -3, 0, 0, 0, /* -1, -1,  1,  0,  0 */ -3, 0, 0, 0, /*  0,  1,  1,  0,  0 */ -3, 0, 0, 0, /*  0, -1,  1,  2,  2 */ -3, 0, 0, 0, /*  2, -1, -1,  2,  2 */ -3, 0, 0, 0, /*  0,  0, -2,  2,  2 */ -3, 0, 0, 0, /*  0,  0,  3,  2,  2 */ -3, 0, 0, 0 /*  2, -1,  0,  2,  2 */
-  ];
 
   // Calculate the nutation in longitude, deltaPsi, and
   // obliquity, deltaEpsilon for a given Julian date
@@ -216,7 +275,7 @@ var Ephemerides = (function(exports) {
       i, j,
       t = (jd - 2451545.0) / 36525.0,
       t2, t3, to10,
-      ta = new Array,
+      ta = [],
       dp = 0,
       de = 0,
       ang;
@@ -250,13 +309,13 @@ var Ephemerides = (function(exports) {
       ang = 0;
 
       for (j = 0; j < 5; j++) {
-        if (nutArgMult[(i * 5) + j] != 0) {
-          ang += nutArgMult[(i * 5) + j] * ta[j];
+        if (this.constants.NUT_ARG_MULT[(i * 5) + j] != 0) {
+          ang += this.constants.NUT_ARG_MULT[(i * 5) + j] * ta[j];
         }
       }
 
-      dp += (nutArgCoeff[(i * 4) + 0] + nutArgCoeff[(i * 4) + 1] * to10) * Math.sin(ang);
-      de += (nutArgCoeff[(i * 4) + 2] + nutArgCoeff[(i * 4) + 3] * to10) * Math.cos(ang);
+      dp += (this.constants.NUT_ARG_COEFF[(i * 4) + 0] + this.constants.NUT_ARG_COEFF[(i * 4) + 1] * to10) * Math.sin(ang);
+      de += (this.constants.NUT_ARG_COEFF[(i * 4) + 2] + this.constants.NUT_ARG_COEFF[(i * 4) + 3] * to10) * Math.cos(ang);
     }
 
     // Return the result, converting from ten thousandths of arc
@@ -430,7 +489,7 @@ var Ephemerides = (function(exports) {
       Omega, Lambda, epsilon, epsilon0, Alpha, Delta,
       AlphaApp, DeltaApp;
 
-    T  = (jd - this.constants.J2000) / this.constants.JulianCentury;
+    T  = (jd - this.constants.J2000) / this.constants.JULIAN_CENTURY;
     T2 = T * T;
     L0 = 280.46646 + (36000.76983 * T) + (0.0003032 * T2);
     L0 = this.fixangle(L0);
@@ -457,29 +516,29 @@ var Ephemerides = (function(exports) {
 
     // Angular quantities are expressed in decimal degrees
     return [
-      // [0] Geometric mean longitude of the Sun
+      // **[0]** Geometric mean longitude of the Sun
       L0,
-      // [1] Mean anomaly of the Sun
+      // **[1]** Mean anomaly of the Sun
       M,
-      // [2] Eccentricity of the Earth's orbit
+      // **[2]** Eccentricity of the Earth's orbit
       e,
-      // [3] Sun's equation of the Centre
+      // **[3]** Sun's equation of the Centre
       C,
-      // [4] Sun's true longitude
+      // **[4]** Sun's true longitude
       sunLong,
-      // [5] Sun's true anomaly
+      // **[5]** Sun's true anomaly
       sunAnomaly,
-      // [6] Sun's radius vector in AU
+      // **[6]** Sun's radius vector in AU
       sunR,
-      // [7] Sun's apparent longitude at true equinox of the date
+      // **[7]** Sun's apparent longitude at true equinox of the date
       Lambda,
-      // [8] Sun's true right ascension
+      // **[8]** Sun's true right ascension
       Alpha,
-      // [9] Sun's true declination
+      // **[9]** Sun's true declination
       Delta,
-      // [10] Sun's apparent right ascension
+      // **[10]** Sun's apparent right ascension
       AlphaApp,
-      // [11] Sun's apparent declination
+      // **[11]** Sun's apparent declination
       DeltaApp
     ];
   }
@@ -490,7 +549,7 @@ var Ephemerides = (function(exports) {
   astro.equationOfTime = function(jd) {
     var alpha, deltaPsi, E, epsilon, L0, tau;
 
-    tau = (jd - this.constants.J2000) / this.constants.JulianMillennium;
+    tau = (jd - this.constants.J2000) / this.constants.JULIAN_MILLENIUM;
     L0 = 280.4664567 + (360007.6982779 * tau) +
          (0.03032028 * tau * tau) +
          ((tau * tau * tau) / 49931) +
