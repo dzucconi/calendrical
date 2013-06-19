@@ -18,12 +18,9 @@
   $(function() {
     var e = Ephemerides;
 
+    e.calendar.start();
+
     setInterval(function() {
-      var now = new Date();
-
-      e.calendar.setDateTo(now);
-      e.calendar.calcGregorian();
-
       $("#output").html(JSON.stringify(e.data, undefined, 2));
     }, 1000);
 

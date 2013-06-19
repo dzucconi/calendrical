@@ -1075,6 +1075,20 @@ var Ephemerides = (function(exports){
     this.setDateTo(today);
   }
 
+  // Update the internal data representation
+  // once per second
+  calendar.start = function() {
+    exports.intervalId = window.setInterval(function() {
+      calendar.setDateTo(new Date());
+      calendar.calcGregorian();
+    }, 1000);
+  }
+
+  // Clear the interval to stop the updating
+  calendar.stop = function() {
+    window.clearInterval(exports.intervalId);
+  }
+
   // Preset the Gregorian date to the
   // date requested by the URL
   // search field.
