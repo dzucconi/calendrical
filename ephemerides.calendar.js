@@ -1082,11 +1082,15 @@ var Ephemerides = (function(exports){
       calendar.setDateTo(new Date());
       calendar.calcGregorian();
     }, 1000);
+
+    return exports;
   }
 
   // Clear the interval to stop the updating
   calendar.stop = function() {
     window.clearInterval(exports.intervalId);
+
+    return exports;
   }
 
   // Preset the Gregorian date to the
