@@ -4,8 +4,10 @@
     <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="template.js"></script>
     <script src="astro.js"></script>
     <script src="calendar.js"></script>
+    <script src="calc.js"></script>
   </head>
 
   <body>
@@ -14,18 +16,21 @@
 
 <script>
   $(function() {
+    var e = Ephemerides;
+
     setInterval(function() {
       var now = new Date();
 
-      Ephemerides.calendar.setDateTo(now);
-      Ephemerides.calendar.calcGregorian();
+      e.calendar.setDateTo(now);
+      e.calendar.calcGregorian();
 
-      $("#output").html(JSON.stringify(Ephemerides.data, undefined, 2));
+      $("#output").html(JSON.stringify(e.data, undefined, 2));
     }, 1000);
 
-    // Ephemerides.calendar.setDateToToday();
-    // Ephemerides.calendar.calcGregorian();
-    // $("#output").html(JSON.stringify(Ephemerides.data, undefined, 2))
+    e.calendar.setDateToToday();
+    e.calendar.calcGregorian();
+
+    $("#output").html(JSON.stringify(e.data, undefined, 2))
   });
 </script>
 </html>
