@@ -11,7 +11,14 @@
 
     <link rel="stylesheet" type="text/css" href="vendor/jquery.jqplot.min.css" />
     <style type="text/css">
+      body {
+        margin: 20px;
+        padding: 0;
+        text-align: center;
+      }
+
       .plot {
+        margin: 20px auto;
         width: 600px;
         height: 450px;
       }
@@ -20,7 +27,23 @@
 
   <body>
     <div id="equationOfTime" class="plot"></div>
+    <p>Equation of Time</p>
+
     <div id="sunpos" class="plot"></div>
+    <p>
+      Geometric mean longitude of the Sun<br>
+      Mean anomaly of the Sun<br>
+      Eccentricity of the Earth's orbit<br>
+      Sun's equation of the Centre<br>
+      Sun's true longitude<br>
+      Sun's true anomaly<br>
+      Sun's radius vector in AU<br>
+      Sun's apparent longitude at true equinox of the date<br>
+      Sun's true right ascension<br>
+      Sun's true declination<br>
+      Sun's apparent right ascension<br>
+      Sun's apparent declination
+    </p>
   </body>
 
 <script>
