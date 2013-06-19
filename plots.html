@@ -10,15 +10,23 @@
     <script src="vendor/jquery.jqplot.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="vendor/jquery.jqplot.min.css" />
+    <style type="text/css">
+      .plot {
+        width: 600px;
+        height: 450px;
+      }
+    </style>
   </head>
 
   <body>
-    <div id="plot" style="height:450px;width:600px;"></div>
-    <div id="data"></div>
+    <div id="equationOfTime" class="plot"></div>
+    <div id="sunpos" class="plot"></div>
   </body>
 
 <script>
   $(function() {
+    var E = Ephemerides;
+
     var getDaysInYear = function(year) {
       var date = new Date(year, 0, 1);
       var days = [];
@@ -31,23 +39,49 @@
       return days;
     }
 
-    var e     = Ephemerides;
-    var data  = [];
     var dates = getDaysInYear(2013);
+    var plotOptions = {
+      seriesDefaults: {
+        color: "#ccf",
+        shadow: false,
+        lineWidth: 1,
+        markerOptions: {
+          shadow: false,
+          lineWidth: 1,
+          size: 1,
+          color: "#000"
+        }
+      },
+      grid: {
+        background: "#fff",
+        gridLineColor: "#eee",
+        shadow: false
+      }
+    }
 
-    (function(){
-      var point;
+    var equationOfTime  = [];
+    $.each(dates, function(i, date) {
+      E.calendar.setDateTo(date);
+      E.calendar.calcGregorian();
 
-      $.each(dates, function(i, date) {
-        e.calendar.setDateTo(date);
-        e.calendar.calcGregorian();
+      equationOfTime.push(E.astro.equationOfTime(E.data.julianday.day));
+    });
+    $.jqplot("equationOfTime", [equationOfTime], plotOptions);
 
-        point = e.astro.equationOfTime(e.data.julianday.day);
-        data.push(point);
-      });
-    }());
+    var sunpos = [];
+    $.each(dates, function(i, date) {
+      E.calendar.setDateTo(date);
+      E.calendar.calcGregorian();
 
-    $.jqplot("plot", [data]);
+      sunpos.push(E.astro.sunpos(E.data.julianday.day));
+    });
+
+    var sunposAdjusted = [];
+    for (var i = sunpos[0].length - 1; i >= 0; i--) {
+      sunposAdjusted.push(sunpos.map(function(_) { return _[i]; }));
+    };
+
+    $.jqplot("sunpos", sunposAdjusted, plotOptions);
   });
 </script>
 </html>
