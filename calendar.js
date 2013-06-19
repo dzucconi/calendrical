@@ -1,12 +1,3 @@
-/**
- * JavaScript functions for the Fourmilab Calendar Converter
- *
- * by John Walker: September, MIM
- * http://www.fourmilab.ch/documents/calendar/
- *
- * This program is in the public domain.
- */
-
 ;(function(exports){
   "use strict";
 
@@ -37,8 +28,7 @@
   };
 
   // Aliases
-  var cal = Ephemerides.calendar,
-      data = Ephemerides.data;
+  var cal = Ephemerides.calendar, data = Ephemerides.data;
 
   /**
    * You may notice that a variety of array variables logically local
@@ -1451,4 +1441,3 @@
 
   exports.Ephemerides = Ephemerides;
 }(this));
-
