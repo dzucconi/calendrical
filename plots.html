@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
+    <script src="astro.js"></script>
+    <script src="calendar.js"></script>
+    <script src="calc.js"></script>
+    <script src="vendor/jquery.jqplot.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="vendor/jquery.jqplot.min.css" />
+  </head>
+
+  <body>
+    <div id="plot" style="height:450px;width:600px;"></div>
+    <div id="data"></div>
+  </body>
+
+<script>
+  $(function() {
+    var getDaysInYear = function(year) {
+      var date = new Date(year, 0, 1);
+      var days = [];
+
+      while(date.getFullYear() === year) {
+        days.push(new Date(date));
+        date.setDate(date.getDate() + 1);
+      }
+
+      return days;
+    }
+
+    var e     = Ephemerides;
+    var data  = [];
+    var dates = getDaysInYear(2013);
+
+    (function(){
+      var point;
+
+      $.each(dates, function(i, date) {
+        e.calendar.setDateTo(date);
+        e.calendar.calcGregorian();
+
+        point = e.astro.equationOfTime(e.data.julianday.day);
+        data.push(point);
+      });
+    }());
+
+    $.jqplot("plot", [data]);
+  });
+</script>
+</html>
