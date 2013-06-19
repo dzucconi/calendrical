@@ -1,0 +1,28 @@
+{
+  "name"        : "Ephemerides",
+  "title"       : "Ephemerides",
+  "version"     : "0.0.1",
+  "description" : "",
+  "keywords"    : [],
+  "homepage"    : "",
+
+  "repository" : {
+    "type" : "git",
+    "url"  : "git://github.com/dzucconi/ephemerides.git"
+  },
+
+  "bugs" : {
+    "url" : "https://github.com/dzucconi/ephemerides/issues",
+    "url" : "https://github.com/dzucconi/ephemerides/blob/master/LICENSE-MIT"
+  },
+
+  "licenses": [{
+    "type": "MIT"
+  }],
+
+  "devDependencies" : {
+    "grunt"                : "0.4.1",
+    "grunt-cli"            : "0.1.9",
+    "grunt-contrib-uglify" : "0.2.2"
+  }
+}
