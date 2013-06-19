@@ -439,7 +439,7 @@ var Ephemerides = (function(exports){
       guess++;
       nexteq = this.paris_equinoxe_jd(guess);
     }
-    adr = Math.round((lasteq - FRENCH_REVOLUTIONARY_EPOCH) / astro.constants.TropicalYear) + 1;
+    adr = Math.round((lasteq - FRENCH_REVOLUTIONARY_EPOCH) / astro.constants.TROPICAL_YEAR) + 1;
 
     return [adr, lasteq];
   }
@@ -477,12 +477,12 @@ var Ephemerides = (function(exports){
   calendar.french_revolutionary_to_jd = function(an, mois, decade, jour) {
     var adr, equinoxe, guess, jd;
 
-    guess = FRENCH_REVOLUTIONARY_EPOCH + (astro.constants.TropicalYear * ((an - 1) - 1));
+    guess = FRENCH_REVOLUTIONARY_EPOCH + (astro.constants.TROPICAL_YEAR * ((an - 1) - 1));
     adr = [an - 1, 0];
 
     while (adr[0] < an) {
       adr = this.annee_da_la_revolution(guess);
-      guess = adr[1] + (astro.constants.TropicalYear + 2);
+      guess = adr[1] + (astro.constants.TROPICAL_YEAR + 2);
     }
     equinoxe = adr[1];
 
@@ -592,7 +592,7 @@ var Ephemerides = (function(exports){
       guess++;
       nexteq = this.tehran_equinox_jd(guess);
     }
-    adr = Math.round((lasteq - PERSIAN_EPOCH) / astro.constants.TropicalYear) + 1;
+    adr = Math.round((lasteq - PERSIAN_EPOCH) / astro.constants.TROPICAL_YEAR) + 1;
 
     return [adr, lasteq];
   }
@@ -625,12 +625,12 @@ var Ephemerides = (function(exports){
   calendar.persiana_to_jd = function(year, month, day) {
     var adr, equinox, guess, jd;
 
-    guess = (PERSIAN_EPOCH - 1) + (astro.constants.TropicalYear * ((year - 1) - 1));
+    guess = (PERSIAN_EPOCH - 1) + (astro.constants.TROPICAL_YEAR * ((year - 1) - 1));
     adr = [year - 1, 0];
 
     while (adr[0] < year) {
       adr = this.persiana_year(guess);
-      guess = adr[1] + (astro.constants.TropicalYear + 2);
+      guess = adr[1] + (astro.constants.TROPICAL_YEAR + 2);
     }
     equinox = adr[1];
 
@@ -899,7 +899,7 @@ var Ephemerides = (function(exports){
 
     // Update day of week in Gregorian box
     weekday = astro.jwday(j);
-    data.gregorian.wday = astro.constants.Weekdays[weekday];
+    data.gregorian.wday = astro.constants.WEEKDAYS[weekday];
 
     // Update leap year status in Gregorian box
     data.gregorian.leap = NormLeap[this.leap_gregorian(year) ? 1 : 0];
@@ -912,7 +912,7 @@ var Ephemerides = (function(exports){
     data.juliancalendar.day   = julcal[2];
     data.juliancalendar.leap  = NormLeap[this.leap_julian(julcal[0]) ? 1 : 0];
     weekday                   = astro.jwday(j);
-    data.juliancalendar.wday  = astro.constants.Weekdays[weekday];
+    data.juliancalendar.wday  = astro.constants.WEEKDAYS[weekday];
 
     // Update Hebrew Calendar
     hebcal = this.jd_to_hebrew(j);
