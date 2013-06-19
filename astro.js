@@ -9,7 +9,8 @@ var Ephemerides = (function(exports) {
     JulianCentury    : 36525.0,         // Days in Julian century
     JulianMillennium : (36525.0 * 10),  // Days in Julian millennium
     AstronomicalUnit : 149597870.0,     // Astronomical unit in kilometres
-    TropicalYear     : 365.24219878     // Mean solar tropical year
+    TropicalYear     : 365.24219878,    // Mean solar tropical year
+    Weekdays         : ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
   }
 
   // ASTOR: Arc-seconds to radians
@@ -73,8 +74,6 @@ var Ephemerides = (function(exports) {
   }
 
   // JWDAY: Calculate day of week from Julian day
-  astro.constants.Weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
   astro.jwday = function(j) {
     return this.mod(Math.floor((j + 1.5)), 7);
   }
