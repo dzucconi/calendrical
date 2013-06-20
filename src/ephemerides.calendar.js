@@ -1021,14 +1021,14 @@ var Ephemerides = (function(exports){
       calendar.updateTo();
     }, 1000);
 
-    return exports;
+    return this;
   }
 
   // Clear the interval to stop the updating
   calendar.stop = function() {
     window.clearInterval(exports.intervalId);
 
-    return exports;
+    return this;
   }
 
   // Update the data representation to the specified date
@@ -1040,7 +1040,7 @@ var Ephemerides = (function(exports){
     this.setDateTo(date);
     this.calcGregorian();
 
-    return exports;
+    return this;
   }
 
   // Preset the Gregorian date to the
