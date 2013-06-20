@@ -2275,6 +2275,48 @@ the request form to the time now.</p>
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-96">&#182;</a>
               </div>
+              <p>Update the internal data representation
+once per second</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.start = <span class="keyword">function</span>() {
+    exports.intervalId = window.setInterval(<span class="keyword">function</span>() {
+      calendar.setDateTo(<span class="keyword">new</span> Date());
+      calendar.calcGregorian();
+    }, <span class="number">1000</span>);
+
+    <span class="keyword">return</span> exports;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-97">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-97">&#182;</a>
+              </div>
+              <p>Clear the interval to stop the updating</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.stop = <span class="keyword">function</span>() {
+    window.clearInterval(exports.intervalId);
+
+    <span class="keyword">return</span> exports;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-98">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-98">&#182;</a>
+              </div>
               <p>Preset the Gregorian date to the
 date requested by the URL
 search field.</p>
@@ -2294,11 +2336,11 @@ search field.</p>
         </li>
         
         
-        <li id="section-97">
+        <li id="section-99">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-97">&#182;</a>
+                <a class="pilcrow" href="#section-99">&#182;</a>
               </div>
               <p>Sanity check date and time components</p>
 
@@ -2339,11 +2381,11 @@ search field.</p>
         </li>
         
         
-        <li id="section-98">
+        <li id="section-100">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-98">&#182;</a>
+                <a class="pilcrow" href="#section-100">&#182;</a>
               </div>
               <p>Sanity check date and time components</p>
 
