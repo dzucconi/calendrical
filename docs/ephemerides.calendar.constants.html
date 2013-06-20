@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>ephemerides.calendar.constants.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="ephemerides.astro.html">
+                ephemerides.astro.js
+              </a>
+            
+              
+              <a class="source" href="ephemerides.calendar.calc.html">
+                ephemerides.calendar.calc.js
+              </a>
+            
+              
+              <a class="source" href="ephemerides.calendar.constants.html">
+                ephemerides.calendar.constants.js
+              </a>
+            
+              
+              <a class="source" href="ephemerides.calendar.html">
+                ephemerides.calendar.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>ephemerides.calendar.constants.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">var</span> Ephemerides = (<span class="keyword">function</span>(exports){
+  <span class="string">"use strict"</span>;
+
+  exports.calendar = exports.calendar || {};
+  <span class="keyword">var</span> calendar = exports.calendar;
+
+  calendar.constants = {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p><em>Julian date of Gregorian epoch: 0000-01-01</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    J0000: <span class="number">1721424.5</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p><em>Julian date at Unix epoch: 1970-01-01</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    J1970: <span class="number">2440587.5</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p><em>Epoch of Modified Julian Date system</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    JMJD: <span class="number">2400000.5</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p><em>Epoch (day 1) of Excel 1900 date system (PC)</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    J1900: <span class="number">2415020.5</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p><em>Epoch (day 0) of Excel 1904 date system (Mac)</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    J1904: <span class="number">2416480.5</span>,</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p><em>Convenience</em></p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    NORM_LEAP: [<span class="string">"Normal year"</span>, <span class="string">"Leap year"</span>],
+
+    gregorian: {
+      EPOCH: <span class="number">1721425.5</span>,
+      MONTHS: [<span class="string">"January"</span>, <span class="string">"February"</span>, <span class="string">"March"</span>, <span class="string">"April"</span>, <span class="string">"May"</span>, <span class="string">"June"</span>, <span class="string">"July"</span>, <span class="string">"August"</span>, <span class="string">"September"</span>, <span class="string">"October"</span>, <span class="string">"November"</span>, <span class="string">"December"</span>]
+    },
+
+    julian: {
+      EPOCH: <span class="number">1721423.5</span>,
+      MONTHS: [<span class="string">"January"</span>, <span class="string">"February"</span>, <span class="string">"March"</span>, <span class="string">"April"</span>, <span class="string">"May"</span>, <span class="string">"June"</span>, <span class="string">"July"</span>, <span class="string">"August"</span>, <span class="string">"September"</span>, <span class="string">"October"</span>, <span class="string">"November"</span>, <span class="string">"December"</span>]
+    },
+
+    hebrew: {
+      EPOCH: <span class="number">347995.5</span>,
+      MONTHS: [<span class="string">"Nisan"</span>, <span class="string">"Iyyar"</span>, <span class="string">"Sivan"</span>, <span class="string">"Tammuz"</span>, <span class="string">"Av"</span>, <span class="string">"Elul"</span>, <span class="string">"Tishri"</span>, <span class="string">"Marẖeshvan"</span>, <span class="string">"Kislev"</span>, <span class="string">"Teveth"</span>, <span class="string">"Shevat"</span>, <span class="string">"Adar"</span>, <span class="string">"Veadar"</span>],
+      H_MONTHS: [<span class="string">"נִיסָן"</span>, <span class="string">"אייר"</span>, <span class="string">"סיוון"</span>, <span class="string">"תַּמּוּז"</span>, <span class="string">"אָב"</span>, <span class="string">"אֱלוּל"</span>, <span class="string">"תִּשׁרִי"</span>, <span class="string">"מרחשוון"</span>, <span class="string">"כסליו"</span>, <span class="string">"טֵבֵת"</span>, <span class="string">"שְׁבָט"</span>, <span class="string">"אֲדָר א׳"</span>, <span class="string">"אֲדָר א׳"</span>]
+    },
+
+    french_revolutionary: {
+      EPOCH: <span class="number">2375839.5</span>,
+      MOIS: [<span class="string">"Vendémiaire"</span>, <span class="string">"Brumaire"</span>, <span class="string">"Frimaire"</span>, <span class="string">"Nivôse"</span>, <span class="string">"Pluviôse"</span>, <span class="string">"Ventôse"</span>, <span class="string">"Germinal"</span>, <span class="string">"Floréal"</span>, <span class="string">"Prairial"</span>, <span class="string">"Messidor"</span>, <span class="string">"Thermidor"</span>, <span class="string">"Fructidor"</span>, <span class="string">"(Sans-culottides)"</span>],
+      DECADE: [<span class="string">"I"</span>, <span class="string">"II"</span>, <span class="string">"III"</span>],
+      JOUR: [<span class="string">"du Primidi (1)"</span>, <span class="string">"du Duodi (2)"</span>, <span class="string">"du Tridi (3)"</span>, <span class="string">"du Quartidi (4)"</span>, <span class="string">"du Quintidi (5)"</span>, <span class="string">"du Sextidi (6)"</span>, <span class="string">"du Septidi (7)"</span>, <span class="string">"du Octid (8)i"</span>, <span class="string">"du Nonidi (9)"</span>, <span class="string">"du Décadi (10)"</span>, <span class="string">"------------"</span>, <span class="string">"de la Vertu (1)"</span>, <span class="string">"du Génie (2)"</span>, <span class="string">"du Travail (3)"</span>, <span class="string">"de l'Opinion (4)"</span>, <span class="string">"des Récompenses (5)"</span>, <span class="string">"de la Révolution (6)"</span>]
+    },
+
+    islamic: {
+      EPOCH: <span class="number">1948439.5</span>,
+      WEEKDAYS: [<span class="string">"al-'ahad"</span>, <span class="string">"al-'ithnayn"</span>, <span class="string">"ath-thalatha'"</span>, <span class="string">"al-'arb`a'"</span>, <span class="string">"al-khamis"</span>, <span class="string">"al-jum`a"</span>, <span class="string">"as-sabt"</span>],
+      MONTHS: [<span class="string">"Muharram"</span>, <span class="string">"Safar"</span>, <span class="string">"Rabi`al-Awwal"</span>, <span class="string">"Rabi`ath-Thani"</span>, <span class="string">"Jumada l-Ula"</span>, <span class="string">"Jumada t-Tania"</span>, <span class="string">"Rajab"</span>, <span class="string">"Sha`ban"</span>, <span class="string">"Ramadan"</span>, <span class="string">"Shawwal"</span>, <span class="string">"Dhu l-Qa`da"</span>, <span class="string">"Dhu l-Hijja"</span>]
+    },
+
+    persian: {
+      EPOCH: <span class="number">1948320.5</span>,
+      WEEKDAYS: [<span class="string">"Yekshanbeh"</span>, <span class="string">"Doshanbeh"</span>, <span class="string">"Seshhanbeh"</span>, <span class="string">"Chaharshanbeh"</span>, <span class="string">"Panjshanbeh"</span>, <span class="string">"Jomeh"</span>, <span class="string">"Shanbeh"</span>],
+      MONTHS: [<span class="string">"Farvardin"</span>, <span class="string">"Ordibehesht"</span>, <span class="string">"Khordad"</span>, <span class="string">"Tir"</span>, <span class="string">"Mordad"</span>, <span class="string">"Shahrivar"</span>, <span class="string">"Mehr"</span>, <span class="string">"Aban"</span>, <span class="string">"Azar"</span>, <span class="string">"Dey"</span>, <span class="string">"Bahman"</span>, <span class="string">"Esfand"</span>]
+    },
+
+    mayan: {
+      COUNT_EPOCH: <span class="number">584282.5</span>,
+      HAAB_MONTHS: [<span class="string">"Pop"</span>, <span class="string">"Uo"</span>, <span class="string">"Zip"</span>, <span class="string">"Zotz"</span>, <span class="string">"Tzec"</span>, <span class="string">"Xul"</span>, <span class="string">"Yaxkin"</span>, <span class="string">"Mol"</span>, <span class="string">"Chen"</span>, <span class="string">"Yax"</span>, <span class="string">"Zac"</span>, <span class="string">"Ceh"</span>, <span class="string">"Mac"</span>, <span class="string">"Kankin"</span>, <span class="string">"Muan"</span>, <span class="string">"Pax"</span>, <span class="string">"Kayab"</span>, <span class="string">"Cumku"</span>, <span class="string">"Uayeb"</span>],
+      TZOLKIN_MONTHS: [<span class="string">"Imix"</span>, <span class="string">"Ik"</span>, <span class="string">"Akbal"</span>, <span class="string">"Kan"</span>, <span class="string">"Chicchan"</span>, <span class="string">"Cimi"</span>, <span class="string">"Manik"</span>, <span class="string">"Lamat"</span>, <span class="string">"Muluc"</span>, <span class="string">"Oc"</span>, <span class="string">"Chuen"</span>, <span class="string">"Eb"</span>, <span class="string">"Ben"</span>, <span class="string">"Ix"</span>, <span class="string">"Men"</span>, <span class="string">"Cib"</span>, <span class="string">"Caban"</span>, <span class="string">"Etznab"</span>, <span class="string">"Cauac"</span>, <span class="string">"Ahau"</span>]
+    },
+
+    bahai: {
+      EPOCH: <span class="number">2394646.5</span>,
+      WEEKDAYS: [<span class="string">"Jamál"</span>, <span class="string">"Kamál"</span>, <span class="string">"Fidál"</span>, <span class="string">"Idál"</span>, <span class="string">"Istijlál"</span>, <span class="string">"Istiqlál"</span>, <span class="string">"Jalál"</span>],
+      YEARS: [<span class="string">"Alif"</span>, <span class="string">"Bá"</span>, <span class="string">"Ab"</span>, <span class="string">"Dál"</span>, <span class="string">"Báb"</span>, <span class="string">"Váv"</span>, <span class="string">"Abad"</span>, <span class="string">"Jád"</span>, <span class="string">"Bahá"</span>, <span class="string">"Hubb"</span>, <span class="string">"Bahháj"</span>, <span class="string">"Javáb"</span>, <span class="string">"Ahad"</span>, <span class="string">"Vahháb"</span>, <span class="string">"Vidád"</span>, <span class="string">"Badí"</span>, <span class="string">"Bahí"</span>, <span class="string">"Abhá"</span>, <span class="string">"Vahíd"</span>],
+      MONTHS: [<span class="string">"Bahá"</span>, <span class="string">"Jalál"</span>, <span class="string">"Jamál"</span>, <span class="string">"`Azamat"</span>, <span class="string">"Núr"</span>, <span class="string">"Rahmat"</span>, <span class="string">"Kalimát"</span>, <span class="string">"Kamál"</span>, <span class="string">"Asmá"</span>, <span class="string">"`Izzat"</span>, <span class="string">"Mashíyyat"</span>, <span class="string">"`Ilm"</span>, <span class="string">"Qudrat"</span>, <span class="string">"Qawl"</span>, <span class="string">"Masáil"</span>, <span class="string">"Sharaf"</span>, <span class="string">"Sultán"</span>, <span class="string">"Mulk"</span>, <span class="string">"Ayyám-i-Há"</span>, <span class="string">"`Alá'"</span>],
+      DAYS: [<span class="string">"Bahá"</span>, <span class="string">"Jalál"</span>, <span class="string">"Jamál"</span>, <span class="string">"`Azamat"</span>, <span class="string">"Núr"</span>, <span class="string">"Rahmat"</span>, <span class="string">"Kalimát"</span>, <span class="string">"Kamál"</span>, <span class="string">"Asmá"</span>, <span class="string">"`Izzat"</span>, <span class="string">"Mashíyyat"</span>, <span class="string">"`Ilm"</span>, <span class="string">"Qudrat"</span>, <span class="string">"Qawl"</span>, <span class="string">"Masáil"</span>, <span class="string">"Sharaf"</span>, <span class="string">"Sultán"</span>, <span class="string">"Mulk"</span>, <span class="string">"`Alá'"</span>]
+    },
+
+    indian_civil: {
+      WEEKDAYS: [<span class="string">"ravivara"</span>, <span class="string">"somavara"</span>, <span class="string">"mangalavara"</span>, <span class="string">"budhavara"</span>, <span class="string">"brahaspativara"</span>, <span class="string">"sukravara"</span>, <span class="string">"sanivara"</span>],
+      MONTHS: [<span class="string">"Caitra"</span>, <span class="string">"Vaisakha"</span>, <span class="string">"Jyaistha"</span>, <span class="string">"Asadha"</span>, <span class="string">"Sravana"</span>, <span class="string">"Bhadra"</span>, <span class="string">"Asvina"</span>, <span class="string">"Kartika"</span>, <span class="string">"Agrahayana"</span>, <span class="string">"Pausa"</span>, <span class="string">"Magha"</span>, <span class="string">"Phalguna"</span>]
+    }
+  }
+
+  <span class="keyword">return</span> exports;
+}(Ephemerides || {}));</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

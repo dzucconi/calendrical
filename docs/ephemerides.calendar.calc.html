@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>ephemerides.calendar.calc.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="ephemerides.astro.html">
+                ephemerides.astro.js
+              </a>
+            
+              
+              <a class="source" href="ephemerides.calendar.calc.html">
+                ephemerides.calendar.calc.js
+              </a>
+            
+              
+              <a class="source" href="ephemerides.calendar.constants.html">
+                ephemerides.calendar.constants.js
+              </a>
+            
+              
+              <a class="source" href="ephemerides.calendar.html">
+                ephemerides.calendar.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>ephemerides.calendar.calc.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">var</span> Ephemerides = (<span class="keyword">function</span>(exports) {
+  <span class="string">"use strict"</span>;
+
+  exports.calendar = exports.calendar || {};
+  <span class="keyword">var</span> calendar = exports.calendar;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Perform calculation starting with a Gregorian date</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.calcGregorian = <span class="keyword">function</span>() {
+    <span class="keyword">this</span>.updateFromGregorian();
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Perform calculation starting with a Julian date</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.calcJulian = <span class="keyword">function</span>() {
+    <span class="keyword">var</span> j, date, time;
+
+    j    = <span class="keyword">new</span> Number(data.julianday.day);
+    date = <span class="keyword">this</span>.jd_to_gregorian(j);
+    time = jhms(j);
+
+    data.gregorian.year  = date[<span class="number">0</span>];
+    data.gregorian.month = date[<span class="number">1</span>] - <span class="number">1</span>;
+    data.gregorian.day   = date[<span class="number">2</span>];
+    data.gregorian.hour  = pad(time[<span class="number">0</span>], <span class="number">2</span>, <span class="string">" "</span>);
+    data.gregorian.min   = pad(time[<span class="number">1</span>], <span class="number">2</span>, <span class="string">"0"</span>);
+    data.gregorian.sec   = pad(time[<span class="number">2</span>], <span class="number">2</span>, <span class="string">"0"</span>);
+
+    <span class="keyword">this</span>.updateFromGregorian();
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Set Julian date and update all calendars</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.setJulian = <span class="keyword">function</span>(j) {
+    data.julianday.day = <span class="keyword">new</span> Number(j);
+    <span class="keyword">this</span>.calcJulian();
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Update from Modified Julian day</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.calcModifiedJulian = <span class="keyword">function</span>() {
+    <span class="keyword">this</span>.setJulian((<span class="keyword">new</span> Number(data.modifiedjulianday.day)) + JMJD);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Update from Julian calendar</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.calcJulianCalendar = <span class="keyword">function</span>() {
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.julian_to_jd((<span class="keyword">new</span> Number(data.juliancalendar.year)),
+      data.juliancalendar.month.selectedIndex + <span class="number">1</span>, (<span class="keyword">new</span> Number(data.juliancalendar.day))));
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Update from Hebrew calendar</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.calcHebrew = <span class="keyword">function</span>() {
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.hebrew_to_jd((<span class="keyword">new</span> Number(data.hebrew.year)),
+      data.hebrew.month.selectedIndex + <span class="number">1</span>, (<span class="keyword">new</span> Number(data.hebrew.day))));
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Update from Islamic calendar</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.calcIslamic = <span class="keyword">function</span>() {
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.islamic_to_jd((<span class="keyword">new</span> Number(data.islamic.year)),
+      data.islamic.month.selectedIndex + <span class="number">1</span>, (<span class="keyword">new</span> Number(data.islamic.day))));
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Update from Persian calendar</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.calcPersian = <span class="keyword">function</span>() {
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.persian_to_jd((<span class="keyword">new</span> Number(data.persian.year)),
+      data.persian.month.selectedIndex + <span class="number">1</span>, (<span class="keyword">new</span> Number(data.persian.day))));
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Update from Persian astronomical calendar</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.calcPersiana = <span class="keyword">function</span>() {
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.persiana_to_jd((<span class="keyword">new</span> Number(data.persiana.year)),
+      data.persiana.month.selectedIndex + <span class="number">1</span>, (<span class="keyword">new</span> Number(data.persiana.day))) + <span class="number">0.5</span>);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Update from the Mayan Long Count</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.calcMayanCount = <span class="keyword">function</span>() {
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.mayan_count_to_jd(
+      (<span class="keyword">new</span> Number(data.mayancount.baktun)), (<span class="keyword">new</span> Number(data.mayancount.katun)), (<span class="keyword">new</span> Number(data.mayancount.tun)), (<span class="keyword">new</span> Number(data.mayancount.uinal)), (<span class="keyword">new</span> Number(data.mayancount.kin))));
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Update from Bahai calendar</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.calcBahai = <span class="keyword">function</span>() {
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.bahai_to_jd((<span class="keyword">new</span> Number(data.bahai.kull_i_shay)), (<span class="keyword">new</span> Number(data.bahai.vahid)),
+      data.bahai.year.selectedIndex + <span class="number">1</span>,
+      data.bahai.month.selectedIndex + <span class="number">1</span>,
+      data.bahai.day.selectedIndex + <span class="number">1</span>));
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Update from Indian Civil Calendar</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.calcIndianCivilCalendar = <span class="keyword">function</span>() {
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.indian_civil_to_jd(
+      (<span class="keyword">new</span> Number(data.indiancivilcalendar.year)),
+      data.indiancivilcalendar.month.selectedIndex + <span class="number">1</span>, (<span class="keyword">new</span> Number(data.indiancivilcalendar.day))));
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Update from French Republican calendar</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.calcFrench = <span class="keyword">function</span>() {
+    <span class="keyword">var</span> decade, j, mois;
+
+    j      = data.french.jour.selectedIndex;
+    decade = data.french.decade.selectedIndex;
+    mois   = data.french.mois.selectedIndex;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>If the currently selected day is one of the sansculottides,
+adjust the index to be within that period and force the
+decade to zero and the month to 12, designating the
+intercalary interval.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (j &gt; <span class="number">9</span>) {
+      j -= <span class="number">11</span>;
+      decade = <span class="number">0</span>;
+      mois = <span class="number">12</span>;
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>If the selected month is the pseudo-month of the five or
+six sansculottides, ensure that the decade is 0 and the day
+number doesn&#39;t exceed six. To avoid additional overhead, we
+don&#39;t test whether a day number of 6 is valid for this year,
+but rather simply permit it to wrap into the first day of
+the following year if this is a 365 day year.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (mois == <span class="number">12</span>) {
+      decade = <span class="number">0</span>;
+
+      <span class="keyword">if</span> (j &gt; <span class="number">5</span>) { j = <span class="number">0</span>; }
+    }
+
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.french_revolutionary_to_jd((<span class="keyword">new</span> Number(data.french.an)),
+      mois + <span class="number">1</span>,
+      decade + <span class="number">1</span>,
+      j + <span class="number">1</span>));
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Update from Gregorian serial day number</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.calcGregSerial = <span class="keyword">function</span>() {
+    <span class="keyword">this</span>.setJulian((<span class="keyword">new</span> Number(data.gregserial.day)) + J0000);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Perform calculation starting with an Excel 1900 serial date</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.calcExcelSerial1900 = <span class="keyword">function</span>() {
+    <span class="keyword">var</span> d = <span class="keyword">new</span> Number(data.excelserial1900.day);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Idiot Kode Kiddies didn&#39;t twig to the fact
+(proclaimed in 1582) that 1900 wasn&#39;t a leap year,
+so every Excel day number in every database on Earth
+which represents a date subsequent to February 28,
+1900 is off by one. Note that there is no
+acknowledgement of this betrayal or warning of its
+potential consequences in the Excel help file. Thank
+you so much Mister Talking Paper Clip. Some day
+we&#39;re going to celebrate your extinction like it was
+February 29 ... 1900.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (d &gt; <span class="number">60</span>) { d--; }
+
+    <span class="keyword">this</span>.setJulian((d - <span class="number">1</span>) + J1900);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>Perform calculation starting with an Excel 1904 serial date</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.calcExcelSerial1904 = <span class="keyword">function</span>() {
+    <span class="keyword">this</span>.setJulian((<span class="keyword">new</span> Number(data.excelserial1904.day)) + J1904);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>Update from specified Unix time() value</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.calcUnixTime = <span class="keyword">function</span>() {
+    <span class="keyword">var</span> t = <span class="keyword">new</span> Number(data.unixtime.time);
+
+    <span class="keyword">this</span>.setJulian(J1970 + (t / (<span class="number">60</span> * <span class="number">60</span> * <span class="number">24</span>)));
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>Update from specified ISO year, week, and day</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.calcIsoWeek = <span class="keyword">function</span>() {
+    <span class="keyword">var</span> year = <span class="keyword">new</span> Number(data.isoweek.year),
+        week = <span class="keyword">new</span> Number(data.isoweek.week),
+         day = <span class="keyword">new</span> Number(data.isoweek.day);
+
+    <span class="keyword">this</span>.setJulian(iso_to_julian(year, week, day));
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>Update from specified ISO year and day of year</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.calcIsoDay = <span class="keyword">function</span>() {
+    <span class="keyword">var</span> year = <span class="keyword">new</span> Number(data.isoday.year),
+      day = <span class="keyword">new</span> Number(data.isoday.day);
+
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.iso_day_to_julian(year, day));
+  }
+
+  <span class="keyword">return</span> exports;
+}(Ephemerides || {}));</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>
