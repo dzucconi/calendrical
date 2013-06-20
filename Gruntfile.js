@@ -5,7 +5,7 @@ module.exports = function (grunt) {
     uglify: {
       plugin: {
         files: [{
-          'build/ephemerides.min.js': ['ephemerides.astro.js', 'ephemerides.calc.js', 'ephemerides.calendar.js']
+          'build/ephemerides.min.js': ['src/ephemerides.astro.js', 'src/ephemerides.calc.js', 'src/ephemerides.calendar.js']
         }]
       }
     }
