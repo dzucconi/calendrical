@@ -62,7 +62,7 @@ var Ephemerides = (function(exports) {
       data.persian.month.selectedIndex + 1, (new Number(data.persian.day))));
   }
 
-  // Update from Persian astronomical calendar
+  // Update from Persian algorithmic calendar
   calendar.calcPersiana = function() {
     this.setJulian(this.persianaToJd((new Number(data.persiana.year)),
       data.persiana.month.selectedIndex + 1, (new Number(data.persiana.day))) + 0.5);

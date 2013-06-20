@@ -4,23 +4,23 @@ var Ephemerides = (function(exports){
   exports.calendar = exports.calendar || {};
   exports.data = exports.data || {
     bahai: {},
-    excelserial1900: {},
-    excelserial1904: {},
+    excel_serial_1900: {},
+    excel_serial_1904: {},
     french: {},
     gregorian: {},
-    gregserial: {},
+    gregorian_serial: {},
     hebrew: {},
-    indiancivilcalendar: {},
+    indian_civil: {},
     islamic: {},
-    isoday: {},
-    isoweek: {},
-    juliancalendar: {},
-    julianday: {},
-    mayancount: {},
-    modifiedjulianday: {},
+    iso_day: {},
+    iso_week: {},
+    julian: {},
+    julian_day: {},
+    mayan_count: {},
+    modified_julian_day: {},
     persian: {},
-    persiana: {},
-    unixtime: {}
+    persian_algorithmic: {},
+    unix_time: {}
   };
 
   // Aliases
@@ -802,9 +802,9 @@ var Ephemerides = (function(exports){
   // we don't get roundoff errors in other calendars.
   calendar.updateFromGregorian = function() {
     var j, year, mon, mday, hour, min, sec,
-      weekday, julcal, perscal, hebcal, islcal, utime, isoweek,
+      weekday, julcal, perscal, hebcal, islcal, utime, iso_week,
       may_countcal, mayhaabcal, maytzolkincal, bahcal, frrcal,
-      indcal, isoday, xgregcal;
+      indcal, iso_day, xgregcal;
 
     year = new Number(data.gregorian.year);
     mon  = data.gregorian.month;
@@ -818,8 +818,8 @@ var Ephemerides = (function(exports){
     j = this.gregorianToJd(year, mon + 1, mday) +
       (Math.floor(sec + 60 * (min + 60 * hour) + 0.5) / 86400.0);
 
-    data.julianday.day = j;
-    data.modifiedjulianday.day = j - this.constants.JMJD;
+    data.julian_day.day = j;
+    data.modified_julian_day.day = j - this.constants.JMJD;
 
     // Update day of week in Gregorian box
     weekday = astro.jwday(j);
@@ -831,12 +831,12 @@ var Ephemerides = (function(exports){
     // Update Julian Calendar
     julcal = this.jdToJulian(j);
 
-    data.juliancalendar.year  = julcal[0];
-    data.juliancalendar.month = this.constants.julian.MONTHS[julcal[1] - 1];
-    data.juliancalendar.day   = julcal[2];
-    data.juliancalendar.leap  = this.constants.NORM_LEAP[this.leapJulian(julcal[0]) ? 1 : 0];
+    data.julian.year  = julcal[0];
+    data.julian.month = this.constants.julian.MONTHS[julcal[1] - 1];
+    data.julian.day   = julcal[2];
+    data.julian.leap  = this.constants.NORM_LEAP[this.leapJulian(julcal[0]) ? 1 : 0];
     weekday                   = astro.jwday(j);
-    data.juliancalendar.wday  = astro.constants.WEEKDAYS[weekday];
+    data.julian.wday  = astro.constants.WEEKDAYS[weekday];
 
     // Update Hebrew Calendar
     hebcal = this.jdToHebrew(j);
@@ -898,24 +898,24 @@ var Ephemerides = (function(exports){
     // Update Persian Astronomical Calendar
     perscal = this.jdToPersiana(j);
 
-    data.persiana.year  = perscal[0];
-    data.persiana.month = this.constants.persian.MONTHS[perscal[1] - 1];
-    data.persiana.day   = perscal[2];
-    data.persiana.wday  = this.constants.persian.WEEKDAYS[weekday];
-    data.persiana.leap  = this.constants.NORM_LEAP[this.leapPersiana(perscal[0]) ? 1 : 0];
+    data.persian_algorithmic.year  = perscal[0];
+    data.persian_algorithmic.month = this.constants.persian.MONTHS[perscal[1] - 1];
+    data.persian_algorithmic.day   = perscal[2];
+    data.persian_algorithmic.wday  = this.constants.persian.WEEKDAYS[weekday];
+    data.persian_algorithmic.leap  = this.constants.NORM_LEAP[this.leapPersiana(perscal[0]) ? 1 : 0];
 
     // Update Mayan Calendars
     may_countcal = this.jdToMayanCount(j);
 
-    data.mayancount.baktun  = may_countcal[0];
-    data.mayancount.katun   = may_countcal[1];
-    data.mayancount.tun     = may_countcal[2];
-    data.mayancount.uinal   = may_countcal[3];
-    data.mayancount.kin     = may_countcal[4];
-    mayhaabcal              = this.jdToMayanHaab(j);
-    data.mayancount.haab    = "" + mayhaabcal[1] + " " + this.constants.mayan.HAAB_MONTHS[mayhaabcal[0] - 1];
-    maytzolkincal           = this.jdToMayanTzolkin(j);
-    data.mayancount.tzolkin =
+    data.mayan_count.baktun  = may_countcal[0];
+    data.mayan_count.katun   = may_countcal[1];
+    data.mayan_count.tun     = may_countcal[2];
+    data.mayan_count.uinal   = may_countcal[3];
+    data.mayan_count.kin     = may_countcal[4];
+    mayhaabcal               = this.jdToMayanHaab(j);
+    data.mayan_count.haab    = "" + mayhaabcal[1] + " " + this.constants.mayan.HAAB_MONTHS[mayhaabcal[0] - 1];
+    maytzolkincal            = this.jdToMayanTzolkin(j);
+    data.mayan_count.tzolkin =
       "" + maytzolkincal[1] + " " + this.constants.mayan.TZOLKIN_MONTHS[maytzolkincal[0] - 1];
 
     // Update Bahai Calendar
@@ -934,11 +934,11 @@ var Ephemerides = (function(exports){
     // Update Indian Civil Calendar
     indcal = this.jdToIndianCivil(j);
 
-    data.indiancivilcalendar.year    = indcal[0];
-    data.indiancivilcalendar.month   = this.constants.indian_civil.MONTHS[indcal[1] - 1];
-    data.indiancivilcalendar.day     = indcal[2];
-    data.indiancivilcalendar.weekday = this.constants.indian_civil.WEEKDAYS[weekday];
-    data.indiancivilcalendar.leap    = this.constants.NORM_LEAP[this.leapGregorian(indcal[0] + 78) ? 1 : 0];
+    data.indian_civil.year    = indcal[0];
+    data.indian_civil.month   = this.constants.indian_civil.MONTHS[indcal[1] - 1];
+    data.indian_civil.day     = indcal[2];
+    data.indian_civil.weekday = this.constants.indian_civil.WEEKDAYS[weekday];
+    data.indian_civil.leap    = this.constants.NORM_LEAP[this.leapGregorian(indcal[0] + 78) ? 1 : 0];
 
     // Update French Republican Calendar
     frrcal = this.jdToFrenchRevolutionary(j);
@@ -950,36 +950,36 @@ var Ephemerides = (function(exports){
       this.constants.french_revolutionary.JOUR[((frrcal[1] <= 12) ? frrcal[3] : (frrcal[3] + 11)) - 1];
 
     // Update Gregorian serial number
-    if (data.gregserial != null) {
-      data.gregserial.day = j - this.constants.J0000;
+    if (data.gregorian_serial != null) {
+      data.gregorian_serial.day = j - this.constants.J0000;
     }
 
     // Update Excel 1900 and 1904 day serial numbers
-    data.excelserial1900.day = (j - this.constants.J1900) + 1 +
+    data.excel_serial_1900.day = (j - this.constants.J1900) + 1 +
 
     // Microsoft marching morons thought 1900 was a leap year.
     // Adjust dates after 1900-02-28 to compensate for their
     // idiocy.
     ((j > 2415078.5) ? 1 : 0);
-    data.excelserial1904.day = j - this.constants.J1904;
+    data.excel_serial_1904.day = j - this.constants.J1904;
 
     // Update Unix time()
     utime = (j - this.constants.J1970) * (60 * 60 * 24 * 1000);
 
-    data.unixtime.time = Math.round(utime / 1000);
+    data.unix_time.time = Math.round(utime / 1000);
 
     // Update ISO Week
-    isoweek = this.jdToIso(j);
+    iso_week = this.jdToIso(j);
 
-    data.isoweek.year = isoweek[0];
-    data.isoweek.week = isoweek[1];
-    data.isoweek.day  = isoweek[2];
+    data.iso_week.year = iso_week[0];
+    data.iso_week.week = iso_week[1];
+    data.iso_week.day  = iso_week[2];
 
     // Update ISO Day
-    isoday = this.jdToIsoDay(j);
+    iso_day = this.jdToIsoDay(j);
 
-    data.isoday.year = isoday[0];
-    data.isoday.day  = isoday[1];
+    data.iso_day.year = iso_day[0];
+    data.iso_day.day  = iso_day[1];
   }
 
   // Preset the fields in
@@ -1096,9 +1096,9 @@ var Ephemerides = (function(exports){
               ((d[5].substring(1) >= 0) && (d[5].substring(1) <= 59))) &&
             ((d[6] == undefined) ||
               ((d[6].substring(1) >= 0) && (d[6].substring(1) <= 59)))) {
-            data.juliancalendar.year = d[1];
-            data.juliancalendar.month.selectedIndex = d[2] - 1;
-            data.juliancalendar.day = Number(d[3]);
+            data.julian.year = d[1];
+            data.julian.month.selectedIndex = d[2] - 1;
+            data.julian.day = Number(d[3]);
             this.calcJulianCalendar();
             data.gregorian.hour = d[4] == undefined ? 0 :
               d[4].substring(1);
@@ -1129,7 +1129,7 @@ var Ephemerides = (function(exports){
       } else if (calendar.toLowerCase() == "mjd") {
         var d = date.match(/^(\-?\d+\.?\d*)/);
         if (d != null) {
-          data.modifiedjulianday.day = d[1];
+          data.modified_julian_day.day = d[1];
           this.calcModifiedJulian();
           set = 1;
         } else {
@@ -1137,10 +1137,10 @@ var Ephemerides = (function(exports){
             "\" in search request");
         }
 
-      } else if (calendar.toLowerCase() == "unixtime") {
+      } else if (calendar.toLowerCase() == "unix_time") {
         var d = date.match(/^(\-?\d+\.?\d*)/);
         if (d != null) {
-          data.unixtime.time = d[1];
+          data.unix_time.time = d[1];
           this.calcUnixTime();
           set = 1;
         } else {
@@ -1151,14 +1151,14 @@ var Ephemerides = (function(exports){
       } else if (calendar.toLowerCase() == "iso") {
         var d;
         if ((d = date.match(/^(\-?\d+)\-(\d\d\d)/)) != null) {
-          data.isoday.year = d[1];
-          data.isoday.day = d[2];
+          data.iso_day.year = d[1];
+          data.iso_day.day = d[2];
           this.calcIsoDay();
           set = 1;
         } else if ((d = date.match(/^(\-?\d+)\-?W(\d\d)\-?(\d)/i)) != null) {
-          data.isoweek.year = d[1];
-          data.isoweek.week = d[2];
-          data.isoweek.day = d[3];
+          data.iso_week.year = d[1];
+          data.iso_week.week = d[2];
+          data.iso_week.day = d[3];
           this.calcIsoWeek();
           set = 1;
         } else {
@@ -1169,7 +1169,7 @@ var Ephemerides = (function(exports){
       } else if (calendar.toLowerCase() == "excel") {
         var d = date.match(/^(\-?\d+\.?\d*)/);
         if (d != null) {
-          data.excelserial1900.day = d[1];
+          data.excel_serial_1900.day = d[1];
           this.calcExcelSerial1900();
           set = 1;
         } else {
@@ -1180,7 +1180,7 @@ var Ephemerides = (function(exports){
       } else if (calendar.toLowerCase() == "excel1904") {
         var d = date.match(/^(\-?\d+\.?\d*)/);
         if (d != null) {
-          data.excelserial1904.day = d[1];
+          data.excel_serial_1904.day = d[1];
           this.calcExcelSerial1904();
           set = 1;
         } else {
