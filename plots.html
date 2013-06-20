@@ -43,6 +43,9 @@
       Sun's apparent right ascension<br>
       Sun's apparent declination
     </p>
+
+    <div id="obliqeq" class="plot"></div>
+    <p>Obliquity to the Epileptic</p>
   </body>
 
 <script>
@@ -84,7 +87,8 @@
     }
 
     var equationOfTime = [],
-        sunpos = [];
+        sunpos = [],
+        obliqeq = [];
 
     $.each(dates, function(i, date) {
       E.calendar.setDateTo(date);
@@ -92,6 +96,7 @@
 
       equationOfTime.push(E.astro.equationOfTime(E.data.julianday.day));
       sunpos.push(E.astro.sunpos(E.data.julianday.day));
+      obliqeq.push(E.astro.obliqeq(E.data.julianday.day));
     });
 
     sunpos = sunpos[0].map(function(_, i) {
@@ -100,6 +105,7 @@
 
     $.jqplot("equationOfTime", [equationOfTime], plotOptions);
     $.jqplot("sunpos", sunpos, plotOptions);
+    $.jqplot("obliqeq", [obliqeq], plotOptions);
   });
 </script>
 </html>
