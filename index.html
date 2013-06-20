@@ -18,10 +18,10 @@
 
 <script>
   $(function() {
-    var E = Ephemerides;
+    var E = Ephemerides,
+        now = new Date();
 
-    E.calendar.updateTo();
-    E.calendar.start();
+    E.calendar.updateTo(now).start();
 
     setInterval(function() { $("#output").html(JSON.stringify(E.data, undefined, 2)); }, 1000);
 
