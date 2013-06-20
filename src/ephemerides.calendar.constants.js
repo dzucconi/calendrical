@@ -55,17 +55,8 @@ var Ephemerides = (function(exports){
 
     mayan: {
       COUNT_EPOCH: 584282.5,
-      HAAB_MONTHS: [
-        "Pop", "Uo", "Zip", "Zotz", "Tzec", "Xul",
-        "Yaxkin", "Mol", "Chen", "Yax", "Zac", "Ceh",
-        "Mac", "Kankin", "Muan", "Pax", "Kayab", "Cumku", "Uayeb"
-      ],
-      TZOLKIN_MONTHS: [
-        "Imix", "Ik", "Akbal", "Kan", "Chicchan",
-        "Cimi", "Manik", "Lamat", "Muluc", "Oc",
-        "Chuen", "Eb", "Ben", "Ix", "Men",
-        "Cib", "Caban", "Etznab", "Cauac", "Ahau"
-      ]
+      HAAB_MONTHS: ["Pop", "Uo", "Zip", "Zotz", "Tzec", "Xul", "Yaxkin", "Mol", "Chen", "Yax", "Zac", "Ceh", "Mac", "Kankin", "Muan", "Pax", "Kayab", "Cumku", "Uayeb"],
+      TZOLKIN_MONTHS: ["Imix", "Ik", "Akbal", "Kan", "Chicchan", "Cimi", "Manik", "Lamat", "Muluc", "Oc", "Chuen", "Eb", "Ben", "Ix", "Men", "Cib", "Caban", "Etznab", "Cauac", "Ahau"]
     },
 
     bahai: {
