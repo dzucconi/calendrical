@@ -400,7 +400,8 @@ var Ephemerides = (function(exports){
       nexteq = this.paris_equinoxe_jd(guess);
     }
 
-    adr = Math.round((lasteq - this.constants.french_revolutionary.EPOCH) / astro.constants.TROPICAL_YEAR) + 1;
+    adr = Math.round((lasteq - this.constants.french_revolutionary.EPOCH) /
+                        astro.constants.TROPICAL_YEAR) + 1;
 
     return [adr, lasteq];
   }
@@ -531,7 +532,8 @@ var Ephemerides = (function(exports){
       nexteq = this.tehran_equinox_jd(guess);
     }
 
-    adr = Math.round((lasteq - this.constants.persian.EPOCH) / astro.constants.TROPICAL_YEAR) + 1;
+    adr = Math.round((lasteq - this.constants.persian.EPOCH) /
+                        astro.constants.TROPICAL_YEAR) + 1;
 
     return [adr, lasteq];
   }
@@ -559,7 +561,8 @@ var Ephemerides = (function(exports){
   calendar.persiana_to_jd = function(year, month, day) {
     var adr, equinox, guess, jd;
 
-    guess = (this.constants.persian.EPOCH - 1) + (astro.constants.TROPICAL_YEAR * ((year - 1) - 1));
+    guess = (this.constants.persian.EPOCH - 1) +
+              (astro.constants.TROPICAL_YEAR * ((year - 1) - 1));
     adr   = [year - 1, 0];
 
     while (adr[0] < year) {
@@ -708,7 +711,8 @@ var Ephemerides = (function(exports){
     jd      = Math.floor(jd) + 0.5;
     gy      = this.jd_to_gregorian(jd)[0];
     bstarty = this.jd_to_gregorian(this.constants.bahai.EPOCH)[0];
-    bys     = gy - (bstarty + (((this.gregorian_to_jd(gy, 1, 1) <= jd) && (jd <= this.gregorian_to_jd(gy, 3, 20))) ? 1 : 0));
+    bys     = gy - (bstarty + (((this.gregorian_to_jd(gy, 1, 1) <= jd) &&
+                (jd <= this.gregorian_to_jd(gy, 3, 20))) ? 1 : 0));
     major   = Math.floor(bys / 361) + 1;
     cycle   = Math.floor(astro.mod(bys, 361) / 19) + 1;
     year    = astro.mod(bys, 19) + 1;
@@ -911,7 +915,8 @@ var Ephemerides = (function(exports){
     mayhaabcal              = this.jd_to_mayan_haab(j);
     data.mayancount.haab    = "" + mayhaabcal[1] + " " + this.constants.mayan.HAAB_MONTHS[mayhaabcal[0] - 1];
     maytzolkincal           = this.jd_to_mayan_tzolkin(j);
-    data.mayancount.tzolkin = "" + maytzolkincal[1] + " " + this.constants.mayan.TZOLKIN_MONTHS[maytzolkincal[0] - 1];
+    data.mayancount.tzolkin =
+      "" + maytzolkincal[1] + " " + this.constants.mayan.TZOLKIN_MONTHS[maytzolkincal[0] - 1];
 
     // Update Bahai Calendar
     bahcal = this.jd_to_bahai(j);
@@ -922,7 +927,9 @@ var Ephemerides = (function(exports){
     data.bahai.month       = this.constants.bahai.MONTHS[bahcal[3] - 1];
     data.bahai.day         = this.constants.bahai.DAYS[bahcal[4] - 1];
     data.bahai.weekday     = this.constants.bahai.WEEKDAYS[weekday];
-    data.bahai.leap        = this.constants.NORM_LEAP[this.leap_gregorian(year) ? 1 : 0]; // Bahai uses same leap rule as Gregorian
+
+    // Bahai uses same leap rule as Gregorian
+    data.bahai.leap = this.constants.NORM_LEAP[this.leap_gregorian(year) ? 1 : 0];
 
     // Update Indian Civil Calendar
     indcal = this.jd_to_indian_civil(j);
@@ -939,7 +946,8 @@ var Ephemerides = (function(exports){
     data.french.an     = frrcal[0];
     data.french.mois   = this.constants.french_revolutionary.MOIS[frrcal[1] - 1];
     data.french.decade = this.constants.french_revolutionary.DECADE[frrcal[2] - 1];
-    data.french.jour   = this.constants.french_revolutionary.JOUR[((frrcal[1] <= 12) ? frrcal[3] : (frrcal[3] + 11)) - 1];
+    data.french.jour   =
+      this.constants.french_revolutionary.JOUR[((frrcal[1] <= 12) ? frrcal[3] : (frrcal[3] + 11)) - 1];
 
     // Update Gregorian serial number
     if (data.gregserial != null) {
