@@ -67,23 +67,23 @@
   exports.calendar = exports.calendar || {};
   exports.data = exports.data || {
     bahai: {},
-    excelserial1900: {},
-    excelserial1904: {},
+    excel_serial_1900: {},
+    excel_serial_1904: {},
     french: {},
     gregorian: {},
-    gregserial: {},
+    gregorian_serial: {},
     hebrew: {},
-    indiancivilcalendar: {},
+    indian_civil: {},
     islamic: {},
-    isoday: {},
-    isoweek: {},
-    juliancalendar: {},
-    julianday: {},
-    mayancount: {},
-    modifiedjulianday: {},
+    iso_day: {},
+    iso_week: {},
+    julian: {},
+    julian_day: {},
+    mayan_count: {},
+    modified_julian_day: {},
     persian: {},
-    persiana: {},
-    unixtime: {}
+    persian_algorithmic: {},
+    unix_time: {}
   };</pre></div></div>
             
         </li>
@@ -117,7 +117,7 @@ in the seven days ending on jd.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.weekday_before = <span class="keyword">function</span>(weekday, jd) {
+            <div class="content"><div class='highlight'><pre>  calendar.weekdayBefore = <span class="keyword">function</span>(weekday, jd) {
     <span class="keyword">return</span> jd - astro.jwday(jd - weekday);
   }</pre></div></div>
             
@@ -138,8 +138,8 @@ in the seven days ending on jd.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.search_weekday = <span class="keyword">function</span>(weekday, jd, direction, offset) {
-    <span class="keyword">return</span> <span class="keyword">this</span>.weekday_before(weekday, jd + (direction * offset));
+            <div class="content"><div class='highlight'><pre>  calendar.searchWeekday = <span class="keyword">function</span>(weekday, jd, direction, offset) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.weekdayBefore(weekday, jd + (direction * offset));
   }</pre></div></div>
             
         </li>
@@ -155,24 +155,24 @@ in the seven days ending on jd.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.nearest_weekday = <span class="keyword">function</span>(weekday, jd) {
-    <span class="keyword">return</span> <span class="keyword">this</span>.search_weekday(weekday, jd, <span class="number">1</span>, <span class="number">3</span>);
+            <div class="content"><div class='highlight'><pre>  calendar.nearestWeekday = <span class="keyword">function</span>(weekday, jd) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.searchWeekday(weekday, jd, <span class="number">1</span>, <span class="number">3</span>);
   }
 
-  calendar.next_weekday = <span class="keyword">function</span>(weekday, jd) {
-    <span class="keyword">return</span> <span class="keyword">this</span>.search_weekday(weekday, jd, <span class="number">1</span>, <span class="number">7</span>);
+  calendar.nextWeekday = <span class="keyword">function</span>(weekday, jd) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.searchWeekday(weekday, jd, <span class="number">1</span>, <span class="number">7</span>);
   }
 
-  calendar.next_or_current_weekday = <span class="keyword">function</span>(weekday, jd) {
-    <span class="keyword">return</span> <span class="keyword">this</span>.search_weekday(weekday, jd, <span class="number">1</span>, <span class="number">6</span>);
+  calendar.nextOrCurrentWeekday = <span class="keyword">function</span>(weekday, jd) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.searchWeekday(weekday, jd, <span class="number">1</span>, <span class="number">6</span>);
   }
 
-  calendar.previous_weekday = <span class="keyword">function</span>(weekday, jd) {
-    <span class="keyword">return</span> <span class="keyword">this</span>.search_weekday(weekday, jd, -<span class="number">1</span>, <span class="number">1</span>);
+  calendar.previousWeekday = <span class="keyword">function</span>(weekday, jd) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.searchWeekday(weekday, jd, -<span class="number">1</span>, <span class="number">1</span>);
   }
 
-  calendar.previous_or_current_weekday = <span class="keyword">function</span>(weekday, jd) {
-    <span class="keyword">return</span> <span class="keyword">this</span>.search_weekday(weekday, jd, <span class="number">1</span>, <span class="number">0</span>);
+  calendar.previousOrCurrentWeekday = <span class="keyword">function</span>(weekday, jd) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.searchWeekday(weekday, jd, <span class="number">1</span>, <span class="number">0</span>);
   }</pre></div></div>
             
         </li>
@@ -188,7 +188,7 @@ in the seven days ending on jd.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.leap_gregorian = <span class="keyword">function</span>(year) {
+            <div class="content"><div class='highlight'><pre>  calendar.leapGregorian = <span class="keyword">function</span>(year) {
     <span class="keyword">return</span> ((year % <span class="number">4</span>) == <span class="number">0</span>) &amp;&amp;
       (!(((year % <span class="number">100</span>) == <span class="number">0</span>) &amp;&amp; ((year % <span class="number">400</span>) != <span class="number">0</span>)));
   }</pre></div></div>
@@ -206,7 +206,7 @@ in the seven days ending on jd.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.gregorian_to_jd = <span class="keyword">function</span>(year, month, day) {
+            <div class="content"><div class='highlight'><pre>  calendar.gregorianToJd = <span class="keyword">function</span>(year, month, day) {
     <span class="keyword">return</span> (<span class="keyword">this</span>.constants.gregorian.EPOCH - <span class="number">1</span>) +
       (<span class="number">365</span> * (year - <span class="number">1</span>)) +
       Math.floor((year - <span class="number">1</span>) / <span class="number">4</span>) +
@@ -214,7 +214,7 @@ in the seven days ending on jd.</p>
       Math.floor((year - <span class="number">1</span>) / <span class="number">400</span>) +
       Math.floor((((<span class="number">367</span> * month) - <span class="number">362</span>) / <span class="number">12</span>) +
         ((month &lt;= <span class="number">2</span>) ? <span class="number">0</span> :
-          (<span class="keyword">this</span>.leap_gregorian(year) ? -<span class="number">1</span> : -<span class="number">2</span>)
+          (<span class="keyword">this</span>.leapGregorian(year) ? -<span class="number">1</span> : -<span class="number">2</span>)
         ) +
         day);
   }</pre></div></div>
@@ -232,7 +232,7 @@ in the seven days ending on jd.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.jd_to_gregorian = <span class="keyword">function</span>(jd) {
+            <div class="content"><div class='highlight'><pre>  calendar.jdToGregorian = <span class="keyword">function</span>(jd) {
     <span class="keyword">var</span> wjd, depoch, quadricent, dqc, cent, dcent, quad, dquad,
       yindex, dyindex, year, yearday, leapadj, month, day;
 
@@ -249,12 +249,12 @@ in the seven days ending on jd.</p>
 
     <span class="keyword">if</span> (!((cent == <span class="number">4</span>) || (yindex == <span class="number">4</span>))) { year++; }
 
-    yearday = wjd - <span class="keyword">this</span>.gregorian_to_jd(year, <span class="number">1</span>, <span class="number">1</span>);
-    leapadj = ((wjd &lt; <span class="keyword">this</span>.gregorian_to_jd(year, <span class="number">3</span>, <span class="number">1</span>)) ? <span class="number">0</span> :
-      (<span class="keyword">this</span>.leap_gregorian(year) ? <span class="number">1</span> : <span class="number">2</span>)
+    yearday = wjd - <span class="keyword">this</span>.gregorianToJd(year, <span class="number">1</span>, <span class="number">1</span>);
+    leapadj = ((wjd &lt; <span class="keyword">this</span>.gregorianToJd(year, <span class="number">3</span>, <span class="number">1</span>)) ? <span class="number">0</span> :
+      (<span class="keyword">this</span>.leapGregorian(year) ? <span class="number">1</span> : <span class="number">2</span>)
     );
     month = Math.floor((((yearday + leapadj) * <span class="number">12</span>) + <span class="number">373</span>) / <span class="number">367</span>);
-    day   = (wjd - <span class="keyword">this</span>.gregorian_to_jd(year, month, <span class="number">1</span>)) + <span class="number">1</span>;
+    day   = (wjd - <span class="keyword">this</span>.gregorianToJd(year, month, <span class="number">1</span>)) + <span class="number">1</span>;
 
     <span class="keyword">return</span> [year, month, day];
   }</pre></div></div>
@@ -272,20 +272,20 @@ in the seven days ending on jd.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.n_weeks = <span class="keyword">function</span>(weekday, jd, nthweek) {
+            <div class="content"><div class='highlight'><pre>  calendar.nWeeks = <span class="keyword">function</span>(weekday, jd, nthweek) {
     <span class="keyword">var</span> j = <span class="number">7</span> * nthweek;
 
     <span class="keyword">if</span> (nthweek &gt; <span class="number">0</span>) {
-      j += <span class="keyword">this</span>.previous_weekday(weekday, jd);
+      j += <span class="keyword">this</span>.previousWeekday(weekday, jd);
     } <span class="keyword">else</span> {
-      j += <span class="keyword">this</span>.next_weekday(weekday, jd);
+      j += <span class="keyword">this</span>.nextWeekday(weekday, jd);
     }
 
     <span class="keyword">return</span> j;
   }
 
-  calendar.iso_to_julian = <span class="keyword">function</span>(year, week, day) {
-    <span class="keyword">return</span> day + <span class="keyword">this</span>.n_weeks(<span class="number">0</span>, <span class="keyword">this</span>.gregorian_to_jd(year - <span class="number">1</span>, <span class="number">12</span>, <span class="number">28</span>), week);
+  calendar.isoToJulian = <span class="keyword">function</span>(year, week, day) {
+    <span class="keyword">return</span> day + <span class="keyword">this</span>.nWeeks(<span class="number">0</span>, <span class="keyword">this</span>.gregorianToJd(year - <span class="number">1</span>, <span class="number">12</span>, <span class="number">28</span>), week);
   }</pre></div></div>
             
         </li>
@@ -301,14 +301,14 @@ in the seven days ending on jd.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.jd_to_iso = <span class="keyword">function</span>(jd) {
+            <div class="content"><div class='highlight'><pre>  calendar.jdToIso = <span class="keyword">function</span>(jd) {
     <span class="keyword">var</span> year, week, day;
 
-    year = <span class="keyword">this</span>.jd_to_gregorian(jd - <span class="number">3</span>)[<span class="number">0</span>];
+    year = <span class="keyword">this</span>.jdToGregorian(jd - <span class="number">3</span>)[<span class="number">0</span>];
 
-    <span class="keyword">if</span> (jd &gt;= <span class="keyword">this</span>.iso_to_julian(year + <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>)) { year++; }
+    <span class="keyword">if</span> (jd &gt;= <span class="keyword">this</span>.isoToJulian(year + <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>)) { year++; }
 
-    week = Math.floor((jd - <span class="keyword">this</span>.iso_to_julian(year, <span class="number">1</span>, <span class="number">1</span>)) / <span class="number">7</span>) + <span class="number">1</span>;
+    week = Math.floor((jd - <span class="keyword">this</span>.isoToJulian(year, <span class="number">1</span>, <span class="number">1</span>)) / <span class="number">7</span>) + <span class="number">1</span>;
     day  = astro.jwday(jd);
 
     <span class="keyword">if</span> (day == <span class="number">0</span>) { day = <span class="number">7</span>; }
@@ -329,8 +329,8 @@ in the seven days ending on jd.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.iso_day_to_julian = <span class="keyword">function</span>(year, day) {
-    <span class="keyword">return</span> (day - <span class="number">1</span>) + <span class="keyword">this</span>.gregorian_to_jd(year, <span class="number">1</span>, <span class="number">1</span>);
+            <div class="content"><div class='highlight'><pre>  calendar.isoDayToJulian = <span class="keyword">function</span>(year, day) {
+    <span class="keyword">return</span> (day - <span class="number">1</span>) + <span class="keyword">this</span>.gregorianToJd(year, <span class="number">1</span>, <span class="number">1</span>);
   }</pre></div></div>
             
         </li>
@@ -346,11 +346,11 @@ in the seven days ending on jd.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.jd_to_iso_day = <span class="keyword">function</span>(jd) {
+            <div class="content"><div class='highlight'><pre>  calendar.jdToIsoDay = <span class="keyword">function</span>(jd) {
     <span class="keyword">var</span> year, day;
 
-    year = <span class="keyword">this</span>.jd_to_gregorian(jd)[<span class="number">0</span>];
-    day = Math.floor(jd - <span class="keyword">this</span>.gregorian_to_jd(year, <span class="number">1</span>, <span class="number">1</span>)) + <span class="number">1</span>;
+    year = <span class="keyword">this</span>.jdToGregorian(jd)[<span class="number">0</span>];
+    day = Math.floor(jd - <span class="keyword">this</span>.gregorianToJd(year, <span class="number">1</span>, <span class="number">1</span>)) + <span class="number">1</span>;
     <span class="keyword">return</span> [year, day];
   }</pre></div></div>
             
@@ -390,11 +390,11 @@ in the seven days ending on jd.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.leap_julian = <span class="keyword">function</span>(year) {
+            <div class="content"><div class='highlight'><pre>  calendar.leapJulian = <span class="keyword">function</span>(year) {
     <span class="keyword">return</span> astro.mod(year, <span class="number">4</span>) == ((year &gt; <span class="number">0</span>) ? <span class="number">0</span> : <span class="number">3</span>);
   }
 
-  calendar.julian_to_jd = <span class="keyword">function</span>(year, month, day) {</pre></div></div>
+  calendar.julianToJd = <span class="keyword">function</span>(year, month, day) {</pre></div></div>
             
         </li>
         
@@ -447,7 +447,7 @@ in the seven days ending on jd.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.jd_to_julian = <span class="keyword">function</span>(td) {
+            <div class="content"><div class='highlight'><pre>  calendar.jdToJulian = <span class="keyword">function</span>(td) {
     <span class="keyword">var</span> z, a, alpha, b, c, d, e, year, month, day;
 
     td += <span class="number">0.5</span>;
@@ -497,7 +497,7 @@ which the year -1 (1 B.C.E) is followed by year 1 (1 C.E.).</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.hebrew_leap = <span class="keyword">function</span>(year) {
+            <div class="content"><div class='highlight'><pre>  calendar.hebrewLeap = <span class="keyword">function</span>(year) {
     <span class="keyword">return</span> astro.mod(((year * <span class="number">7</span>) + <span class="number">1</span>), <span class="number">19</span>) &lt; <span class="number">7</span>;
   }</pre></div></div>
             
@@ -514,8 +514,8 @@ which the year -1 (1 B.C.E) is followed by year 1 (1 C.E.).</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.hebrew_year_months = <span class="keyword">function</span>(year) {
-    <span class="keyword">return</span> <span class="keyword">this</span>.hebrew_leap(year) ? <span class="number">13</span> : <span class="number">12</span>;
+            <div class="content"><div class='highlight'><pre>  calendar.hebrewYearMonths = <span class="keyword">function</span>(year) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.hebrewLeap(year) ? <span class="number">13</span> : <span class="number">12</span>;
   }</pre></div></div>
             
         </li>
@@ -532,7 +532,7 @@ Sunday, Wednesday, and Friday as start of the new year.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.hebrew_delay_1 = <span class="keyword">function</span>(year) {
+            <div class="content"><div class='highlight'><pre>  calendar.hebrewDelay1 = <span class="keyword">function</span>(year) {
     <span class="keyword">var</span> months, day, parts;
 
     months = Math.floor(((<span class="number">235</span> * year) - <span class="number">234</span>) / <span class="number">19</span>);
@@ -559,12 +559,12 @@ Sunday, Wednesday, and Friday as start of the new year.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.hebrew_delay_2 = <span class="keyword">function</span>(year) {
+            <div class="content"><div class='highlight'><pre>  calendar.hebrewDelay2 = <span class="keyword">function</span>(year) {
     <span class="keyword">var</span> last, present, next;
 
-    last    = <span class="keyword">this</span>.hebrew_delay_1(year - <span class="number">1</span>);
-    present = <span class="keyword">this</span>.hebrew_delay_1(year);
-    next    = <span class="keyword">this</span>.hebrew_delay_1(year + <span class="number">1</span>);
+    last    = <span class="keyword">this</span>.hebrewDelay1(year - <span class="number">1</span>);
+    present = <span class="keyword">this</span>.hebrewDelay1(year);
+    next    = <span class="keyword">this</span>.hebrewDelay1(year + <span class="number">1</span>);
 
     <span class="keyword">return</span> ((next - present) == <span class="number">356</span>) ? <span class="number">2</span> :
       (((present - last) == <span class="number">382</span>) ? <span class="number">1</span> : <span class="number">0</span>);
@@ -583,8 +583,8 @@ Sunday, Wednesday, and Friday as start of the new year.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.hebrew_year_days = <span class="keyword">function</span>(year) {
-    <span class="keyword">return</span> <span class="keyword">this</span>.hebrew_to_jd(year + <span class="number">1</span>, <span class="number">7</span>, <span class="number">1</span>) - <span class="keyword">this</span>.hebrew_to_jd(year, <span class="number">7</span>, <span class="number">1</span>);
+            <div class="content"><div class='highlight'><pre>  calendar.hebrewYearDays = <span class="keyword">function</span>(year) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.hebrewToJd(year + <span class="number">1</span>, <span class="number">7</span>, <span class="number">1</span>) - <span class="keyword">this</span>.hebrewToJd(year, <span class="number">7</span>, <span class="number">1</span>);
   }</pre></div></div>
             
         </li>
@@ -600,7 +600,7 @@ Sunday, Wednesday, and Friday as start of the new year.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.hebrew_month_days = <span class="keyword">function</span>(year, month) {</pre></div></div>
+            <div class="content"><div class='highlight'><pre>  calendar.hebrewMonthDays = <span class="keyword">function</span>(year, month) {</pre></div></div>
             
         </li>
         
@@ -633,7 +633,7 @@ Sunday, Wednesday, and Friday as start of the new year.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (month == <span class="number">12</span> &amp;&amp; !<span class="keyword">this</span>.hebrew_leap(year)) {
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (month == <span class="number">12</span> &amp;&amp; !<span class="keyword">this</span>.hebrewLeap(year)) {
       <span class="keyword">return</span> <span class="number">29</span>;
     }</pre></div></div>
             
@@ -650,7 +650,7 @@ Sunday, Wednesday, and Friday as start of the new year.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (month == <span class="number">8</span> &amp;&amp; !(astro.mod(<span class="keyword">this</span>.hebrew_year_days(year), <span class="number">10</span>) == <span class="number">5</span>)) {
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (month == <span class="number">8</span> &amp;&amp; !(astro.mod(<span class="keyword">this</span>.hebrewYearDays(year), <span class="number">10</span>) == <span class="number">5</span>)) {
       <span class="keyword">return</span> <span class="number">29</span>;
     }</pre></div></div>
             
@@ -667,7 +667,7 @@ Sunday, Wednesday, and Friday as start of the new year.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (month == <span class="number">9</span> &amp;&amp; (astro.mod(<span class="keyword">this</span>.hebrew_year_days(year), <span class="number">10</span>) == <span class="number">3</span>)) {
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (month == <span class="number">9</span> &amp;&amp; (astro.mod(<span class="keyword">this</span>.hebrewYearDays(year), <span class="number">10</span>) == <span class="number">3</span>)) {
       <span class="keyword">return</span> <span class="number">29</span>;
     }</pre></div></div>
             
@@ -700,24 +700,24 @@ Sunday, Wednesday, and Friday as start of the new year.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.hebrew_to_jd = <span class="keyword">function</span>(year, month, day) {
+            <div class="content"><div class='highlight'><pre>  calendar.hebrewToJd = <span class="keyword">function</span>(year, month, day) {
     <span class="keyword">var</span> jd, mon, months;
 
-    months = <span class="keyword">this</span>.hebrew_year_months(year);
+    months = <span class="keyword">this</span>.hebrewYearMonths(year);
 
-    jd = <span class="keyword">this</span>.constants.hebrew.EPOCH + <span class="keyword">this</span>.hebrew_delay_1(year) +
-      <span class="keyword">this</span>.hebrew_delay_2(year) + day + <span class="number">1</span>;
+    jd = <span class="keyword">this</span>.constants.hebrew.EPOCH + <span class="keyword">this</span>.hebrewDelay1(year) +
+      <span class="keyword">this</span>.hebrewDelay2(year) + day + <span class="number">1</span>;
 
     <span class="keyword">if</span> (month &lt; <span class="number">7</span>) {
       <span class="keyword">for</span> (mon = <span class="number">7</span>; mon &lt;= months; mon++) {
-        jd += <span class="keyword">this</span>.hebrew_month_days(year, mon);
+        jd += <span class="keyword">this</span>.hebrewMonthDays(year, mon);
       }
       <span class="keyword">for</span> (mon = <span class="number">1</span>; mon &lt; month; mon++) {
-        jd += <span class="keyword">this</span>.hebrew_month_days(year, mon);
+        jd += <span class="keyword">this</span>.hebrewMonthDays(year, mon);
       }
     } <span class="keyword">else</span> {
       <span class="keyword">for</span> (mon = <span class="number">7</span>; mon &lt; month; mon++) {
-        jd += <span class="keyword">this</span>.hebrew_month_days(year, mon);
+        jd += <span class="keyword">this</span>.hebrewMonthDays(year, mon);
       }
     }
 
@@ -739,25 +739,25 @@ the inverse function, and is this very slow.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.jd_to_hebrew = <span class="keyword">function</span>(jd) {
+            <div class="content"><div class='highlight'><pre>  calendar.jdToHebrew = <span class="keyword">function</span>(jd) {
     <span class="keyword">var</span> year, month, day, i, count, first;
 
     jd    = Math.floor(jd) + <span class="number">0.5</span>;
     count = Math.floor(((jd - <span class="keyword">this</span>.constants.hebrew.EPOCH) * <span class="number">98496.0</span>) / <span class="number">35975351.0</span>);
     year  = count - <span class="number">1</span>;
 
-    <span class="keyword">for</span> (i = count; jd &gt;= <span class="keyword">this</span>.hebrew_to_jd(i, <span class="number">7</span>, <span class="number">1</span>); i++) {
+    <span class="keyword">for</span> (i = count; jd &gt;= <span class="keyword">this</span>.hebrewToJd(i, <span class="number">7</span>, <span class="number">1</span>); i++) {
       year++;
     }
 
-    first = (jd &lt; <span class="keyword">this</span>.hebrew_to_jd(year, <span class="number">1</span>, <span class="number">1</span>)) ? <span class="number">7</span> : <span class="number">1</span>;
+    first = (jd &lt; <span class="keyword">this</span>.hebrewToJd(year, <span class="number">1</span>, <span class="number">1</span>)) ? <span class="number">7</span> : <span class="number">1</span>;
     month = first;
 
-    <span class="keyword">for</span> (i = first; jd &gt; <span class="keyword">this</span>.hebrew_to_jd(year, i, <span class="keyword">this</span>.hebrew_month_days(year, i)); i++) {
+    <span class="keyword">for</span> (i = first; jd &gt; <span class="keyword">this</span>.hebrewToJd(year, i, <span class="keyword">this</span>.hebrewMonthDays(year, i)); i++) {
       month++;
     }
 
-    day = (jd - <span class="keyword">this</span>.hebrew_to_jd(year, month, <span class="number">1</span>)) + <span class="number">1</span>;
+    day = (jd - <span class="keyword">this</span>.hebrewToJd(year, month, <span class="number">1</span>)) + <span class="number">1</span>;
 
     <span class="keyword">return</span> [year, month, day];
   }</pre></div></div>
@@ -777,7 +777,7 @@ a given Gregorian year.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.equinoxe_a_paris = <span class="keyword">function</span>(year) {
+            <div class="content"><div class='highlight'><pre>  calendar.equinoxeAParis = <span class="keyword">function</span>(year) {
     <span class="keyword">var</span> equJED, equJD, equAPP, equParis, dtParis;</pre></div></div>
             
         </li>
@@ -860,10 +860,10 @@ meridian, occurred for a given Gregorian year.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.paris_equinoxe_jd = <span class="keyword">function</span>(year) {
+            <div class="content"><div class='highlight'><pre>  calendar.parisEquinoxeJd = <span class="keyword">function</span>(year) {
     <span class="keyword">var</span> ep, epg;
 
-    ep  = <span class="keyword">this</span>.equinoxe_a_paris(year);
+    ep  = <span class="keyword">this</span>.equinoxeAParis(year);
     epg = Math.floor(ep - <span class="number">0.5</span>) + <span class="number">0.5</span>;
 
     <span class="keyword">return</span> epg;
@@ -886,15 +886,15 @@ Returns an array of two elements:</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.annee_da_la_revolution = <span class="keyword">function</span>(jd) {
-    <span class="keyword">var</span> guess = <span class="keyword">this</span>.jd_to_gregorian(jd)[<span class="number">0</span>] - <span class="number">2</span>,
+            <div class="content"><div class='highlight'><pre>  calendar.anneeDaLaRevolution = <span class="keyword">function</span>(jd) {
+    <span class="keyword">var</span> guess = <span class="keyword">this</span>.jdToGregorian(jd)[<span class="number">0</span>] - <span class="number">2</span>,
       lasteq, nexteq, adr;
 
-    lasteq = <span class="keyword">this</span>.paris_equinoxe_jd(guess);
+    lasteq = <span class="keyword">this</span>.parisEquinoxeJd(guess);
 
     <span class="keyword">while</span> (lasteq &gt; jd) {
       guess--;
-      lasteq = <span class="keyword">this</span>.paris_equinoxe_jd(guess);
+      lasteq = <span class="keyword">this</span>.parisEquinoxeJd(guess);
     }
 
     nexteq = lasteq - <span class="number">1</span>;
@@ -902,7 +902,7 @@ Returns an array of two elements:</p>
     <span class="keyword">while</span> (!((lasteq &lt;= jd) &amp;&amp; (jd &lt; nexteq))) {
       lasteq = nexteq;
       guess++;
-      nexteq = <span class="keyword">this</span>.paris_equinoxe_jd(guess);
+      nexteq = <span class="keyword">this</span>.parisEquinoxeJd(guess);
     }
 
     adr = Math.round((lasteq - <span class="keyword">this</span>.constants.french_revolutionary.EPOCH) /
@@ -927,12 +927,12 @@ month in the results of this function.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.jd_to_french_revolutionary = <span class="keyword">function</span>(jd) {
+            <div class="content"><div class='highlight'><pre>  calendar.jdToFrenchRevolutionary = <span class="keyword">function</span>(jd) {
     <span class="keyword">var</span> an, mois, decade, jour,
       adr, equinoxe;
 
     jd       = Math.floor(jd) + <span class="number">0.5</span>;
-    adr      = <span class="keyword">this</span>.annee_da_la_revolution(jd);
+    adr      = <span class="keyword">this</span>.anneeDaLaRevolution(jd);
     an       = adr[<span class="number">0</span>];
     equinoxe = adr[<span class="number">1</span>];
     mois     = Math.floor((jd - equinoxe) / <span class="number">30</span>) + <span class="number">1</span>;
@@ -957,14 +957,14 @@ Revolutionary calendar date.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.french_revolutionary_to_jd = <span class="keyword">function</span>(an, mois, decade, jour) {
+            <div class="content"><div class='highlight'><pre>  calendar.frenchRevolutionaryToJd = <span class="keyword">function</span>(an, mois, decade, jour) {
     <span class="keyword">var</span> adr, equinoxe, guess, jd;
 
     guess = <span class="keyword">this</span>.constants.french_revolutionary.EPOCH + (astro.constants.TROPICAL_YEAR * ((an - <span class="number">1</span>) - <span class="number">1</span>));
     adr = [an - <span class="number">1</span>, <span class="number">0</span>];
 
     <span class="keyword">while</span> (adr[<span class="number">0</span>] &lt; an) {
-      adr = <span class="keyword">this</span>.annee_da_la_revolution(guess);
+      adr = <span class="keyword">this</span>.anneeDaLaRevolution(guess);
       guess = adr[<span class="number">1</span>] + (astro.constants.TROPICAL_YEAR + <span class="number">2</span>);
     }
     equinoxe = adr[<span class="number">1</span>];
@@ -986,7 +986,7 @@ Revolutionary calendar date.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.leap_islamic = <span class="keyword">function</span>(year) {
+            <div class="content"><div class='highlight'><pre>  calendar.leapIslamic = <span class="keyword">function</span>(year) {
     <span class="keyword">return</span> (((year * <span class="number">11</span>) + <span class="number">14</span>) % <span class="number">30</span>) &lt; <span class="number">11</span>;
   }</pre></div></div>
             
@@ -1003,7 +1003,7 @@ Revolutionary calendar date.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.islamic_to_jd = <span class="keyword">function</span>(year, month, day) {
+            <div class="content"><div class='highlight'><pre>  calendar.islamicToJd = <span class="keyword">function</span>(year, month, day) {
     <span class="keyword">return</span> (day +
       Math.ceil(<span class="number">29.5</span> * (month - <span class="number">1</span>)) +
       (year - <span class="number">1</span>) * <span class="number">354</span> +
@@ -1024,13 +1024,13 @@ Revolutionary calendar date.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.jd_to_islamic = <span class="keyword">function</span>(jd) {
+            <div class="content"><div class='highlight'><pre>  calendar.jdToIslamic = <span class="keyword">function</span>(jd) {
     <span class="keyword">var</span> year, month, day;
 
     jd    = Math.floor(jd) + <span class="number">0.5</span>;
     year  = Math.floor(((<span class="number">30</span> * (jd - <span class="keyword">this</span>.constants.islamic.EPOCH)) + <span class="number">10646</span>) / <span class="number">10631</span>);
-    month = Math.min(<span class="number">12</span>, Math.ceil((jd - (<span class="number">29</span> + <span class="keyword">this</span>.islamic_to_jd(year, <span class="number">1</span>, <span class="number">1</span>))) / <span class="number">29.5</span>) + <span class="number">1</span>);
-    day   = (jd - <span class="keyword">this</span>.islamic_to_jd(year, month, <span class="number">1</span>)) + <span class="number">1</span>;
+    month = Math.min(<span class="number">12</span>, Math.ceil((jd - (<span class="number">29</span> + <span class="keyword">this</span>.islamicToJd(year, <span class="number">1</span>, <span class="number">1</span>))) / <span class="number">29.5</span>) + <span class="number">1</span>);
+    day   = (jd - <span class="keyword">this</span>.islamicToJd(year, month, <span class="number">1</span>)) + <span class="number">1</span>;
 
     <span class="keyword">return</span> [year, month, day];
   }</pre></div></div>
@@ -1050,7 +1050,7 @@ a given Gregorian year.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.tehran_equinox = <span class="keyword">function</span>(year) {
+            <div class="content"><div class='highlight'><pre>  calendar.tehranEquinox = <span class="keyword">function</span>(year) {
     <span class="keyword">var</span> equJED, equJD, equAPP, equTehran, dtTehran;</pre></div></div>
             
         </li>
@@ -1134,10 +1134,10 @@ meridian, occurred for a given Gregorian year.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.tehran_equinox_jd = <span class="keyword">function</span>(year) {
+            <div class="content"><div class='highlight'><pre>  calendar.tehranEquinoxJd = <span class="keyword">function</span>(year) {
     <span class="keyword">var</span> ep, epg;
 
-    ep  = <span class="keyword">this</span>.tehran_equinox(year);
+    ep  = <span class="keyword">this</span>.tehranEquinox(year);
     epg = Math.floor(ep);
 
     <span class="keyword">return</span> epg;
@@ -1161,15 +1161,15 @@ array of two elements:</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.persiana_year = <span class="keyword">function</span>(jd) {
-    <span class="keyword">var</span> guess = <span class="keyword">this</span>.jd_to_gregorian(jd)[<span class="number">0</span>] - <span class="number">2</span>,
+            <div class="content"><div class='highlight'><pre>  calendar.persianaYear = <span class="keyword">function</span>(jd) {
+    <span class="keyword">var</span> guess = <span class="keyword">this</span>.jdToGregorian(jd)[<span class="number">0</span>] - <span class="number">2</span>,
       lasteq, nexteq, adr;
 
-    lasteq = <span class="keyword">this</span>.tehran_equinox_jd(guess);
+    lasteq = <span class="keyword">this</span>.tehranEquinoxJd(guess);
 
     <span class="keyword">while</span> (lasteq &gt; jd) {
       guess--;
-      lasteq = <span class="keyword">this</span>.tehran_equinox_jd(guess);
+      lasteq = <span class="keyword">this</span>.tehranEquinoxJd(guess);
     }
 
     nexteq = lasteq - <span class="number">1</span>;
@@ -1177,7 +1177,7 @@ array of two elements:</p>
     <span class="keyword">while</span> (!((lasteq &lt;= jd) &amp;&amp; (jd &lt; nexteq))) {
       lasteq = nexteq;
       guess++;
-      nexteq = <span class="keyword">this</span>.tehran_equinox_jd(guess);
+      nexteq = <span class="keyword">this</span>.tehranEquinoxJd(guess);
     }
 
     adr = Math.round((lasteq - <span class="keyword">this</span>.constants.persian.EPOCH) /
@@ -1200,18 +1200,18 @@ calendar from Julian day.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.jd_to_persiana = <span class="keyword">function</span>(jd) {
+            <div class="content"><div class='highlight'><pre>  calendar.jdToPersiana = <span class="keyword">function</span>(jd) {
     <span class="keyword">var</span> year, month, day, adr, equinox, yday;
 
     jd      = Math.floor(jd) + <span class="number">0.5</span>;
-    adr     = <span class="keyword">this</span>.persiana_year(jd);
+    adr     = <span class="keyword">this</span>.persianaYear(jd);
     year    = adr[<span class="number">0</span>];
     equinox = adr[<span class="number">1</span>];
     day     = Math.floor((jd - equinox) / <span class="number">30</span>) + <span class="number">1</span>;
 
-    yday  = (Math.floor(jd) - <span class="keyword">this</span>.persiana_to_jd(year, <span class="number">1</span>, <span class="number">1</span>)) + <span class="number">1</span>;
+    yday  = (Math.floor(jd) - <span class="keyword">this</span>.persianaToJd(year, <span class="number">1</span>, <span class="number">1</span>)) + <span class="number">1</span>;
     month = (yday &lt;= <span class="number">186</span>) ? Math.ceil(yday / <span class="number">31</span>) : Math.ceil((yday - <span class="number">6</span>) / <span class="number">30</span>);
-    day   = (Math.floor(jd) - <span class="keyword">this</span>.persiana_to_jd(year, month, <span class="number">1</span>)) + <span class="number">1</span>;
+    day   = (Math.floor(jd) - <span class="keyword">this</span>.persianaToJd(year, month, <span class="number">1</span>)) + <span class="number">1</span>;
 
     <span class="keyword">return</span> [year, month, day];
   }</pre></div></div>
@@ -1230,7 +1230,7 @@ astronomical calendar date.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.persiana_to_jd = <span class="keyword">function</span>(year, month, day) {
+            <div class="content"><div class='highlight'><pre>  calendar.persianaToJd = <span class="keyword">function</span>(year, month, day) {
     <span class="keyword">var</span> adr, equinox, guess, jd;
 
     guess = (<span class="keyword">this</span>.constants.persian.EPOCH - <span class="number">1</span>) +
@@ -1238,7 +1238,7 @@ astronomical calendar date.</p>
     adr   = [year - <span class="number">1</span>, <span class="number">0</span>];
 
     <span class="keyword">while</span> (adr[<span class="number">0</span>] &lt; year) {
-      adr   = <span class="keyword">this</span>.persiana_year(guess);
+      adr   = <span class="keyword">this</span>.persianaYear(guess);
       guess = adr[<span class="number">1</span>] + (astro.constants.TROPICAL_YEAR + <span class="number">2</span>);
     }
 
@@ -1268,9 +1268,9 @@ astronomical calendar?</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.leap_persiana = <span class="keyword">function</span>(year) {
-    <span class="keyword">return</span> (<span class="keyword">this</span>.persiana_to_jd(year + <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>) -
-      <span class="keyword">this</span>.persiana_to_jd(year, <span class="number">1</span>, <span class="number">1</span>)) &gt; <span class="number">365</span>;
+            <div class="content"><div class='highlight'><pre>  calendar.leapPersiana = <span class="keyword">function</span>(year) {
+    <span class="keyword">return</span> (<span class="keyword">this</span>.persianaToJd(year + <span class="number">1</span>, <span class="number">1</span>, <span class="number">1</span>) -
+      <span class="keyword">this</span>.persianaToJd(year, <span class="number">1</span>, <span class="number">1</span>)) &gt; <span class="number">365</span>;
   }</pre></div></div>
             
         </li>
@@ -1286,7 +1286,7 @@ astronomical calendar?</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.leap_persian = <span class="keyword">function</span>(year) {
+            <div class="content"><div class='highlight'><pre>  calendar.leapPersian = <span class="keyword">function</span>(year) {
     <span class="keyword">return</span> ((((((year - ((year &gt; <span class="number">0</span>) ? <span class="number">474</span> : <span class="number">473</span>)) % <span class="number">2820</span>) + <span class="number">474</span>) + <span class="number">38</span>) * <span class="number">682</span>) % <span class="number">2816</span>) &lt; <span class="number">682</span>;
   }</pre></div></div>
             
@@ -1303,7 +1303,7 @@ astronomical calendar?</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.persian_to_jd = <span class="keyword">function</span>(year, month, day) {
+            <div class="content"><div class='highlight'><pre>  calendar.persianToJd = <span class="keyword">function</span>(year, month, day) {
     <span class="keyword">var</span> epbase, epyear;
 
     epbase = year - ((year &gt;= <span class="number">0</span>) ? <span class="number">474</span> : <span class="number">473</span>);
@@ -1333,13 +1333,13 @@ astronomical calendar?</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.jd_to_persian = <span class="keyword">function</span>(jd) {
+            <div class="content"><div class='highlight'><pre>  calendar.jdToPersian = <span class="keyword">function</span>(jd) {
     <span class="keyword">var</span> year, month, day, depoch, cycle, cyear, ycycle,
       aux1, aux2, yday;
 
     jd = Math.floor(jd) + <span class="number">0.5</span>;
 
-    depoch = jd - <span class="keyword">this</span>.persian_to_jd(<span class="number">475</span>, <span class="number">1</span>, <span class="number">1</span>);
+    depoch = jd - <span class="keyword">this</span>.persianToJd(<span class="number">475</span>, <span class="number">1</span>, <span class="number">1</span>);
     cycle  = Math.floor(depoch / <span class="number">1029983</span>);
     cyear  = astro.mod(depoch, <span class="number">1029983</span>);
 
@@ -1356,9 +1356,9 @@ astronomical calendar?</p>
 
     <span class="keyword">if</span> (year &lt;= <span class="number">0</span>) { year--; }
 
-    yday  = (jd - <span class="keyword">this</span>.persian_to_jd(year, <span class="number">1</span>, <span class="number">1</span>)) + <span class="number">1</span>;
+    yday  = (jd - <span class="keyword">this</span>.persianToJd(year, <span class="number">1</span>, <span class="number">1</span>)) + <span class="number">1</span>;
     month = (yday &lt;= <span class="number">186</span>) ? Math.ceil(yday / <span class="number">31</span>) : Math.ceil((yday - <span class="number">6</span>) / <span class="number">30</span>);
-    day   = (jd - <span class="keyword">this</span>.persian_to_jd(year, month, <span class="number">1</span>)) + <span class="number">1</span>;
+    day   = (jd - <span class="keyword">this</span>.persianToJd(year, month, <span class="number">1</span>)) + <span class="number">1</span>;
 
     <span class="keyword">return</span> [year, month, day];
   }</pre></div></div>
@@ -1376,7 +1376,7 @@ astronomical calendar?</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.mayan_count_to_jd = <span class="keyword">function</span>(baktun, katun, tun, uinal, kin) {
+            <div class="content"><div class='highlight'><pre>  calendar.mayanCountToJd = <span class="keyword">function</span>(baktun, katun, tun, uinal, kin) {
     <span class="keyword">return</span> <span class="keyword">this</span>.constants.mayan.COUNT_EPOCH +
       (baktun * <span class="number">144000</span>) +
       (katun * <span class="number">7200</span>) +
@@ -1398,7 +1398,7 @@ astronomical calendar?</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.jd_to_mayan_count = <span class="keyword">function</span>(jd) {
+            <div class="content"><div class='highlight'><pre>  calendar.jdToMayanCount = <span class="keyword">function</span>(jd) {
     <span class="keyword">var</span> d, baktun, katun, tun, uinal, kin;
 
     jd     = Math.floor(jd) + <span class="number">0.5</span>;
@@ -1428,7 +1428,7 @@ astronomical calendar?</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.jd_to_mayan_haab = <span class="keyword">function</span>(jd) {
+            <div class="content"><div class='highlight'><pre>  calendar.jdToMayanHaab = <span class="keyword">function</span>(jd) {
     <span class="keyword">var</span> lcount, day;
 
     jd     = Math.floor(jd) + <span class="number">0.5</span>;
@@ -1451,7 +1451,7 @@ astronomical calendar?</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.jd_to_mayan_tzolkin = <span class="keyword">function</span>(jd) {
+            <div class="content"><div class='highlight'><pre>  calendar.jdToMayanTzolkin = <span class="keyword">function</span>(jd) {
     <span class="keyword">var</span> lcount;
 
     jd     = Math.floor(jd) + <span class="number">0.5</span>;
@@ -1473,13 +1473,13 @@ astronomical calendar?</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.bahai_to_jd = <span class="keyword">function</span>(major, cycle, year, month, day) {
+            <div class="content"><div class='highlight'><pre>  calendar.bahaiToJd = <span class="keyword">function</span>(major, cycle, year, month, day) {
     <span class="keyword">var</span> gy;
 
     gy = (<span class="number">361</span> * (major - <span class="number">1</span>)) + (<span class="number">19</span> * (cycle - <span class="number">1</span>)) + (year - <span class="number">1</span>) +
-      <span class="keyword">this</span>.jd_to_gregorian(<span class="keyword">this</span>.constants.bahai.EPOCH)[<span class="number">0</span>];
-    <span class="keyword">return</span> <span class="keyword">this</span>.gregorian_to_jd(gy, <span class="number">3</span>, <span class="number">20</span>) + (<span class="number">19</span> * (month - <span class="number">1</span>)) +
-      ((month != <span class="number">20</span>) ? <span class="number">0</span> : (<span class="keyword">this</span>.leap_gregorian(gy + <span class="number">1</span>) ? -<span class="number">14</span> : -<span class="number">15</span>)) +
+      <span class="keyword">this</span>.jdToGregorian(<span class="keyword">this</span>.constants.bahai.EPOCH)[<span class="number">0</span>];
+    <span class="keyword">return</span> <span class="keyword">this</span>.gregorianToJd(gy, <span class="number">3</span>, <span class="number">20</span>) + (<span class="number">19</span> * (month - <span class="number">1</span>)) +
+      ((month != <span class="number">20</span>) ? <span class="number">0</span> : (<span class="keyword">this</span>.leapGregorian(gy + <span class="number">1</span>) ? -<span class="number">14</span> : -<span class="number">15</span>)) +
       day;
   }</pre></div></div>
             
@@ -1496,22 +1496,22 @@ astronomical calendar?</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.jd_to_bahai = <span class="keyword">function</span>(jd) {
+            <div class="content"><div class='highlight'><pre>  calendar.jdToBahai = <span class="keyword">function</span>(jd) {
     <span class="keyword">var</span> major, cycle, year, month, day,
       gy, bstarty, bys, days, bld;
 
     jd      = Math.floor(jd) + <span class="number">0.5</span>;
-    gy      = <span class="keyword">this</span>.jd_to_gregorian(jd)[<span class="number">0</span>];
-    bstarty = <span class="keyword">this</span>.jd_to_gregorian(<span class="keyword">this</span>.constants.bahai.EPOCH)[<span class="number">0</span>];
-    bys     = gy - (bstarty + (((<span class="keyword">this</span>.gregorian_to_jd(gy, <span class="number">1</span>, <span class="number">1</span>) &lt;= jd) &amp;&amp;
-                (jd &lt;= <span class="keyword">this</span>.gregorian_to_jd(gy, <span class="number">3</span>, <span class="number">20</span>))) ? <span class="number">1</span> : <span class="number">0</span>));
+    gy      = <span class="keyword">this</span>.jdToGregorian(jd)[<span class="number">0</span>];
+    bstarty = <span class="keyword">this</span>.jdToGregorian(<span class="keyword">this</span>.constants.bahai.EPOCH)[<span class="number">0</span>];
+    bys     = gy - (bstarty + (((<span class="keyword">this</span>.gregorianToJd(gy, <span class="number">1</span>, <span class="number">1</span>) &lt;= jd) &amp;&amp;
+                (jd &lt;= <span class="keyword">this</span>.gregorianToJd(gy, <span class="number">3</span>, <span class="number">20</span>))) ? <span class="number">1</span> : <span class="number">0</span>));
     major   = Math.floor(bys / <span class="number">361</span>) + <span class="number">1</span>;
     cycle   = Math.floor(astro.mod(bys, <span class="number">361</span>) / <span class="number">19</span>) + <span class="number">1</span>;
     year    = astro.mod(bys, <span class="number">19</span>) + <span class="number">1</span>;
-    days    = jd - <span class="keyword">this</span>.bahai_to_jd(major, cycle, year, <span class="number">1</span>, <span class="number">1</span>);
-    bld     = <span class="keyword">this</span>.bahai_to_jd(major, cycle, year, <span class="number">20</span>, <span class="number">1</span>);
+    days    = jd - <span class="keyword">this</span>.bahaiToJd(major, cycle, year, <span class="number">1</span>, <span class="number">1</span>);
+    bld     = <span class="keyword">this</span>.bahaiToJd(major, cycle, year, <span class="number">20</span>, <span class="number">1</span>);
     month   = (jd &gt;= bld) ? <span class="number">20</span> : (Math.floor(days / <span class="number">19</span>) + <span class="number">1</span>);
-    day     = (jd + <span class="number">1</span>) - <span class="keyword">this</span>.bahai_to_jd(major, cycle, year, month, <span class="number">1</span>);
+    day     = (jd + <span class="number">1</span>) - <span class="keyword">this</span>.bahaiToJd(major, cycle, year, month, <span class="number">1</span>);
 
     <span class="keyword">return</span> [major, cycle, year, month, day];
   }</pre></div></div>
@@ -1529,12 +1529,12 @@ astronomical calendar?</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.indian_civil_to_jd = <span class="keyword">function</span>(year, month, day) {
+            <div class="content"><div class='highlight'><pre>  calendar.indianCivilToJd = <span class="keyword">function</span>(year, month, day) {
     <span class="keyword">var</span> Caitra, gyear, leap, start, jd, m;
 
     gyear  = year + <span class="number">78</span>;
-    leap   = <span class="keyword">this</span>.leap_gregorian(gyear); <span class="comment">// Is this a leap year ?</span>
-    start  = <span class="keyword">this</span>.gregorian_to_jd(gyear, <span class="number">3</span>, leap ? <span class="number">21</span> : <span class="number">22</span>);
+    leap   = <span class="keyword">this</span>.leapGregorian(gyear); <span class="comment">// Is this a leap year ?</span>
+    start  = <span class="keyword">this</span>.gregorianToJd(gyear, <span class="number">3</span>, leap ? <span class="number">21</span> : <span class="number">22</span>);
     Caitra = leap ? <span class="number">31</span> : <span class="number">30</span>;
 
     <span class="keyword">if</span> (month == <span class="number">1</span>) {
@@ -1569,7 +1569,7 @@ astronomical calendar?</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>  calendar.jd_to_indian_civil = <span class="keyword">function</span>(jd) {
+            <div class="content"><div class='highlight'><pre>  calendar.jdToIndianCivil = <span class="keyword">function</span>(jd) {
     <span class="keyword">var</span> Caitra, Saka, greg, greg0, leap, start, year, month, day, yday, mday;</pre></div></div>
             
         </li>
@@ -1603,10 +1603,10 @@ astronomical calendar?</p>
             <div class="content"><div class='highlight'><pre>    start = <span class="number">80</span>;
 
     jd     = Math.floor(jd) + <span class="number">0.5</span>;
-    greg   = <span class="keyword">this</span>.jd_to_gregorian(jd); <span class="comment">// Gregorian date for Julian day</span>
-    leap   = <span class="keyword">this</span>.leap_gregorian(greg[<span class="number">0</span>]); <span class="comment">// Is this a leap year?</span>
+    greg   = <span class="keyword">this</span>.jdToGregorian(jd); <span class="comment">// Gregorian date for Julian day</span>
+    leap   = <span class="keyword">this</span>.leapGregorian(greg[<span class="number">0</span>]); <span class="comment">// Is this a leap year?</span>
     year   = greg[<span class="number">0</span>] - Saka; <span class="comment">// Tentative year in Saka era</span>
-    greg0  = <span class="keyword">this</span>.gregorian_to_jd(greg[<span class="number">0</span>], <span class="number">1</span>, <span class="number">1</span>); <span class="comment">// JD at start of Gregorian year</span>
+    greg0  = <span class="keyword">this</span>.gregorianToJd(greg[<span class="number">0</span>], <span class="number">1</span>, <span class="number">1</span>); <span class="comment">// JD at start of Gregorian year</span>
     yday   = jd - greg0; <span class="comment">// Day number (0 based) in Gregorian year</span>
     Caitra = leap ? <span class="number">31</span> : <span class="number">30</span>; <span class="comment">// Days in Caitra this year</span>
 
@@ -1668,9 +1668,9 @@ we don&#39;t get roundoff errors in other calendars.</p>
             
             <div class="content"><div class='highlight'><pre>  calendar.updateFromGregorian = <span class="keyword">function</span>() {
     <span class="keyword">var</span> j, year, mon, mday, hour, min, sec,
-      weekday, julcal, perscal, hebcal, islcal, utime, isoweek,
+      weekday, julcal, perscal, hebcal, islcal, utime, iso_week,
       may_countcal, mayhaabcal, maytzolkincal, bahcal, frrcal,
-      indcal, isoday, xgregcal;
+      indcal, iso_day, xgregcal;
 
     year = <span class="keyword">new</span> Number(data.gregorian.year);
     mon  = data.gregorian.month;
@@ -1693,11 +1693,11 @@ we don&#39;t get roundoff errors in other calendars.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    j = <span class="keyword">this</span>.gregorian_to_jd(year, mon + <span class="number">1</span>, mday) +
+            <div class="content"><div class='highlight'><pre>    j = <span class="keyword">this</span>.gregorianToJd(year, mon + <span class="number">1</span>, mday) +
       (Math.floor(sec + <span class="number">60</span> * (min + <span class="number">60</span> * hour) + <span class="number">0.5</span>) / <span class="number">86400.0</span>);
 
-    data.julianday.day = j;
-    data.modifiedjulianday.day = j - <span class="keyword">this</span>.constants.JMJD;</pre></div></div>
+    data.julian_day.day = j;
+    data.modified_julian_day.day = j - <span class="keyword">this</span>.constants.JMJD;</pre></div></div>
             
         </li>
         
@@ -1728,7 +1728,7 @@ we don&#39;t get roundoff errors in other calendars.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    data.gregorian.leap = <span class="keyword">this</span>.constants.NORM_LEAP[<span class="keyword">this</span>.leap_gregorian(year) ? <span class="number">1</span> : <span class="number">0</span>];</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    data.gregorian.leap = <span class="keyword">this</span>.constants.NORM_LEAP[<span class="keyword">this</span>.leapGregorian(year) ? <span class="number">1</span> : <span class="number">0</span>];</pre></div></div>
             
         </li>
         
@@ -1743,14 +1743,14 @@ we don&#39;t get roundoff errors in other calendars.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    julcal = <span class="keyword">this</span>.jd_to_julian(j);
+            <div class="content"><div class='highlight'><pre>    julcal = <span class="keyword">this</span>.jdToJulian(j);
 
-    data.juliancalendar.year  = julcal[<span class="number">0</span>];
-    data.juliancalendar.month = <span class="keyword">this</span>.constants.julian.MONTHS[julcal[<span class="number">1</span>] - <span class="number">1</span>];
-    data.juliancalendar.day   = julcal[<span class="number">2</span>];
-    data.juliancalendar.leap  = <span class="keyword">this</span>.constants.NORM_LEAP[<span class="keyword">this</span>.leap_julian(julcal[<span class="number">0</span>]) ? <span class="number">1</span> : <span class="number">0</span>];
+    data.julian.year  = julcal[<span class="number">0</span>];
+    data.julian.month = <span class="keyword">this</span>.constants.julian.MONTHS[julcal[<span class="number">1</span>] - <span class="number">1</span>];
+    data.julian.day   = julcal[<span class="number">2</span>];
+    data.julian.leap  = <span class="keyword">this</span>.constants.NORM_LEAP[<span class="keyword">this</span>.leapJulian(julcal[<span class="number">0</span>]) ? <span class="number">1</span> : <span class="number">0</span>];
     weekday                   = astro.jwday(j);
-    data.juliancalendar.wday  = astro.constants.WEEKDAYS[weekday];</pre></div></div>
+    data.julian.wday  = astro.constants.WEEKDAYS[weekday];</pre></div></div>
             
         </li>
         
@@ -1765,14 +1765,14 @@ we don&#39;t get roundoff errors in other calendars.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    hebcal = <span class="keyword">this</span>.jd_to_hebrew(j);
+            <div class="content"><div class='highlight'><pre>    hebcal = <span class="keyword">this</span>.jdToHebrew(j);
 
     data.hebrew.year     = hebcal[<span class="number">0</span>];
     data.hebrew.month    = <span class="keyword">this</span>.constants.hebrew.MONTHS[hebcal[<span class="number">1</span>] - <span class="number">1</span>];
     data.hebrew.day      = hebcal[<span class="number">2</span>];
     data.hebrew.hebmonth = <span class="keyword">this</span>.constants.hebrew.H_MONTHS[hebcal[<span class="number">1</span>] - <span class="number">1</span>];
 
-    <span class="keyword">switch</span> (<span class="keyword">this</span>.hebrew_year_days(hebcal[<span class="number">0</span>])) {
+    <span class="keyword">switch</span> (<span class="keyword">this</span>.hebrewYearDays(hebcal[<span class="number">0</span>])) {
     <span class="keyword">case</span> <span class="number">353</span>:
       data.hebrew.leap = <span class="string">"Common deficient (353 days)"</span>;
       <span class="keyword">break</span>;
@@ -1799,7 +1799,7 @@ we don&#39;t get roundoff errors in other calendars.</p>
 
     <span class="keyword">default</span>:
       data.hebrew.leap = <span class="string">"Invalid year length: "</span> +
-        <span class="keyword">this</span>.hebrew_year_days(hebcal[<span class="number">0</span>]) + <span class="string">" days."</span>;
+        <span class="keyword">this</span>.hebrewYearDays(hebcal[<span class="number">0</span>]) + <span class="string">" days."</span>;
       <span class="keyword">break</span>;
     }</pre></div></div>
             
@@ -1816,13 +1816,13 @@ we don&#39;t get roundoff errors in other calendars.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    islcal = <span class="keyword">this</span>.jd_to_islamic(j);
+            <div class="content"><div class='highlight'><pre>    islcal = <span class="keyword">this</span>.jdToIslamic(j);
 
     data.islamic.year  = islcal[<span class="number">0</span>];
     data.islamic.month = <span class="keyword">this</span>.constants.islamic.MONTHS[islcal[<span class="number">1</span>] - <span class="number">1</span>];
     data.islamic.day   = islcal[<span class="number">2</span>];
     data.islamic.wday  = <span class="string">"yawm "</span> + <span class="keyword">this</span>.constants.islamic.WEEKDAYS[weekday];
-    data.islamic.leap  = <span class="keyword">this</span>.constants.NORM_LEAP[<span class="keyword">this</span>.leap_islamic(islcal[<span class="number">0</span>]) ? <span class="number">1</span> : <span class="number">0</span>];</pre></div></div>
+    data.islamic.leap  = <span class="keyword">this</span>.constants.NORM_LEAP[<span class="keyword">this</span>.leapIslamic(islcal[<span class="number">0</span>]) ? <span class="number">1</span> : <span class="number">0</span>];</pre></div></div>
             
         </li>
         
@@ -1837,13 +1837,13 @@ we don&#39;t get roundoff errors in other calendars.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    perscal = <span class="keyword">this</span>.jd_to_persian(j);
+            <div class="content"><div class='highlight'><pre>    perscal = <span class="keyword">this</span>.jdToPersian(j);
 
     data.persian.year  = perscal[<span class="number">0</span>];
     data.persian.month = <span class="keyword">this</span>.constants.persian.MONTHS[perscal[<span class="number">1</span>] - <span class="number">1</span>];
     data.persian.day   = perscal[<span class="number">2</span>];
     data.persian.wday  = <span class="keyword">this</span>.constants.persian.WEEKDAYS[weekday];
-    data.persian.leap  = <span class="keyword">this</span>.constants.NORM_LEAP[<span class="keyword">this</span>.leap_persian(perscal[<span class="number">0</span>]) ? <span class="number">1</span> : <span class="number">0</span>];</pre></div></div>
+    data.persian.leap  = <span class="keyword">this</span>.constants.NORM_LEAP[<span class="keyword">this</span>.leapPersian(perscal[<span class="number">0</span>]) ? <span class="number">1</span> : <span class="number">0</span>];</pre></div></div>
             
         </li>
         
@@ -1858,13 +1858,13 @@ we don&#39;t get roundoff errors in other calendars.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    perscal = <span class="keyword">this</span>.jd_to_persiana(j);
+            <div class="content"><div class='highlight'><pre>    perscal = <span class="keyword">this</span>.jdToPersiana(j);
 
-    data.persiana.year  = perscal[<span class="number">0</span>];
-    data.persiana.month = <span class="keyword">this</span>.constants.persian.MONTHS[perscal[<span class="number">1</span>] - <span class="number">1</span>];
-    data.persiana.day   = perscal[<span class="number">2</span>];
-    data.persiana.wday  = <span class="keyword">this</span>.constants.persian.WEEKDAYS[weekday];
-    data.persiana.leap  = <span class="keyword">this</span>.constants.NORM_LEAP[<span class="keyword">this</span>.leap_persiana(perscal[<span class="number">0</span>]) ? <span class="number">1</span> : <span class="number">0</span>];</pre></div></div>
+    data.persian_algorithmic.year  = perscal[<span class="number">0</span>];
+    data.persian_algorithmic.month = <span class="keyword">this</span>.constants.persian.MONTHS[perscal[<span class="number">1</span>] - <span class="number">1</span>];
+    data.persian_algorithmic.day   = perscal[<span class="number">2</span>];
+    data.persian_algorithmic.wday  = <span class="keyword">this</span>.constants.persian.WEEKDAYS[weekday];
+    data.persian_algorithmic.leap  = <span class="keyword">this</span>.constants.NORM_LEAP[<span class="keyword">this</span>.leapPersiana(perscal[<span class="number">0</span>]) ? <span class="number">1</span> : <span class="number">0</span>];</pre></div></div>
             
         </li>
         
@@ -1879,17 +1879,17 @@ we don&#39;t get roundoff errors in other calendars.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    may_countcal = <span class="keyword">this</span>.jd_to_mayan_count(j);
+            <div class="content"><div class='highlight'><pre>    may_countcal = <span class="keyword">this</span>.jdToMayanCount(j);
 
-    data.mayancount.baktun  = may_countcal[<span class="number">0</span>];
-    data.mayancount.katun   = may_countcal[<span class="number">1</span>];
-    data.mayancount.tun     = may_countcal[<span class="number">2</span>];
-    data.mayancount.uinal   = may_countcal[<span class="number">3</span>];
-    data.mayancount.kin     = may_countcal[<span class="number">4</span>];
-    mayhaabcal              = <span class="keyword">this</span>.jd_to_mayan_haab(j);
-    data.mayancount.haab    = <span class="string">""</span> + mayhaabcal[<span class="number">1</span>] + <span class="string">" "</span> + <span class="keyword">this</span>.constants.mayan.HAAB_MONTHS[mayhaabcal[<span class="number">0</span>] - <span class="number">1</span>];
-    maytzolkincal           = <span class="keyword">this</span>.jd_to_mayan_tzolkin(j);
-    data.mayancount.tzolkin =
+    data.mayan_count.baktun  = may_countcal[<span class="number">0</span>];
+    data.mayan_count.katun   = may_countcal[<span class="number">1</span>];
+    data.mayan_count.tun     = may_countcal[<span class="number">2</span>];
+    data.mayan_count.uinal   = may_countcal[<span class="number">3</span>];
+    data.mayan_count.kin     = may_countcal[<span class="number">4</span>];
+    mayhaabcal               = <span class="keyword">this</span>.jdToMayanHaab(j);
+    data.mayan_count.haab    = <span class="string">""</span> + mayhaabcal[<span class="number">1</span>] + <span class="string">" "</span> + <span class="keyword">this</span>.constants.mayan.HAAB_MONTHS[mayhaabcal[<span class="number">0</span>] - <span class="number">1</span>];
+    maytzolkincal            = <span class="keyword">this</span>.jdToMayanTzolkin(j);
+    data.mayan_count.tzolkin =
       <span class="string">""</span> + maytzolkincal[<span class="number">1</span>] + <span class="string">" "</span> + <span class="keyword">this</span>.constants.mayan.TZOLKIN_MONTHS[maytzolkincal[<span class="number">0</span>] - <span class="number">1</span>];</pre></div></div>
             
         </li>
@@ -1905,7 +1905,7 @@ we don&#39;t get roundoff errors in other calendars.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    bahcal = <span class="keyword">this</span>.jd_to_bahai(j);
+            <div class="content"><div class='highlight'><pre>    bahcal = <span class="keyword">this</span>.jdToBahai(j);
 
     data.bahai.kull_i_shay = bahcal[<span class="number">0</span>];
     data.bahai.vahid       = bahcal[<span class="number">1</span>];
@@ -1927,7 +1927,7 @@ we don&#39;t get roundoff errors in other calendars.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    data.bahai.leap = <span class="keyword">this</span>.constants.NORM_LEAP[<span class="keyword">this</span>.leap_gregorian(year) ? <span class="number">1</span> : <span class="number">0</span>];</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    data.bahai.leap = <span class="keyword">this</span>.constants.NORM_LEAP[<span class="keyword">this</span>.leapGregorian(year) ? <span class="number">1</span> : <span class="number">0</span>];</pre></div></div>
             
         </li>
         
@@ -1942,13 +1942,13 @@ we don&#39;t get roundoff errors in other calendars.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    indcal = <span class="keyword">this</span>.jd_to_indian_civil(j);
+            <div class="content"><div class='highlight'><pre>    indcal = <span class="keyword">this</span>.jdToIndianCivil(j);
 
-    data.indiancivilcalendar.year    = indcal[<span class="number">0</span>];
-    data.indiancivilcalendar.month   = <span class="keyword">this</span>.constants.indian_civil.MONTHS[indcal[<span class="number">1</span>] - <span class="number">1</span>];
-    data.indiancivilcalendar.day     = indcal[<span class="number">2</span>];
-    data.indiancivilcalendar.weekday = <span class="keyword">this</span>.constants.indian_civil.WEEKDAYS[weekday];
-    data.indiancivilcalendar.leap    = <span class="keyword">this</span>.constants.NORM_LEAP[<span class="keyword">this</span>.leap_gregorian(indcal[<span class="number">0</span>] + <span class="number">78</span>) ? <span class="number">1</span> : <span class="number">0</span>];</pre></div></div>
+    data.indian_civil.year    = indcal[<span class="number">0</span>];
+    data.indian_civil.month   = <span class="keyword">this</span>.constants.indian_civil.MONTHS[indcal[<span class="number">1</span>] - <span class="number">1</span>];
+    data.indian_civil.day     = indcal[<span class="number">2</span>];
+    data.indian_civil.weekday = <span class="keyword">this</span>.constants.indian_civil.WEEKDAYS[weekday];
+    data.indian_civil.leap    = <span class="keyword">this</span>.constants.NORM_LEAP[<span class="keyword">this</span>.leapGregorian(indcal[<span class="number">0</span>] + <span class="number">78</span>) ? <span class="number">1</span> : <span class="number">0</span>];</pre></div></div>
             
         </li>
         
@@ -1963,7 +1963,7 @@ we don&#39;t get roundoff errors in other calendars.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    frrcal = <span class="keyword">this</span>.jd_to_french_revolutionary(j);
+            <div class="content"><div class='highlight'><pre>    frrcal = <span class="keyword">this</span>.jdToFrenchRevolutionary(j);
 
     data.french.an     = frrcal[<span class="number">0</span>];
     data.french.mois   = <span class="keyword">this</span>.constants.french_revolutionary.MOIS[frrcal[<span class="number">1</span>] - <span class="number">1</span>];
@@ -1984,8 +1984,8 @@ we don&#39;t get roundoff errors in other calendars.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (data.gregserial != <span class="literal">null</span>) {
-      data.gregserial.day = j - <span class="keyword">this</span>.constants.J0000;
+            <div class="content"><div class='highlight'><pre>    <span class="keyword">if</span> (data.gregorian_serial != <span class="literal">null</span>) {
+      data.gregorian_serial.day = j - <span class="keyword">this</span>.constants.J0000;
     }</pre></div></div>
             
         </li>
@@ -2001,7 +2001,7 @@ we don&#39;t get roundoff errors in other calendars.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    data.excelserial1900.day = (j - <span class="keyword">this</span>.constants.J1900) + <span class="number">1</span> +</pre></div></div>
+            <div class="content"><div class='highlight'><pre>    data.excel_serial_1900.day = (j - <span class="keyword">this</span>.constants.J1900) + <span class="number">1</span> +</pre></div></div>
             
         </li>
         
@@ -2019,7 +2019,7 @@ idiocy.</p>
             </div>
             
             <div class="content"><div class='highlight'><pre>    ((j &gt; <span class="number">2415078.5</span>) ? <span class="number">1</span> : <span class="number">0</span>);
-    data.excelserial1904.day = j - <span class="keyword">this</span>.constants.J1904;</pre></div></div>
+    data.excel_serial_1904.day = j - <span class="keyword">this</span>.constants.J1904;</pre></div></div>
             
         </li>
         
@@ -2036,7 +2036,7 @@ idiocy.</p>
             
             <div class="content"><div class='highlight'><pre>    utime = (j - <span class="keyword">this</span>.constants.J1970) * (<span class="number">60</span> * <span class="number">60</span> * <span class="number">24</span> * <span class="number">1000</span>);
 
-    data.unixtime.time = Math.round(utime / <span class="number">1000</span>);</pre></div></div>
+    data.unix_time.time = Math.round(utime / <span class="number">1000</span>);</pre></div></div>
             
         </li>
         
@@ -2051,11 +2051,11 @@ idiocy.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    isoweek = <span class="keyword">this</span>.jd_to_iso(j);
+            <div class="content"><div class='highlight'><pre>    iso_week = <span class="keyword">this</span>.jdToIso(j);
 
-    data.isoweek.year = isoweek[<span class="number">0</span>];
-    data.isoweek.week = isoweek[<span class="number">1</span>];
-    data.isoweek.day  = isoweek[<span class="number">2</span>];</pre></div></div>
+    data.iso_week.year = iso_week[<span class="number">0</span>];
+    data.iso_week.week = iso_week[<span class="number">1</span>];
+    data.iso_week.day  = iso_week[<span class="number">2</span>];</pre></div></div>
             
         </li>
         
@@ -2070,10 +2070,10 @@ idiocy.</p>
 
             </div>
             
-            <div class="content"><div class='highlight'><pre>    isoday = <span class="keyword">this</span>.jd_to_iso_day(j);
+            <div class="content"><div class='highlight'><pre>    iso_day = <span class="keyword">this</span>.jdToIsoDay(j);
 
-    data.isoday.year = isoday[<span class="number">0</span>];
-    data.isoday.day  = isoday[<span class="number">1</span>];
+    data.iso_day.year = iso_day[<span class="number">0</span>];
+    data.iso_day.day  = iso_day[<span class="number">1</span>];
   }</pre></div></div>
             
         </li>
@@ -2160,11 +2160,10 @@ once per second</p>
             
             <div class="content"><div class='highlight'><pre>  calendar.start = <span class="keyword">function</span>() {
     exports.intervalId = window.setInterval(<span class="keyword">function</span>() {
-      calendar.setDateTo(<span class="keyword">new</span> Date());
-      calendar.calcGregorian();
+      calendar.updateTo();
     }, <span class="number">1000</span>);
 
-    <span class="keyword">return</span> exports;
+    <span class="keyword">return</span> <span class="keyword">this</span>;
   }</pre></div></div>
             
         </li>
@@ -2183,7 +2182,7 @@ once per second</p>
             <div class="content"><div class='highlight'><pre>  calendar.stop = <span class="keyword">function</span>() {
     window.clearInterval(exports.intervalId);
 
-    <span class="keyword">return</span> exports;
+    <span class="keyword">return</span> <span class="keyword">this</span>;
   }</pre></div></div>
             
         </li>
@@ -2194,6 +2193,30 @@ once per second</p>
               
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-93">&#182;</a>
+              </div>
+              <p>Update the data representation to the specified date
+If no date is passed in then the data representation
+is updated to the time of invocation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.updateTo = <span class="keyword">function</span>(date) {
+    <span class="keyword">if</span> (<span class="keyword">typeof</span>(a) === <span class="string">"undefined"</span>) { date = <span class="keyword">new</span> Date(); }
+
+    <span class="keyword">this</span>.setDateTo(date);
+    <span class="keyword">this</span>.calcGregorian();
+
+    <span class="keyword">return</span> <span class="keyword">this</span>;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-94">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-94">&#182;</a>
               </div>
               <p>Preset the Gregorian date to the
 date requested by the URL
@@ -2214,11 +2237,11 @@ search field.</p>
         </li>
         
         
-        <li id="section-94">
+        <li id="section-95">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-94">&#182;</a>
+                <a class="pilcrow" href="#section-95">&#182;</a>
               </div>
               <p>Sanity check date and time components</p>
 
@@ -2259,11 +2282,11 @@ search field.</p>
         </li>
         
         
-        <li id="section-95">
+        <li id="section-96">
             <div class="annotation">
               
               <div class="pilwrap ">
-                <a class="pilcrow" href="#section-95">&#182;</a>
+                <a class="pilcrow" href="#section-96">&#182;</a>
               </div>
               <p>Sanity check date and time components</p>
 
@@ -2277,9 +2300,9 @@ search field.</p>
               ((d[<span class="number">5</span>].substring(<span class="number">1</span>) &gt;= <span class="number">0</span>) &amp;&amp; (d[<span class="number">5</span>].substring(<span class="number">1</span>) &lt;= <span class="number">59</span>))) &amp;&amp;
             ((d[<span class="number">6</span>] == <span class="literal">undefined</span>) ||
               ((d[<span class="number">6</span>].substring(<span class="number">1</span>) &gt;= <span class="number">0</span>) &amp;&amp; (d[<span class="number">6</span>].substring(<span class="number">1</span>) &lt;= <span class="number">59</span>)))) {
-            data.juliancalendar.year = d[<span class="number">1</span>];
-            data.juliancalendar.month.selectedIndex = d[<span class="number">2</span>] - <span class="number">1</span>;
-            data.juliancalendar.day = Number(d[<span class="number">3</span>]);
+            data.julian.year = d[<span class="number">1</span>];
+            data.julian.month.selectedIndex = d[<span class="number">2</span>] - <span class="number">1</span>;
+            data.julian.day = Number(d[<span class="number">3</span>]);
             <span class="keyword">this</span>.calcJulianCalendar();
             data.gregorian.hour = d[<span class="number">4</span>] == <span class="literal">undefined</span> ? <span class="number">0</span> :
               d[<span class="number">4</span>].substring(<span class="number">1</span>);
@@ -2310,7 +2333,7 @@ search field.</p>
       } <span class="keyword">else</span> <span class="keyword">if</span> (calendar.toLowerCase() == <span class="string">"mjd"</span>) {
         <span class="keyword">var</span> d = date.match(<span class="regexp">/^(\-?\d+\.?\d*)/</span>);
         <span class="keyword">if</span> (d != <span class="literal">null</span>) {
-          data.modifiedjulianday.day = d[<span class="number">1</span>];
+          data.modified_julian_day.day = d[<span class="number">1</span>];
           <span class="keyword">this</span>.calcModifiedJulian();
           set = <span class="number">1</span>;
         } <span class="keyword">else</span> {
@@ -2318,10 +2341,10 @@ search field.</p>
             <span class="string">"\" in search request"</span>);
         }
 
-      } <span class="keyword">else</span> <span class="keyword">if</span> (calendar.toLowerCase() == <span class="string">"unixtime"</span>) {
+      } <span class="keyword">else</span> <span class="keyword">if</span> (calendar.toLowerCase() == <span class="string">"unix_time"</span>) {
         <span class="keyword">var</span> d = date.match(<span class="regexp">/^(\-?\d+\.?\d*)/</span>);
         <span class="keyword">if</span> (d != <span class="literal">null</span>) {
-          data.unixtime.time = d[<span class="number">1</span>];
+          data.unix_time.time = d[<span class="number">1</span>];
           <span class="keyword">this</span>.calcUnixTime();
           set = <span class="number">1</span>;
         } <span class="keyword">else</span> {
@@ -2332,14 +2355,14 @@ search field.</p>
       } <span class="keyword">else</span> <span class="keyword">if</span> (calendar.toLowerCase() == <span class="string">"iso"</span>) {
         <span class="keyword">var</span> d;
         <span class="keyword">if</span> ((d = date.match(<span class="regexp">/^(\-?\d+)\-(\d\d\d)/</span>)) != <span class="literal">null</span>) {
-          data.isoday.year = d[<span class="number">1</span>];
-          data.isoday.day = d[<span class="number">2</span>];
+          data.iso_day.year = d[<span class="number">1</span>];
+          data.iso_day.day = d[<span class="number">2</span>];
           <span class="keyword">this</span>.calcIsoDay();
           set = <span class="number">1</span>;
         } <span class="keyword">else</span> <span class="keyword">if</span> ((d = date.match(<span class="regexp">/^(\-?\d+)\-?W(\d\d)\-?(\d)/i</span>)) != <span class="literal">null</span>) {
-          data.isoweek.year = d[<span class="number">1</span>];
-          data.isoweek.week = d[<span class="number">2</span>];
-          data.isoweek.day = d[<span class="number">3</span>];
+          data.iso_week.year = d[<span class="number">1</span>];
+          data.iso_week.week = d[<span class="number">2</span>];
+          data.iso_week.day = d[<span class="number">3</span>];
           <span class="keyword">this</span>.calcIsoWeek();
           set = <span class="number">1</span>;
         } <span class="keyword">else</span> {
@@ -2350,7 +2373,7 @@ search field.</p>
       } <span class="keyword">else</span> <span class="keyword">if</span> (calendar.toLowerCase() == <span class="string">"excel"</span>) {
         <span class="keyword">var</span> d = date.match(<span class="regexp">/^(\-?\d+\.?\d*)/</span>);
         <span class="keyword">if</span> (d != <span class="literal">null</span>) {
-          data.excelserial1900.day = d[<span class="number">1</span>];
+          data.excel_serial_1900.day = d[<span class="number">1</span>];
           <span class="keyword">this</span>.calcExcelSerial1900();
           set = <span class="number">1</span>;
         } <span class="keyword">else</span> {
@@ -2361,7 +2384,7 @@ search field.</p>
       } <span class="keyword">else</span> <span class="keyword">if</span> (calendar.toLowerCase() == <span class="string">"excel1904"</span>) {
         <span class="keyword">var</span> d = date.match(<span class="regexp">/^(\-?\d+\.?\d*)/</span>);
         <span class="keyword">if</span> (d != <span class="literal">null</span>) {
-          data.excelserial1904.day = d[<span class="number">1</span>];
+          data.excel_serial_1904.day = d[<span class="number">1</span>];
           <span class="keyword">this</span>.calcExcelSerial1904();
           set = <span class="number">1</span>;
         } <span class="keyword">else</span> {

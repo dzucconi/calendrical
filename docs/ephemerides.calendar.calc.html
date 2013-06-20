@@ -101,7 +101,7 @@
     <span class="keyword">var</span> j, date, time;
 
     j    = <span class="keyword">new</span> Number(data.julianday.day);
-    date = <span class="keyword">this</span>.jd_to_gregorian(j);
+    date = <span class="keyword">this</span>.jdToGregorian(j);
     time = jhms(j);
 
     data.gregorian.year  = date[<span class="number">0</span>];
@@ -163,7 +163,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre>  calendar.calcJulianCalendar = <span class="keyword">function</span>() {
-    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.julian_to_jd((<span class="keyword">new</span> Number(data.juliancalendar.year)),
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.julianToJd((<span class="keyword">new</span> Number(data.juliancalendar.year)),
       data.juliancalendar.month.selectedIndex + <span class="number">1</span>, (<span class="keyword">new</span> Number(data.juliancalendar.day))));
   }</pre></div></div>
             
@@ -181,7 +181,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre>  calendar.calcHebrew = <span class="keyword">function</span>() {
-    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.hebrew_to_jd((<span class="keyword">new</span> Number(data.hebrew.year)),
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.hebrewToJd((<span class="keyword">new</span> Number(data.hebrew.year)),
       data.hebrew.month.selectedIndex + <span class="number">1</span>, (<span class="keyword">new</span> Number(data.hebrew.day))));
   }</pre></div></div>
             
@@ -199,7 +199,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre>  calendar.calcIslamic = <span class="keyword">function</span>() {
-    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.islamic_to_jd((<span class="keyword">new</span> Number(data.islamic.year)),
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.islamicToJd((<span class="keyword">new</span> Number(data.islamic.year)),
       data.islamic.month.selectedIndex + <span class="number">1</span>, (<span class="keyword">new</span> Number(data.islamic.day))));
   }</pre></div></div>
             
@@ -217,7 +217,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre>  calendar.calcPersian = <span class="keyword">function</span>() {
-    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.persian_to_jd((<span class="keyword">new</span> Number(data.persian.year)),
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.persianToJd((<span class="keyword">new</span> Number(data.persian.year)),
       data.persian.month.selectedIndex + <span class="number">1</span>, (<span class="keyword">new</span> Number(data.persian.day))));
   }</pre></div></div>
             
@@ -230,12 +230,12 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-10">&#182;</a>
               </div>
-              <p>Update from Persian astronomical calendar</p>
+              <p>Update from Persian algorithmic calendar</p>
 
             </div>
             
             <div class="content"><div class='highlight'><pre>  calendar.calcPersiana = <span class="keyword">function</span>() {
-    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.persiana_to_jd((<span class="keyword">new</span> Number(data.persiana.year)),
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.persianaToJd((<span class="keyword">new</span> Number(data.persiana.year)),
       data.persiana.month.selectedIndex + <span class="number">1</span>, (<span class="keyword">new</span> Number(data.persiana.day))) + <span class="number">0.5</span>);
   }</pre></div></div>
             
@@ -253,7 +253,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre>  calendar.calcMayanCount = <span class="keyword">function</span>() {
-    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.mayan_count_to_jd(
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.mayanCountToJd(
       (<span class="keyword">new</span> Number(data.mayancount.baktun)), (<span class="keyword">new</span> Number(data.mayancount.katun)), (<span class="keyword">new</span> Number(data.mayancount.tun)), (<span class="keyword">new</span> Number(data.mayancount.uinal)), (<span class="keyword">new</span> Number(data.mayancount.kin))));
   }</pre></div></div>
             
@@ -271,7 +271,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre>  calendar.calcBahai = <span class="keyword">function</span>() {
-    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.bahai_to_jd((<span class="keyword">new</span> Number(data.bahai.kull_i_shay)), (<span class="keyword">new</span> Number(data.bahai.vahid)),
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.bahaiToJd((<span class="keyword">new</span> Number(data.bahai.kull_i_shay)), (<span class="keyword">new</span> Number(data.bahai.vahid)),
       data.bahai.year.selectedIndex + <span class="number">1</span>,
       data.bahai.month.selectedIndex + <span class="number">1</span>,
       data.bahai.day.selectedIndex + <span class="number">1</span>));
@@ -291,7 +291,7 @@
             </div>
             
             <div class="content"><div class='highlight'><pre>  calendar.calcIndianCivilCalendar = <span class="keyword">function</span>() {
-    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.indian_civil_to_jd(
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.indianCivilToJd(
       (<span class="keyword">new</span> Number(data.indiancivilcalendar.year)),
       data.indiancivilcalendar.month.selectedIndex + <span class="number">1</span>, (<span class="keyword">new</span> Number(data.indiancivilcalendar.day))));
   }</pre></div></div>
@@ -362,7 +362,7 @@ the following year if this is a 365 day year.</p>
       <span class="keyword">if</span> (j &gt; <span class="number">5</span>) { j = <span class="number">0</span>; }
     }
 
-    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.french_revolutionary_to_jd((<span class="keyword">new</span> Number(data.french.an)),
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.frenchRevolutionaryToJd((<span class="keyword">new</span> Number(data.french.an)),
       mois + <span class="number">1</span>,
       decade + <span class="number">1</span>,
       j + <span class="number">1</span>));
@@ -502,7 +502,7 @@ February 29 ... 1900.</p>
     <span class="keyword">var</span> year = <span class="keyword">new</span> Number(data.isoday.year),
       day = <span class="keyword">new</span> Number(data.isoday.day);
 
-    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.iso_day_to_julian(year, day));
+    <span class="keyword">this</span>.setJulian(<span class="keyword">this</span>.isoDayToJulian(year, day));
   }
 
   <span class="keyword">return</span> exports;
