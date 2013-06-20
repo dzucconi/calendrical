@@ -14,7 +14,7 @@ var Ephemerides = (function(exports) {
     var j, date, time;
 
     j    = new Number(data.julianday.day);
-    date = this.jd_to_gregorian(j);
+    date = this.jdToGregorian(j);
     time = jhms(j);
 
     data.gregorian.year  = date[0];
@@ -40,43 +40,43 @@ var Ephemerides = (function(exports) {
 
   // Update from Julian calendar
   calendar.calcJulianCalendar = function() {
-    this.setJulian(this.julian_to_jd((new Number(data.juliancalendar.year)),
+    this.setJulian(this.julianToJd((new Number(data.juliancalendar.year)),
       data.juliancalendar.month.selectedIndex + 1, (new Number(data.juliancalendar.day))));
   }
 
   // Update from Hebrew calendar
   calendar.calcHebrew = function() {
-    this.setJulian(this.hebrew_to_jd((new Number(data.hebrew.year)),
+    this.setJulian(this.hebrewToJd((new Number(data.hebrew.year)),
       data.hebrew.month.selectedIndex + 1, (new Number(data.hebrew.day))));
   }
 
   // Update from Islamic calendar
   calendar.calcIslamic = function() {
-    this.setJulian(this.islamic_to_jd((new Number(data.islamic.year)),
+    this.setJulian(this.islamicToJd((new Number(data.islamic.year)),
       data.islamic.month.selectedIndex + 1, (new Number(data.islamic.day))));
   }
 
   // Update from Persian calendar
   calendar.calcPersian = function() {
-    this.setJulian(this.persian_to_jd((new Number(data.persian.year)),
+    this.setJulian(this.persianToJd((new Number(data.persian.year)),
       data.persian.month.selectedIndex + 1, (new Number(data.persian.day))));
   }
 
   // Update from Persian astronomical calendar
   calendar.calcPersiana = function() {
-    this.setJulian(this.persiana_to_jd((new Number(data.persiana.year)),
+    this.setJulian(this.persianaToJd((new Number(data.persiana.year)),
       data.persiana.month.selectedIndex + 1, (new Number(data.persiana.day))) + 0.5);
   }
 
   // Update from the Mayan Long Count
   calendar.calcMayanCount = function() {
-    this.setJulian(this.mayan_count_to_jd(
+    this.setJulian(this.mayanCountToJd(
       (new Number(data.mayancount.baktun)), (new Number(data.mayancount.katun)), (new Number(data.mayancount.tun)), (new Number(data.mayancount.uinal)), (new Number(data.mayancount.kin))));
   }
 
   // Update from Bahai calendar
   calendar.calcBahai = function() {
-    this.setJulian(this.bahai_to_jd((new Number(data.bahai.kull_i_shay)), (new Number(data.bahai.vahid)),
+    this.setJulian(this.bahaiToJd((new Number(data.bahai.kull_i_shay)), (new Number(data.bahai.vahid)),
       data.bahai.year.selectedIndex + 1,
       data.bahai.month.selectedIndex + 1,
       data.bahai.day.selectedIndex + 1));
@@ -84,7 +84,7 @@ var Ephemerides = (function(exports) {
 
   // Update from Indian Civil Calendar
   calendar.calcIndianCivilCalendar = function() {
-    this.setJulian(this.indian_civil_to_jd(
+    this.setJulian(this.indianCivilToJd(
       (new Number(data.indiancivilcalendar.year)),
       data.indiancivilcalendar.month.selectedIndex + 1, (new Number(data.indiancivilcalendar.day))));
   }
@@ -119,7 +119,7 @@ var Ephemerides = (function(exports) {
       if (j > 5) { j = 0; }
     }
 
-    this.setJulian(this.french_revolutionary_to_jd((new Number(data.french.an)),
+    this.setJulian(this.frenchRevolutionaryToJd((new Number(data.french.an)),
       mois + 1,
       decade + 1,
       j + 1));
@@ -175,7 +175,7 @@ var Ephemerides = (function(exports) {
     var year = new Number(data.isoday.year),
       day = new Number(data.isoday.day);
 
-    this.setJulian(this.iso_day_to_julian(year, day));
+    this.setJulian(this.isoDayToJulian(year, day));
   }
 
   return exports;
