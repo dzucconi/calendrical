@@ -144,7 +144,6 @@ var Ephemerides = (function(exports) {
     // you so much Mister Talking Paper Clip. Some day
     // we're going to celebrate your extinction like it was
     // February 29 ... 1900.
-
     if (d > 60) { d--; }
 
     this.setJulian((d - 1) + J1900);

@@ -28,21 +28,6 @@ var Ephemerides = (function(exports){
       calendar = exports.calendar,
       data     = exports.data;
 
-  calendar.constants = {
-    // *Julian date of Gregorian epoch: 0000-01-01*
-    J0000: 1721424.5,
-    // *Julian date at Unix epoch: 1970-01-01*
-    J1970: 2440587.5,
-    // *Epoch of Modified Julian Date system*
-    JMJD: 2400000.5,
-    // *Epoch (day 1) of Excel 1900 date system (PC)*
-    J1900: 2415020.5,
-    // *Epoch (day 0) of Excel 1904 date system (Mac)*
-    J1904: 2416480.5,
-    // *Convenience*
-    NORM_LEAP: ["Normal year", "Leap year"]
-  }
-
   // Return Julian date of given weekday (0 = Sunday)
   // in the seven days ending on jd.
   calendar.weekday_before = function(weekday, jd) {
@@ -86,11 +71,9 @@ var Ephemerides = (function(exports){
       (!(((year % 100) == 0) && ((year % 400) != 0)));
   }
 
-  var GREGORIAN_EPOCH = 1721425.5;
-
   // Determine Julian day number from Gregorian calendar date
   calendar.gregorian_to_jd = function(year, month, day) {
-    return (GREGORIAN_EPOCH - 1) +
+    return (this.constants.gregorian.EPOCH - 1) +
       (365 * (year - 1)) +
       Math.floor((year - 1) / 4) +
       (-Math.floor((year - 1) / 100)) +
@@ -102,15 +85,13 @@ var Ephemerides = (function(exports){
         day);
   }
 
-  var GREGORIAN_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
-
   // Calculate Gregorian calendar date from Julian day
   calendar.jd_to_gregorian = function(jd) {
     var wjd, depoch, quadricent, dqc, cent, dcent, quad, dquad,
       yindex, dyindex, year, yearday, leapadj, month, day;
 
     wjd        = Math.floor(jd - 0.5) + 0.5;
-    depoch     = wjd - GREGORIAN_EPOCH;
+    depoch     = wjd - this.constants.gregorian.EPOCH;
     quadricent = Math.floor(depoch / 146097);
     dqc        = astro.mod(depoch, 146097);
     cent       = Math.floor(dqc / 36524);
@@ -190,8 +171,6 @@ var Ephemerides = (function(exports){
     return s;
   }
 
-  var JULIAN_EPOCH = 1721423.5;
-
   // Determine Julian day number from Julian calendar date
   calendar.leap_julian = function(year) {
     return astro.mod(year, 4) == ((year > 0) ? 0 : 3);
@@ -211,8 +190,6 @@ var Ephemerides = (function(exports){
       Math.floor((30.6001 * (month + 1))) +
       day) - 1524.5);
   }
-
-  var JULIAN_MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 
   // Calculate Julian calendar date from Julian day
   calendar.jd_to_julian = function(td) {
@@ -238,8 +215,6 @@ var Ephemerides = (function(exports){
 
     return [year, month, day];
   }
-
-  var HEBREW_EPOCH = 347995.5;
 
   // Determine Julian day from Hebrew date
   //
@@ -318,7 +293,8 @@ var Ephemerides = (function(exports){
     var jd, mon, months;
 
     months = this.hebrew_year_months(year);
-    jd = HEBREW_EPOCH + this.hebrew_delay_1(year) +
+
+    jd = this.constants.hebrew.EPOCH + this.hebrew_delay_1(year) +
       this.hebrew_delay_2(year) + day + 1;
 
     if (month < 7) {
@@ -337,18 +313,14 @@ var Ephemerides = (function(exports){
     return jd;
   }
 
-  var HEBREW_MONTHS = ["Nisan", "Iyyar", "Sivan", "Tammuz", "Av", "Elul", "Tishri", "Marẖeshvan", "Kislev", "Teveth", "Shevat", "Adar", "Veadar"],
-      HEBREW_WORD_MONTHS = ["נִיסָן", "אייר", "סיוון", "תַּמּוּז", "אָב", "אֱלוּל", "תִּשׁרִי", "מרחשוון", "כסליו", "טֵבֵת", "שְׁבָט", "אֲדָר א׳", "אֲדָר א׳"];
-
   // Convert Julian date to Hebrew date
   // This works by making multiple calls to
-  // the inverse function, and is this very
-  // slow.
+  // the inverse function, and is this very slow.
   calendar.jd_to_hebrew = function(jd) {
     var year, month, day, i, count, first;
 
     jd    = Math.floor(jd) + 0.5;
-    count = Math.floor(((jd - HEBREW_EPOCH) * 98496.0) / 35975351.0);
+    count = Math.floor(((jd - this.constants.hebrew.EPOCH) * 98496.0) / 35975351.0);
     year  = count - 1;
 
     for (i = count; jd >= this.hebrew_to_jd(i, 7, 1); i++) {
@@ -384,8 +356,7 @@ var Ephemerides = (function(exports){
     equAPP = equJD + astro.equationOfTime(equJED);
 
     // Finally, we must correct for the constant difference between
-    // the Greenwich meridian and that of Paris, 2°20'15" to the
-    // East.
+    // the Greenwich meridian and that of Paris, 2°20'15" to the East.
     dtParis = (2 + (20 / 60.0) + (15 / (60 * 60.0))) / 360;
     equParis = equAPP + dtParis;
 
@@ -394,8 +365,7 @@ var Ephemerides = (function(exports){
 
   // Calculate Julian day during which the
   // September equinox, reckoned from the Paris
-  // meridian, occurred for a given Gregorian
-  // year.
+  // meridian, occurred for a given Gregorian year.
   calendar.paris_equinoxe_jd = function(year) {
     var ep, epg;
 
@@ -411,8 +381,6 @@ var Ephemerides = (function(exports){
   //
   // **[0]** Année de la Révolution
   // **[1]** Julian day number containing equinox for this year.
-  var FRENCH_REVOLUTIONARY_EPOCH = 2375839.5;
-
   calendar.annee_da_la_revolution = function(jd) {
     var guess = this.jd_to_gregorian(jd)[0] - 2,
       lasteq, nexteq, adr;
@@ -432,14 +400,10 @@ var Ephemerides = (function(exports){
       nexteq = this.paris_equinoxe_jd(guess);
     }
 
-    adr = Math.round((lasteq - FRENCH_REVOLUTIONARY_EPOCH) / astro.constants.TROPICAL_YEAR) + 1;
+    adr = Math.round((lasteq - this.constants.french_revolutionary.EPOCH) / astro.constants.TROPICAL_YEAR) + 1;
 
     return [adr, lasteq];
   }
-
-  var FRENCH_MOIS = ["Vendémiaire", "Brumaire", "Frimaire", "Nivôse", "Pluviôse", "Ventôse", "Germinal", "Floréal", "Prairial", "Messidor", "Thermidor", "Fructidor", "(Sans-culottides)"],
-      FRENCH_DECADE = ["I", "II", "III"],
-      FRENCH_JOUR = ["du Primidi (1)", "du Duodi (2)", "du Tridi (3)", "du Quartidi (4)", "du Quintidi (5)", "du Sextidi (6)", "du Septidi (7)", "du Octid (8)i", "du Nonidi (9)", "du Décadi (10)", "------------", "de la Vertu (1)", "du Génie (2)", "du Travail (3)", "de l'Opinion (4)", "des Récompenses (5)", "de la Révolution (6)"];
 
   // Calculate date in the French Revolutionary
   // calendar from Julian day. The five or six
@@ -466,7 +430,7 @@ var Ephemerides = (function(exports){
   calendar.french_revolutionary_to_jd = function(an, mois, decade, jour) {
     var adr, equinoxe, guess, jd;
 
-    guess = FRENCH_REVOLUTIONARY_EPOCH + (astro.constants.TROPICAL_YEAR * ((an - 1) - 1));
+    guess = this.constants.french_revolutionary.EPOCH + (astro.constants.TROPICAL_YEAR * ((an - 1) - 1));
     adr = [an - 1, 0];
 
     while (adr[0] < an) {
@@ -484,17 +448,13 @@ var Ephemerides = (function(exports){
     return (((year * 11) + 14) % 30) < 11;
   }
 
-  var ISLAMIC_EPOCH    = 1948439.5,
-      ISLAMIC_WEEKDAYS = ["al-'ahad", "al-'ithnayn", "ath-thalatha'", "al-'arb`a'", "al-khamis", "al-jum`a", "as-sabt"],
-      ISLAMIC_MONTHS   = ["Muharram", "Safar", "Rabi`al-Awwal", "Rabi`ath-Thani", "Jumada l-Ula", "Jumada t-Tania", "Rajab", "Sha`ban", "Ramadan", "Shawwal", "Dhu l-Qa`da", "Dhu l-Hijja"];
-
   // Determine Julian day from Islamic date
   calendar.islamic_to_jd = function(year, month, day) {
     return (day +
       Math.ceil(29.5 * (month - 1)) +
       (year - 1) * 354 +
       Math.floor((3 + (11 * year)) / 30) +
-      ISLAMIC_EPOCH) - 1;
+      this.constants.islamic.EPOCH) - 1;
   }
 
   // Calculate Islamic date from Julian day
@@ -502,7 +462,7 @@ var Ephemerides = (function(exports){
     var year, month, day;
 
     jd    = Math.floor(jd) + 0.5;
-    year  = Math.floor(((30 * (jd - ISLAMIC_EPOCH)) + 10646) / 10631);
+    year  = Math.floor(((30 * (jd - this.constants.islamic.EPOCH)) + 10646) / 10631);
     month = Math.min(12, Math.ceil((jd - (29 + this.islamic_to_jd(year, 1, 1))) / 29.5) + 1);
     day   = (jd - this.islamic_to_jd(year, month, 1)) + 1;
 
@@ -535,8 +495,7 @@ var Ephemerides = (function(exports){
 
   // Calculate Julian day during which the
   // March equinox, reckoned from the Tehran
-  // meridian, occurred for a given Gregorian
-  // year.
+  // meridian, occurred for a given Gregorian year.
   calendar.tehran_equinox_jd = function(year) {
     var ep, epg;
 
@@ -545,10 +504,6 @@ var Ephemerides = (function(exports){
 
     return epg;
   }
-
-  var PERSIAN_EPOCH    = 1948320.5,
-      PERSIAN_WEEKDAYS = ["Yekshanbeh", "Doshanbeh", "Seshhanbeh", "Chaharshanbeh", "Panjshanbeh", "Jomeh", "Shanbeh"],
-      PERSIAN_MONTHS   = ["Farvardin", "Ordibehesht", "Khordad", "Tir", "Mordad", "Shahrivar", "Mehr", "Aban", "Azar", "Dey", "Bahman", "Esfand"];
 
   // Determine the year in the Persian
   // astronomical calendar in which a
@@ -576,7 +531,7 @@ var Ephemerides = (function(exports){
       nexteq = this.tehran_equinox_jd(guess);
     }
 
-    adr = Math.round((lasteq - PERSIAN_EPOCH) / astro.constants.TROPICAL_YEAR) + 1;
+    adr = Math.round((lasteq - this.constants.persian.EPOCH) / astro.constants.TROPICAL_YEAR) + 1;
 
     return [adr, lasteq];
   }
@@ -604,7 +559,7 @@ var Ephemerides = (function(exports){
   calendar.persiana_to_jd = function(year, month, day) {
     var adr, equinox, guess, jd;
 
-    guess = (PERSIAN_EPOCH - 1) + (astro.constants.TROPICAL_YEAR * ((year - 1) - 1));
+    guess = (this.constants.persian.EPOCH - 1) + (astro.constants.TROPICAL_YEAR * ((year - 1) - 1));
     adr   = [year - 1, 0];
 
     while (adr[0] < year) {
@@ -651,7 +606,7 @@ var Ephemerides = (function(exports){
       Math.floor(((epyear * 682) - 110) / 2816) +
       (epyear - 1) * 365 +
       Math.floor(epbase / 2820) * 1029983 +
-      (PERSIAN_EPOCH - 1);
+      (this.constants.persian.EPOCH - 1);
   }
 
   // Calculate Persian date from Julian day
@@ -685,11 +640,9 @@ var Ephemerides = (function(exports){
     return [year, month, day];
   }
 
-  var MAYAN_COUNT_EPOCH = 584282.5;
-
   // Determine Julian day from Mayan long count
   calendar.mayan_count_to_jd = function(baktun, katun, tun, uinal, kin) {
-    return MAYAN_COUNT_EPOCH +
+    return this.constants.mayan.COUNT_EPOCH +
       (baktun * 144000) +
       (katun * 7200) +
       (tun * 360) +
@@ -702,7 +655,7 @@ var Ephemerides = (function(exports){
     var d, baktun, katun, tun, uinal, kin;
 
     jd     = Math.floor(jd) + 0.5;
-    d      = jd - MAYAN_COUNT_EPOCH;
+    d      = jd - this.constants.mayan.COUNT_EPOCH;
     baktun = Math.floor(d / 144000);
     d      = astro.mod(d, 144000);
     katun  = Math.floor(d / 7200);
@@ -715,52 +668,33 @@ var Ephemerides = (function(exports){
     return [baktun, katun, tun, uinal, kin];
   }
 
-  var MAYAN_HAAB_MONTHS = [
-    "Pop", "Uo", "Zip", "Zotz", "Tzec", "Xul",
-    "Yaxkin", "Mol", "Chen", "Yax", "Zac", "Ceh",
-    "Mac", "Kankin", "Muan", "Pax", "Kayab", "Cumku", "Uayeb"
-  ];
-
   // Determine Mayan Haab "month" and day from Julian day
   calendar.jd_to_mayan_haab = function(jd) {
     var lcount, day;
 
     jd     = Math.floor(jd) + 0.5;
-    lcount = jd - MAYAN_COUNT_EPOCH;
+    lcount = jd - this.constants.mayan.COUNT_EPOCH;
     day    = astro.mod(lcount + 8 + ((18 - 1) * 20), 365);
 
     return [Math.floor(day / 20) + 1, astro.mod(day, 20)];
   }
-
-  var MAYAN_TZOLKIN_MONTHS = [
-    "Imix", "Ik", "Akbal", "Kan", "Chicchan",
-    "Cimi", "Manik", "Lamat", "Muluc", "Oc",
-    "Chuen", "Eb", "Ben", "Ix", "Men",
-    "Cib", "Caban", "Etznab", "Cauac", "Ahau"
-  ];
 
   // Determine Mayan Tzolkin "month" and day from Julian day
   calendar.jd_to_mayan_tzolkin = function(jd) {
     var lcount;
 
     jd     = Math.floor(jd) + 0.5;
-    lcount = jd - MAYAN_COUNT_EPOCH;
+    lcount = jd - this.constants.mayan.COUNT_EPOCH;
 
     return [astro.amod(lcount + 20, 20), astro.amod(lcount + 4, 13)];
   }
-
-  var BAHAI_EPOCH    = 2394646.5,
-      BAHAI_WEEKDAYS = ["Jamál", "Kamál", "Fidál", "Idál", "Istijlál", "Istiqlál", "Jalál"],
-      BAHAI_YEARS    = ["Alif", "Bá", "Ab", "Dál", "Báb", "Váv", "Abad", "Jád", "Bahá", "Hubb", "Bahháj", "Javáb", "Ahad", "Vahháb", "Vidád", "Badí", "Bahí", "Abhá", "Vahíd"],
-      BAHAI_MONTHS   = ["Bahá", "Jalál", "Jamál", "`Azamat", "Núr", "Rahmat", "Kalimát", "Kamál", "Asmá", "`Izzat", "Mashíyyat", "`Ilm", "Qudrat", "Qawl", "Masáil", "Sharaf", "Sultán", "Mulk", "Ayyám-i-Há", "`Alá'"],
-      BAHAI_DAYS     = ["Bahá", "Jalál", "Jamál", "`Azamat", "Núr", "Rahmat", "Kalimát", "Kamál", "Asmá", "`Izzat", "Mashíyyat", "`Ilm", "Qudrat", "Qawl", "Masáil", "Sharaf", "Sultán", "Mulk", "`Alá'"];
 
   // Determine Julian day from Bahai date
   calendar.bahai_to_jd = function(major, cycle, year, month, day) {
     var gy;
 
     gy = (361 * (major - 1)) + (19 * (cycle - 1)) + (year - 1) +
-      this.jd_to_gregorian(BAHAI_EPOCH)[0];
+      this.jd_to_gregorian(this.constants.bahai.EPOCH)[0];
     return this.gregorian_to_jd(gy, 3, 20) + (19 * (month - 1)) +
       ((month != 20) ? 0 : (this.leap_gregorian(gy + 1) ? -14 : -15)) +
       day;
@@ -773,7 +707,7 @@ var Ephemerides = (function(exports){
 
     jd      = Math.floor(jd) + 0.5;
     gy      = this.jd_to_gregorian(jd)[0];
-    bstarty = this.jd_to_gregorian(BAHAI_EPOCH)[0];
+    bstarty = this.jd_to_gregorian(this.constants.bahai.EPOCH)[0];
     bys     = gy - (bstarty + (((this.gregorian_to_jd(gy, 1, 1) <= jd) && (jd <= this.gregorian_to_jd(gy, 3, 20))) ? 1 : 0));
     major   = Math.floor(bys / 361) + 1;
     cycle   = Math.floor(astro.mod(bys, 361) / 19) + 1;
@@ -785,9 +719,6 @@ var Ephemerides = (function(exports){
 
     return [major, cycle, year, month, day];
   }
-
-  var INDIAN_CIVIL_WEEKDAYS = ["ravivara", "somavara", "mangalavara", "budhavara", "brahaspativara", "sukravara", "sanivara"],
-      INDIAN_CIVIL_MONTHS = ["Caitra", "Vaisakha", "Jyaistha", "Asadha", "Sravana", "Bhadra", "Asvina", "Kartika", "Agrahayana", "Pausa", "Magha", "Phalguna"];
 
   // Obtain Julian day for Indian Civil date
   calendar.indian_civil_to_jd = function(year, month, day) {
@@ -841,6 +772,7 @@ var Ephemerides = (function(exports){
     }
 
     yday -= start;
+
     if (yday < Caitra) {
       month = 1;
       day = yday + 1;
@@ -863,8 +795,7 @@ var Ephemerides = (function(exports){
   // *"Why not Julian date?"* you ask. Because
   // starting from Gregorian guarantees we're
   // already snapped to an integral second, so
-  // we don't get roundoff errors in other
-  // calendars.
+  // we don't get roundoff errors in other calendars.
   calendar.updateFromGregorian = function() {
     var j, year, mon, mday, hour, min, sec,
       weekday, julcal, perscal, hebcal, islcal, utime, isoweek,
@@ -897,7 +828,7 @@ var Ephemerides = (function(exports){
     julcal = this.jd_to_julian(j);
 
     data.juliancalendar.year  = julcal[0];
-    data.juliancalendar.month = JULIAN_MONTHS[julcal[1] - 1];
+    data.juliancalendar.month = this.constants.julian.MONTHS[julcal[1] - 1];
     data.juliancalendar.day   = julcal[2];
     data.juliancalendar.leap  = this.constants.NORM_LEAP[this.leap_julian(julcal[0]) ? 1 : 0];
     weekday                   = astro.jwday(j);
@@ -907,9 +838,9 @@ var Ephemerides = (function(exports){
     hebcal = this.jd_to_hebrew(j);
 
     data.hebrew.year     = hebcal[0];
-    data.hebrew.month    = HEBREW_MONTHS[hebcal[1] - 1];
+    data.hebrew.month    = this.constants.hebrew.MONTHS[hebcal[1] - 1];
     data.hebrew.day      = hebcal[2];
-    data.hebrew.hebmonth = HEBREW_WORD_MONTHS[hebcal[1] - 1];
+    data.hebrew.hebmonth = this.constants.hebrew.H_MONTHS[hebcal[1] - 1];
 
     switch (this.hebrew_year_days(hebcal[0])) {
     case 353:
@@ -946,27 +877,27 @@ var Ephemerides = (function(exports){
     islcal = this.jd_to_islamic(j);
 
     data.islamic.year  = islcal[0];
-    data.islamic.month = ISLAMIC_MONTHS[islcal[1] - 1];
+    data.islamic.month = this.constants.islamic.MONTHS[islcal[1] - 1];
     data.islamic.day   = islcal[2];
-    data.islamic.wday  = "yawm " + ISLAMIC_WEEKDAYS[weekday];
+    data.islamic.wday  = "yawm " + this.constants.islamic.WEEKDAYS[weekday];
     data.islamic.leap  = this.constants.NORM_LEAP[this.leap_islamic(islcal[0]) ? 1 : 0];
 
     // Update Persian Calendar
     perscal = this.jd_to_persian(j);
 
     data.persian.year  = perscal[0];
-    data.persian.month = PERSIAN_MONTHS[perscal[1] - 1];
+    data.persian.month = this.constants.persian.MONTHS[perscal[1] - 1];
     data.persian.day   = perscal[2];
-    data.persian.wday  = PERSIAN_WEEKDAYS[weekday];
+    data.persian.wday  = this.constants.persian.WEEKDAYS[weekday];
     data.persian.leap  = this.constants.NORM_LEAP[this.leap_persian(perscal[0]) ? 1 : 0];
 
     // Update Persian Astronomical Calendar
     perscal = this.jd_to_persiana(j);
 
     data.persiana.year  = perscal[0];
-    data.persiana.month = PERSIAN_MONTHS[perscal[1] - 1];
+    data.persiana.month = this.constants.persian.MONTHS[perscal[1] - 1];
     data.persiana.day   = perscal[2];
-    data.persiana.wday  = PERSIAN_WEEKDAYS[weekday];
+    data.persiana.wday  = this.constants.persian.WEEKDAYS[weekday];
     data.persiana.leap  = this.constants.NORM_LEAP[this.leap_persiana(perscal[0]) ? 1 : 0];
 
     // Update Mayan Calendars
@@ -978,37 +909,37 @@ var Ephemerides = (function(exports){
     data.mayancount.uinal   = may_countcal[3];
     data.mayancount.kin     = may_countcal[4];
     mayhaabcal              = this.jd_to_mayan_haab(j);
-    data.mayancount.haab    = "" + mayhaabcal[1] + " " + MAYAN_HAAB_MONTHS[mayhaabcal[0] - 1];
+    data.mayancount.haab    = "" + mayhaabcal[1] + " " + this.constants.mayan.HAAB_MONTHS[mayhaabcal[0] - 1];
     maytzolkincal           = this.jd_to_mayan_tzolkin(j);
-    data.mayancount.tzolkin = "" + maytzolkincal[1] + " " + MAYAN_TZOLKIN_MONTHS[maytzolkincal[0] - 1];
+    data.mayancount.tzolkin = "" + maytzolkincal[1] + " " + this.constants.mayan.TZOLKIN_MONTHS[maytzolkincal[0] - 1];
 
     // Update Bahai Calendar
     bahcal = this.jd_to_bahai(j);
 
     data.bahai.kull_i_shay = bahcal[0];
     data.bahai.vahid       = bahcal[1];
-    data.bahai.year        = BAHAI_YEARS[bahcal[2] - 1];
-    data.bahai.month       = BAHAI_MONTHS[bahcal[3] - 1];
-    data.bahai.day         = BAHAI_DAYS[bahcal[4] - 1];
-    data.bahai.weekday     = BAHAI_WEEKDAYS[weekday];
+    data.bahai.year        = this.constants.bahai.YEARS[bahcal[2] - 1];
+    data.bahai.month       = this.constants.bahai.MONTHS[bahcal[3] - 1];
+    data.bahai.day         = this.constants.bahai.DAYS[bahcal[4] - 1];
+    data.bahai.weekday     = this.constants.bahai.WEEKDAYS[weekday];
     data.bahai.leap        = this.constants.NORM_LEAP[this.leap_gregorian(year) ? 1 : 0]; // Bahai uses same leap rule as Gregorian
 
     // Update Indian Civil Calendar
     indcal = this.jd_to_indian_civil(j);
 
     data.indiancivilcalendar.year    = indcal[0];
-    data.indiancivilcalendar.month   = INDIAN_CIVIL_MONTHS[indcal[1] - 1];
+    data.indiancivilcalendar.month   = this.constants.indian_civil.MONTHS[indcal[1] - 1];
     data.indiancivilcalendar.day     = indcal[2];
-    data.indiancivilcalendar.weekday = INDIAN_CIVIL_WEEKDAYS[weekday];
+    data.indiancivilcalendar.weekday = this.constants.indian_civil.WEEKDAYS[weekday];
     data.indiancivilcalendar.leap    = this.constants.NORM_LEAP[this.leap_gregorian(indcal[0] + 78) ? 1 : 0];
 
     // Update French Republican Calendar
     frrcal = this.jd_to_french_revolutionary(j);
 
     data.french.an     = frrcal[0];
-    data.french.mois   = FRENCH_MOIS[frrcal[1] - 1];
-    data.french.decade = FRENCH_DECADE[frrcal[2] - 1];
-    data.french.jour   = FRENCH_JOUR[((frrcal[1] <= 12) ? frrcal[3] : (frrcal[3] + 11)) - 1];
+    data.french.mois   = this.constants.french_revolutionary.MOIS[frrcal[1] - 1];
+    data.french.decade = this.constants.french_revolutionary.DECADE[frrcal[2] - 1];
+    data.french.jour   = this.constants.french_revolutionary.JOUR[((frrcal[1] <= 12) ? frrcal[3] : (frrcal[3] + 11)) - 1];
 
     // Update Gregorian serial number
     if (data.gregserial != null) {
