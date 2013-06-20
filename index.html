@@ -10,7 +10,6 @@
     <script src="src/ephemerides.calendar.calc.js"></script>
     <script src="src/ephemerides.calendar.constants.js"></script>
     <script src="src/ephemerides.calendar.js"></script>
-
   </head>
 
   <body>
@@ -19,18 +18,14 @@
 
 <script>
   $(function() {
-    var e = Ephemerides;
+    var E = Ephemerides;
 
-    e.calendar.start();
+    E.calendar.updateTo();
+    E.calendar.start();
 
-    setInterval(function() {
-      $("#output").html(JSON.stringify(e.data, undefined, 2));
-    }, 1000);
+    setInterval(function() { $("#output").html(JSON.stringify(E.data, undefined, 2)); }, 1000);
 
-    e.calendar.setDateToToday();
-    e.calendar.calcGregorian();
-
-    $("#output").html(JSON.stringify(e.data, undefined, 2))
+    $("#output").html(JSON.stringify(E.data, undefined, 2))
   });
 </script>
 </html>
