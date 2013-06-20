@@ -81,29 +81,23 @@
       }
     }
 
-    var equationOfTime  = [];
+    var equationOfTime = [],
+        sunpos = [];
+
     $.each(dates, function(i, date) {
       E.calendar.setDateTo(date);
       E.calendar.calcGregorian();
 
       equationOfTime.push(E.astro.equationOfTime(E.data.julianday.day));
-    });
-    $.jqplot("equationOfTime", [equationOfTime], plotOptions);
-
-    var sunpos = [];
-    $.each(dates, function(i, date) {
-      E.calendar.setDateTo(date);
-      E.calendar.calcGregorian();
-
       sunpos.push(E.astro.sunpos(E.data.julianday.day));
     });
 
-    var sunposAdjusted = [];
-    for (var i = sunpos[0].length - 1; i >= 0; i--) {
-      sunposAdjusted.push(sunpos.map(function(_) { return _[i]; }));
-    };
+    sunpos = sunpos[0].map(function(_, i) {
+      return sunpos.map(function(xs) { return xs[i]; });
+    });
 
-    $.jqplot("sunpos", sunposAdjusted, plotOptions);
+    $.jqplot("equationOfTime", [equationOfTime], plotOptions);
+    $.jqplot("sunpos", sunpos, plotOptions);
   });
 </script>
 </html>
