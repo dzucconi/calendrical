@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <meta charset="utf-8">
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
     <script src="vendor/jquery.jqplot.min.js"></script>
@@ -92,11 +92,21 @@
 
     $.each(dates, function(i, date) {
       E.calendar.setDateTo(date);
-      E.calendar.calcGregorian();
 
-      equationOfTime.push(E.astro.equationOfTime(E.data.julianday.day));
-      sunpos.push(E.astro.sunpos(E.data.julianday.day));
-      obliqeq.push(E.astro.obliqeq(E.data.julianday.day));
+      var year = E.data.gregorian.year,
+          mon  = E.data.gregorian.month,
+          mday = E.data.gregorian.day,
+          hour = E.data.gregorian.hour,
+          min  = E.data.gregorian.min,
+          sec  = E.data.gregorian.sec;
+
+      // Update Julian day
+      j = E.calendar.gregorianToJd(year, mon + 1, mday) +
+        (Math.floor(sec + 60 * (min + 60 * hour) + 0.5) / 86400.0);
+
+      equationOfTime.push(E.astro.equationOfTime(j));
+      sunpos.push(E.astro.sunpos(j));
+      obliqeq.push(E.astro.obliqeq(j));
     });
 
     sunpos = sunpos[0].map(function(_, i) {
