@@ -3,24 +3,24 @@ var Calendrical = (function(exports){
 
   exports.calendar = exports.calendar || {};
   exports.data = exports.data || {
-    bahai: {},
-    excel_serial_1900: {},
-    excel_serial_1904: {},
-    french: {},
-    gregorian: {},
-    gregorian_serial: {},
-    hebrew: {},
-    indian_civil: {},
-    islamic: {},
-    iso_day: {},
-    iso_week: {},
-    julian: {},
-    julian_day: {},
-    mayan_count: {},
-    modified_julian_day: {},
-    persian: {},
-    persian_algorithmic: {},
-    unix_time: {}
+    bahai               : {},
+    excel_serial_1900   : {},
+    excel_serial_1904   : {},
+    french              : {},
+    gregorian           : {},
+    gregorian_serial    : {},
+    hebrew              : {},
+    indian_civil        : {},
+    islamic             : {},
+    iso_day             : {},
+    iso_week            : {},
+    julian              : {},
+    julian_day          : {},
+    mayan_count         : {},
+    modified_julian_day : {},
+    persian             : {},
+    persian_algorithmic : {},
+    unix_time           : {}
   };
 
   // Aliases
