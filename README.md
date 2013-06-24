@@ -3,6 +3,10 @@ Calendrical
 
 Fourmilab Calendar Converter (http://www.fourmilab.ch/documents/calendar/) as a library.
 
+http://dzucconi.github.com/calendrical/
+http://dzucconi.github.com/calendrical/docs/calendrical.calendar.base.html
+http://dzucconi.github.io/calendrical/docs/Jean-Meeus_Astronomical_Algorithms.pdf
+
 Usage
 -----
 
