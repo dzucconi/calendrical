@@ -8,10 +8,9 @@ Usage
 -----
 
 ```javascript
-var E = Calendrical,
-    now = new Date();
+var now = new Date();
 
-E.updateTo(now);
+Calendrical.updateTo(now);
 
-console.log(E.data);
+console.log(Calendrical.data);
 ```
