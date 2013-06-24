@@ -5,9 +5,9 @@ module.exports = function (grunt) {
     uglify: {
       plugin: {
         files: [{
-          "build/calendrical.min.js": ["src/calendrical.astro.js", "src/calendrical.calendar.constants.js", "src/calendrical.calendar.calc.js", "src/calendrical.calendar.js"],
+          "build/calendrical.min.js": ["src/calendrical.*.js"],
           "build/calendrical.astro.min.js": ["src/calendrical.astro.js"],
-          "build/calendrical.calendar.min.js": ["src/calendrical.calendar.constants.js", "src/calendrical.calendar.calc.js", "src/calendrical.calendar.js"]
+          "build/calendrical.calendar.min.js": ["src/calendrical.calendar.*.js"]
         }]
       }
     },

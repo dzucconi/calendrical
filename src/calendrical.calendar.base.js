@@ -71,50 +71,75 @@ var Calendrical = (function(exports){
   // already snapped to an integral second, so
   // we don't get roundoff errors in other calendars.
   calendar.updateFromGregorian = function() {
-    var j, year, mon, mday, hour, min, sec,
-      weekday, julcal, perscal, hebcal, islcal, utime, iso_week,
-      may_countcal, mayhaabcal, maytzolkincal, bahcal, frrcal,
-      indcal, iso_day, xgregcal;
+    var jd, year, mon, day, hour, min, sec, weekday;
 
-    year = new Number(data.gregorian.year);
+    year = data.gregorian.year;
     mon  = data.gregorian.month;
-    mday = new Number(data.gregorian.day);
+    day  = data.gregorian.day;
     hour = min = sec = 0;
-    hour = new Number(data.gregorian.hour);
-    min  = new Number(data.gregorian.min);
-    sec  = new Number(data.gregorian.sec);
+    hour = data.gregorian.hour;
+    min  = data.gregorian.min;
+    sec  = data.gregorian.sec;
 
     // Update Julian day (fractional day)
-    j = this.gregorianToJd(year, mon + 1, mday) +
+    jd = this.gregorianToJd(year, mon + 1, day) +
       (Math.floor(sec + 60 * (min + 60 * hour) + 0.5) / 86400.0);
 
-    data.julian_day.day = j;
-    data.modified_julian_day.day = j - this.constants.JMJD;
+    data.julian_day.day = jd;
 
-    // Update day of week in Gregorian box
-    weekday = astro.jwday(j);
-    data.gregorian.wday = astro.constants.WEEKDAYS[weekday];
+    this.augmentGregorian(jd);
 
-    // Update leap year status in Gregorian box
-    data.gregorian.leap = this.leapGregorian(year);
+    this.updateModifiedJulianDay(jd);
+    this.updateJulian(jd);
+    this.updateHebrew(jd);
+    this.updateIslamic(jd);
+    this.updatePersian(jd);
+    this.updatePersiana(jd);
+    this.updateMayan(jd);
+    this.updateBahai(jd);
+    this.updateIndianCivil(jd);
+    this.updateFrenchRevolutionary(jd);
+    this.updateGregorianSerial(jd);
+    this.updateExcel1900(jd);
+    this.updateExcel1904(jd);
+    this.updateUnixTime(jd);
+    this.updateIsoWeek(jd);
+    this.updateIsoDay(jd);
+  }
 
-    // Update Julian Calendar
-    julcal = this.jdToJulian(j);
+  calendar.updateModifiedJulianDay = function(jd) {
+    data.modified_julian_day = {
+      day: (jd - this.constants.JMJD)
+    }
 
-    data.julian.year  = julcal[0];
-    data.julian.month = this.constants.julian.MONTHS[julcal[1] - 1];
-    data.julian.day   = julcal[2];
-    data.julian.leap  = this.leapJulian(julcal[0]);
-    weekday           = astro.jwday(j);
-    data.julian.wday  = astro.constants.WEEKDAYS[weekday];
+    return data.modified_julian_day;
+  }
 
-    // Update Hebrew Calendar
-    hebcal = this.jdToHebrew(j);
+  // Update the Julian data representation
+  calendar.updateJulian = function(jd) {
+    var julcal = this.jdToJulian(jd);
 
-    data.hebrew.year     = hebcal[0];
-    data.hebrew.month    = this.constants.hebrew.MONTHS[hebcal[1] - 1];
-    data.hebrew.day      = hebcal[2];
-    data.hebrew.hebmonth = this.constants.hebrew.H_MONTHS[hebcal[1] - 1];
+    data.julian = {
+      year  : julcal[0],
+      month : this.constants.julian.MONTHS[julcal[1] - 1],
+      day   : julcal[2],
+      leap  : this.leapJulian(julcal[0]),
+      wday  : astro.constants.WEEKDAYS[astro.jwday(jd)]
+    }
+
+    return data.julian;
+  }
+
+  // Update the Hebrew data representation
+  calendar.updateHebrew = function(jd) {
+    var hebcal = this.jdToHebrew(jd);
+
+    data.hebrew = {
+      year     : hebcal[0],
+      month    : this.constants.hebrew.MONTHS[hebcal[1] - 1],
+      day      : hebcal[2],
+      hebmonth : this.constants.hebrew.H_MONTHS[hebcal[1] - 1]
+    }
 
     switch (this.hebrewYearDays(hebcal[0])) {
     case 353:
@@ -147,132 +172,207 @@ var Calendrical = (function(exports){
       break;
     }
 
-    // Update Islamic Calendar
-    islcal = this.jdToIslamic(j);
+    return data.hebrew;
+  }
 
-    data.islamic.year  = islcal[0];
-    data.islamic.month = this.constants.islamic.MONTHS[islcal[1] - 1];
-    data.islamic.day   = islcal[2];
-    data.islamic.wday  = "yawm " + this.constants.islamic.WEEKDAYS[weekday];
-    data.islamic.leap  = this.leapIslamic(islcal[0]);
+  // Update the Islamic data representation
+  calendar.updateIslamic = function(jd) {
+    var islcal = this.jdToIslamic(jd);
 
-    // Update Persian Calendar
-    perscal = this.jdToPersian(j);
-
-    data.persian.year  = perscal[0];
-    data.persian.month = this.constants.persian.MONTHS[perscal[1] - 1];
-    data.persian.day   = perscal[2];
-    data.persian.wday  = this.constants.persian.WEEKDAYS[weekday];
-    data.persian.leap  = this.leapPersian(perscal[0]);
-
-    // Update Persian Astronomical Calendar
-    perscal = this.jdToPersiana(j);
-
-    data.persian_algorithmic.year  = perscal[0];
-    data.persian_algorithmic.month = this.constants.persian.MONTHS[perscal[1] - 1];
-    data.persian_algorithmic.day   = perscal[2];
-    data.persian_algorithmic.wday  = this.constants.persian.WEEKDAYS[weekday];
-    data.persian_algorithmic.leap  = this.leapPersiana(perscal[0]);
-
-    // Update Mayan Calendars
-    may_countcal = this.jdToMayanCount(j);
-
-    data.mayan_count.baktun  = may_countcal[0];
-    data.mayan_count.katun   = may_countcal[1];
-    data.mayan_count.tun     = may_countcal[2];
-    data.mayan_count.uinal   = may_countcal[3];
-    data.mayan_count.kin     = may_countcal[4];
-    mayhaabcal               = this.jdToMayanHaab(j);
-    data.mayan_count.haab    = mayhaabcal[1] + " " + this.constants.mayan.HAAB_MONTHS[mayhaabcal[0] - 1];
-    maytzolkincal            = this.jdToMayanTzolkin(j);
-    data.mayan_count.tzolkin =
-      maytzolkincal[1] + " " + this.constants.mayan.TZOLKIN_MONTHS[maytzolkincal[0] - 1];
-
-    // Update Bahai Calendar
-    bahcal = this.jdToBahai(j);
-
-    data.bahai.kull_i_shay = bahcal[0];
-    data.bahai.vahid       = bahcal[1];
-    data.bahai.year        = this.constants.bahai.YEARS[bahcal[2] - 1];
-    data.bahai.month       = this.constants.bahai.MONTHS[bahcal[3] - 1];
-    data.bahai.day         = this.constants.bahai.DAYS[bahcal[4] - 1];
-    data.bahai.weekday     = this.constants.bahai.WEEKDAYS[weekday];
-
-    // Bahai uses same leap rule as Gregorian
-    data.bahai.leap = this.leapGregorian(year);
-
-    // Update Indian Civil Calendar
-    indcal = this.jdToIndianCivil(j);
-
-    data.indian_civil.year    = indcal[0];
-    data.indian_civil.month   = this.constants.indian_civil.MONTHS[indcal[1] - 1];
-    data.indian_civil.day     = indcal[2];
-    data.indian_civil.weekday = this.constants.indian_civil.WEEKDAYS[weekday];
-    data.indian_civil.leap    = this.leapGregorian(indcal[0] + 78);
-
-    // Update French Republican Calendar
-    frrcal = this.jdToFrenchRevolutionary(j);
-
-    data.french.an     = frrcal[0];
-    data.french.mois   = this.constants.french_revolutionary.MOIS[frrcal[1] - 1];
-    data.french.decade = this.constants.french_revolutionary.DECADE[frrcal[2] - 1];
-    data.french.jour   =
-      this.constants.french_revolutionary.JOUR[((frrcal[1] <= 12) ? frrcal[3] : (frrcal[3] + 11)) - 1];
-
-    // Update Gregorian serial number
-    if (data.gregorian_serial != null) {
-      data.gregorian_serial.day = j - this.constants.J0000;
+    data.islamic = {
+      year  : islcal[0],
+      month : this.constants.islamic.MONTHS[islcal[1] - 1],
+      day   : islcal[2],
+      wday  : "yawm " + this.constants.islamic.WEEKDAYS[astro.jwday(jd)],
+      leap  : this.leapIslamic(islcal[0])
     }
 
-    // Update Excel 1900 and 1904 day serial numbers
-    data.excel_serial_1900.day = (j - this.constants.J1900) + 1 +
+    return data.islamic;
+  }
+
+  // Update the Persian data representation
+  calendar.updatePersian = function(jd) {
+    var perscal = this.jdToPersian(jd);
+
+    data.persian = {
+      year  : perscal[0],
+      month : this.constants.persian.MONTHS[perscal[1] - 1],
+      day   : perscal[2],
+      wday  : this.constants.persian.WEEKDAYS[astro.jwday(jd)],
+      leap  : this.leapPersian(perscal[0])
+    }
+
+    return data.persian;
+  }
+
+  // Update the Persian algorithmic data representation
+  calendar.updatePersiana = function(jd) {
+    var perscal = this.jdToPersiana(jd);
+
+    data.persian_algorithmic = {
+      year  : perscal[0],
+      month : this.constants.persian.MONTHS[perscal[1] - 1],
+      day   : perscal[2],
+      wday  : this.constants.persian.WEEKDAYS[astro.jwday(jd)],
+      leap  : this.leapPersiana(perscal[0])
+    }
+
+    return data.persian_algorithmic;
+  }
+
+  // Update the Mayan data representation
+  calendar.updateMayan = function(jd) {
+    var mayancal = this.jdToMayanCount(jd),
+        mayhaabcal = this.jdToMayanHaab(jd),
+        maytzolkincal = this.jdToMayanTzolkin(jd);
+
+    data.mayan_count = {
+      baktun  : mayancal[0],
+      katun   : mayancal[1],
+      tun     : mayancal[2],
+      uinal   : mayancal[3],
+      kin     : mayancal[4],
+      haab    : mayhaabcal[1] + " " + this.constants.mayan.HAAB_MONTHS[mayhaabcal[0] - 1],
+      tzolkin : maytzolkincal[1] + " " + this.constants.mayan.TZOLKIN_MONTHS[maytzolkincal[0] - 1]
+    }
+
+    return data.mayan_count;
+  }
+
+  // Update the Bahai data representation
+  calendar.updateBahai = function(jd) {
+    var bahcal = this.jdToBahai(jd);
+
+    data.bahai = {
+      kull_i_shay : bahcal[0],
+      vahid       : bahcal[1],
+      year        : this.constants.bahai.YEARS[bahcal[2] - 1],
+      month       : this.constants.bahai.MONTHS[bahcal[3] - 1],
+      day         : this.constants.bahai.DAYS[bahcal[4] - 1],
+      weekday     : this.constants.bahai.WEEKDAYS[astro.jwday(jd)]
+    }
+
+    // Bahai uses same leap rule as Gregorian
+    data.bahai.leap = this.leapGregorian(this.jdToGregorianYear(jd));
+
+    return data.bahai;
+  }
+
+  // Update the Indian Civil data representation
+  calendar.updateIndianCivil = function(jd) {
+    var indcal = this.jdToIndianCivil(jd);
+
+    data.indian_civil = {
+      year    : indcal[0],
+      month   : this.constants.indian_civil.MONTHS[indcal[1] - 1],
+      day     : indcal[2],
+      weekday : this.constants.indian_civil.WEEKDAYS[astro.jwday(jd)],
+      leap    : this.leapGregorian(indcal[0] + 78)
+    }
+
+    return data.indian_civil;
+  }
+
+  // Update the French data representation
+  calendar.updateFrenchRevolutionary = function(jd) {
+    var frrcal = this.jdToFrenchRevolutionary(jd);
+
+    data.french = {
+      an: frrcal[0],
+      mois: this.constants.french_revolutionary.MOIS[frrcal[1] - 1],
+      decade: this.constants.french_revolutionary.DECADE[frrcal[2] - 1],
+      jour: this.constants.french_revolutionary.JOUR[((frrcal[1] <= 12) ? frrcal[3] : (frrcal[3] + 11)) - 1]
+    }
+
+    return data.french;
+  }
+
+  // Update the Gregorian Serial data representation
+  calendar.updateGregorianSerial = function(jd) {
+    data.gregorian_serial = {
+      day: (jd - this.constants.J0000)
+    }
+
+    return data.gregorian_serial;
+  }
+
+  // Update the Excel 1900 data representation
+  calendar.updateExcel1900 = function(jd) {
+    data.excel_serial_1900.day = (jd - this.constants.J1900) + 1 +
 
     // Microsoft marching morons thought 1900 was a leap year.
     // Adjust dates after 1900-02-28 to compensate for their idiocy.
-    ((j > 2415078.5) ? 1 : 0);
-    data.excel_serial_1904.day = j - this.constants.J1904;
+    ((jd > 2415078.5) ? 1 : 0);
 
-    // Update Unix time()
-    utime = (j - this.constants.J1970) * (60 * 60 * 24 * 1000);
-
-    data.unix_time.time = Math.round(utime / 1000);
-
-    // Update ISO Week
-    iso_week = this.jdToIso(j);
-
-    data.iso_week.year = iso_week[0];
-    data.iso_week.week = iso_week[1];
-    data.iso_week.day  = iso_week[2];
-
-    // Update ISO Day
-    iso_day = this.jdToIsoDay(j);
-
-    data.iso_day.year = iso_day[0];
-    data.iso_day.day  = iso_day[1];
+    return data.excel_serial_1900;
   }
 
-  // Preset the fields in
-  // the request form to today's date.
-  calendar.setDateToToday = function() {
-    var today = new Date();
+  // Update the Excel 1904 data representation
+  calendar.updateExcel1904 = function(jd) {
+    data.excel_serial_1904 = {
+      day: (jd - this.constants.J1904)
+    }
 
-    data.gregorian.year  = today.getFullYear();
-    data.gregorian.month = today.getMonth();
-    data.gregorian.day   = today.getDate();
-    data.gregorian.hour  = 0;
-    data.gregorian.min   = 0;
-    data.gregorian.sec   = 0;
+    return data.excel_serial_1904;
   }
 
-  // Preset the fields in
-  // the request form to the time passed in.
+  // Update the Unix Time data representation
+  calendar.updateUnixTime = function(jd) {
+    var utime = (jd - this.constants.J1970) * (60 * 60 * 24 * 1000);
+
+    data.unix_time = {
+      time: Math.round(utime / 1000)
+    }
+
+    return data.unix_time;
+  }
+
+  // Update the ISO Week data representation
+  calendar.updateIsoWeek = function(jd) {
+    var iso_week = this.jdToIso(jd);
+
+    data.iso_week = {
+      year : iso_week[0],
+      week : iso_week[1],
+      day  : iso_week[2]
+    }
+
+    return data.iso_week;
+  }
+
+  // Update the ISO Day data representation
+  calendar.updateIsoDay = function(jd) {
+    var iso_day = this.jdToIsoDay(jd);
+
+    data.iso_day = {
+      year : iso_day[0],
+      day  : iso_day[1]
+    }
+
+    return data.iso_day;
+  }
+
+  // Augment the Gregorian data representation
+  // with weekday and leap
+  calendar.augmentGregorian = function(jd) {
+    data.gregorian.wday = astro.constants.WEEKDAYS[astro.jwday(jd)];
+    data.gregorian.leap = this.leapGregorian(data.gregorian.year);
+
+    return data.gregorian;
+  }
+
+  // Sets the Gregorian fields in the data representation
   calendar.setDateTo = function(date) {
-    data.gregorian.year  = date.getFullYear();
-    data.gregorian.month = date.getMonth();
-    data.gregorian.day   = date.getDate();
-    data.gregorian.hour  = date.getHours();
-    data.gregorian.min   = date.getMinutes();
-    data.gregorian.sec   = date.getSeconds();
+    data.gregorian = {
+      year  : date.getFullYear(),
+      month : date.getMonth(),
+      day   : date.getDate(),
+      hour  : date.getHours(),
+      min   : date.getMinutes(),
+      sec   : date.getSeconds()
+    }
+
+    return data.gregorian;
   }
 
   // Preset the fields in

@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>calendrical.calendar.base.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="calendrical.astro.html">
+                calendrical.astro.js
+              </a>
+            
+              
+              <a class="source" href="calendrical.calendar.base.html">
+                calendrical.calendar.base.js
+              </a>
+            
+              
+              <a class="source" href="calendrical.calendar.calc.html">
+                calendrical.calendar.calc.js
+              </a>
+            
+              
+              <a class="source" href="calendrical.calendar.constants.html">
+                calendrical.calendar.constants.js
+              </a>
+            
+              
+              <a class="source" href="calendrical.calendar.conversions.html">
+                calendrical.calendar.conversions.js
+              </a>
+            
+              
+              <a class="source" href="calendrical.date.html">
+                calendrical.date.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>calendrical.calendar.base.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="keyword">var</span> Calendrical = (<span class="keyword">function</span>(exports){
+  <span class="string">"use strict"</span>;
+
+  exports.calendar = exports.calendar || {};
+  exports.data = exports.data || {
+    bahai: {},
+    excel_serial_1900: {},
+    excel_serial_1904: {},
+    french: {},
+    gregorian: {},
+    gregorian_serial: {},
+    hebrew: {},
+    indian_civil: {},
+    islamic: {},
+    iso_day: {},
+    iso_week: {},
+    julian: {},
+    julian_day: {},
+    mayan_count: {},
+    modified_julian_day: {},
+    persian: {},
+    persian_algorithmic: {},
+    unix_time: {}
+  };</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <p>Aliases</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  <span class="keyword">var</span> astro    = exports.astro,
+      calendar = exports.calendar,
+      data     = exports.data;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              <p>Return Julian date of given weekday (0 = Sunday)
+in the seven days ending on jd.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.weekdayBefore = <span class="keyword">function</span>(weekday, jd) {
+    <span class="keyword">return</span> jd - astro.jwday(jd - weekday);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <p>Determine the Julian date for:</p>
+<p><strong>weekday</strong>      Day of week desired, 0 = Sunday
+<strong>jd</strong>           Julian date to begin search
+<strong>direction</strong>    1 = next weekday, -1 = last weekday
+<strong>offset</strong>       Offset from jd to begin search</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.searchWeekday = <span class="keyword">function</span>(weekday, jd, direction, offset) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.weekdayBefore(weekday, jd + (direction * offset));
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              <p>Utility weekday functions, just wrappers for search_weekday</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.nearestWeekday = <span class="keyword">function</span>(weekday, jd) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.searchWeekday(weekday, jd, <span class="number">1</span>, <span class="number">3</span>);
+  }
+
+  calendar.nextWeekday = <span class="keyword">function</span>(weekday, jd) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.searchWeekday(weekday, jd, <span class="number">1</span>, <span class="number">7</span>);
+  }
+
+  calendar.nextOrCurrentWeekday = <span class="keyword">function</span>(weekday, jd) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.searchWeekday(weekday, jd, <span class="number">1</span>, <span class="number">6</span>);
+  }
+
+  calendar.previousWeekday = <span class="keyword">function</span>(weekday, jd) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.searchWeekday(weekday, jd, -<span class="number">1</span>, <span class="number">1</span>);
+  }
+
+  calendar.previousOrCurrentWeekday = <span class="keyword">function</span>(weekday, jd) {
+    <span class="keyword">return</span> <span class="keyword">this</span>.searchWeekday(weekday, jd, <span class="number">1</span>, <span class="number">0</span>);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>Update all calendars from Gregorian.
+<em>&quot;Why not Julian date?&quot;</em> you ask. Because
+starting from Gregorian guarantees we&#39;re
+already snapped to an integral second, so
+we don&#39;t get roundoff errors in other calendars.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.updateFromGregorian = <span class="keyword">function</span>() {
+    <span class="keyword">var</span> jd, year, mon, day, hour, min, sec, weekday;
+
+    year = data.gregorian.year;
+    mon  = data.gregorian.month;
+    day  = data.gregorian.day;
+    hour = min = sec = <span class="number">0</span>;
+    hour = data.gregorian.hour;
+    min  = data.gregorian.min;
+    sec  = data.gregorian.sec;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <p>Update Julian day (fractional day)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    jd = <span class="keyword">this</span>.gregorianToJd(year, mon + <span class="number">1</span>, day) +
+      (Math.floor(sec + <span class="number">60</span> * (min + <span class="number">60</span> * hour) + <span class="number">0.5</span>) / <span class="number">86400.0</span>);
+
+    data.julian_day.day = jd;
+
+    <span class="keyword">this</span>.augmentGregorian(jd);
+
+    <span class="keyword">this</span>.updateModifiedJulianDay(jd);
+    <span class="keyword">this</span>.updateJulian(jd);
+    <span class="keyword">this</span>.updateHebrew(jd);
+    <span class="keyword">this</span>.updateIslamic(jd);
+    <span class="keyword">this</span>.updatePersian(jd);
+    <span class="keyword">this</span>.updatePersiana(jd);
+    <span class="keyword">this</span>.updateMayan(jd);
+    <span class="keyword">this</span>.updateBahai(jd);
+    <span class="keyword">this</span>.updateIndianCivil(jd);
+    <span class="keyword">this</span>.updateFrenchRevolutionary(jd);
+    <span class="keyword">this</span>.updateGregorianSerial(jd);
+    <span class="keyword">this</span>.updateExcel1900(jd);
+    <span class="keyword">this</span>.updateExcel1904(jd);
+    <span class="keyword">this</span>.updateUnixTime(jd);
+    <span class="keyword">this</span>.updateIsoWeek(jd);
+    <span class="keyword">this</span>.updateIsoDay(jd);
+  }
+
+  calendar.updateModifiedJulianDay = <span class="keyword">function</span>(jd) {
+    data.modified_julian_day = {
+      day: (jd - <span class="keyword">this</span>.constants.JMJD)
+    }
+
+    <span class="keyword">return</span> data.modified_julian_day;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <p>Update the Julian data representation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.updateJulian = <span class="keyword">function</span>(jd) {
+    <span class="keyword">var</span> julcal = <span class="keyword">this</span>.jdToJulian(jd);
+
+    data.julian = {
+      year  : julcal[<span class="number">0</span>],
+      month : <span class="keyword">this</span>.constants.julian.MONTHS[julcal[<span class="number">1</span>] - <span class="number">1</span>],
+      day   : julcal[<span class="number">2</span>],
+      leap  : <span class="keyword">this</span>.leapJulian(julcal[<span class="number">0</span>]),
+      wday  : astro.constants.WEEKDAYS[astro.jwday(jd)]
+    }
+
+    <span class="keyword">return</span> data.julian;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>Update the Hebrew data representation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.updateHebrew = <span class="keyword">function</span>(jd) {
+    <span class="keyword">var</span> hebcal = <span class="keyword">this</span>.jdToHebrew(jd);
+
+    data.hebrew = {
+      year     : hebcal[<span class="number">0</span>],
+      month    : <span class="keyword">this</span>.constants.hebrew.MONTHS[hebcal[<span class="number">1</span>] - <span class="number">1</span>],
+      day      : hebcal[<span class="number">2</span>],
+      hebmonth : <span class="keyword">this</span>.constants.hebrew.H_MONTHS[hebcal[<span class="number">1</span>] - <span class="number">1</span>]
+    }
+
+    <span class="keyword">switch</span> (<span class="keyword">this</span>.hebrewYearDays(hebcal[<span class="number">0</span>])) {
+    <span class="keyword">case</span> <span class="number">353</span>:
+      data.hebrew.leap = <span class="string">"Common deficient (353 days)"</span>;
+      <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> <span class="number">354</span>:
+      data.hebrew.leap = <span class="string">"Common regular (354 days)"</span>;
+      <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> <span class="number">355</span>:
+      data.hebrew.leap = <span class="string">"Common complete (355 days)"</span>;
+      <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> <span class="number">383</span>:
+      data.hebrew.leap = <span class="string">"Embolismic deficient (383 days)"</span>;
+      <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> <span class="number">384</span>:
+      data.hebrew.leap = <span class="string">"Embolismic regular (384 days)"</span>;
+      <span class="keyword">break</span>;
+
+    <span class="keyword">case</span> <span class="number">385</span>:
+      data.hebrew.leap = <span class="string">"Embolismic complete (385 days)"</span>;
+      <span class="keyword">break</span>;
+
+    <span class="keyword">default</span>:
+      data.hebrew.leap = <span class="string">"Invalid year length: "</span> +
+        <span class="keyword">this</span>.hebrewYearDays(hebcal[<span class="number">0</span>]) + <span class="string">" days."</span>;
+      <span class="keyword">break</span>;
+    }
+
+    <span class="keyword">return</span> data.hebrew;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Update the Islamic data representation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.updateIslamic = <span class="keyword">function</span>(jd) {
+    <span class="keyword">var</span> islcal = <span class="keyword">this</span>.jdToIslamic(jd);
+
+    data.islamic = {
+      year  : islcal[<span class="number">0</span>],
+      month : <span class="keyword">this</span>.constants.islamic.MONTHS[islcal[<span class="number">1</span>] - <span class="number">1</span>],
+      day   : islcal[<span class="number">2</span>],
+      wday  : <span class="string">"yawm "</span> + <span class="keyword">this</span>.constants.islamic.WEEKDAYS[astro.jwday(jd)],
+      leap  : <span class="keyword">this</span>.leapIslamic(islcal[<span class="number">0</span>])
+    }
+
+    <span class="keyword">return</span> data.islamic;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>Update the Persian data representation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.updatePersian = <span class="keyword">function</span>(jd) {
+    <span class="keyword">var</span> perscal = <span class="keyword">this</span>.jdToPersian(jd);
+
+    data.persian = {
+      year  : perscal[<span class="number">0</span>],
+      month : <span class="keyword">this</span>.constants.persian.MONTHS[perscal[<span class="number">1</span>] - <span class="number">1</span>],
+      day   : perscal[<span class="number">2</span>],
+      wday  : <span class="keyword">this</span>.constants.persian.WEEKDAYS[astro.jwday(jd)],
+      leap  : <span class="keyword">this</span>.leapPersian(perscal[<span class="number">0</span>])
+    }
+
+    <span class="keyword">return</span> data.persian;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>Update the Persian algorithmic data representation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.updatePersiana = <span class="keyword">function</span>(jd) {
+    <span class="keyword">var</span> perscal = <span class="keyword">this</span>.jdToPersiana(jd);
+
+    data.persian_algorithmic = {
+      year  : perscal[<span class="number">0</span>],
+      month : <span class="keyword">this</span>.constants.persian.MONTHS[perscal[<span class="number">1</span>] - <span class="number">1</span>],
+      day   : perscal[<span class="number">2</span>],
+      wday  : <span class="keyword">this</span>.constants.persian.WEEKDAYS[astro.jwday(jd)],
+      leap  : <span class="keyword">this</span>.leapPersiana(perscal[<span class="number">0</span>])
+    }
+
+    <span class="keyword">return</span> data.persian_algorithmic;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Update the Mayan data representation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.updateMayan = <span class="keyword">function</span>(jd) {
+    <span class="keyword">var</span> mayancal = <span class="keyword">this</span>.jdToMayanCount(jd),
+        mayhaabcal = <span class="keyword">this</span>.jdToMayanHaab(jd),
+        maytzolkincal = <span class="keyword">this</span>.jdToMayanTzolkin(jd);
+
+    data.mayan_count = {
+      baktun  : mayancal[<span class="number">0</span>],
+      katun   : mayancal[<span class="number">1</span>],
+      tun     : mayancal[<span class="number">2</span>],
+      uinal   : mayancal[<span class="number">3</span>],
+      kin     : mayancal[<span class="number">4</span>],
+      haab    : mayhaabcal[<span class="number">1</span>] + <span class="string">" "</span> + <span class="keyword">this</span>.constants.mayan.HAAB_MONTHS[mayhaabcal[<span class="number">0</span>] - <span class="number">1</span>],
+      tzolkin : maytzolkincal[<span class="number">1</span>] + <span class="string">" "</span> + <span class="keyword">this</span>.constants.mayan.TZOLKIN_MONTHS[maytzolkincal[<span class="number">0</span>] - <span class="number">1</span>]
+    }
+
+    <span class="keyword">return</span> data.mayan_count;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Update the Bahai data representation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.updateBahai = <span class="keyword">function</span>(jd) {
+    <span class="keyword">var</span> bahcal = <span class="keyword">this</span>.jdToBahai(jd);
+
+    data.bahai = {
+      kull_i_shay : bahcal[<span class="number">0</span>],
+      vahid       : bahcal[<span class="number">1</span>],
+      year        : <span class="keyword">this</span>.constants.bahai.YEARS[bahcal[<span class="number">2</span>] - <span class="number">1</span>],
+      month       : <span class="keyword">this</span>.constants.bahai.MONTHS[bahcal[<span class="number">3</span>] - <span class="number">1</span>],
+      day         : <span class="keyword">this</span>.constants.bahai.DAYS[bahcal[<span class="number">4</span>] - <span class="number">1</span>],
+      weekday     : <span class="keyword">this</span>.constants.bahai.WEEKDAYS[astro.jwday(jd)]
+    }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <p>Bahai uses same leap rule as Gregorian</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    data.bahai.leap = <span class="keyword">this</span>.leapGregorian(<span class="keyword">this</span>.jdToGregorianYear(jd));
+
+    <span class="keyword">return</span> data.bahai;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>Update the Indian Civil data representation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.updateIndianCivil = <span class="keyword">function</span>(jd) {
+    <span class="keyword">var</span> indcal = <span class="keyword">this</span>.jdToIndianCivil(jd);
+
+    data.indian_civil = {
+      year    : indcal[<span class="number">0</span>],
+      month   : <span class="keyword">this</span>.constants.indian_civil.MONTHS[indcal[<span class="number">1</span>] - <span class="number">1</span>],
+      day     : indcal[<span class="number">2</span>],
+      weekday : <span class="keyword">this</span>.constants.indian_civil.WEEKDAYS[astro.jwday(jd)],
+      leap    : <span class="keyword">this</span>.leapGregorian(indcal[<span class="number">0</span>] + <span class="number">78</span>)
+    }
+
+    <span class="keyword">return</span> data.indian_civil;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <p>Update the French data representation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.updateFrenchRevolutionary = <span class="keyword">function</span>(jd) {
+    <span class="keyword">var</span> frrcal = <span class="keyword">this</span>.jdToFrenchRevolutionary(jd);
+
+    data.french = {
+      an: frrcal[<span class="number">0</span>],
+      mois: <span class="keyword">this</span>.constants.french_revolutionary.MOIS[frrcal[<span class="number">1</span>] - <span class="number">1</span>],
+      decade: <span class="keyword">this</span>.constants.french_revolutionary.DECADE[frrcal[<span class="number">2</span>] - <span class="number">1</span>],
+      jour: <span class="keyword">this</span>.constants.french_revolutionary.JOUR[((frrcal[<span class="number">1</span>] &lt;= <span class="number">12</span>) ? frrcal[<span class="number">3</span>] : (frrcal[<span class="number">3</span>] + <span class="number">11</span>)) - <span class="number">1</span>]
+    }
+
+    <span class="keyword">return</span> data.french;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>Update the Gregorian Serial data representation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.updateGregorianSerial = <span class="keyword">function</span>(jd) {
+    data.gregorian_serial = {
+      day: (jd - <span class="keyword">this</span>.constants.J0000)
+    }
+
+    <span class="keyword">return</span> data.gregorian_serial;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>Update the Excel 1900 data representation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.updateExcel1900 = <span class="keyword">function</span>(jd) {
+    data.excel_serial_1900.day = (jd - <span class="keyword">this</span>.constants.J1900) + <span class="number">1</span> +</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-20">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-20">&#182;</a>
+              </div>
+              <p>Microsoft marching morons thought 1900 was a leap year.
+Adjust dates after 1900-02-28 to compensate for their idiocy.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    ((jd &gt; <span class="number">2415078.5</span>) ? <span class="number">1</span> : <span class="number">0</span>);
+
+    <span class="keyword">return</span> data.excel_serial_1900;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-21">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-21">&#182;</a>
+              </div>
+              <p>Update the Excel 1904 data representation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.updateExcel1904 = <span class="keyword">function</span>(jd) {
+    data.excel_serial_1904 = {
+      day: (jd - <span class="keyword">this</span>.constants.J1904)
+    }
+
+    <span class="keyword">return</span> data.excel_serial_1904;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-22">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-22">&#182;</a>
+              </div>
+              <p>Update the Unix Time data representation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.updateUnixTime = <span class="keyword">function</span>(jd) {
+    <span class="keyword">var</span> utime = (jd - <span class="keyword">this</span>.constants.J1970) * (<span class="number">60</span> * <span class="number">60</span> * <span class="number">24</span> * <span class="number">1000</span>);
+
+    data.unix_time = {
+      time: Math.round(utime / <span class="number">1000</span>)
+    }
+
+    <span class="keyword">return</span> data.unix_time;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-23">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-23">&#182;</a>
+              </div>
+              <p>Update the ISO Week data representation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.updateIsoWeek = <span class="keyword">function</span>(jd) {
+    <span class="keyword">var</span> iso_week = <span class="keyword">this</span>.jdToIso(jd);
+
+    data.iso_week = {
+      year : iso_week[<span class="number">0</span>],
+      week : iso_week[<span class="number">1</span>],
+      day  : iso_week[<span class="number">2</span>]
+    }
+
+    <span class="keyword">return</span> data.iso_week;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-24">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-24">&#182;</a>
+              </div>
+              <p>Update the ISO Day data representation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.updateIsoDay = <span class="keyword">function</span>(jd) {
+    <span class="keyword">var</span> iso_day = <span class="keyword">this</span>.jdToIsoDay(jd);
+
+    data.iso_day = {
+      year : iso_day[<span class="number">0</span>],
+      day  : iso_day[<span class="number">1</span>]
+    }
+
+    <span class="keyword">return</span> data.iso_day;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-25">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-25">&#182;</a>
+              </div>
+              <p>Augment the Gregorian data representation
+with weekday and leap</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.augmentGregorian = <span class="keyword">function</span>(jd) {
+    data.gregorian.wday = astro.constants.WEEKDAYS[astro.jwday(jd)];
+    data.gregorian.leap = <span class="keyword">this</span>.leapGregorian(data.gregorian.year);
+
+    <span class="keyword">return</span> data.gregorian;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-26">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-26">&#182;</a>
+              </div>
+              <p>Sets the Gregorian fields in the data representation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.setDateTo = <span class="keyword">function</span>(date) {
+    data.gregorian = {
+      year  : date.getFullYear(),
+      month : date.getMonth(),
+      day   : date.getDate(),
+      hour  : date.getHours(),
+      min   : date.getMinutes(),
+      sec   : date.getSeconds()
+    }
+
+    <span class="keyword">return</span> data.gregorian;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-27">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-27">&#182;</a>
+              </div>
+              <p>Preset the fields in
+the request form to the time now.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.setDateToNow = <span class="keyword">function</span>() {
+    <span class="keyword">var</span> today = <span class="keyword">new</span> Date();
+
+    <span class="keyword">this</span>.setDateTo(today);
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-28">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-28">&#182;</a>
+              </div>
+              <p>Update the internal data representation
+once per second</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.start = <span class="keyword">function</span>() {
+    exports.intervalId = window.setInterval(<span class="keyword">function</span>() {
+      calendar.updateTo();
+    }, <span class="number">1000</span>);
+
+    <span class="keyword">return</span> <span class="keyword">this</span>;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-29">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-29">&#182;</a>
+              </div>
+              <p>Clear the interval to stop the updating</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.stop = <span class="keyword">function</span>() {
+    window.clearInterval(exports.intervalId);
+
+    <span class="keyword">return</span> <span class="keyword">this</span>;
+  }</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-30">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-30">&#182;</a>
+              </div>
+              <p>Update the data representation to the specified date
+If no date is passed in then the data representation
+is updated to the time of invocation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>  calendar.updateTo = <span class="keyword">function</span>(date) {
+    <span class="keyword">if</span> (<span class="keyword">typeof</span>(a) === <span class="string">"undefined"</span>) { date = <span class="keyword">new</span> Date(); }
+
+    <span class="keyword">this</span>.setDateTo(date);
+    <span class="keyword">this</span>.calcGregorian();
+
+    <span class="keyword">return</span> <span class="keyword">this</span>;
+  }
+
+  <span class="keyword">return</span> exports;
+}(Calendrical || {}));</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

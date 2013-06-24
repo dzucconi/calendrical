@@ -27,10 +27,9 @@ var Calendrical = (function(exports){
         day);
   }
 
-  // Calculate Gregorian calendar date from Julian day
-  calendar.jdToGregorian = function(jd) {
+  calendar.jdToGregorianYear = function(jd) {
     var wjd, depoch, quadricent, dqc, cent, dcent, quad, dquad,
-      yindex, dyindex, year, yearday, leapadj, month, day;
+      yindex, year;
 
     wjd        = Math.floor(jd - 0.5) + 0.5;
     depoch     = wjd - this.constants.gregorian.EPOCH;
@@ -44,6 +43,16 @@ var Calendrical = (function(exports){
     year       = (quadricent * 400) + (cent * 100) + (quad * 4) + yindex;
 
     if (!((cent == 4) || (yindex == 4))) { year++; }
+
+    return year;
+  }
+
+  // Calculate Gregorian calendar date from Julian day
+  calendar.jdToGregorian = function(jd) {
+    var wjd, year, yearday, leapadj, month, day;
+
+    wjd = Math.floor(jd - 0.5) + 0.5;
+    year = this.jdToGregorianYear(jd);
 
     yearday = wjd - this.gregorianToJd(year, 1, 1);
     leapadj = ((wjd < this.gregorianToJd(year, 3, 1)) ? 0 :
