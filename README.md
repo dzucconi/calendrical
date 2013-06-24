@@ -1,4 +1,4 @@
-Ephemerides
+Calendrical
 ===========
 
 Refactor of the Fourmilab Calendar Converter:
@@ -8,7 +8,7 @@ Usage
 -----
 
 ```javascript
-var E = Ephemerides,
+var E = Calendrical,
     now = new Date();
 
 E.updateTo(now);

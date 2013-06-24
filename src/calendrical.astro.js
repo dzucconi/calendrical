@@ -1,4 +1,4 @@
-var Ephemerides = (function(exports) {
+var Calendrical = (function(exports) {
   "use strict";
 
   exports.astro = exports.astro || {};
@@ -571,4 +571,4 @@ var Ephemerides = (function(exports) {
   }
 
   return exports;
-}(Ephemerides || {}));
+}(Calendrical || {}));
