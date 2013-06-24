@@ -84,7 +84,7 @@ var Calendrical = (function(exports){
     min  = new Number(data.gregorian.min);
     sec  = new Number(data.gregorian.sec);
 
-    // Update Julian day
+    // Update Julian day (fractional day)
     j = this.gregorianToJd(year, mon + 1, mday) +
       (Math.floor(sec + 60 * (min + 60 * hour) + 0.5) / 86400.0);
 
@@ -183,10 +183,10 @@ var Calendrical = (function(exports){
     data.mayan_count.uinal   = may_countcal[3];
     data.mayan_count.kin     = may_countcal[4];
     mayhaabcal               = this.jdToMayanHaab(j);
-    data.mayan_count.haab    = "" + mayhaabcal[1] + " " + this.constants.mayan.HAAB_MONTHS[mayhaabcal[0] - 1];
+    data.mayan_count.haab    = mayhaabcal[1] + " " + this.constants.mayan.HAAB_MONTHS[mayhaabcal[0] - 1];
     maytzolkincal            = this.jdToMayanTzolkin(j);
     data.mayan_count.tzolkin =
-      "" + maytzolkincal[1] + " " + this.constants.mayan.TZOLKIN_MONTHS[maytzolkincal[0] - 1];
+      maytzolkincal[1] + " " + this.constants.mayan.TZOLKIN_MONTHS[maytzolkincal[0] - 1];
 
     // Update Bahai Calendar
     bahcal = this.jdToBahai(j);
@@ -228,8 +228,7 @@ var Calendrical = (function(exports){
     data.excel_serial_1900.day = (j - this.constants.J1900) + 1 +
 
     // Microsoft marching morons thought 1900 was a leap year.
-    // Adjust dates after 1900-02-28 to compensate for their
-    // idiocy.
+    // Adjust dates after 1900-02-28 to compensate for their idiocy.
     ((j > 2415078.5) ? 1 : 0);
     data.excel_serial_1904.day = j - this.constants.J1904;
 
