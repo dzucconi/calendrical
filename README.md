@@ -1,8 +1,7 @@
 Calendrical
 ===========
 
-Refactor of the Fourmilab Calendar Converter:
-http://www.fourmilab.ch/documents/calendar/
+Fourmilab Calendar Converter (http://www.fourmilab.ch/documents/calendar/) as a library.
 
 Usage
 -----
