@@ -14,6 +14,7 @@ module.exports = function (grunt) {
 
     shell: {
       generateDocs: {
+        command: "rm docs/*",
         command: "docco src/calendrical.*.js"
       }
     }
