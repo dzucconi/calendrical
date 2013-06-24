@@ -4,6 +4,10 @@ var Calendrical = (function(exports){
 
   exports.calendar = exports.calendar || {};
 
+  // Aliases
+  var calendar = exports.calendar,
+      data     = exports.data;
+
   // Preset the Gregorian date to the
   // date requested by the URL
   // search field.
