@@ -16,8 +16,6 @@ var Calendrical = (function(exports){
     // *Epoch (day 0) of Excel 1904 date system (Mac)*
     J1904: 2416480.5,
 
-    NORM_LEAP: ["Normal year", "Leap year"],
-
     gregorian: {
       EPOCH: 1721425.5,
       MONTHS: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]

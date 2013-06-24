@@ -96,7 +96,7 @@ var Calendrical = (function(exports){
     data.gregorian.wday = astro.constants.WEEKDAYS[weekday];
 
     // Update leap year status in Gregorian box
-    data.gregorian.leap = this.constants.NORM_LEAP[this.leapGregorian(year) ? 1 : 0];
+    data.gregorian.leap = this.leapGregorian(year);
 
     // Update Julian Calendar
     julcal = this.jdToJulian(j);
@@ -104,8 +104,8 @@ var Calendrical = (function(exports){
     data.julian.year  = julcal[0];
     data.julian.month = this.constants.julian.MONTHS[julcal[1] - 1];
     data.julian.day   = julcal[2];
-    data.julian.leap  = this.constants.NORM_LEAP[this.leapJulian(julcal[0]) ? 1 : 0];
-    weekday                   = astro.jwday(j);
+    data.julian.leap  = this.leapJulian(julcal[0]);
+    weekday           = astro.jwday(j);
     data.julian.wday  = astro.constants.WEEKDAYS[weekday];
 
     // Update Hebrew Calendar
@@ -154,7 +154,7 @@ var Calendrical = (function(exports){
     data.islamic.month = this.constants.islamic.MONTHS[islcal[1] - 1];
     data.islamic.day   = islcal[2];
     data.islamic.wday  = "yawm " + this.constants.islamic.WEEKDAYS[weekday];
-    data.islamic.leap  = this.constants.NORM_LEAP[this.leapIslamic(islcal[0]) ? 1 : 0];
+    data.islamic.leap  = this.leapIslamic(islcal[0]);
 
     // Update Persian Calendar
     perscal = this.jdToPersian(j);
@@ -163,7 +163,7 @@ var Calendrical = (function(exports){
     data.persian.month = this.constants.persian.MONTHS[perscal[1] - 1];
     data.persian.day   = perscal[2];
     data.persian.wday  = this.constants.persian.WEEKDAYS[weekday];
-    data.persian.leap  = this.constants.NORM_LEAP[this.leapPersian(perscal[0]) ? 1 : 0];
+    data.persian.leap  = this.leapPersian(perscal[0]);
 
     // Update Persian Astronomical Calendar
     perscal = this.jdToPersiana(j);
@@ -172,7 +172,7 @@ var Calendrical = (function(exports){
     data.persian_algorithmic.month = this.constants.persian.MONTHS[perscal[1] - 1];
     data.persian_algorithmic.day   = perscal[2];
     data.persian_algorithmic.wday  = this.constants.persian.WEEKDAYS[weekday];
-    data.persian_algorithmic.leap  = this.constants.NORM_LEAP[this.leapPersiana(perscal[0]) ? 1 : 0];
+    data.persian_algorithmic.leap  = this.leapPersiana(perscal[0]);
 
     // Update Mayan Calendars
     may_countcal = this.jdToMayanCount(j);
@@ -199,7 +199,7 @@ var Calendrical = (function(exports){
     data.bahai.weekday     = this.constants.bahai.WEEKDAYS[weekday];
 
     // Bahai uses same leap rule as Gregorian
-    data.bahai.leap = this.constants.NORM_LEAP[this.leapGregorian(year) ? 1 : 0];
+    data.bahai.leap = this.leapGregorian(year);
 
     // Update Indian Civil Calendar
     indcal = this.jdToIndianCivil(j);
@@ -208,7 +208,7 @@ var Calendrical = (function(exports){
     data.indian_civil.month   = this.constants.indian_civil.MONTHS[indcal[1] - 1];
     data.indian_civil.day     = indcal[2];
     data.indian_civil.weekday = this.constants.indian_civil.WEEKDAYS[weekday];
-    data.indian_civil.leap    = this.constants.NORM_LEAP[this.leapGregorian(indcal[0] + 78) ? 1 : 0];
+    data.indian_civil.leap    = this.leapGregorian(indcal[0] + 78);
 
     // Update French Republican Calendar
     frrcal = this.jdToFrenchRevolutionary(j);
