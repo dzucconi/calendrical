@@ -68,9 +68,45 @@
               <div class="pilwrap ">
                 <a class="pilcrow" href="#section-1">&#182;</a>
               </div>
-              <p>Extensions to the Date Prototype</p>
+              <p>Extensions to the Date prototype</p>
 
             </div>
+            
+            <div class="content"><div class='highlight'><pre>;(<span class="keyword">function</span>() {
+  <span class="string">"use strict"</span>;
+
+  Date.prototype.getJulian = <span class="keyword">function</span>() {
+    <span class="keyword">return</span> Calendrical.calendar.gregorianToJd(
+      <span class="keyword">this</span>.getFullYear(), (<span class="keyword">this</span>.getMonth() + <span class="number">1</span>), <span class="keyword">this</span>.getDate()) +
+      (Math.floor(
+        <span class="keyword">this</span>.getSeconds() + <span class="number">60</span> * (<span class="keyword">this</span>.getMinutes() + <span class="number">60</span> * <span class="keyword">this</span>.getHours()) + <span class="number">0.5</span>
+      ) / <span class="number">86400.0</span>);
+  }
+
+  <span class="keyword">var</span> methods = [
+    <span class="string">"ModifiedJulianDay"</span>,
+    <span class="string">"Hebrew"</span>,
+    <span class="string">"Islamic"</span>,
+    <span class="string">"Persian"</span>,
+    <span class="string">"Persiana"</span>,
+    <span class="string">"Mayan"</span>,
+    <span class="string">"Bahai"</span>,
+    <span class="string">"IndianCivil"</span>,
+    <span class="string">"FrenchRevolutionary"</span>,
+    <span class="string">"GregorianSerial"</span>,
+    <span class="string">"Excel1900"</span>,
+    <span class="string">"Excel1904"</span>,
+    <span class="string">"UnixTime"</span>,
+    <span class="string">"IsoWeek"</span>,
+    <span class="string">"IsoDay"</span>
+  ];
+
+  methods.map(<span class="keyword">function</span>(method) {
+    Date.prototype[<span class="string">"get"</span> + method] = <span class="keyword">function</span>() {
+      <span class="keyword">return</span> Calendrical.calendar[<span class="string">"update"</span> + method](<span class="keyword">this</span>.getJulian());
+    }
+  });
+}());</pre></div></div>
             
         </li>
         
