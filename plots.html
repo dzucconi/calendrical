@@ -50,7 +50,7 @@
 
 <script>
   $(function() {
-    var E = Calendrical;
+    var C = Calendrical;
 
     var getDaysInYear = function(year) {
       var date = new Date(year, 0, 1);
@@ -91,22 +91,11 @@
         obliqeq = [];
 
     $.each(dates, function(i, date) {
-      E.calendar.setDateTo(date);
+      var jd = date.getJulian();
 
-      var year = E.data.gregorian.year,
-          mon  = E.data.gregorian.month,
-          mday = E.data.gregorian.day,
-          hour = E.data.gregorian.hour,
-          min  = E.data.gregorian.min,
-          sec  = E.data.gregorian.sec;
-
-      // Update Julian day
-      j = E.calendar.gregorianToJd(year, mon + 1, mday) +
-        (Math.floor(sec + 60 * (min + 60 * hour) + 0.5) / 86400.0);
-
-      equationOfTime.push(E.astro.equationOfTime(j));
-      sunpos.push(E.astro.sunpos(j));
-      obliqeq.push(E.astro.obliqeq(j));
+      equationOfTime.push(C.astro.equationOfTime(jd));
+      sunpos.push(C.astro.sunpos(jd));
+      obliqeq.push(C.astro.obliqeq(jd));
     });
 
     sunpos = sunpos[0].map(function(_, i) {
