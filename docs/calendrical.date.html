@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>calendrical.date.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+      <ul id="jump_to">
+        <li>
+          <a class="large" href="javascript:void(0);">Jump To &hellip;</a>
+          <a class="small" href="javascript:void(0);">+</a>
+          <div id="jump_wrapper">
+          <div id="jump_page">
+            
+              
+              <a class="source" href="calendrical.astro.html">
+                calendrical.astro.js
+              </a>
+            
+              
+              <a class="source" href="calendrical.calendar.base.html">
+                calendrical.calendar.base.js
+              </a>
+            
+              
+              <a class="source" href="calendrical.calendar.calc.html">
+                calendrical.calendar.calc.js
+              </a>
+            
+              
+              <a class="source" href="calendrical.calendar.constants.html">
+                calendrical.calendar.constants.js
+              </a>
+            
+              
+              <a class="source" href="calendrical.calendar.conversions.html">
+                calendrical.calendar.conversions.js
+              </a>
+            
+              
+              <a class="source" href="calendrical.date.html">
+                calendrical.date.js
+              </a>
+            
+          </div>
+        </li>
+      </ul>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>calendrical.date.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>Extensions to the Date prototype</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>;(<span class="keyword">function</span>() {
+  <span class="string">"use strict"</span>;
+
+  Date.prototype.getJulian = <span class="keyword">function</span>() {
+    <span class="keyword">return</span> Calendrical.calendar.gregorianToJd(
+      <span class="keyword">this</span>.getFullYear(), (<span class="keyword">this</span>.getMonth() + <span class="number">1</span>), <span class="keyword">this</span>.getDate()) +
+      (Math.floor(
+        <span class="keyword">this</span>.getSeconds() + <span class="number">60</span> * (<span class="keyword">this</span>.getMinutes() + <span class="number">60</span> * <span class="keyword">this</span>.getHours()) + <span class="number">0.5</span>
+      ) / <span class="number">86400.0</span>);
+  }
+
+  <span class="keyword">var</span> methods = [
+    <span class="string">"ModifiedJulianDay"</span>,
+    <span class="string">"Hebrew"</span>,
+    <span class="string">"Islamic"</span>,
+    <span class="string">"Persian"</span>,
+    <span class="string">"Persiana"</span>,
+    <span class="string">"Mayan"</span>,
+    <span class="string">"Bahai"</span>,
+    <span class="string">"IndianCivil"</span>,
+    <span class="string">"FrenchRevolutionary"</span>,
+    <span class="string">"GregorianSerial"</span>,
+    <span class="string">"Excel1900"</span>,
+    <span class="string">"Excel1904"</span>,
+    <span class="string">"UnixTime"</span>,
+    <span class="string">"IsoWeek"</span>,
+    <span class="string">"IsoDay"</span>
+  ];
+
+  methods.map(<span class="keyword">function</span>(method) {
+    Date.prototype[<span class="string">"get"</span> + method] = <span class="keyword">function</span>() {
+      <span class="keyword">return</span> Calendrical.calendar[<span class="string">"update"</span> + method](<span class="keyword">this</span>.getJulian());
+    }
+  });
+}());</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

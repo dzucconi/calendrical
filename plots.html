@@ -5,7 +5,8 @@
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
     <script src="vendor/jquery.jqplot.min.js"></script>
-    <script src="build/ephemerides.min.js"></script>
+
+    <script src="build/calendrical.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="vendor/jquery.jqplot.min.css" />
     <style type="text/css">
@@ -49,7 +50,7 @@
 
 <script>
   $(function() {
-    var E = Ephemerides;
+    var E = Calendrical;
 
     var getDaysInYear = function(year) {
       var date = new Date(year, 0, 1);

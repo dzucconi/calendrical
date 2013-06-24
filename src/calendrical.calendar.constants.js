@@ -1,4 +1,4 @@
-var Ephemerides = (function(exports){
+var Calendrical = (function(exports){
   "use strict";
 
   exports.calendar = exports.calendar || {};
@@ -15,8 +15,6 @@ var Ephemerides = (function(exports){
     J1900: 2415020.5,
     // *Epoch (day 0) of Excel 1904 date system (Mac)*
     J1904: 2416480.5,
-
-    NORM_LEAP: ["Normal year", "Leap year"],
 
     gregorian: {
       EPOCH: 1721425.5,
@@ -74,4 +72,4 @@ var Ephemerides = (function(exports){
   }
 
   return exports;
-}(Ephemerides || {}));
+}(Calendrical || {}));

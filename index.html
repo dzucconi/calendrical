@@ -4,12 +4,14 @@
     <meta charset="utf-8">
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.2/jquery.min.js"></script>
-    <!-- <script src="build/ephemerides.min.js"></script> -->
+    <!-- <script src="build/calendrical.min.js"></script> -->
 
-    <script src="src/ephemerides.astro.js"></script>
-    <script src="src/ephemerides.calendar.calc.js"></script>
-    <script src="src/ephemerides.calendar.constants.js"></script>
-    <script src="src/ephemerides.calendar.js"></script>
+    <script src="src/calendrical.astro.js"></script>
+    <script src="src/calendrical.calendar.calc.js"></script>
+    <script src="src/calendrical.calendar.constants.js"></script>
+    <script src="src/calendrical.calendar.conversions.js"></script>
+    <script src="src/calendrical.calendar.base.js"></script>
+    <script src="src/calendrical.date.js"></script>
   </head>
 
   <body>
@@ -18,14 +20,14 @@
 
 <script>
   $(function() {
-    var E = Ephemerides,
+    var C = Calendrical,
         now = new Date();
 
-    E.calendar.updateTo(now).start();
+    C.calendar.updateTo(now).start();
 
-    setInterval(function() { $("#output").html(JSON.stringify(E.data, undefined, 2)); }, 1000);
+    setInterval(function() { $("#output").html(JSON.stringify(C.data, undefined, 2)); }, 1000);
 
-    $("#output").html(JSON.stringify(E.data, undefined, 2))
+    $("#output").html(JSON.stringify(C.data, undefined, 2))
   });
 </script>
 </html>

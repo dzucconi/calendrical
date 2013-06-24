@@ -1,6 +1,6 @@
 {
-  "name": "Ephemerides",
-  "title": "Ephemerides",
+  "name": "Calendrical",
+  "title": "Calendrical",
   "version": "0.0.1",
   "description": "",
   "keywords": [],
@@ -8,12 +8,12 @@
 
   "repository" : {
     "type": "git",
-    "url": "git://github.com/dzucconi/ephemerides.git"
+    "url": "git://github.com/dzucconi/calendrical.git"
   },
 
   "bugs": {
-    "url": "https://github.com/dzucconi/ephemerides/issues",
-    "url": "https://github.com/dzucconi/ephemerides/blob/master/LICENSE-MIT"
+    "url": "https://github.com/dzucconi/calendrical/issues",
+    "url": "https://github.com/dzucconi/calendrical/blob/master/LICENSE-MIT"
   },
 
   "licenses": [{
