@@ -8,8 +8,8 @@ Calendrical
 
 [Fourmilab Calendar Converter](http://www.fourmilab.ch/documents/calendar/) as a library.
 
-http://dzucconi.github.com/calendrical/  
-http://dzucconi.github.com/calendrical/docs/calendrical.calendar.base.html
+[Demo](http://dzucconi.github.com/calendrical/)  
+[Annotated](http://dzucconi.github.com/calendrical/docs/calendrical.calendar.base.html)
 
 Usage
 -----
