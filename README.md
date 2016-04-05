@@ -1,7 +1,12 @@
+# Note:
+
+This library is a more or less direct port of the [Fourmilab Calendar Converter](http://www.fourmilab.ch/documents/calendar/), just extracted from the DOM. It currently lacks a test suite so may not be suitable for production usage. YMMV.
+
+
 Calendrical
 ===========
 
-Fourmilab Calendar Converter (http://www.fourmilab.ch/documents/calendar/) as a library.
+[Fourmilab Calendar Converter](http://www.fourmilab.ch/documents/calendar/) as a library.
 
 http://dzucconi.github.com/calendrical/  
 http://dzucconi.github.com/calendrical/docs/calendrical.calendar.base.html
