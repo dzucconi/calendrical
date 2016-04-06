@@ -1,0 +1,21 @@
+{
+  "name": "Calendrical",
+  "description": "Fourmilab Calendar Converter as a library",
+  "main": "index.html",
+  "authors": [
+    "Damon Zucconi <mail@damonzucconi.com>"
+  ],
+  "license": "MIT",
+  "homepage": "http://dzucconi.github.io/calendrical",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "jasmine-core": "jasmine#^2.4.1"
+  }
+}

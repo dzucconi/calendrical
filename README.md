@@ -1,6 +1,9 @@
 # Note:
 
-This library is a more or less direct port of the [Fourmilab Calendar Converter](http://www.fourmilab.ch/documents/calendar/), just extracted from the DOM. It currently lacks a test suite so may not be suitable for production usage. YMMV.
+This library is a more or less direct port of the [Fourmilab Calendar Converter](http://www.fourmilab.ch/documents/calendar/), just extracted from the DOM.
+A crude test suite is in place, consisting of basic [jasmine](http://jasmine.github.io/) test cases for the astro package and the Bahai calendar.
+
+Currently it is not suitable for production usage. YMMV.
 
 
 Calendrical

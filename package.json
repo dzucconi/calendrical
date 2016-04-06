@@ -2,28 +2,26 @@
   "name": "Calendrical",
   "title": "Calendrical",
   "version": "0.0.1",
-  "description": "",
+  "description": "Fourmilab Calendar Converter as a library",
   "keywords": [],
-  "homepage": "",
-
-  "repository" : {
+  "homepage": "http://dzucconi.github.io/calendrical/",
+  "repository": {
     "type": "git",
     "url": "git://github.com/dzucconi/calendrical.git"
   },
-
   "bugs": {
-    "url": "https://github.com/dzucconi/calendrical/issues",
     "url": "https://github.com/dzucconi/calendrical/blob/master/LICENSE-MIT"
   },
-
   "licenses": [{
     "type": "MIT"
   }],
-
-  "devDependencies" : {
-    "grunt": "0.4.1",
-    "grunt-cli": "0.1.9",
-    "grunt-shell": "0.2.2",
-    "grunt-contrib-uglify": "0.2.2"
+  "devDependencies": {
+    "es5-shim": "^4.5.7",
+    "eslint-plugin-jasmine": "^1.8.1",
+    "grunt": "^1.0.1",
+    "grunt-cli": "^1.2.0",
+    "grunt-contrib-uglify": "^1.0.1",
+    "grunt-shell": "^1.2.1",
+    "jasmine": "^2.4.1"
   }
 }
