@@ -457,14 +457,13 @@ var Calendrical = (function(exports){
     return epg;
   }
 
-  // Determine the year in the Persian
-  // astronomical calendar in which a
-  // given Julian day falls. Returns an
-  // array of two elements:
+  // Determine the year in the astronomical calendar in which a
+  // given Julian day falls, given the epoch.
+  // Returns an array of two elements:
   //
   // **[0]** Persian year
   // **[1]** Julian day number containing equinox for this year.
-  calendar.persianaYear = function(jd) {
+  calendar.lastTehranEquinox = function (jd, epoch) {
     var guess = this.jdToGregorian(jd)[0] - 2,
       lasteq, nexteq, adr;
 
@@ -483,10 +482,20 @@ var Calendrical = (function(exports){
       nexteq = this.tehranEquinoxJd(guess);
     }
 
-    adr = Math.round((lasteq - this.constants.persian.EPOCH) /
-                        astro.constants.TROPICAL_YEAR) + 1;
+    adr = Math.round((lasteq - epoch) / astro.constants.TROPICAL_YEAR) + 1;
 
     return [adr, lasteq];
+  }
+
+  // Determine the year in the Persian
+  // astronomical calendar in which a
+  // given Julian day falls. Returns an
+  // array of two elements:
+  //
+  // **[0]** Persian year
+  // **[1]** Julian day number containing equinox for this year.
+  calendar.persianaYear = function(jd) {
+    return this.lastTehranEquinox(jd, this.constants.persian.EPOCH);
   }
 
   // Calculate date in the Persian astronomical
@@ -643,36 +652,85 @@ var Calendrical = (function(exports){
     return [astro.amod(lcount + 20, 20), astro.amod(lcount + 4, 13)];
   }
 
-  // Determine Julian day from Bahai date
-  calendar.bahaiToJd = function(major, cycle, year, month, day) {
-    var gy;
+  // Determine the year in the Bahai // astronomical calendar in which a
+  // given Julian day falls.
+  // Returns an array of two elements:
+  //
+  // **[0]** Bahai year
+  // **[1]** Julian day number containing equinox for this year.
+  calendar.bahaiYear = function(jd) {
+     return this.lastTehranEquinox(jd, this.constants.bahai.EPOCH);
+  }
 
-    gy = (361 * (major - 1)) + (19 * (cycle - 1)) + (year - 1) +
-      this.jdToGregorian(this.constants.bahai.EPOCH)[0];
-    return this.gregorianToJd(gy, 3, 20) + (19 * (month - 1)) +
-      ((month != 20) ? 0 : (this.leapGregorian(gy + 1) ? -14 : -15)) +
-      day;
+  // Bahai uses same leap rule as Gregorian until 171 Bahai Era
+  // From 172 onwards, it uses the Bahai leap year algorithm
+  // The year 171 of the Bahai Era corresponds to Gregorian year 2015
+  calendar.leapBahai = function(bahaiYear) {
+    var gy = 1843 + bahaiYear, days, eq1, eq2;
+
+    if (gy < 2015) {
+      return this.leapGregorian(gy);
+    }
+
+    eq1 = astro.equinox(gy, 0);
+    eq1 = Math.floor(eq1 - 0.115192) + 0.5;
+
+    eq2 = astro.equinox(gy + 1, 0);
+    eq2 = Math.floor(eq2 - 0.115192) + 0.5;
+    days = eq2 - eq1;
+
+    return days > 365;
+  }
+
+  // Determine Julian day from Bahai date
+  calendar.bahaiToJd = function(major, vahid, year, month, day) {
+    var by, gy, jd;
+
+    by = (361 * (major - 1)) + (19 * (vahid - 1)) + year;
+    gy = by + this.jdToGregorian(this.constants.bahai.EPOCH)[0] - 1;
+
+    if (by < 172) {
+      jd = this.gregorianToJd(gy, 3, 20);
+    } else {
+      jd = this.tehranEquinoxJd(gy);
+    }
+
+    return jd + (19 * (month - 1)) + ((month != 20) ? 0 :
+        (this.leapBahai(gy + 1) ? -14 : -15)) + day;
   }
 
   // Calculate Bahai date from Julian day
   calendar.jdToBahai = function(jd) {
-    var major, cycle, year, month, day,
-      gy, bstarty, bys, days, bld;
+    var major, vahid, year, month, day, gy, bstarty, by, bys, days, bld, old;
 
-    jd      = Math.floor(jd) + 0.5;
-    gy      = this.jdToGregorian(jd)[0];
-    bstarty = this.jdToGregorian(this.constants.bahai.EPOCH)[0];
-    bys     = gy - (bstarty + (((this.gregorianToJd(gy, 1, 1) <= jd) &&
-                (jd <= this.gregorianToJd(gy, 3, 20))) ? 1 : 0));
+    jd = Math.floor(jd) + 0.5;
+
+    old = (jd < this.constants.bahai.EPOCH172);
+
+    if (old) {
+      gy      = this.jdToGregorian(jd)[0];
+      bstarty = this.jdToGregorian(this.constants.bahai.EPOCH)[0];
+      bys     = gy - (bstarty + (((this.gregorianToJd(gy, 1, 1) <= jd) &&
+                    (jd <= this.gregorianToJd(gy, 3, 20))) ? 1 : 0));
+    } else {
+      by      = this.bahaiYear(jd);
+      bys     = by[0];
+      days    = jd - by[1];
+    }
+
     major   = Math.floor(bys / 361) + 1;
-    cycle   = Math.floor(astro.mod(bys, 361) / 19) + 1;
-    year    = astro.mod(bys, 19) + 1;
-    days    = jd - this.bahaiToJd(major, cycle, year, 1, 1);
-    bld     = this.bahaiToJd(major, cycle, year, 20, 1);
-    month   = (jd >= bld) ? 20 : (Math.floor(days / 19) + 1);
-    day     = (jd + 1) - this.bahaiToJd(major, cycle, year, month, 1);
+    vahid   = Math.floor(astro.mod(bys, 361) / 19) + 1;
+    year    = astro.mod(bys - 1, 19) + 1;
 
-    return [major, cycle, year, month, day];
+    if (old) {
+      days    = jd - this.bahaiToJd(major, vahid, year, 1, 1);
+    }
+
+    bld     = this.bahaiToJd(major, vahid, year, 20, 1);
+    month   = (jd >= bld) ? 20 : (Math.floor(days / 19) + 1);
+    day     = (jd + 0.5) - this.bahaiToJd(major, vahid, year, month, 1);
+
+    return [major, vahid, year, month, day];
   }
 
   // Obtain Julian day for Indian Civil date

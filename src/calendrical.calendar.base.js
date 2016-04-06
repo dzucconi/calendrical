@@ -241,7 +241,9 @@ var Calendrical = (function(exports){
 
   // Update the Bahai data representation
   calendar.updateBahai = function(jd) {
-    var bahcal = this.jdToBahai(jd);
+    var bahcal = this.jdToBahai(jd),
+        bahYear = ((((bahcal[0] - 1) * 19) + bahcal[1] - 1) * 19) +
+                    bahcal[2] - 1;
 
     data.bahai = {
       kull_i_shay : bahcal[0],
@@ -249,11 +251,10 @@ var Calendrical = (function(exports){
       year        : this.constants.bahai.YEARS[bahcal[2] - 1],
       month       : this.constants.bahai.MONTHS[bahcal[3] - 1],
       day         : this.constants.bahai.DAYS[bahcal[4] - 1],
-      weekday     : this.constants.bahai.WEEKDAYS[astro.jwday(jd)]
+      weekday     : this.constants.bahai.WEEKDAYS[astro.jwday(jd)],
+      leap        : this.leapBahai(bahYear),
+      official    : bahYear < 223
     }
-
-    // Bahai uses same leap rule as Gregorian
-    data.bahai.leap = this.leapGregorian(this.jdToGregorianYear(jd));
 
     return data.bahai;
   }
