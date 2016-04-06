@@ -365,7 +365,7 @@ var Calendrical = (function(exports){
   calendar.setDateTo = function(date) {
     data.gregorian = {
       year  : date.getFullYear(),
-      month : date.getMonth(),
+      month : date.getMonth() + 1,
       day   : date.getDate(),
       hour  : date.getHours(),
       min   : date.getMinutes(),

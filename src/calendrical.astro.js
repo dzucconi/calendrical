@@ -299,7 +299,7 @@ var Calendrical = (function(exports) {
 
   // Calculate day of week from Julian day
   astro.jwday = function(j) {
-    return this.mod(Math.floor((j + 1.5)), 7);
+    return this.mod(Math.floor((j - 0.5)), 7);
   }
 
   // Calculate the obliquity of the ecliptic for a given
