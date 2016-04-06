@@ -1,5 +1,7 @@
 .DS_Store
 .grunt/
+build/
 bower_components
+docs/
 node_modules/
 playground.html
