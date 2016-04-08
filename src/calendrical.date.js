@@ -4,7 +4,7 @@
 
   Date.prototype.getJulian = function() {
     return Calendrical.calendar.gregorianToJd(this.getFullYear(), (this.getMonth() + 1), this.getDate()) +
-      (Math.floor(this.getSeconds() + 60 * (this.getMinutes() + 60 * this.getHours()) + 0.5) / 86400.0);
+      ((this.getSeconds() + 60 * (this.getMinutes() + 60 * this.getHours())) / 86400.0);
   }
 
   var methods = [
