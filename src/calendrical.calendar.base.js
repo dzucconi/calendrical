@@ -82,7 +82,7 @@ var Calendrical = (function(exports){
     sec  = data.gregorian.sec;
 
     // Update Julian day (fractional day)
-    jd = this.gregorianToJd(year, mon + 1, day) +
+    jd = this.gregorianToJd(year, mon, day) +
       (Math.floor(sec + 60 * (min + 60 * hour) + 0.5) / 86400.0);
 
     data.julian_day.day = jd;
@@ -248,6 +248,11 @@ var Calendrical = (function(exports){
     data.bahai = {
       kull_i_shay : bahcal[0],
       vahid       : bahcal[1],
+      // the next 3 attributes simplify testing a lot
+      // the other attributes would be named yearName, monthName and dayName
+      // year        : bahcal[2],
+      // month       : bahcal[3],
+      // day         : bahcal[4],
       year        : this.constants.bahai.YEARS[bahcal[2] - 1],
       month       : this.constants.bahai.MONTHS[bahcal[3] - 1],
       day         : this.constants.bahai.DAYS[bahcal[4] - 1],
