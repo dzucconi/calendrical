@@ -1,9 +1,20 @@
 # Note:
 
 This library is a more or less direct port of the [Fourmilab Calendar Converter](http://www.fourmilab.ch/documents/calendar/), just extracted from the DOM.
+
+# Testing
+
 A crude test suite is in place, consisting of basic [jasmine](http://jasmine.github.io/) test cases for the astro package and the Bahai calendar.
 
 Currently it is not suitable for production usage. YMMV.
+
+To run the test suite, you need node.js, npm and bower installed.
+Then type the following:
+```shell
+bower install
+npm install
+```
+Open the page test/index.html in your favourite web browser.
 
 
 Calendrical
