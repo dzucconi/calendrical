@@ -511,7 +511,7 @@ var Calendrical = (function(exports){
 
     yday  = jd - this.persianaToJd(year, 1, 1) + 1;
     month = (yday <= 186) ? Math.ceil(yday / 31) : Math.ceil((yday - 6) / 30);
-    day   = jd - this.persianaToJd(year, month, 1) + 1;
+    day   = jd - this.persianaToJd(year, month, 1) + 2;
 
     return [year, month, day];
   }
@@ -535,9 +535,8 @@ var Calendrical = (function(exports){
     jd = equinox +
       ((month <= 7) ?
       ((month - 1) * 31) :
-      (((month - 1) * 30) + 6)
-    ) +
-      (day - 1);
+      (((month - 1) * 30) + 6)) +
+      day;
 
     return jd;
   }
@@ -569,7 +568,7 @@ var Calendrical = (function(exports){
       Math.floor(((epyear * 682) - 110) / 2816) +
       (epyear - 1) * 365 +
       Math.floor(epbase / 2820) * 1029983 +
-      (this.constants.persian.EPOCH - 1);
+      (this.constants.persian.EPOCH - 2);
   }
 
   // Calculate Persian date from Julian day
@@ -598,7 +597,7 @@ var Calendrical = (function(exports){
 
     yday  = (jd - this.persianToJd(year, 1, 1)) + 1;
     month = (yday <= 186) ? Math.ceil(yday / 31) : Math.ceil((yday - 6) / 30);
-    day   = (jd - this.persianToJd(year, month, 1)) + 1;
+    day   = (jd - this.persianToJd(year, month, 1));
 
     return [year, month, day];
   }
