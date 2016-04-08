@@ -16,7 +16,7 @@ describe ("Astro spec", function () {
   });
 
   it ("should determine the week-day", function () {
-    expect (astro.jwday (julian)).toBe (1); // Monday
+    expect (astro.jwday (julian)).toBe (6); // Monday
   });
 
   it ("should calculate the obliquity of the ecliptic for a given Julian date", function () {
