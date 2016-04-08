@@ -243,7 +243,7 @@ var Calendrical = (function(exports){
   calendar.updateBahai = function(jd) {
     var bahcal = this.jdToBahai(jd),
         bahYear = ((((bahcal[0] - 1) * 19) + bahcal[1] - 1) * 19) +
-                    bahcal[2] - 1;
+                    bahcal[2];
 
     data.bahai = {
       kull_i_shay : bahcal[0],

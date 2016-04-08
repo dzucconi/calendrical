@@ -710,7 +710,7 @@ var Calendrical = (function(exports){
       gy      = this.jdToGregorian(jd)[0];
       bstarty = this.jdToGregorian(this.constants.bahai.EPOCH)[0];
       bys     = gy - (bstarty + (((this.gregorianToJd(gy, 1, 1) <= jd) &&
-                    (jd <= this.gregorianToJd(gy, 3, 20))) ? 1 : 0));
+                    (jd <= this.gregorianToJd(gy, 3, 20))) ? 1 : 0)) + 1;
     } else {
       by      = this.bahaiYear(jd);
       bys     = by[0];
