@@ -452,7 +452,7 @@ var Calendrical = (function(exports){
     var ep, epg;
 
     ep  = this.tehranEquinox(year);
-    epg = Math.floor(ep);
+    epg = Math.floor(ep - 0.5) + 0.5;
 
     return epg;
   }
@@ -507,11 +507,11 @@ var Calendrical = (function(exports){
     adr     = this.persianaYear(jd);
     year    = adr[0];
     equinox = adr[1];
-    day     = Math.floor((jd - equinox) / 30) + 1;
+    day     = ((jd - equinox) / 30) + 1;
 
-    yday  = (Math.floor(jd) - this.persianaToJd(year, 1, 1)) + 1;
+    yday  = jd - this.persianaToJd(year, 1, 1) + 1;
     month = (yday <= 186) ? Math.ceil(yday / 31) : Math.ceil((yday - 6) / 30);
-    day   = (Math.floor(jd) - this.persianaToJd(year, month, 1)) + 1;
+    day   = jd - this.persianaToJd(year, month, 1) + 2;
 
     return [year, month, day];
   }
@@ -535,9 +535,8 @@ var Calendrical = (function(exports){
     jd = equinox +
       ((month <= 7) ?
       ((month - 1) * 31) :
-      (((month - 1) * 30) + 6)
-    ) +
-      (day - 1);
+      (((month - 1) * 30) + 6)) +
+      day;
 
     return jd;
   }
@@ -569,7 +568,7 @@ var Calendrical = (function(exports){
       Math.floor(((epyear * 682) - 110) / 2816) +
       (epyear - 1) * 365 +
       Math.floor(epbase / 2820) * 1029983 +
-      (this.constants.persian.EPOCH - 1);
+      (this.constants.persian.EPOCH - 2);
   }
 
   // Calculate Persian date from Julian day
@@ -598,7 +597,7 @@ var Calendrical = (function(exports){
 
     yday  = (jd - this.persianToJd(year, 1, 1)) + 1;
     month = (yday <= 186) ? Math.ceil(yday / 31) : Math.ceil((yday - 6) / 30);
-    day   = (jd - this.persianToJd(year, month, 1)) + 1;
+    day   = (jd - this.persianToJd(year, month, 1));
 
     return [year, month, day];
   }
@@ -696,7 +695,7 @@ var Calendrical = (function(exports){
     }
 
     return jd + (19 * (month - 1)) + ((month != 20) ? 0 :
-        (this.leapBahai(gy + 1) ? -14 : -15)) + day;
+        (this.leapBahai(by + 1) ? -14 : -15)) + day;
   }
 
   // Calculate Bahai date from Julian day
@@ -711,7 +710,7 @@ var Calendrical = (function(exports){
       gy      = this.jdToGregorian(jd)[0];
       bstarty = this.jdToGregorian(this.constants.bahai.EPOCH)[0];
       bys     = gy - (bstarty + (((this.gregorianToJd(gy, 1, 1) <= jd) &&
-                    (jd <= this.gregorianToJd(gy, 3, 20))) ? 1 : 0));
+                    (jd <= this.gregorianToJd(gy, 3, 20))) ? 1 : 0)) + 1;
     } else {
       by      = this.bahaiYear(jd);
       bys     = by[0];
@@ -728,7 +727,7 @@ var Calendrical = (function(exports){
 
     bld     = this.bahaiToJd(major, vahid, year, 20, 1);
     month   = (jd >= bld) ? 20 : (Math.floor(days / 19) + 1);
-    day     = (jd + 0.5) - this.bahaiToJd(major, vahid, year, month, 1);
+    day     = jd  - this.bahaiToJd(major, vahid, year, month, 1) + 1;
 
     return [major, vahid, year, month, day];
   }
