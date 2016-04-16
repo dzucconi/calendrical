@@ -1,4 +1,4 @@
-var Calendrical = (function(exports){
+var Calendrical = (function (exports) {
   "use strict";
 
   exports.calendar = exports.calendar || {};
@@ -682,54 +682,74 @@ var Calendrical = (function(exports){
   }
 
   // Determine Julian day from Bahai date
-  calendar.bahaiToJd = function(major, vahid, year, month, day) {
-    var by, gy, jd;
+  calendar.bahaiToJd = function (major, vahid, year, month, day) {
+    var by, gy, jd, leap, yearDays;
 
-    by = (361 * (major - 1)) + (19 * (vahid - 1)) + year;
+    by = 361 * (major - 1) + 19 * (vahid - 1) + year;
     gy = by + this.jdToGregorian(this.constants.bahai.EPOCH)[0] - 1;
 
     if (by < 172) {
+      leap = this.leapGregorian (gy + 1);
       jd = this.gregorianToJd(gy, 3, 20);
     } else {
+      leap = this.leapBahai (by);
       jd = this.tehranEquinoxJd(gy);
     }
 
-    return jd + (19 * (month - 1)) + ((month != 20) ? 0 :
-        (this.leapBahai(by + 1) ? -14 : -15)) + day;
+    if (month === 0) {
+        yearDays = 342;
+    } else if (month === 19) {
+        yearDays = 342 + (leap ? 5 : 4);
+    } else {
+        yearDays = (month - 1) * 19;
+    }
+
+    return jd + yearDays + day;
   }
 
   // Calculate Bahai date from Julian day
   calendar.jdToBahai = function(jd) {
-    var major, vahid, year, month, day, gy, bstarty, by, bys, days, bld, old;
+    var major, vahid, year, month, day,
+        gy, bstarty, by, bys, days, old, leap, leapDays;
 
-    jd = Math.floor(jd) + 0.5;
+    jd = Math.floor(jd - 0.5) + 0.5;
 
-    old = (jd < this.constants.bahai.EPOCH172);
+    old = jd < this.constants.bahai.EPOCH172;
 
     if (old) {
       gy      = this.jdToGregorian(jd)[0];
+      leap    = this.leapGregorian (gy + 1);
       bstarty = this.jdToGregorian(this.constants.bahai.EPOCH)[0];
       bys     = gy - (bstarty + (((this.gregorianToJd(gy, 1, 1) <= jd) &&
                     (jd <= this.gregorianToJd(gy, 3, 20))) ? 1 : 0)) + 1;
     } else {
       by      = this.bahaiYear(jd);
       bys     = by[0];
+      leap    = this.leapBahai (bys);
       days    = jd - by[1];
     }
 
-    major   = Math.floor(bys / 361) + 1;
-    vahid   = Math.floor(astro.mod(bys, 361) / 19) + 1;
-    year    = astro.mod(bys - 1, 19) + 1;
+    major     = Math.floor (bys / 361) + 1;
+    vahid     = Math.floor (astro.mod (bys - 1, 361) / 19) + 1;
+    year      = astro.amod (bys, 19);
+    leapDays  = leap ? 5 : 4;
 
     if (old) {
-      days    = jd - this.bahaiToJd(major, vahid, year, 1, 1);
+      days    = jd - this.bahaiToJd(major, vahid, year, 1, 1) + 1;
     }
 
-    bld     = this.bahaiToJd(major, vahid, year, 20, 1);
-    month   = (jd >= bld) ? 20 : (Math.floor(days / 19) + 1);
-    day     = jd  - this.bahaiToJd(major, vahid, year, month, 1) + 1;
+    if (days <= 18 * 19) {
+        month = 1 + Math.floor ((days - 1) / 19);
+        day   = astro.amod (days, 19);
+    } else if (days > 18 * 19 + leapDays) {
+        month = 19;
+        day   = 1 + ((days - leapDays - 2) % 19);
+    } else {
+        month = 0;
+        day   = days - 18 * 19;
+    }
 
-    return [major, vahid, year, month, day];
+    return [ major, vahid, year, month, day ];
   }
 
   // Obtain Julian day for Indian Civil date
