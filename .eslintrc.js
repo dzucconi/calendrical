@@ -113,7 +113,7 @@ module.exports = {
         "no-loop-func": "error",
         "no-magic-numbers": "off",
         "no-mixed-requires": "error",
-        "no-multi-spaces": "error",
+        "no-multi-spaces": "off",
         "no-multi-str": "error",
         "no-multiple-empty-lines": "error",
         "no-native-reassign": "error",
@@ -143,7 +143,7 @@ module.exports = {
         "no-shadow-restricted-names": "error",
         "no-spaced-func": "off",
         "no-sync": "error",
-        "no-ternary": "error",
+        "no-ternary": "off",
         "no-throw-literal": "error",
         "no-trailing-spaces": "error",
         "no-undef-init": "error",
@@ -192,7 +192,7 @@ module.exports = {
         "space-before-blocks": "error",
         "space-before-function-paren": "error",
         "space-in-parens": [
-            "error",
+            "off",
             "never"
         ],
         "space-infix-ops": "error",
