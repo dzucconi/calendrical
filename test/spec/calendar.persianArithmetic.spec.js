@@ -10,7 +10,7 @@ describe ("Persian arithmetic calendar spec", function () {
 
   it ("should convert a Persian arithmetic date to Julian day", function () {
     data3.forEach (function (data) {
-        date     = data.persianAstro;
+        date     = data.persianArith;
         expected = data.rataDie + cal.constants.J0000;
         actual   = cal.persianToJd (date.year, date.month, date.day);
 
@@ -20,7 +20,7 @@ describe ("Persian arithmetic calendar spec", function () {
 
   it ("should convert a Julian day to a Persian arithmetic date", function () {
     data3.forEach (function (data) {
-        date     = data.persianAstro;
+        date     = data.persianArith;
         expected = [ date.year, date.month, date.day ];
         actual   = cal.jdToPersian (data.rataDie + cal.constants.J0000);
 
