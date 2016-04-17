@@ -4,27 +4,27 @@
 'use strict';
 
 describe ("Hebrew calendar spec", function () {
-  var cal, date, jdExpected, jdActual, dateExpected, dateActual;
+  var cal, date, expected, actual;
 
   cal = Calendrical.calendar;
 
   it ("should convert a Hebrew date to Julian day", function () {
     data3.forEach (function (data) {
         date = data.hebrew;
-        jdExpected = data.rataDie + cal.constants.J0000;
-        jdActual = cal.hebrewToJd (date.year, date.month, date.day);
+        expected = data.rataDie + cal.constants.J0000;
+        actual = cal.hebrewToJd (date.year, date.month, date.day);
 
-        expect (jdExpected).toEqual (jdActual);
+        expect (expected).toEqual (actual);
     });
   });
 
   it ("should convert a Julian day to a Hebrew date", function () {
     data3.forEach (function (data) {
         date = data.hebrew;
-        dateExpected = [ date.year, date.month, date.day ];
-        dateActual = cal.jdToHebrew (data.rataDie + cal.constants.J0000);
+        expected = [ date.year, date.month, date.day ];
+        actual = cal.jdToHebrew (data.rataDie + cal.constants.J0000);
 
-        expect (dateExpected).toEqual (dateActual);
+        expect (expected).toEqual (actual);
     });
   });
 

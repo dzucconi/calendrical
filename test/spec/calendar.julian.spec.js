@@ -4,27 +4,26 @@
 'use strict';
 
 describe ("Julian calendar spec", function () {
-  var cal, date, jdExpected, jdActual, dateExpected, dateActual;
-
-  cal = Calendrical.calendar;
+  var cal = Calendrical.calendar,
+      date, expected, actual;
 
   it ("should convert a Julian date to Julian day", function () {
     data1.forEach (function (data) {
         date = data.julianDate;
-        jdExpected = data.julianDay;
-        jdActual = cal.julianToJd (date.year, date.month, date.day);
+        expected = data.julianDay;
+        actual = cal.julianToJd (date.year, date.month, date.day);
 
-        expect (jdExpected).toEqual (jdActual);
+        expect (expected).toEqual (actual);
     });
   });
 
   it ("should convert a Julian day to a Julian date", function () {
     data1.forEach (function (data) {
         date = data.julianDate;
-        dateExpected = [ date.year, date.month, date.day ];
-        dateActual = cal.jdToJulian (data.julianDay);
+        expected = [ date.year, date.month, date.day ];
+        actual = cal.jdToJulian (data.julianDay);
 
-        expect (dateExpected).toEqual (dateActual);
+        expect (expected).toEqual (actual);
     });
   });
 
