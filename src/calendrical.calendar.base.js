@@ -97,7 +97,7 @@ var Calendrical = (function(exports){
     this.updatePersiana(jd);
     this.updateMayan(jd);
     this.updateBahai(jd);
-    this.updateIndianCivil(jd);
+    // this.updateIndianCivil(jd);
     this.updateFrenchRevolutionary(jd);
     this.updateGregorianSerial(jd);
     this.updateExcel1900(jd);
