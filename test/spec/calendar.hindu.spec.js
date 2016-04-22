@@ -63,8 +63,4 @@ describe ("Hindu calendar spec", function () {
           expect (false).toEqual (actual);
       });
   });
-
-  /*
-  5195 false
-  */
 });
