@@ -16,6 +16,11 @@ var Calendrical = (function(exports){
     // *Epoch (day 0) of Excel 1904 date system (Mac)*
     J1904: 2416480.5,
 
+    ARYA_SOLAR_YEAR: 1577917500 / 4320000,
+    ARYA_SOLAR_MONTH: 1577917500 / 4320000 / 12,
+    ARYA_LUNAR_MONTH: 1577917500 / 53433336,
+    ARYA_LUNAR_DAY: 1577917500 / 53433336 / 30,
+
     gregorian: {
       EPOCH: 1721425.5,
       MONTHS: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
@@ -66,7 +71,8 @@ var Calendrical = (function(exports){
       DAYS: ["Bahá", "Jalál", "Jamál", "`Azamat", "Núr", "Rahmat", "Kalimát", "Kamál", "Asmá", "`Izzat", "Mashíyyat", "`Ilm", "Qudrat", "Qawl", "Masáil", "Sharaf", "Sultán", "Mulk", "`Alá'"]
     },
 
-    indian_civil: {
+    indian: {
+      EPOCH: 588465.5,
       WEEKDAYS: ["ravivara", "somavara", "mangalavara", "budhavara", "brahaspativara", "sukravara", "sanivara"],
       MONTHS: ["Caitra", "Vaisakha", "Jyaistha", "Asadha", "Sravana", "Bhadra", "Asvina", "Kartika", "Agrahayana", "Pausa", "Magha", "Phalguna"]
     }
