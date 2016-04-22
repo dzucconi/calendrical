@@ -826,6 +826,12 @@ var Calendrical = (function (exports) {
         0.75) + 0.5;
   };
 
+  // Is an Old Hindu Lunar year leap ?
+  calendar.leapHinduLunarOld = function (year) {
+      return astro.mod (year * this.constants.ARYA_SOLAR_YEAR - this.constants.ARYA_SOLAR_MONTH,
+                 this.constants.ARYA_LUNAR_MONTH) >= 23902504679 / 1282400064;
+  };
+
   // Obtain Julian day for Indian Civil date
   calendar.indianCivilToJd = function (year, month, day) {
     var Caitra, gyear, leap, start, jd, m;

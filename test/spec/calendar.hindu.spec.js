@@ -47,4 +47,24 @@ describe ("Hindu calendar spec", function () {
         expect (expected).toEqual (actual);
     });
   });
+
+  it ("should establish whether a Hindu Lunar Old year is leap", function () {
+      [ 2933, 3570, 3795, 4197, 4340, 4389,
+        4492, 4536, 4593, 4660, 4869, 4940
+      ].forEach (function (year) {
+          actual   = cal.leapHinduLunarOld (year);
+          expect (true).toEqual (actual);
+      });
+
+      [ 2515, 3171, 3236, 3677, 4114, 4291, 4399, 4654, 4749, 4781,
+        4817, 4920, 5004, 5030, 5042, 5044, 5092, 5096, 5139, 5195
+      ].forEach (function (year) {
+          actual   = cal.leapHinduLunarOld (year);
+          expect (false).toEqual (actual);
+      });
+  });
+
+  /*
+  5195 false
+  */
 });
