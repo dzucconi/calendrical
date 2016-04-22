@@ -785,6 +785,53 @@ var Calendrical = (function (exports) {
     ) - 0.5;
   };
 
+  calendar.jdToHinduLunarOld = function (jd) {
+     var sun, newMoon, leap, year, month, day;
+
+     sun = priv.jdToHinduDayCount (jd) + 0.25;
+     newMoon = sun - astro.mod (sun, this.constants.ARYA_LUNAR_MONTH);
+     leap = (this.constants.ARYA_SOLAR_MONTH - this.constants.ARYA_LUNAR_MONTH >=
+             astro.mod (newMoon, this.constants.ARYA_SOLAR_MONTH)) &&
+             (astro.mod (newMoon, this.constants.ARYA_SOLAR_MONTH) > 0)
+     month = astro.mod (Math.ceil (newMoon / this.constants.ARYA_SOLAR_MONTH), 12) + 1;
+     day = astro.mod (Math.floor (sun / this.constants.ARYA_LUNAR_DAY), 30) + 1;
+     year = Math.ceil ((newMoon + this.constants.ARYA_SOLAR_MONTH) / this.constants.ARYA_SOLAR_YEAR) - 1;
+
+     return [ year, month, leap, day ];
+  };
+
+  calendar.hinduLunarOldToJd = function (date) {
+    var year, month, leap, day, mina, lunarNewYear, temp;
+
+    year = date[0];
+    month = date[1];
+    leap = date[2];
+    day = date[3];
+    mina = (12 * year - 1) * this.constants.ARYA_SOLAR_MONTH;
+    lunarNewYear = this.constants.ARYA_LUNAR_MONTH * Math.ceil (mina / this.constants.ARYA_LUNAR_MONTH);
+
+    temp = Math.ceil ((lunarNewYear - mina) / (this.constants.ARYA_SOLAR_MONTH - this.constants.ARYA_LUNAR_MONTH));
+
+    if (leap || temp > month) {
+        temp = month - 1;
+    } else {
+        temp = month;
+    }
+
+    return Math.ceil (
+        this.constants.indian.EPOCH +
+        lunarNewYear +
+        this.constants.ARYA_LUNAR_MONTH * temp +
+        (day - 1) * this.constants.ARYA_LUNAR_DAY -
+        0.75) + 0.5;
+  };
+
+  // Is an Old Hindu Lunar year leap ?
+  calendar.leapHinduLunarOld = function (year) {
+      return astro.mod (year * this.constants.ARYA_SOLAR_YEAR - this.constants.ARYA_SOLAR_MONTH,
+                 this.constants.ARYA_LUNAR_MONTH) >= 23902504679 / 1282400064;
+  };
+
   // Obtain Julian day for Indian Civil date
   calendar.indianCivilToJd = function (year, month, day) {
     var Caitra, gyear, leap, start, jd, m;
