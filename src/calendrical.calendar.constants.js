@@ -1,8 +1,13 @@
-var Calendrical = (function(exports){
-  "use strict";
+/* global */
+/* eslint no-undef: "error"*/
+
+"use strict";
+
+var Calendrical = (function (exports) {
+  var calendar;
 
   exports.calendar = exports.calendar || {};
-  var calendar = exports.calendar;
+  calendar = exports.calendar;
 
   calendar.constants = {
     // *Julian date of Gregorian epoch: 0000-01-01*
@@ -16,67 +21,67 @@ var Calendrical = (function(exports){
     // *Epoch (day 0) of Excel 1904 date system (Mac)*
     J1904: 2416480.5,
 
-    ARYA_SOLAR_YEAR: 1577917500 / 4320000,
-    ARYA_SOLAR_MONTH: 1577917500 / 4320000 / 12,
-    ARYA_LUNAR_MONTH: 1577917500 / 53433336,
-    ARYA_LUNAR_DAY: 1577917500 / 53433336 / 30,
+    ARYA_SOLAR_YEAR: 1577917500 / 4320000, // 365.258680556,
+    ARYA_SOLAR_MONTH: 1577917500 / 4320000 / 12, // 30.4382233796,
+    ARYA_LUNAR_MONTH: 1577917500 / 53433336, // 29.5305818076,
+    ARYA_LUNAR_DAY: 1577917500 / 53433336 / 30, // 0.984352726919,
 
     gregorian: {
       EPOCH: 1721425.5,
-      MONTHS: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      MONTHS: [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
     },
 
     julian: {
       EPOCH: 1721423.5,
-      MONTHS: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      MONTHS: [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
     },
 
     hebrew: {
       EPOCH: 347995.5,
-      MONTHS: ["Nisan", "Iyyar", "Sivan", "Tammuz", "Av", "Elul", "Tishri", "Marẖeshvan", "Kislev", "Teveth", "Shevat", "Adar", "Veadar"],
-      H_MONTHS: ["נִיסָן", "אייר", "סיוון", "תַּמּוּז", "אָב", "אֱלוּל", "תִּשׁרִי", "מרחשוון", "כסליו", "טֵבֵת", "שְׁבָט", "אֲדָר א׳", "אֲדָר א׳"]
+      MONTHS: [ "Nisan", "Iyyar", "Sivan", "Tammuz", "Av", "Elul", "Tishri", "Marẖeshvan", "Kislev", "Teveth", "Shevat", "Adar", "Veadar" ],
+      H_MONTHS: [ "נִיסָן", "אייר", "סיוון", "תַּמּוּז", "אָב", "אֱלוּל", "תִּשׁרִי", "מרחשוון", "כסליו", "טֵבֵת", "שְׁבָט", "אֲדָר א׳", "אֲדָר א׳" ]
     },
 
     french_revolutionary: {
       EPOCH: 2375839.5,
-      MOIS: ["Vendémiaire", "Brumaire", "Frimaire", "Nivôse", "Pluviôse", "Ventôse", "Germinal", "Floréal", "Prairial", "Messidor", "Thermidor", "Fructidor", "(Sans-culottides)"],
-      DECADE: ["I", "II", "III"],
-      JOUR: ["du Primidi (1)", "du Duodi (2)", "du Tridi (3)", "du Quartidi (4)", "du Quintidi (5)", "du Sextidi (6)", "du Septidi (7)", "du Octidi (8)", "du Nonidi (9)", "du Décadi (10)", "------------", "de la Vertu (1)", "du Génie (2)", "du Travail (3)", "de l'Opinion (4)", "des Récompenses (5)", "de la Révolution (6)"]
+      MOIS: [ "Vendémiaire", "Brumaire", "Frimaire", "Nivôse", "Pluviôse", "Ventôse", "Germinal", "Floréal", "Prairial", "Messidor", "Thermidor", "Fructidor", "(Sans-culottides)" ],
+      DECADE: [ "I", "II", "III" ],
+      JOUR: [ "du Primidi (1)", "du Duodi (2)", "du Tridi (3)", "du Quartidi (4)", "du Quintidi (5)", "du Sextidi (6)", "du Septidi (7)", "du Octidi (8)", "du Nonidi (9)", "du Décadi (10)", "------------", "de la Vertu (1)", "du Génie (2)", "du Travail (3)", "de l'Opinion (4)", "des Récompenses (5)", "de la Révolution (6)" ]
     },
 
     islamic: {
       EPOCH: 1948439.5,
-      WEEKDAYS: ["al-'ahad", "al-'ithnayn", "ath-thalatha'", "al-'arb`a'", "al-khamis", "al-jum`a", "as-sabt"],
-      MONTHS: ["Muharram", "Safar", "Rabi`al-Awwal", "Rabi`ath-Thani", "Jumada l-Ula", "Jumada t-Tania", "Rajab", "Sha`ban", "Ramadan", "Shawwal", "Dhu l-Qa`da", "Dhu l-Hijja"]
+      WEEKDAYS: [ "al-'ahad", "al-'ithnayn", "ath-thalatha'", "al-'arb`a'", "al-khamis", "al-jum`a", "as-sabt" ],
+      MONTHS: [ "Muharram", "Safar", "Rabi`al-Awwal", "Rabi`ath-Thani", "Jumada l-Ula", "Jumada t-Tania", "Rajab", "Sha`ban", "Ramadan", "Shawwal", "Dhu l-Qa`da", "Dhu l-Hijja" ]
     },
 
     persian: {
       EPOCH: 1948320.5,
-      WEEKDAYS: ["Yekshanbeh", "Doshanbeh", "Seshhanbeh", "Chaharshanbeh", "Panjshanbeh", "Jomeh", "Shanbeh"],
-      MONTHS: ["Farvardin", "Ordibehesht", "Khordad", "Tir", "Mordad", "Shahrivar", "Mehr", "Aban", "Azar", "Dey", "Bahman", "Esfand"]
+      WEEKDAYS: [ "Yekshanbeh", "Doshanbeh", "Seshhanbeh", "Chaharshanbeh", "Panjshanbeh", "Jomeh", "Shanbeh" ],
+      MONTHS: [ "Farvardin", "Ordibehesht", "Khordad", "Tir", "Mordad", "Shahrivar", "Mehr", "Aban", "Azar", "Dey", "Bahman", "Esfand" ]
     },
 
     mayan: {
       COUNT_EPOCH: 584282.5,
-      HAAB_MONTHS: ["Pop", "Uo", "Zip", "Zotz", "Tzec", "Xul", "Yaxkin", "Mol", "Chen", "Yax", "Zac", "Ceh", "Mac", "Kankin", "Muan", "Pax", "Kayab", "Cumku", "Uayeb"],
-      TZOLKIN_MONTHS: ["Imix", "Ik", "Akbal", "Kan", "Chicchan", "Cimi", "Manik", "Lamat", "Muluc", "Oc", "Chuen", "Eb", "Ben", "Ix", "Men", "Cib", "Caban", "Etznab", "Cauac", "Ahau"]
+      HAAB_MONTHS: [ "Pop", "Uo", "Zip", "Zotz", "Tzec", "Xul", "Yaxkin", "Mol", "Chen", "Yax", "Zac", "Ceh", "Mac", "Kankin", "Muan", "Pax", "Kayab", "Cumku", "Uayeb" ],
+      TZOLKIN_MONTHS: [ "Imix", "Ik", "Akbal", "Kan", "Chicchan", "Cimi", "Manik", "Lamat", "Muluc", "Oc", "Chuen", "Eb", "Ben", "Ix", "Men", "Cib", "Caban", "Etznab", "Cauac", "Ahau" ]
     },
 
     bahai: {
       EPOCH: 2394646.5,
       EPOCH172: 2457102.5,
-      WEEKDAYS: ["Jamál", "Kamál", "Fidál", "Idál", "Istijlál", "Istiqlál", "Jalál"],
-      YEARS: ["Alif", "Bá", "Ab", "Dál", "Báb", "Váv", "Abad", "Jád", "Bahá", "Hubb", "Bahháj", "Javáb", "Ahad", "Vahháb", "Vidád", "Badí", "Bahí", "Abhá", "Vahíd"],
-      MONTHS: ["Bahá", "Jalál", "Jamál", "`Azamat", "Núr", "Rahmat", "Kalimát", "Kamál", "Asmá", "`Izzat", "Mashíyyat", "`Ilm", "Qudrat", "Qawl", "Masáil", "Sharaf", "Sultán", "Mulk", "Ayyám-i-Há", "`Alá'"],
-      DAYS: ["Bahá", "Jalál", "Jamál", "`Azamat", "Núr", "Rahmat", "Kalimát", "Kamál", "Asmá", "`Izzat", "Mashíyyat", "`Ilm", "Qudrat", "Qawl", "Masáil", "Sharaf", "Sultán", "Mulk", "`Alá'"]
+      WEEKDAYS: [ "Jamál", "Kamál", "Fidál", "Idál", "Istijlál", "Istiqlál", "Jalál" ],
+      YEARS: [ "Alif", "Bá", "Ab", "Dál", "Báb", "Váv", "Abad", "Jád", "Bahá", "Hubb", "Bahháj", "Javáb", "Ahad", "Vahháb", "Vidád", "Badí", "Bahí", "Abhá", "Vahíd" ],
+      MONTHS: [ "Bahá", "Jalál", "Jamál", "`Azamat", "Núr", "Rahmat", "Kalimát", "Kamál", "Asmá", "`Izzat", "Mashíyyat", "`Ilm", "Qudrat", "Qawl", "Masáil", "Sharaf", "Sultán", "Mulk", "Ayyám-i-Há", "`Alá'" ],
+      DAYS: [ "Bahá", "Jalál", "Jamál", "`Azamat", "Núr", "Rahmat", "Kalimát", "Kamál", "Asmá", "`Izzat", "Mashíyyat", "`Ilm", "Qudrat", "Qawl", "Masáil", "Sharaf", "Sultán", "Mulk", "`Alá'" ]
     },
 
     indian: {
       EPOCH: 588465.5,
-      WEEKDAYS: ["ravivara", "somavara", "mangalavara", "budhavara", "brahaspativara", "sukravara", "sanivara"],
-      MONTHS: ["Caitra", "Vaisakha", "Jyaistha", "Asadha", "Sravana", "Bhadra", "Asvina", "Kartika", "Agrahayana", "Pausa", "Magha", "Phalguna"]
+      WEEKDAYS: [ "ravivara", "somavara", "mangalavara", "budhavara", "brahaspativara", "sukravara", "sanivara" ],
+      MONTHS: [ "Caitra", "Vaisakha", "Jyaistha", "Asadha", "Sravana", "Bhadra", "Asvina", "Kartika", "Agrahayana", "Pausa", "Magha", "Phalguna" ]
     }
-  }
+ };
 
   return exports;
 }(Calendrical || {}));
