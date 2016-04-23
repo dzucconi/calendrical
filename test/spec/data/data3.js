@@ -29,7 +29,7 @@ var data3 = [
       "day": 3
     },
     "balinese": {
-      "luang": "False",
+      "luang": false,
       "dwi": 1,
       "tri": 1,
       "catur": 1,
@@ -89,7 +89,7 @@ var data3 = [
       "day": 8
     },
     "balinese": {
-      "luang": "True",
+      "luang": true,
       "dwi": 2,
       "tri": 2,
       "catur": 1,
@@ -149,7 +149,7 @@ var data3 = [
       "day": 13
     },
     "balinese": {
-      "luang": "True",
+      "luang": true,
       "dwi": 2,
       "tri": 2,
       "catur": 1,
@@ -209,7 +209,7 @@ var data3 = [
       "day": 17
     },
     "balinese": {
-      "luang": "False",
+      "luang": false,
       "dwi": 1,
       "tri": 2,
       "catur": 3,
@@ -269,7 +269,7 @@ var data3 = [
       "day": 6
     },
     "balinese": {
-      "luang": "False",
+      "luang": false,
       "dwi": 1,
       "tri": 1,
       "catur": 3,
@@ -329,7 +329,7 @@ var data3 = [
       "day": 7
     },
     "balinese": {
-      "luang": "True",
+      "luang": true,
       "dwi": 2,
       "tri": 2,
       "catur": 1,
@@ -389,7 +389,7 @@ var data3 = [
       "day": 22
     },
     "balinese": {
-      "luang": "False",
+      "luang": false,
       "dwi": 1,
       "tri": 2,
       "catur": 3,
@@ -449,7 +449,7 @@ var data3 = [
       "day": 11
     },
     "balinese": {
-      "luang": "False",
+      "luang": false,
       "dwi": 1,
       "tri": 2,
       "catur": 2,
@@ -509,7 +509,7 @@ var data3 = [
       "day": 19
     },
     "balinese": {
-      "luang": "False",
+      "luang": false,
       "dwi": 1,
       "tri": 2,
       "catur": 1,
@@ -569,7 +569,7 @@ var data3 = [
       "day": 1
     },
     "balinese": {
-      "luang": "True",
+      "luang": true,
       "dwi": 2,
       "tri": 3,
       "catur": 1,
@@ -629,7 +629,7 @@ var data3 = [
       "day": 22
     },
     "balinese": {
-      "luang": "False",
+      "luang": false,
       "dwi": 1,
       "tri": 1,
       "catur": 1,
@@ -689,7 +689,7 @@ var data3 = [
       "day": 28
     },
     "balinese": {
-      "luang": "True",
+      "luang": true,
       "dwi": 2,
       "tri": 3,
       "catur": 4,
@@ -749,7 +749,7 @@ var data3 = [
       "day": 6
     },
     "balinese": {
-      "luang": "False",
+      "luang": false,
       "dwi": 1,
       "tri": 2,
       "catur": 3,
@@ -809,7 +809,7 @@ var data3 = [
       "day": 3
     },
     "balinese": {
-      "luang": "False",
+      "luang": false,
       "dwi": 1,
       "tri": 1,
       "catur": 4,
@@ -869,7 +869,7 @@ var data3 = [
       "day": 17
     },
     "balinese": {
-      "luang": "False",
+      "luang": false,
       "dwi": 1,
       "tri": 2,
       "catur": 2,
@@ -929,7 +929,7 @@ var data3 = [
       "day": 27
     },
     "balinese": {
-      "luang": "False",
+      "luang": false,
       "dwi": 1,
       "tri": 2,
       "catur": 4,
@@ -989,7 +989,7 @@ var data3 = [
       "day": 12
     },
     "balinese": {
-      "luang": "True",
+      "luang": true,
       "dwi": 2,
       "tri": 1,
       "catur": 4,
@@ -1049,7 +1049,7 @@ var data3 = [
       "day": 27
     },
     "balinese": {
-      "luang": "False",
+      "luang": false,
       "dwi": 1,
       "tri": 2,
       "catur": 3,
@@ -1109,7 +1109,7 @@ var data3 = [
       "day": 12
     },
     "balinese": {
-      "luang": "False",
+      "luang": false,
       "dwi": 1,
       "tri": 3,
       "catur": 4,
@@ -1169,7 +1169,7 @@ var data3 = [
       "day": 21
     },
     "balinese": {
-      "luang": "True",
+      "luang": true,
       "dwi": 2,
       "tri": 2,
       "catur": 4,
@@ -1229,7 +1229,7 @@ var data3 = [
       "day": 12
     },
     "balinese": {
-      "luang": "True",
+      "luang": true,
       "dwi": 2,
       "tri": 1,
       "catur": 2,
@@ -1289,7 +1289,7 @@ var data3 = [
       "day": 3
     },
     "balinese": {
-      "luang": "True",
+      "luang": true,
       "dwi": 2,
       "tri": 2,
       "catur": 4,
@@ -1349,7 +1349,7 @@ var data3 = [
       "day": 11
     },
     "balinese": {
-      "luang": "False",
+      "luang": false,
       "dwi": 1,
       "tri": 3,
       "catur": 4,
@@ -1409,7 +1409,7 @@ var data3 = [
       "day": 31
     },
     "balinese": {
-      "luang": "False",
+      "luang": false,
       "dwi": 1,
       "tri": 1,
       "catur": 1,
@@ -1469,7 +1469,7 @@ var data3 = [
       "day": 19
     },
     "balinese": {
-      "luang": "True",
+      "luang": true,
       "dwi": 2,
       "tri": 2,
       "catur": 1,
@@ -1529,7 +1529,7 @@ var data3 = [
       "day": 31
     },
     "balinese": {
-      "luang": "True",
+      "luang": true,
       "dwi": 2,
       "tri": 3,
       "catur": 2,
@@ -1589,7 +1589,7 @@ var data3 = [
       "day": 13
     },
     "balinese": {
-      "luang": "True",
+      "luang": true,
       "dwi": 2,
       "tri": 2,
       "catur": 2,
@@ -1649,7 +1649,7 @@ var data3 = [
       "day": 28
     },
     "balinese": {
-      "luang": "False",
+      "luang": false,
       "dwi": 1,
       "tri": 2,
       "catur": 3,
@@ -1709,7 +1709,7 @@ var data3 = [
       "day": 28
     },
     "balinese": {
-      "luang": "True",
+      "luang": true,
       "dwi": 2,
       "tri": 2,
       "catur": 4,
@@ -1769,7 +1769,7 @@ var data3 = [
       "day": 19
     },
     "balinese": {
-      "luang": "True",
+      "luang": true,
       "dwi": 2,
       "tri": 2,
       "catur": 2,
@@ -1829,7 +1829,7 @@ var data3 = [
       "day": 7
     },
     "balinese": {
-      "luang": "True",
+      "luang": true,
       "dwi": 2,
       "tri": 2,
       "catur": 4,
@@ -1889,7 +1889,7 @@ var data3 = [
       "day": 28
     },
     "balinese": {
-      "luang": "True",
+      "luang": true,
       "dwi": 2,
       "tri": 1,
       "catur": 3,
@@ -1949,7 +1949,7 @@ var data3 = [
       "day": 4
     },
     "balinese": {
-      "luang": "False",
+      "luang": false,
       "dwi": 1,
       "tri": 3,
       "catur": 4,
