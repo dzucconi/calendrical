@@ -26,7 +26,7 @@ var data1 = [
       "month": 8,
       "event": 1,
       "count": 3,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 161,
@@ -69,7 +69,7 @@ var data1 = [
       "month": 12,
       "event": 3,
       "count": 6,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 580,
@@ -112,7 +112,7 @@ var data1 = [
       "month": 10,
       "event": 1,
       "count": 6,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 818,
@@ -155,7 +155,7 @@ var data1 = [
       "month": 10,
       "event": 2,
       "count": 5,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 883,
@@ -198,7 +198,7 @@ var data1 = [
       "month": 1,
       "event": 3,
       "count": 7,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 1217,
@@ -241,7 +241,7 @@ var data1 = [
       "month": 6,
       "event": 1,
       "count": 15,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 1324,
@@ -284,7 +284,7 @@ var data1 = [
       "month": 11,
       "event": 3,
       "count": 7,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 1442,
@@ -327,7 +327,7 @@ var data1 = [
       "month": 5,
       "event": 1,
       "count": 13,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 1761,
@@ -370,7 +370,7 @@ var data1 = [
       "month": 6,
       "event": 1,
       "count": 15,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 1844,
@@ -413,7 +413,7 @@ var data1 = [
       "month": 4,
       "event": 1,
       "count": 17,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 1938,
@@ -456,7 +456,7 @@ var data1 = [
       "month": 3,
       "event": 2,
       "count": 5,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 1988,
@@ -499,7 +499,7 @@ var data1 = [
       "month": 4,
       "event": 1,
       "count": 7,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2036,
@@ -542,7 +542,7 @@ var data1 = [
       "month": 5,
       "event": 1,
       "count": 12,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2046,
@@ -585,7 +585,7 @@ var data1 = [
       "month": 6,
       "event": 2,
       "count": 2,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2139,
@@ -628,7 +628,7 @@ var data1 = [
       "month": 2,
       "event": 1,
       "count": 8,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2184,
@@ -671,7 +671,7 @@ var data1 = [
       "month": 4,
       "event": 1,
       "count": 2,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2240,
@@ -714,7 +714,7 @@ var data1 = [
       "month": 9,
       "event": 3,
       "count": 5,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2302,
@@ -757,7 +757,7 @@ var data1 = [
       "month": 3,
       "event": 1,
       "count": 6,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2308,
@@ -800,7 +800,7 @@ var data1 = [
       "month": 6,
       "event": 1,
       "count": 2,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2396,
@@ -843,7 +843,7 @@ var data1 = [
       "month": 7,
       "event": 1,
       "count": 12,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2428,
@@ -886,7 +886,7 @@ var data1 = [
       "month": 7,
       "event": 3,
       "count": 3,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2465,
@@ -929,7 +929,7 @@ var data1 = [
       "month": 6,
       "event": 3,
       "count": 6,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2517,
@@ -972,7 +972,7 @@ var data1 = [
       "month": 8,
       "event": 1,
       "count": 12,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2568,
@@ -1015,7 +1015,7 @@ var data1 = [
       "month": 3,
       "event": 3,
       "count": 1,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2587,
@@ -1058,7 +1058,7 @@ var data1 = [
       "month": 4,
       "event": 3,
       "count": 8,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2651,
@@ -1101,7 +1101,7 @@ var data1 = [
       "month": 8,
       "event": 3,
       "count": 2,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2678,
@@ -1144,7 +1144,7 @@ var data1 = [
       "month": 10,
       "event": 1,
       "count": 16,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2690,
@@ -1187,7 +1187,7 @@ var data1 = [
       "month": 4,
       "event": 3,
       "count": 8,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2691,
@@ -1230,7 +1230,7 @@ var data1 = [
       "month": 10,
       "event": 1,
       "count": 8,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2692,
@@ -1273,7 +1273,7 @@ var data1 = [
       "month": 3,
       "event": 2,
       "count": 4,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2740,
@@ -1316,7 +1316,7 @@ var data1 = [
       "month": 2,
       "event": 3,
       "count": 2,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2744,
@@ -1359,7 +1359,7 @@ var data1 = [
       "month": 11,
       "event": 1,
       "count": 5,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2787,
@@ -1402,7 +1402,7 @@ var data1 = [
       "month": 7,
       "event": 2,
       "count": 3,
-      "leap": "False"
+      "leap": false
     },
     "egyptian": {
       "year": 2843,

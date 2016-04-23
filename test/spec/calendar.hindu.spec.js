@@ -32,7 +32,7 @@ describe ("Hindu calendar spec", function () {
     data4.forEach (function (data) {
         date     = data.hinduLunarOld;
         expected = data.rataDie + cal.constants.J0000;
-        actual   = cal.hinduLunarOldToJd ([ date.year, date.month, date.leap === "True", date.day ]);
+        actual   = cal.hinduLunarOldToJd ([ date.year, date.month, date.leap, date.day ]);
 
         expect (expected).toEqual (actual);
     });
@@ -41,7 +41,7 @@ describe ("Hindu calendar spec", function () {
   it ("should convert a Julian day to a Hindu Lunar Old date", function () {
     data4.forEach (function (data) {
         date     = data.hinduLunarOld;
-        expected = [ date.year, date.month, date.leap === "True", date.day ];
+        expected = [ date.year, date.month, date.leap, date.day ];
         actual   = cal.jdToHinduLunarOld (data.rataDie + cal.constants.J0000);
 
         expect (expected).toEqual (actual);
