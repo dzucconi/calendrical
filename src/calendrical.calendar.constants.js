@@ -80,6 +80,11 @@ var Calendrical = (function (exports) {
       EPOCH: 588465.5,
       WEEKDAYS: [ "ravivara", "somavara", "mangalavara", "budhavara", "brahaspativara", "sukravara", "sanivara" ],
       MONTHS: [ "Caitra", "Vaisakha", "Jyaistha", "Asadha", "Sravana", "Bhadra", "Asvina", "Kartika", "Agrahayana", "Pausa", "Magha", "Phalguna" ]
+    },
+
+    tibetan: {
+      EPOCH: -46410 + 1721424.5, // 172/12/07 BCE (Gregorian)
+      EPOCH_RD: -46410 // 172/12/07 BCE (Gregorian)
     }
  };
 

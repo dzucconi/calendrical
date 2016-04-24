@@ -280,6 +280,16 @@ var Calendrical = (function(exports) {
     return this.mod(a - 1, b) + 1;
   }
 
+  // Return the first index >= initial which satisfies the predicate
+  astro.next = function (index, predicate) {
+      return predicate (index) ? index : astro.next (index + 1, predicate);
+  };
+
+  // Return the last index >= initial which breaks the predicate
+  astro.final = function (index, predicate) {
+      return predicate (index) ? astro.final (index + 1, predicate) : index - 1;
+  };
+
   // Convert Julian time to hour, minutes, and seconds,
   // returned as a three-element array
   astro.jhms = function(j) {
@@ -442,9 +452,9 @@ var Calendrical = (function(exports) {
   // equinox or solstice. The `which` argument
   // selects the item to be computed:
   //
-  // **0** - March equinox  
-  // **1** - June solstice  
-  // **2** - September equinox  
+  // **0** - March equinox
+  // **1** - June solstice
+  // **2** - September equinox
   // **3** - December solstice
   astro.equinox = function(year, which) {
     var deltaL, i, j, JDE0, JDE, JDE0tab, S, T, W, Y;
