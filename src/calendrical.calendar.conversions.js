@@ -900,8 +900,121 @@ var Calendrical = (function (exports) {
       }
     }
 
-    return [year, month, day];
-  }
+    return [ year, month, day ];
+  };
+
+  priv.isFloat = function (num) {
+      return !!Boolean(num % 1);
+  };
+
+  priv.tibetanSunEquation = function (alpha) {
+      var alphaInt = Math.floor (alpha);
+
+    if (alpha > 6) {
+        return -priv.tibetanSunEquation (alpha - 6);
+    }
+
+    if (alpha > 3) {
+        return priv.tibetanSunEquation (6 - alpha);
+    }
+
+    if (!priv.isFloat (alpha)) {
+        return [ 0, 6, 10, 11 ][alphaInt] / 60;
+    }
+
+    return astro.mod ( alpha, 1) * priv.tibetanSunEquation (Math.ceil (alpha)) +
+           astro.mod (-alpha, 1) * priv.tibetanSunEquation (alphaInt);
+  };
+
+  priv.tibetanMoonEquation = function (alpha) {
+      var alphaInt = Math.floor (alpha);
+
+    if (alpha > 14) {
+        return -priv.tibetanMoonEquation (alpha - 14);
+    }
+
+    if (alpha > 7) {
+        return priv.tibetanMoonEquation (14 - alpha);
+    }
+
+    if (!priv.isFloat (alpha)) {
+        return [ 0, 5, 10, 15, 19, 22, 24, 25 ][alphaInt] / 60;
+    }
+
+    return astro.mod ( alpha, 1) * priv.tibetanMoonEquation (Math.ceil (alpha)) +
+           astro.mod (-alpha, 1) * priv.tibetanMoonEquation (alphaInt);
+  };
+
+  calendar.tibetanToJd = function (date) {
+      var year, month, monthLeap, day, dayLeap, months, days, mean, solAnomaly, lunAnomaly, sun, moon;
+
+    year       = date[0];
+    month      = date[1];
+    monthLeap  = date[2];
+    day        = date[3];
+    dayLeap    = date[4];
+    months     = Math.floor (804 / 65 * (year - 1) + 67 / 65 * month + (monthLeap ? -1 : 0) + 64 / 65);
+    days       = 30 * months + day;
+    mean       = days * 11135 / 11312 - 30 + (dayLeap ? 0 : -1) + 1071 / 1616;
+    solAnomaly = astro.mod (days * 13 / 4824 + 2117 / 4824, 1);
+    lunAnomaly = astro.mod (days * 3781 / 105840 + 2837 / 15120, 1);
+    sun        = priv.tibetanSunEquation (12 * solAnomaly);
+    moon       = priv.tibetanMoonEquation (28 * lunAnomaly);
+
+    return Math.floor (this.constants.tibetan.EPOCH + mean - sun + moon - 0.5) + 0.5;
+  };
+
+  calendar.jdToTibetan = function (jd) {
+      var capY, years, year0, month0, est, day0, monthLeap, day, month, year, temp, dayLeap;
+
+      capY = 365 + 4975 / 18382;
+      years = Math.ceil ((jd - this.constants.tibetan.EPOCH) / capY);
+
+      year0 = astro.final (years, function (y0) {
+          var j0 = calendar.tibetanToJd ([ y0, 1, false, 1, false ]);
+
+          return jd >= j0;
+      });
+
+      month0 = astro.final (1, function (m0) {
+          var j0 = calendar.tibetanToJd ([ year0, m0, false, 1, false ]);
+
+          return jd >= j0;
+      });
+
+      est = jd - this.tibetanToJd ([ year0, month0, false, 1, false ]);
+
+      day0 = astro.final (est - 2, function (d0) {
+          var j0 = calendar.tibetanToJd ([ year0, month0, false, d0, false ]);
+
+          return jd >= j0;
+      });
+
+      monthLeap = day0 > 30;
+      day = astro.amod (day0, 30);
+
+      if (day > day0) {
+          temp = month0 - 1;
+      } else if (monthLeap) {
+          temp = month0 + 1;
+      } else {
+          temp = month0;
+      }
+
+      month = astro.amod (temp, 12);
+
+      if (day > day0 && month0 === 1) {
+          year = year0 - 1;
+      } else if (monthLeap && month0 === 12) {
+          year = year0 + 1;
+      } else {
+          year = year0;
+      }
+
+      dayLeap = jd === this.tibetanToJd ([ year, month, monthLeap, day, true ]);
+
+      return [ year, month, monthLeap, day, dayLeap ];
+  };
 
   return exports;
 }(Calendrical || {}));
