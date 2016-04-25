@@ -971,23 +971,17 @@ var Calendrical = (function (exports) {
       years = Math.ceil ((jd - this.constants.tibetan.EPOCH) / capY);
 
       year0 = astro.final (years, function (y0) {
-          var j0 = calendar.tibetanToJd ([ y0, 1, false, 1, false ]);
-
-          return jd >= j0;
+          return jd >= calendar.tibetanToJd ([ y0, 1, false, 1, false ]);
       });
 
       month0 = astro.final (1, function (m0) {
-          var j0 = calendar.tibetanToJd ([ year0, m0, false, 1, false ]);
-
-          return jd >= j0;
+          return jd >= calendar.tibetanToJd ([ year0, m0, false, 1, false ]);
       });
 
       est = jd - this.tibetanToJd ([ year0, month0, false, 1, false ]);
 
       day0 = astro.final (est - 2, function (d0) {
-          var j0 = calendar.tibetanToJd ([ year0, month0, false, d0, false ]);
-
-          return jd >= j0;
+          return jd >= calendar.tibetanToJd ([ year0, month0, false, d0, false ]);
       });
 
       monthLeap = day0 > 30;
@@ -1014,6 +1008,11 @@ var Calendrical = (function (exports) {
       dayLeap = jd === this.tibetanToJd ([ year, month, monthLeap, day, true ]);
 
       return [ year, month, monthLeap, day, dayLeap ];
+  };
+
+  calendar.tibetanMonthLeap = function (year, month) {
+      return month ===
+              this.jdToTibetan (this.tibetanToJd ([ year, month, true, 2, false ]))[1];
   };
 
   return exports;
