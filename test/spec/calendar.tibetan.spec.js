@@ -28,18 +28,12 @@ describe ("Tibetan calendar spec", function () {
   });
 
   it ("should establish whether a Tibetan month is leap", function () {
-      [ 2933, 3570, 3795, 4197, 4340, 4389,
-        4492, 4536, 4593, 4660, 4869, 4940
-      ].forEach (function (year) {
-          actual   = cal.leapHinduLunarOld (year);
-          expect (true).toEqual (actual);
-      });
+      data4.forEach (function (data) {
+          date     = data.tibetan;
+          expected = date.leapMonth;
+          actual   = cal.tibetanMonthLeap (date.year, date.month);
 
-      [ 2515, 3171, 3236, 3677, 4114, 4291, 4399, 4654, 4749, 4781,
-        4817, 4920, 5004, 5030, 5042, 5044, 5092, 5096, 5139, 5195
-      ].forEach (function (year) {
-          actual   = cal.leapHinduLunarOld (year);
-          expect (false).toEqual (actual);
+          expect (expected).toEqual (actual);
       });
   });
 });
