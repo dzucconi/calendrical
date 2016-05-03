@@ -551,15 +551,18 @@ var Calendrical = (function (exports) {
 
   // Is a given year a leap year in the Persian
   // astronomical calendar?
-  calendar.leapPersiana = function(year) {
-    return (this.persianaToJd(year + 1, 1, 1) -
-      this.persianaToJd(year, 1, 1)) > 365;
-  }
+  calendar.leapPersian = function (year) {
+    return this.persianaToJd (year + 1, 1, 1) -
+      this.persianaToJd (year, 1, 1) > 365;
+  };
 
-  // Is a given year a leap year in the Persian calendar?
-  calendar.leapPersian = function(year) {
-    return ((((((year - ((year > 0) ? 474 : 473)) % 2820) + 474) + 38) * 682) % 2816) < 682;
-  }
+  // Is a given year a leap year in the Persian arithmetic alendar?
+  calendar.leapPersianArithmetic = function (year) {
+      var y0 = year > 0 ? year - 474 : year - 473,
+          y1 = astro.mod (y0, 2820) + 474;
+
+      return astro.mod ((y1 + 38) * 31, 128) < 31;
+  };
 
   // Return  Universal time of midday on fixed date, date, in Tehran
   calendar.midDayInTehran = function (date) {
@@ -573,7 +576,7 @@ var Calendrical = (function (exports) {
       var approx = astro.estimatePriorSolarLongitude (this.constants.SPRING, this.midDayInTehran (date));
 
       return astro.next (Math.floor (approx) - 1, function (day) {
-          return astro.solarLongitude (calendar.midDayInTehran (day)) <= (calendar.constants.SPRING + 2);
+          return astro.solarLongitude (calendar.midDayInTehran (day)) <= calendar.constants.SPRING + 2;
       });
   };
 
@@ -586,7 +589,8 @@ var Calendrical = (function (exports) {
         Math.floor (this.constants.MEAN_TROPICAL_YEAR * temp));
 
     return nowRuz - 1 + day +
-            ((month <= 7) ? 31 * (month - 1) : 30 * (month - 1) + 6);
+            ((month <= 7) ? 31 * (month - 1) : 30 * (month - 1) + 6) +
+            this.constants.J0000;
   };
 
   // Calculate Persian date from Julian day
