@@ -472,28 +472,28 @@ var Calendrical = (function (exports) {
   // **[0]** Persian year
   // **[1]** Julian day number containing equinox for this year.
   calendar.lastTehranEquinox = function (jd, epoch) {
-    var guess = this.jdToGregorian(jd)[0] - 2,
+    var guess = this.jdToGregorian (jd)[0] - 2,
       lasteq, nexteq, adr;
 
-    lasteq = this.tehranEquinoxJd(guess);
+    lasteq = this.tehranEquinoxJd (guess);
 
     while (lasteq > jd) {
-      guess--;
-      lasteq = this.tehranEquinoxJd(guess);
+      guess -= 1;
+      lasteq = this.tehranEquinoxJd (guess);
     }
 
     nexteq = lasteq - 1;
 
-    while (!((lasteq <= jd) && (jd < nexteq))) {
+    while (!(lasteq <= jd && jd < nexteq)) {
       lasteq = nexteq;
-      guess++;
-      nexteq = this.tehranEquinoxJd(guess);
+      guess += 1;
+      nexteq = this.tehranEquinoxJd (guess);
     }
 
-    adr = Math.round((lasteq - epoch) / astro.constants.TROPICAL_YEAR) + 1;
+    adr = Math.round ((lasteq - epoch) / astro.constants.TROPICAL_YEAR) + 1;
 
-    return [adr, lasteq];
-  }
+    return [ adr, lasteq ];
+  };
 
   // Determine the year in the Persian
   // astronomical calendar in which a
@@ -502,39 +502,39 @@ var Calendrical = (function (exports) {
   //
   // **[0]** Persian year
   // **[1]** Julian day number containing equinox for this year.
-  calendar.persianaYear = function(jd) {
-    return this.lastTehranEquinox(jd, this.constants.persian.EPOCH);
-  }
+  calendar.persianArithmeticYear = function (jd) {
+    return this.lastTehranEquinox (jd, this.constants.persian.EPOCH);
+  };
 
   // Calculate date in the Persian astronomical
   // calendar from Julian day.
-  calendar.jdToPersiana = function(jd) {
+  calendar.jdToPersianArithmetic = function (jd) {
     var year, month, day, adr, equinox, yday;
 
-    jd      = Math.floor(jd) + 0.5;
-    adr     = this.persianaYear(jd);
+    jd      = Math.floor (jd) + 0.5;
+    adr     = this.persianArithmeticYear (jd);
     year    = adr[0];
     equinox = adr[1];
-    day     = ((jd - equinox) / 30) + 1;
+    day     = (jd - equinox) / 30 + 1;
 
-    yday  = jd - this.persianaToJd(year, 1, 1) + 1;
-    month = (yday <= 186) ? Math.ceil(yday / 31) : Math.ceil((yday - 6) / 30);
-    day   = jd - this.persianaToJd(year, month, 1) + 2;
+    yday  = jd - this.persianArithmeticToJd(year, 1, 1) + 1;
+    month = yday <= 186 ? Math.ceil (yday / 31) : Math.ceil ((yday - 6) / 30);
+    day   = jd - this.persianArithmeticToJd (year, month, 1) + 2;
 
-    return [year, month, day];
-  }
+    return [ year, month, day ];
+  };
 
   // Obtain Julian day from a given Persian
   // astronomical calendar date.
-  calendar.persianaToJd = function(year, month, day) {
+  calendar.persianArithmeticToJd = function (year, month, day) {
     var adr, equinox, guess, jd;
 
-    guess = (this.constants.persian.EPOCH - 1) +
-              (astro.constants.TROPICAL_YEAR * ((year - 1) - 1));
-    adr   = [year - 1, 0];
+    guess = this.constants.persian.EPOCH - 1 +
+            astro.constants.TROPICAL_YEAR * ((year - 1) - 1);
+    adr   = [ year - 1, 0 ];
 
     while (adr[0] < year) {
-      adr   = this.persianaYear(guess);
+      adr   = this.persianArithmeticYear(guess);
       guess = adr[1] + (astro.constants.TROPICAL_YEAR + 2);
     }
 
@@ -547,13 +547,6 @@ var Calendrical = (function (exports) {
       day;
 
     return jd;
-  }
-
-  // Is a given year a leap year in the Persian
-  // astronomical calendar?
-  calendar.leapPersian = function (year) {
-    return this.persianaToJd (year + 1, 1, 1) -
-      this.persianaToJd (year, 1, 1) > 365;
   };
 
   // Is a given year a leap year in the Persian arithmetic alendar?
@@ -627,6 +620,13 @@ var Calendrical = (function (exports) {
     }
 
     return [ year, month, day ];
+  };
+
+  // Is a given year a leap year in the Persian
+  // astronomical calendar?
+  calendar.leapPersian = function (year) {
+    return this.persianToJd (year + 1, 1, 1) -
+      this.persianToJd (year, 1, 1) > 365;
   };
 
   // Determine Julian day from Mayan long count
