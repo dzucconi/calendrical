@@ -34,7 +34,7 @@ var Calendrical = (function (exports) {
     var wjd, depoch, quadricent, dqc, cent, dcent, quad, dquad, yindex, year;
 
     wjd        = Math.floor (jd - 0.5) + 0.5;
-    depoch     = wjd - this.constants.gregorian.EPOCH_RD;
+    depoch     = wjd - this.constants.gregorian.EPOCH;
     quadricent = Math.floor (depoch / 146097);
     dqc        = astro.mod (depoch, 146097);
     cent       = Math.floor (dqc / 36524);
@@ -585,7 +585,6 @@ var Calendrical = (function (exports) {
     nowRuz = this.persianNewYearOnOrBefore (this.constants.persian.EPOCH_RD + 180 +
         Math.floor (this.constants.MEAN_TROPICAL_YEAR * temp));
 
-    // return nowRuz - 1 + day + (month <= 7) ? 31 * (month - 1) : 30 * (month - 1) + 6;
     return nowRuz - 1 + day +
             ((month <= 7) ? 31 * (month - 1) : 30 * (month - 1) + 6);
   };
@@ -622,8 +621,6 @@ var Calendrical = (function (exports) {
         month = Math.ceil ((yday - 6) / 30);
         day   = astro.amod (yday - 6, 30);
     }
-    // month = yday <= 186 ? Math.ceil (yday / 31) : Math.ceil ((yday - 6) / 30);
-    // day   = Math.floor (jd - this.persianToJd (year, month, 1)) + 1;
 
     return [ year, month, day ];
   };
