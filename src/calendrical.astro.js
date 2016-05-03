@@ -137,6 +137,18 @@ var Calendrical = (function (exports) {
     ]
   };
 
+
+  // Pad a string to a given length with a given fill character.
+  astro.pad = function (str, length, filler) {
+    var s0 = str.toString ();
+
+    while (s0.length < length) {
+      s0 = filler + s0;
+    }
+
+    return s0;
+  };
+
   /**
    * arc seconds to radians
    * @param {float} arcs arc seconds

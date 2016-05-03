@@ -85,9 +85,9 @@ var Calendrical = (function (exports) {
     return j;
   }
 
-  calendar.isoToJulian = function(year, week, day) {
-    return day + this.nWeeks(0, this.gregorianToJd(year - 1, 12, 28), week);
-  }
+  calendar.isoToJulian = function (year, week, day) {
+    return day + this.nWeeks (0, this.gregorianToJd (year - 1, 12, 28), week);
+ };
 
   // Return array of ISO (year, week, day) for Julian day
   calendar.jdToIso = function(jd) {
@@ -111,24 +111,14 @@ var Calendrical = (function (exports) {
   }
 
   // Return array of ISO (year, day_of_year) for Julian day
-  calendar.jdToIsoDay = function(jd) {
+  calendar.jdToIsoDay = function (jd) {
     var year, day;
 
     year = this.jdToGregorian(jd)[0];
     day = Math.floor(jd - this.gregorianToJd(year, 1, 1)) + 1;
-    return [year, day];
-  }
 
-  // Pad a string to a given length with a given fill character.
-  calendar.pad = function(str, howlong, padwith) {
-    var s = str.toString();
-
-    while (s.length < howlong) {
-      s = padwith + s;
-    }
-
-    return s;
-  }
+    return [ year, day ];
+  };
 
   // Determine Julian day number from Julian calendar date
   calendar.leapJulian = function(year) {
