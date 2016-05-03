@@ -20,14 +20,36 @@ var Calendrical = (function (exports) {
     J1900: 2415020.5,
     // *Epoch (day 0) of Excel 1904 date system (Mac)*
     J1904: 2416480.5,
+    // *Gregorian date: 02000-01-01
+    J2000: 730120.5,
 
     ARYA_SOLAR_YEAR: 1577917500 / 4320000, // 365.258680556,
     ARYA_SOLAR_MONTH: 1577917500 / 4320000 / 12, // 30.4382233796,
     ARYA_LUNAR_MONTH: 1577917500 / 53433336, // 29.5305818076,
     ARYA_LUNAR_DAY: 1577917500 / 53433336 / 30, // 0.984352726919,
+    MEAN_TROPICAL_YEAR: 365.242189,
+
+    SPRING: 0,
+    SUMMER: 90,
+    AUTUMN: 180,
+    WINTER: 270,
+
+    JANUARY: 1,
+    FEBRUARY: 2,
+    MARCH: 3,
+    APRIL: 4,
+    MAY: 5,
+    JUNE: 6,
+    JULY: 7,
+    AUGUST: 8,
+    SEPTEMBER: 9,
+    OCTOBER: 10,
+    NOVEMBER: 11,
+    DECEMBER: 12,
 
     gregorian: {
       EPOCH: 1721425.5,
+      EPOCH_RD: 730120.5,
       MONTHS: [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
     },
 
@@ -57,6 +79,8 @@ var Calendrical = (function (exports) {
 
     persian: {
       EPOCH: 1948320.5,
+      EPOCH_RD: 226896,
+      TEHRAN_LOCATION: [ 35.68, 51.42, 1100, 7 / 48 ],
       WEEKDAYS: [ "Yekshanbeh", "Doshanbeh", "Seshhanbeh", "Chaharshanbeh", "Panjshanbeh", "Jomeh", "Shanbeh" ],
       MONTHS: [ "Farvardin", "Ordibehesht", "Khordad", "Tir", "Mordad", "Shahrivar", "Mehr", "Aban", "Azar", "Dey", "Bahman", "Esfand" ]
     },
