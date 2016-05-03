@@ -30,42 +30,47 @@ var Calendrical = (function (exports) {
         day);
   }
 
-  calendar.jdToGregorianYear = function(jd) {
-    var wjd, depoch, quadricent, dqc, cent, dcent, quad, dquad,
-      yindex, year;
+  calendar.jdToGregorianYear = function (jd) {
+    var wjd, depoch, quadricent, dqc, cent, dcent, quad, dquad, yindex, year;
 
-    wjd        = Math.floor(jd - 0.5) + 0.5;
-    depoch     = wjd - this.constants.gregorian.EPOCH;
-    quadricent = Math.floor(depoch / 146097);
-    dqc        = astro.mod(depoch, 146097);
-    cent       = Math.floor(dqc / 36524);
-    dcent      = astro.mod(dqc, 36524);
-    quad       = Math.floor(dcent / 1461);
-    dquad      = astro.mod(dcent, 1461);
-    yindex     = Math.floor(dquad / 365);
-    year       = (quadricent * 400) + (cent * 100) + (quad * 4) + yindex;
+    wjd        = Math.floor (jd - 0.5) + 0.5;
+    depoch     = wjd - this.constants.gregorian.EPOCH_RD;
+    quadricent = Math.floor (depoch / 146097);
+    dqc        = astro.mod (depoch, 146097);
+    cent       = Math.floor (dqc / 36524);
+    dcent      = astro.mod (dqc, 36524);
+    quad       = Math.floor (dcent / 1461);
+    dquad      = astro.mod (dcent, 1461);
+    yindex     = Math.floor (dquad / 365);
+    year       = quadricent * 400 + cent * 100 + quad * 4 + yindex;
 
-    if (!((cent == 4) || (yindex == 4))) { year++; }
+    if (cent !== 4 && yindex !== 4) {
+        year += 1;
+    }
 
     return year;
-  }
+  };
 
   // Calculate Gregorian calendar date from Julian day
-  calendar.jdToGregorian = function(jd) {
+  calendar.jdToGregorian = function (jd) {
     var wjd, year, yearday, leapadj, month, day;
 
     wjd = Math.floor(jd - 0.5) + 0.5;
-    year = this.jdToGregorianYear(jd);
+    year = this.jdToGregorianYear (jd);
 
-    yearday = wjd - this.gregorianToJd(year, 1, 1);
-    leapadj = ((wjd < this.gregorianToJd(year, 3, 1)) ? 0 :
-      (this.leapGregorian(year) ? 1 : 2)
-    );
-    month = Math.floor((((yearday + leapadj) * 12) + 373) / 367);
-    day   = (wjd - this.gregorianToJd(year, month, 1)) + 1;
+    yearday = wjd - this.gregorianToJd (year, 1, 1);
+    leapadj = wjd < this.gregorianToJd (year, 3, 1) ? 0 :
+      this.leapGregorian (year) ? 1 : 2;
 
-    return [year, month, day];
-  }
+    month = Math.floor (((yearday + leapadj) * 12 + 373) / 367);
+    day   = wjd - this.gregorianToJd (year, month, 1) + 1;
+
+    return [ year, month, day ];
+  };
+
+  calendar.gregorianDateDifference = function (date1, date2) {
+      return this.gregorianToJd (date2) - this.gregorianToJd (date1);
+  };
 
   // Return Julian day of given ISO year, week, and day
   calendar.nWeeks = function(weekday, jd, nthweek) {
@@ -556,54 +561,72 @@ var Calendrical = (function (exports) {
     return ((((((year - ((year > 0) ? 474 : 473)) % 2820) + 474) + 38) * 682) % 2816) < 682;
   }
 
+  // Return  Universal time of midday on fixed date, date, in Tehran
+  calendar.midDayInTehran = function (date) {
+      return astro.standardToUniversal (
+          astro.midDay (date, this.constants.persian.TEHRAN_LOCATION),
+          this.constants.persian.TEHRAN_LOCATION);
+  };
+
+  // Return the fixed date of Astronomical Persian New Year on or before fixed date
+  calendar.persianNewYearOnOrBefore = function (date) {
+      var approx = astro.estimatePriorSolarLongitude (this.constants.SPRING, this.midDayInTehran (date));
+
+      return astro.next (Math.floor (approx) - 1, function (day) {
+          return astro.solarLongitude (calendar.midDayInTehran (day)) <= (calendar.constants.SPRING + 2);
+      });
+  };
+
   // Determine Julian day from Persian date
-  calendar.persianToJd = function(year, month, day) {
-    var epbase, epyear;
+  calendar.persianToJd = function (year, month, day) {
+    var temp, nowRuz;
 
-    epbase = year - ((year >= 0) ? 474 : 473);
-    epyear = 474 + astro.mod(epbase, 2820);
+    temp = year > 0 ? year - 1 : year
+    nowRuz = this.persianNewYearOnOrBefore (this.constants.persian.EPOCH_RD + 180 +
+        Math.floor (this.constants.MEAN_TROPICAL_YEAR * temp));
 
-    return day +
-      ((month <= 7) ?
-      ((month - 1) * 31) :
-      (((month - 1) * 30) + 6)
-    ) +
-      Math.floor(((epyear * 682) - 110) / 2816) +
-      (epyear - 1) * 365 +
-      Math.floor(epbase / 2820) * 1029983 +
-      (this.constants.persian.EPOCH - 2);
-  }
+    // return nowRuz - 1 + day + (month <= 7) ? 31 * (month - 1) : 30 * (month - 1) + 6;
+    return nowRuz - 1 + day +
+            ((month <= 7) ? 31 * (month - 1) : 30 * (month - 1) + 6);
+  };
 
   // Calculate Persian date from Julian day
-  calendar.jdToPersian = function(jd) {
+  calendar.jdToPersian = function (jd) {
     var year, month, day, depoch, cycle, cyear, ycycle,
       aux1, aux2, yday;
 
-    jd = Math.floor(jd) + 0.5;
+    depoch = jd - this.persianToJd (475, 1, 1);
+    cycle  = Math.floor (depoch / 1029983);
+    cyear  = astro.mod (depoch, 1029983);
 
-    depoch = jd - this.persianToJd(475, 1, 1);
-    cycle  = Math.floor(depoch / 1029983);
-    cyear  = astro.mod(depoch, 1029983);
-
-    if (cyear == 1029982) {
+    if (cyear === 1029982) {
       ycycle = 2820;
     } else {
-      aux1 = Math.floor(cyear / 366);
-      aux2 = astro.mod(cyear, 366);
-      ycycle = Math.floor(((2134 * aux1) + (2816 * aux2) + 2815) / 1028522) +
-        aux1 + 1;
+      aux1 = Math.floor (cyear / 366);
+      aux2 = astro.mod (cyear, 366);
+      ycycle = Math.floor ((2134 * aux1 + 2816 * aux2 + 2815) / 1028522) + aux1 + 1;
     }
 
-    year = ycycle + (2820 * cycle) + 474;
+    year = ycycle + 2820 * cycle + 474;
 
-    if (year <= 0) { year--; }
+    if (year <= 0) {
+        year -= 1;
+    }
 
-    yday  = (jd - this.persianToJd(year, 1, 1)) + 1;
-    month = (yday <= 186) ? Math.ceil(yday / 31) : Math.ceil((yday - 6) / 30);
-    day   = (jd - this.persianToJd(year, month, 1));
+    yday  = jd - this.persianToJd (year, 1, 1) + 1;
 
-    return [year, month, day];
-  }
+    if (yday <= 186) {
+        month = Math.ceil (yday / 31);
+        day   = astro.amod (yday, 31);
+    } else {
+        month = Math.ceil ((yday - 6) / 30);
+        day   = astro.amod (yday - 6, 30);
+    }
+    // month = yday <= 186 ? Math.ceil (yday / 31) : Math.ceil ((yday - 6) / 30);
+    // day   = Math.floor (jd - this.persianToJd (year, month, 1)) + 1;
+
+    return [ year, month, day ];
+  };
 
   // Determine Julian day from Mayan long count
   calendar.mayanCountToJd = function(baktun, katun, tun, uinal, kin) {

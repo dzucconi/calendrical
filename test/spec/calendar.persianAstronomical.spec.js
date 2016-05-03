@@ -11,9 +11,9 @@ describe ("Persian astronomical calendar spec", function () {
   it ("should convert a Persian astronomical date to Julian day", function () {
     data3.forEach (function (data) {
         date     = data.persianAstro;
-        expected = data.rataDie + cal.constants.J0000;
-        actual   = cal.persianaToJd (date.year, date.month, date.day);
-
+        // expected = data.rataDie + cal.constants.J0000;
+        expected = data.rataDie;
+        actual   = cal.persianToJd (date.year, date.month, date.day);
         expect (expected).toEqual (actual);
     });
   });
@@ -22,19 +22,19 @@ describe ("Persian astronomical calendar spec", function () {
     data3.forEach (function (data) {
         date     = data.persianAstro;
         expected = [ date.year, date.month, date.day ];
-        actual   = cal.jdToPersian (data.rataDie + cal.constants.J0000);
-
+        // actual   = cal.jdToPersian (data.rataDie + cal.constants.J0000);
+        actual   = cal.jdToPersian (data.rataDie);
         expect (expected).toEqual (actual);
     });
   });
 
   it ("should determine whether a Persian astronomical year is leap year", function () {
-      [ 2 ].forEach (function (year) {
-          expect (cal.leapPersiana (year)).toBe (true);
+      [ 4 ].forEach (function (year) {
+          expect (cal.leapPersian (year)).toBe (true);
       });
 
-      [ 1 ].forEach (function (year) {
-          expect (cal.leapPersiana (year)).toBe (false);
+      [ 1, 2, 3 ].forEach (function (year) {
+          expect (cal.leapPersian (year)).toBe (false);
       });
   });
 });
