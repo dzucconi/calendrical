@@ -343,7 +343,7 @@ var Calendrical = (function (exports) {
 
   // Modulus function which works for non-integers
   function mod (a, b) {
-    return a - b * Math.floor(a / b);
+    return a - b * Math.floor (a / b);
   }
 
   astro.mod = mod;
@@ -358,14 +358,7 @@ var Calendrical = (function (exports) {
   // Return first integer greater or equal to initial index, i,
   // such that condition, p, holds.
   function next (i, p) {
-      var iter = i;
-
-    // return p (i) ? i : next (i + 1, p);
-    while (!p (iter)) {
-        iter += 1;
-    }
-
-    return iter;
+    return p (i) ? i : next (i + 1, p);
   }
 
   astro.next = next;
