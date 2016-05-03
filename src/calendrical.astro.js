@@ -683,7 +683,7 @@ var Calendrical = (function (exports) {
   function ephemerisCorrection (tee) {
       var year, centuries, result;
 
-      year = calendar.jdToGregorianYear (Math.floor (tee + calendar.constants.gregorian.EPOCH_RD));
+      year = calendar.jdToGregorianYear (Math.floor (tee + calendar.constants.gregorian.EPOCH));
 
       if (year >= 1988 && year <= 2019) {
          return (year - 1933) / 86400;
