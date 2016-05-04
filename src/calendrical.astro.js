@@ -165,22 +165,22 @@ var Calendrical = (function (exports) {
    * @param {float} degrees angle in degrees
    * @return {float} radians value
    */
-  function dtr (degrees) {
+  function degreesToRadians (degrees) {
     return degrees * Math.PI / 180.0;
   }
 
-  astro.dtr = dtr;
+  astro.degreesToRadians = degreesToRadians;
 
   /**
    * radians to degrees
    * @param {float} radians angle in radians
    * @return {float} degrees value
    */
-  function rtd (radians) {
+  function radiansToDegrees (radians) {
     return radians * 180.0 / Math.PI;
   }
 
-  astro.rtd = rtd;
+  astro.radiansToDegrees = radiansToDegrees;
 
   /**
    * angle from degrees:minutes:seconds
@@ -200,55 +200,51 @@ var Calendrical = (function (exports) {
    * @param {float} alpha angle
    * @return {float} degrees
    */
-  function fixangle (alpha) {
+  astro.fixAngle = function (alpha) {
     return alpha - 360.0 * Math.floor (alpha / 360.0);
-  }
-
-  astro.fixangle = fixangle;
+  };
 
   /**
    * Range reduce angle in radians
    * @param {float} alpha angle
    * @return {float} radians
    */
-  function fixangr (alpha) {
+  astro.fixAngleRadians = function (alpha) {
     return alpha - 2 * Math.PI * Math.floor (alpha / (2 * Math.PI));
-  }
-
-  astro.fixangr = fixangr;
+  };
 
   /**
    * Sine of an angle in degrees
    * @param {float} theta angle
    * @return {float} degrees
    */
-  function dsin (theta) {
-    return Math.sin (dtr (theta));
+  function sinDeg (theta) {
+    return Math.sin (degreesToRadians (theta));
   }
 
-  astro.dsin = dsin;
+  astro.sinDeg = sinDeg;
 
   /**
    * Cosine of an angle in degrees
    * @param {float} theta angle
    * @return {float} degrees
    */
-  function dcos (theta) {
-    return Math.cos (dtr (theta));
+  function cosDeg (theta) {
+    return Math.cos (degreesToRadians (theta));
   }
 
-  astro.dcos = dcos;
+  astro.cosDeg = cosDeg;
 
   /**
    * Tangens of an angle in degrees
    * @param {float} theta angle
    * @return {float} degrees
    */
-  function dtan (theta) {
-    return Math.tan (dtr (theta));
+  function tanDeg (theta) {
+    return Math.tan (degreesToRadians (theta));
   }
 
-  astro.dtan = dtan;
+  astro.tanDeg = tanDeg;
 
   /**
    * Modulus function which works for non-integers
@@ -540,14 +536,14 @@ var Calendrical = (function (exports) {
     anomaly = poly (centuries, [ 357.52910, 35999.05030, -0.0001559, -0.00000048 ]);
     eccentricity = poly (centuries, [ 0.016708617, -0.000042037, -0.0000001236 ]);
     varepsilon = obliquity (tee);
-    y0 = dtan (varepsilon / 2);
+    y0 = tanDeg (varepsilon / 2);
     y0 *= y0;
 
-    equation = 0.5 / Math.PI * (y0 * dsin (2 * lambda) +
-               -2 * eccentricity * dsin (anomaly) +
-               4 * eccentricity * y0 * dsin (anomaly) * dcos (2 * lambda) +
-               -0.5 * y0 * y0 * dsin (4 * lambda) +
-               -1.25 * eccentricity * eccentricity * dsin (2 * anomaly));
+    equation = 0.5 / Math.PI * (y0 * sinDeg (2 * lambda) +
+               -2 * eccentricity * sinDeg (anomaly) +
+               4 * eccentricity * y0 * sinDeg (anomaly) * cosDeg (2 * lambda) +
+               -0.5 * y0 * y0 * sinDeg (4 * lambda) +
+               -1.25 * eccentricity * eccentricity * sinDeg (2 * anomaly));
 
     return Math.sign (equation) * Math.min (Math.abs (equation), 0.5);
   }
@@ -643,8 +639,8 @@ var Calendrical = (function (exports) {
           capA = poly (centuries, [ 124.90, -1934.134, 0.002063 ]),
           capB = poly (centuries, [ 201.11, 72001.5377, 0.00057 ]);
 
-      return -0.004778  * dsin (capA) +
-             -0.0003667 * dsin (capB);
+      return -0.004778  * sinDeg (capA) +
+             -0.0003667 * sinDeg (capB);
   }
 
   astro.nutation = nutation;
@@ -717,12 +713,12 @@ var Calendrical = (function (exports) {
 
     t0     = (JDE0 - 2451545.0) / 36525;
     w0     = 35999.373 * t0 - 2.47;
-    deltaL = 1 + 0.0334 * dcos(w0) + 0.0007 * dcos(2 * w0);
+    deltaL = 1 + 0.0334 * cosDeg(w0) + 0.0007 * cosDeg(2 * w0);
 
     // Sum the periodic terms for time t0
     sum = index = j0 = 0;
     while (index < 24) {
-      sum += astro.constants.EQUINOX_P_TERMS[j0] * dcos (astro.constants.EQUINOX_P_TERMS[j0 + 1] +
+      sum += astro.constants.EQUINOX_P_TERMS[j0] * cosDeg (astro.constants.EQUINOX_P_TERMS[j0 + 1] +
           astro.constants.EQUINOX_P_TERMS[j0 + 2] * t0);
       j0 += 3;
       index += 1;
@@ -741,7 +737,7 @@ var Calendrical = (function (exports) {
   function aberration (tee) {
       var centuries = julianCenturies (tee);
 
-      return 0.0000974 * dcos (177.63 + 35999.01848 * centuries) - 0.005575;
+      return 0.0000974 * cosDeg (177.63 + 35999.01848 * centuries) - 0.005575;
   }
 
   astro.aberration = aberration;
@@ -764,7 +760,7 @@ var Calendrical = (function (exports) {
              astro.constants.SOLAR_LONGITUDE_COEFFICIENTS,
              astro.constants.SOLAR_LONGITUDE_ADDENDS,
              astro.constants.SOLAR_LONGITUDE_MULTIPLIERS ], function (x0, y0, z0) {
-                return x0 * dsin (y0 + z0 * centuries);
+                return x0 * sinDeg (y0 + z0 * centuries);
              }
     );
 
