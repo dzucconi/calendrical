@@ -1,3 +1,8 @@
+/* eslint
+  func-style: [ "error", "declaration" ],
+  max-statements: [ "error", 16, { "ignoreTopLevelFunctions": true } ],
+  no-use-before-define: [ "error", { "functions": true, "classes": true } ] */
+
 "use strict";
 
 var Calendrical = (function (exports) {
@@ -10,7 +15,6 @@ var Calendrical = (function (exports) {
   calendar = exports.calendar;
 
   // astro.constants
-  // ---------------
   astro.constants = {
     // *Julian day of J2000 epoch*
     J2000: 2451545.0,
@@ -28,151 +32,7 @@ var Calendrical = (function (exports) {
     TROPICAL_YEAR: 365.24219878,
 
     // *Weekdays*
-    WEEKDAYS: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
-
-    // *Terms used in calculating the obliquity of the ecliptic*
-    // from **Astronomy and Astrophysics**, Vol 157, p68 (1986),
-    // *New Formulas for the Precession, Valid Over 10000 years*, Table 8.
-    O_TERMS: [-4680.93, -1.55, 1999.25, -51.38, -249.67, -39.05, 7.12, 27.87, 5.79, 2.45],
-
-    // Periodic terms for nutation in longiude (delta \Psi) and
-    // obliquity (delta \Epsilon) as given in table 21.A of
-    // *Meeus, **Astronomical Algorithms**, first edition*.
-
-    // *Argument of Multiple*
-    NUT_ARG_MULT: [
-       0,  0,  0,  0,  1,
-      -2,  0,  0,  2,  2,
-       0,  0,  0,  2,  2,
-       0,  0,  0,  0,  2,
-       0,  1,  0,  0,  0,
-       0,  0,  1,  0,  0,
-      -2,  1,  0,  2,  2,
-       0,  0,  0,  2,  1,
-       0,  0,  1,  2,  2,
-      -2, -1,  0,  2,  2,
-      -2,  0,  1,  0,  0,
-      -2,  0,  0,  2,  1,
-       0,  0, -1,  2,  2,
-       2,  0,  0,  0,  0,
-       0,  0,  1,  0,  1,
-       2,  0, -1,  2,  2,
-       0,  0, -1,  0,  1,
-       0,  0,  1,  2,  1,
-      -2,  0,  2,  0,  0,
-       0,  0, -2,  2,  1,
-       2,  0,  0,  2,  2,
-       0,  0,  2,  2,  2,
-       0,  0,  2,  0,  0,
-      -2,  0,  1,  2,  2,
-       0,  0,  0,  2,  0,
-      -2,  0,  0,  2,  0,
-       0,  0, -1,  2,  1,
-       0,  2,  0,  0,  0,
-       2,  0, -1,  0,  1,
-      -2,  2,  0,  2,  2,
-       0,  1,  0,  0,  1,
-      -2,  0,  1,  0,  1,
-       0, -1,  0,  0,  1,
-       0,  0,  2, -2,  0,
-       2,  0, -1,  2,  1,
-       2,  0,  1,  2,  2,
-       0,  1,  0,  2,  2,
-      -2,  1,  1,  0,  0,
-       0, -1,  0,  2,  2,
-       2,  0,  0,  2,  1,
-       2,  0,  1,  0,  0,
-      -2,  0,  2,  2,  2,
-      -2,  0,  1,  2,  1,
-       2,  0, -2,  0,  1,
-       2,  0,  0,  0,  1,
-       0, -1,  1,  0,  0,
-      -2, -1,  0,  2,  1,
-      -2,  0,  0,  0,  1,
-       0,  0,  2,  2,  1,
-      -2,  0,  2,  0,  1,
-      -2,  1,  0,  2,  1,
-       0,  0,  1, -2,  0,
-      -1,  0,  1,  0,  0,
-      -2,  1,  0,  0,  0,
-       1,  0,  0,  0,  0,
-       0,  0,  1,  2,  0,
-      -1, -1,  1,  0,  0,
-       0,  1,  1,  0,  0,
-       0, -1,  1,  2,  2,
-       2, -1, -1,  2,  2,
-       0,  0, -2,  2,  2,
-       0,  0,  3,  2,  2,
-       2, -1,  0,  2,  2
-    ],
-
-    // *Coefficient of the sine of the argument*
-    // and *Coefficient of the cosine of the argument*
-    NUT_ARG_COEFF: [
-      -171996,   -1742,   92095,      89, //  0,  0,  0,  0,  1
-       -13187,     -16,    5736,     -31, // -2,  0,  0,  2,  2
-        -2274,      -2,     977,      -5, //  0,  0,  0,  2,  2
-         2062,       2,    -895,       5, //  0,  0,  0,  0,  2
-         1426,     -34,      54,      -1, //  0,  1,  0,  0,  0
-          712,       1,      -7,       0, //  0,  0,  1,  0,  0
-         -517,      12,     224,      -6, // -2,  1,  0,  2,  2
-         -386,      -4,     200,       0, //  0,  0,  0,  2,  1
-         -301,       0,     129,      -1, //  0,  0,  1,  2,  2
-          217,      -5,     -95,       3, // -2, -1,  0,  2,  2
-         -158,       0,       0,       0, // -2,  0,  1,  0,  0
-          129,       1,     -70,       0, // -2,  0,  0,  2,  1
-          123,       0,     -53,       0, //  0,  0, -1,  2,  2
-           63,       0,       0,       0, //  2,  0,  0,  0,  0
-           63,       1,     -33,       0, //  0,  0,  1,  0,  1
-          -59,       0,      26,       0, //  2,  0, -1,  2,  2
-          -58,      -1,      32,       0, //  0,  0, -1,  0,  1
-          -51,       0,      27,       0, //  0,  0,  1,  2,  1
-           48,       0,       0,       0, // -2,  0,  2,  0,  0
-           46,       0,     -24,       0, //  0,  0, -2,  2,  1
-          -38,       0,      16,       0, //  2,  0,  0,  2,  2
-          -31,       0,      13,       0, //  0,  0,  2,  2,  2
-           29,       0,       0,       0, //  0,  0,  2,  0,  0
-           29,       0,     -12,       0, // -2,  0,  1,  2,  2
-           26,       0,       0,       0, //  0,  0,  0,  2,  0
-          -22,       0,       0,       0, // -2,  0,  0,  2,  0
-           21,       0,     -10,       0, //  0,  0, -1,  2,  1
-           17,      -1,       0,       0, //  0,  2,  0,  0,  0
-           16,       0,      -8,       0, //  2,  0, -1,  0,  1
-          -16,       1,       7,       0, // -2,  2,  0,  2,  2
-          -15,       0,       9,       0, //  0,  1,  0,  0,  1
-          -13,       0,       7,       0, // -2,  0,  1,  0,  1
-          -12,       0,       6,       0, //  0, -1,  0,  0,  1
-           11,       0,       0,       0, //  0,  0,  2, -2,  0
-          -10,       0,       5,       0, //  2,  0, -1,  2,  1
-           -8,       0,       3,       0, //  2,  0,  1,  2,  2
-            7,       0,      -3,       0, //  0,  1,  0,  2,  2
-           -7,       0,       0,       0, // -2,  1,  1,  0,  0
-           -7,       0,       3,       0, //  0, -1,  0,  2,  2
-           -7,       0,       3,       0, //  2,  0,  0,  2,  1
-            6,       0,       0,       0, //  2,  0,  1,  0,  0
-            6,       0,      -3,       0, // -2,  0,  2,  2,  2
-            6,       0,      -3,       0, // -2,  0,  1,  2,  1
-           -6,       0,       3,       0, //  2,  0, -2,  0,  1
-           -6,       0,       3,       0, //  2,  0,  0,  0,  1
-            5,       0,       0,       0, //  0, -1,  1,  0,  0
-           -5,       0,       3,       0, // -2, -1,  0,  2,  1
-           -5,       0,       3,       0, // -2,  0,  0,  0,  1
-           -5,       0,       3,       0, //  0,  0,  2,  2,  1
-            4,       0,       0,       0, // -2,  0,  2,  0,  1
-            4,       0,       0,       0, // -2,  1,  0,  2,  1
-            4,       0,       0,       0, //  0,  0,  1, -2,  0
-           -4,       0,       0,       0, // -1,  0,  1,  0,  0
-           -4,       0,       0,       0, // -2,  1,  0,  0,  0
-           -4,       0,       0,       0, //  1,  0,  0,  0,  0
-            3,       0,       0,       0, //  0,  0,  1,  2,  0
-           -3,       0,       0,       0, // -1, -1,  1,  0,  0
-           -3,       0,       0,       0, //  0,  1,  1,  0,  0
-           -3,       0,       0,       0, //  0, -1,  1,  2,  2
-           -3,       0,       0,       0, //  2, -1, -1,  2,  2
-           -3,       0,       0,       0, //  0,  0, -2,  2,  2
-           -3,       0,       0,       0, //  0,  0,  3,  2,  2
-           -3,       0,       0,       0  //  2, -1,  0,  2,  2
-    ],
+    WEEKDAYS: [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ],
 
     // *Table of observed Delta T values at the beginning of
     // even numbered years from 1620 through 2002.*
@@ -277,105 +137,200 @@ var Calendrical = (function (exports) {
     ]
   };
 
-  // astro Functions
-  // ---------------
-  // Arc-seconds to radians
-  function astor (a) {
-    return a * Math.PI / (180.0 * 3600.0);
+
+  // Pad a string to a given length with a given fill character.
+  astro.pad = function (str, length, filler) {
+    var s0 = str.toString ();
+
+    while (s0.length < length) {
+      s0 = filler + s0;
+    }
+
+    return s0;
+  };
+
+  /**
+   * arc seconds to radians
+   * @param {float} arcs arc seconds
+   * @return {float} radians value
+   */
+  function astor (arcs) {
+    return arcs * Math.PI / (180.0 * 3600.0);
   }
 
   astro.astor = astor;
 
-  // Degrees to radians
-  function dtr (d) {
-    return d * Math.PI / 180.0;
+  /**
+   * degrees to radians
+   * @param {float} degrees angle in degrees
+   * @return {float} radians value
+   */
+  function dtr (degrees) {
+    return degrees * Math.PI / 180.0;
   }
 
   astro.dtr = dtr;
 
-  // Radians to degrees
-  function rtd (r) {
-    return r * 180.0 / Math.PI;
+  /**
+   * radians to degrees
+   * @param {float} radians angle in radians
+   * @return {float} degrees value
+   */
+  function rtd (radians) {
+    return radians * 180.0 / Math.PI;
   }
 
   astro.rtd = rtd;
 
+  /**
+   * angle from degrees:minutes:seconds
+   * @param {float} degrees angle integral portion
+   * @param {float} minutes angle minutes fraction
+   * @param {float} seconds angle seconds fraction
+   * @return {float} angle
+   */
   function angle (degrees, minutes, seconds) {
       return degrees + (minutes + seconds / 60) / 60;
   }
 
   astro.angle = angle;
 
-  // Range reduce angle in degrees
-  function fixangle (a) {
-    return a - 360.0 * Math.floor (a / 360.0);
+  /**
+   * Range reduce angle in degrees
+   * @param {float} alpha angle
+   * @return {float} degrees
+   */
+  function fixangle (alpha) {
+    return alpha - 360.0 * Math.floor (alpha / 360.0);
   }
 
   astro.fixangle = fixangle;
 
-  // Range reduce angle in radians
-  function fixangr (a) {
-    return a - 2 * Math.PI * Math.floor (a / (2 * Math.PI));
+  /**
+   * Range reduce angle in radians
+   * @param {float} alpha angle
+   * @return {float} radians
+   */
+  function fixangr (alpha) {
+    return alpha - 2 * Math.PI * Math.floor (alpha / (2 * Math.PI));
   }
 
   astro.fixangr = fixangr;
 
-  // Sine of an angle in degrees
+  /**
+   * Sine of an angle in degrees
+   * @param {float} theta angle
+   * @return {float} degrees
+   */
   function dsin (theta) {
     return Math.sin (dtr (theta));
   }
 
   astro.dsin = dsin;
 
-  // Cosine of an angle in degrees
+  /**
+   * Cosine of an angle in degrees
+   * @param {float} theta angle
+   * @return {float} degrees
+   */
   function dcos (theta) {
     return Math.cos (dtr (theta));
   }
 
   astro.dcos = dcos;
 
-  // Cosine of an angle in degrees
+  /**
+   * Tangens of an angle in degrees
+   * @param {float} theta angle
+   * @return {float} degrees
+   */
   function dtan (theta) {
     return Math.tan (dtr (theta));
   }
 
   astro.dtan = dtan;
 
-  // Modulus function which works for non-integers
-  function mod (a, b) {
-    return a - b * Math.floor (a / b);
+  /**
+   * Modulus function which works for non-integers
+   * @param {float} amount dividend
+   * @param {float} numerator numerator
+   * @return {float} modulo value
+   */
+  function mod (amount, numerator) {
+    return amount - numerator * Math.floor (amount / numerator);
   }
 
   astro.mod = mod;
 
-  // Modulus function which returns numerator if modulus is zero
-  function amod (a, b) {
-    return mod (a - 1, b) + 1;
+  /**
+   * Modulus function which returns numerator if modulus is zero
+   * @param {float} amount dividend
+   * @param {float} numerator numerator
+   * @return {float} modulo value
+   */
+  function amod (amount, numerator) {
+    return mod (amount - 1, numerator) + 1;
   }
 
   astro.amod = amod;
 
-  // Return first integer greater or equal to initial index, i,
-  // such that condition, p, holds.
-  function next (i, p) {
-    return p (i) ? i : next (i + 1, p);
+  /**
+   * Return first integer greater or equal to initial index iter,
+   * such that condition predicate holds.
+   * @param {int} iter iterator
+   * @param {function} predicate boolean function applied to each iter until true
+   * @return {int} iterator satisfying the predicate
+   */
+  function next (iter, predicate) {
+    return predicate (iter) ? iter : next (iter + 1, predicate);
   }
 
   astro.next = next;
 
-  // Return last integer greater or equal to initial index, i,
-  // such that condition, p, holds.
-  function final (i, p) {
-    return !p (i) ? i - 1 : final (i + 1, p);
+  /**
+   * Return last integer greater or equal to initial index iter,
+   * such that condition predicate holds.
+   * @param {int} iter iterator
+   * @param {function} predicate boolean function applied to each iter until false
+   * @return {int} iterator satisfying the predicate
+   */
+  function final (iter, predicate) {
+    return predicate (iter) ? final (iter + 1, predicate) : iter - 1;
   }
 
   astro.final = final;
 
-  /*
-  Return the sum of applying the function func for indices i [ 1 .. n ]
-  running simultaneously thru columns c [ 1 .. n ].
-  Martrix matrix is of the form [ [i1 c1] [i1 c2] .. [ in cn ] ].
-  */
+  /**
+   * Calculate polynomial with coefficients 'a' at point x.
+   * The polynomial is  a[0] + a[1] * x + a[2] * x^2 + ...a[n-1]x^(n-1)
+   * the result is      a[0] + x(a[1] + x(a[2] +...+ x(a[n-1])...)
+   * @param {float} term denotes x in the formula above
+   * @param {float[]} array denotes a[] in the formula above
+   * @return {float} polynomial value
+   */
+  function poly (term, array) {
+    var len = array.length,
+        result = array[len - 1],
+        index = len - 2;
+
+    while (index >= 0) {
+      result = result * term + array[index];
+      index -= 1;
+    }
+
+  return result;
+}
+
+  astro.poly = poly;
+
+  /**
+   * Return the sum of applying the function func for indices i [ 1 .. n ]
+   * running simultaneously thru columns c [ 1 .. n ].
+   * Matrix matrix is of the form [ [i1 c1] [i1 c2] .. [ in cn ] ].
+   * @param {float[]} matrix 2-dimensional array of floats
+   * @param {function} func application function
+   * @return {float} sum of products
+   */
   function sigma (matrix, func) {
      var columns = matrix[0].length,
          result = 0,
@@ -393,286 +348,94 @@ var Calendrical = (function (exports) {
 
   astro.sigma = sigma;
 
-  // Return standard time from tee_rom_u in universal time at location
+  /**
+   * Return standard time from teeRomU in universal time at location
+   * @param {float} teeRomU moment in time
+   * @param {location} location geographic location
+   * @return {float} converted time
+   */
   function universalToStandard (teeRomU, location) {
       return teeRomU + location[3];
   }
 
   astro.universalToStandard = universalToStandard;
 
-  // Return universal time from tee_rom_s in standard time at location
+  /**
+   * Return universal time from teeRomU in standard time at location
+   * @param {float} teeRomS moment in time
+   * @param {location} location geographic location
+   * @return {float} converted time
+   */
   function standardToUniversal (teeRomS, location) {
       return teeRomS - location[3];
   }
 
   astro.standardToUniversal = standardToUniversal;
 
-  // Return the difference between UT and local mean time at longitude
-  // 'phi' as a fraction of a day
+  /**
+   * Return the difference between UT and local mean time at longitude
+   * 'phi' as a fraction of a day
+   * @param {float} phi geo-location
+   * @return {float} fraction of a day
+   */
   function longitudeToZone (phi) {
       return phi / 360;
   }
 
   astro.longitudeToZone = longitudeToZone;
 
-  // Return universal time from local tee_ell at location
+  /**
+   * Return local time from teeRomU in universal time at location
+   * @param {float} teeRomU moment in time
+   * @param {location} location geographic location
+   * @return {float} converted time
+   */
+  function universalToLocal (teeRomU, location) {
+      return teeRomU + longitudeToZone (location[1]);
+  }
+
+  /**
+   * Return universal time from teeEll in local time at location
+   * @param {float} teeEll moment in time
+   * @param {location} location geographic location
+   * @return {float} converted time
+   */
   function localToUniversal (teeEll, location) {
       return teeEll - longitudeToZone (location[1]);
   }
 
   astro.localToUniversal = localToUniversal;
 
-  // Return standard time from local tee_ell at loacle, location
+  /**
+   * Return standard time from teeEll in local time at location
+   * @param {float} teeEll moment in time
+   * @param {location} location geographic location
+   * @return {float} converted time
+   */
   function localToStandard (teeEll, location) {
     return universalToStandard (localToUniversal (teeEll, location), location);
   }
 
   astro.localToStandard = localToStandard;
 
-  // Return local time from standard tee_rom_s at location, location
+  /**
+   * Return local time from teeRomS in standard time at location
+   * @param {float} teeRomS moment in time
+   * @param {location} location geographic location
+   * @return {float} converted time
+   */
   function standardToLocal (teeRomS, location) {
       return universalToLocal (standardToUniversal (teeRomS, location), location);
   }
 
   astro.standardToLocal = standardToLocal;
 
-  // Return sundial time at local time tee at location, location
-  function localToApparent (tee, location) {
-      return tee + equationOfTime (localToUniversal (tee, location));
-  }
-
-  astro.localToApparent = localToApparent;
-
-  // Return local time from sundial time tee at location, location
-  function apparentToLocal (tee, location) {
-      return tee - equationOfTime (localToUniversal (tee, location));
-  }
-
-  astro.apparentToLocal = apparentToLocal;
-
-  // Return approximate moment at or before tee when solar longitude
-  // just exceeded lam degrees.
-  function estimatePriorSolarLongitude (lam, tee) {
-      var rate = calendar.constants.MEAN_TROPICAL_YEAR / 360,
-          tau = tee - rate * mod (solarLongitude (tee) - lam, 360),
-          capDelta = mod (solarLongitude (tau) - lam + 180, 360) - 180;
-
-      return Math.min (tee, tau - rate * capDelta);
-  }
-
-  astro.estimatePriorSolarLongitude = estimatePriorSolarLongitude;
-
-  // Return standard time on fixed date, date, of midday at location, location
-  function midDay (date, location) {
-      return localToStandard (apparentToLocal (date + 0.5, location), location);
-  }
-
-  astro.midDay = midDay;
-
-  // Return Universal moment from Dynamical time, tee
-  function dynamicalToUniversal (tee) {
-      return tee - ephemerisCorrection (tee);
-  }
-
-  astro.dynamicalToUniversal = dynamicalToUniversal;
-
-  // Return Dynamical time at Universal moment, tee
-  function universalToDynamical (tee) {
-      return tee + ephemerisCorrection (tee);
-  }
-
-  astro.universalToDynamical = universalToDynamical;
-
-  // Return Julian centuries since 2000 at moment tee."""
-  function julianCenturies (tee) {
-    return (universalToDynamical (tee) - calendar.constants.J2000) / 36525;
-  }
-
-  astro.julianCenturies = julianCenturies;
-
-  /*
-  Calculate polynomial with coefficients 'a' at point x.
-  The polynomial is  a[0] + a[1] * x + a[2] * x^2 + ...a[n-1]x^(n-1)
-  the result is      a[0] + x(a[1] + x(a[2] +...+ x(a[n-1])...)
-  */
-  function poly (term, array) {
-    var len = array.length,
-        result = array[len - 1],
-        index = len - 2;
-
-    while (index >= 0) {
-      result = result * term + array[index];
-      index -= 1;
-    }
-
-  return result;
-}
-
-  astro.poly = poly;
-
-  // Convert Julian time to hour, minutes, and seconds,
-  // returned as a three-element array
-  function jhms (j) {
-    var ij;
-
-    // Astronomical to civil
-    j += 0.5;
-
-    ij = ((j - Math.floor(j)) * 86400.0) + 0.5;
-
-    return [
-      Math.floor(ij / 3600),
-      Math.floor((ij / 60) % 60),
-      Math.floor(ij % 60)
-    ];
-  }
-
-  astro.jhms = jhms;
-
-  // Calculate day of week from Julian day
-  function jwday (j) {
-    return mod (Math.floor ((j - 0.5)), 7);
-  }
-
-  astro.jwday = jwday;
-
-  // Calculate the obliquity of the ecliptic for a given
-  // Julian date. This uses Laskar's tenth-degree
-  // polynomial fit (*J. Laskar, **Astronomy and
-  // Astrophysics**, Vol. 157, page 68 [1986]*) which is
-  // accurate to within 0.01 arc second between AD 1000
-  // and AD 3000, and within a few seconds of arc for
-  // +/-10000 years around AD 2000. If we're outside the
-  // range in which this fit is valid (deep time) we
-  // simply return the J2000 value of the obliquity, which
-  // happens to be almost precisely the mean.
-  function obliquity (jd) {
-    var centuries = julianCenturies (jd);
-
-    return angle (23, 26, 21.448) +
-            poly (centuries, [
-                0,
-                angle (0, 0, -46.8150),
-                angle (0, 0, -0.00059),
-                angle (0, 0, 0.001813) ]);
-  }
-
-  astro.obliquity = obliquity;
-
-  // Return the longitudinal nutation at moment tee
-  function nutation (tee) {
-      var centuries = julianCenturies (tee),
-          capA = poly (centuries, [ 124.90, -1934.134, 0.002063 ]),
-          capB = poly (centuries, [ 201.11, 72001.5377, 0.00057 ]);
-
-      return -0.004778  * dsin (capA) +
-             -0.0003667 * dsin (capB);
-  }
-
-  astro.nutation = nutation;
-
-  // Convert celestial (ecliptical) longitude and
-  // latitude into right ascension (in degrees) and
-  // declination. We must supply the time of the
-  // conversion in order to compensate correctly for the
-  // varying obliquity of the ecliptic over time.
-  // The right ascension and declination are returned
-  // as a two-element Array in that order.
-  function ecliptoeq (jd, Lambda, Beta) {
-    var eps, Ra, Dec;
-
-    // Obliquity of the ecliptic
-    eps = dtr(obliquity(jd));
-    Ra = rtd(Math.atan2((Math.cos(eps) * Math.sin(dtr(Lambda)) -
-        (Math.tan(dtr(Beta)) * Math.sin(eps))),
-      Math.cos(dtr(Lambda))));
-    Ra = fixangle(rtd(Math.atan2((Math.cos(eps) * Math.sin(dtr(Lambda)) -
-        (Math.tan(dtr(Beta)) * Math.sin(eps))),
-      Math.cos(dtr(Lambda)))));
-    Dec = rtd(Math.asin((Math.sin(eps) * Math.sin(dtr(Lambda)) * Math.cos(dtr(Beta))) +
-      (Math.sin(dtr(Beta)) * Math.cos(eps))));
-
-    return [ Ra, Dec ];
-  }
-
-  astro.ecliptoeq = ecliptoeq;
-
-  // Determine the difference, in seconds, between
-  // Dynamical time and Universal time.
-  function deltat (year) {
-    var dt, f, i, t;
-
-    if ((year >= 1620) && (year <= 2000)) {
-      i = Math.floor((year - 1620) / 2);
-      // Fractional part of year
-      f = ((year - 1620) / 2) - i;
-      dt = astro.constants.DELTA_T_TAB[i] + ((astro.constants.DELTA_T_TAB[i + 1] - astro.constants.DELTA_T_TAB[i]) * f);
-    } else {
-      t = (year - 2000) / 100;
-      if (year < 948) {
-        dt = 2177 + (497 * t) + (44.1 * t * t);
-      } else {
-        dt = 102 + (102 * t) + (25.3 * t * t);
-        if ((year > 2000) && (year < 2100)) {
-          dt += 0.37 * (year - 2100);
-        }
-      }
-    }
-
-    return dt;
-  }
-
-  astro.deltat = deltat;
-
-  // Determine the Julian Ephemeris Day of an
-  // equinox or solstice. The `which` argument
-  // selects the item to be computed:
-  //
-  // **0** - March equinox
-  // **1** - June solstice
-  // **2** - September equinox
-  // **3** - December solstice
-  function equinox (year, which) {
-    var deltaL, i, j, JDE0, JDE, JDE0tab, S, T, W, Y;
-
-    // Initialise terms for mean equinox and solstices. We
-    // have two sets: one for years prior to 1000 and a second
-    // for subsequent years.
-    if (year < 1000) {
-      JDE0tab = astro.constants.JDE0_TAB_1000;
-      Y = year / 1000;
-    } else {
-      JDE0tab = astro.constants.JDE0_TAB_2000;
-      Y = (year - 2000) / 1000;
-    }
-
-    JDE0 = JDE0tab[which][0] +
-      (JDE0tab[which][1] * Y) +
-      (JDE0tab[which][2] * Y * Y) +
-      (JDE0tab[which][3] * Y * Y * Y) +
-      (JDE0tab[which][4] * Y * Y * Y * Y);
-
-    T      = (JDE0 - 2451545.0) / 36525;
-    W      = (35999.373 * T) - 2.47;
-    deltaL = 1 + (0.0334 * dcos(W)) + (0.0007 * dcos(2 * W));
-
-    // Sum the periodic terms for time T
-    S = 0;
-    for (i = j = 0; i < 24; i++) {
-      S += astro.constants.EQUINOX_P_TERMS[j] * dcos(astro.constants.EQUINOX_P_TERMS[j + 1] + (astro.constants.EQUINOX_P_TERMS[j + 2] * T));
-      j += 3;
-    }
-
-    JDE = JDE0 + S * 0.00001 / deltaL;
-
-    return JDE;
-  }
-
-  astro.equinox = equinox;
-
-  // Return Dynamical Time minus Universal Time (in days) for
-  // moment, tee.  Adapted from "Astronomical Algorithms"
-  // by Jean Meeus, Willmann_Bell, Inc., 1991.
+  /**
+   * Return Dynamical Time minus Universal Time (in days) for moment, tee.
+   * Adapted from "Astronomical Algorithms" by Jean Meeus, Willmann_Bell, Inc., 1991.
+   * @param {float} tee moment in time
+   * @return {float} converted time
+   */
   function ephemerisCorrection (tee) {
       var year, centuries, result;
 
@@ -715,12 +478,59 @@ var Calendrical = (function (exports) {
 
   astro.ephemerisCorrection = ephemerisCorrection;
 
-  // Compute equation of time for a given moment.
-  // Returns the equation of time as a fraction of
-  // a day.
-  // Return the equation of time (as fraction of day) for moment, tee.
-  // Adapted from "Astronomical Algorithms" by Jean Meeus,
-  // Willmann_Bell, Inc., 1991.
+  /**
+   * Return Dynamical Time at Universal moment tee
+   * @param {float} tee moment in time
+   * @return {float} converted time
+   */
+  function universalToDynamical (tee) {
+      return tee + ephemerisCorrection (tee);
+  }
+
+  astro.universalToDynamical = universalToDynamical;
+
+  /**
+   * Return Julian centuries since 2000 at moment tee.
+   * @param {float} tee moment in time
+   * @return {int} number of centuries relative to 2000-01-01
+   */
+  function julianCenturies (tee) {
+    return (universalToDynamical (tee) - calendar.constants.J2000) / 36525;
+  }
+
+  astro.julianCenturies = julianCenturies;
+
+  /**
+   * Calculate the obliquity of the ecliptic for a given Julian date.
+   * This uses Laskar's tenth-degree polynomial fit (*J.
+   * Laskar, **Astronomy and Astrophysics**, Vol. 157, page 68 [1986]*) which is
+   * accurate to within 0.01 arc second between AD 1000 and AD 3000, and within
+   * a few seconds of arc for +/-10000 years around AD 2000. If we're outside the
+   * range in which this fit is valid (deep time) we simply return the J2000
+   * value of the obliquity, which happens to be almost precisely the mean.
+   * @param {float} jd Julian day number
+   * @return {float} obliquity at moment jd
+   */
+  function obliquity (jd) {
+    var centuries = julianCenturies (jd);
+
+    return angle (23, 26, 21.448) +
+            poly (centuries, [
+                0,
+                angle (0, 0, -46.8150),
+                angle (0, 0, -0.00059),
+                angle (0, 0, 0.001813) ]);
+  }
+
+  astro.obliquity = obliquity;
+
+  /**
+   * Compute equation of time for a given moment.
+   * Return the equation of time (as fraction of day) for moment, tee.
+   * Adapted from "Astronomical Algorithms" by Jean Meeus, Willmann_Bell, Inc., 1991.
+   * @param {float} tee moment in time
+   * @return {float} equation of time
+   */
   function equationOfTime (tee) {
     var centuries, lambda, anomaly, eccentricity, varepsilon, y0, equation;
 
@@ -733,18 +543,201 @@ var Calendrical = (function (exports) {
     y0 = dtan (varepsilon / 2);
     y0 *= y0;
 
-    equation = (0.5 / Math.PI) * (y0 * dsin (2 * lambda) +
-                -2 * eccentricity * dsin (anomaly) +
-                4 * eccentricity * y0 * dsin (anomaly) * dcos (2 * lambda) +
-                -0.5 * y0 * y0 * dsin (4 * lambda) +
-                -1.25 * eccentricity * eccentricity * dsin (2 * anomaly));
+    equation = 0.5 / Math.PI * (y0 * dsin (2 * lambda) +
+               -2 * eccentricity * dsin (anomaly) +
+               4 * eccentricity * y0 * dsin (anomaly) * dcos (2 * lambda) +
+               -0.5 * y0 * y0 * dsin (4 * lambda) +
+               -1.25 * eccentricity * eccentricity * dsin (2 * anomaly));
 
     return Math.sign (equation) * Math.min (Math.abs (equation), 0.5);
   }
 
   astro.equationOfTime = equationOfTime;
 
-  // Return the aberration at moment, tee.
+  /**
+   * Return sundial time at local time tee at location, location
+   * @param {float} tee moment in time
+   * @param {location} location geographic location
+   * @return {float} converted time
+   */
+  function localToApparent (tee, location) {
+      return tee + equationOfTime (localToUniversal (tee, location));
+  }
+
+  astro.localToApparent = localToApparent;
+
+  /**
+   * Return local time from sundial time tee at location, location
+   * @param {float} tee moment in time
+   * @param {location} location geographic location
+   * @return {float} converted time
+   */
+  function apparentToLocal (tee, location) {
+      return tee - equationOfTime (localToUniversal (tee, location));
+  }
+
+  astro.apparentToLocal = apparentToLocal;
+
+  /**
+   * Return standard time on fixed date date, of midday at location location
+   * @param {float} date fixed
+   * @param {location} location geographic location
+   * @return {float} converted time
+   */
+  function midDay (date, location) {
+      return localToStandard (apparentToLocal (date + 0.5, location), location);
+  }
+
+  astro.midDay = midDay;
+
+  /**
+   * Return Universal moment from Dynamical time, tee
+   * @param {float} tee moment in time
+   * @return {float} converted time
+   */
+  function dynamicalToUniversal (tee) {
+      return tee - ephemerisCorrection (tee);
+  }
+
+  astro.dynamicalToUniversal = dynamicalToUniversal;
+
+  /**
+   * Convert Julian time to hour, minutes, and seconds, returned as a three-element array
+   * @param {float} jd Julian day number
+   * @return {float[]} day portion of Julian day number, as array [ hours, minutes, seconds ]
+   */
+  function jhms (jd) {
+    var ij, j2;
+
+    // Astronomical to civil
+    j2 = jd + 0.5;
+    ij = (j2 - Math.floor (j2)) * 86400.0 + 0.5;
+
+    return [
+      Math.floor (ij / 3600),
+      Math.floor (ij / 60 % 60),
+      Math.floor (ij % 60)
+    ];
+  }
+
+  astro.jhms = jhms;
+
+  /**
+   * Calculate day of week from Julian day
+   * @param {float} jd Julian day number
+   * @return {int} week day
+   */
+  function jwday (jd) {
+    return mod (Math.floor (jd - 0.5), 7);
+  }
+
+  astro.jwday = jwday;
+
+  /**
+   * Return the longitudinal nutation at moment tee
+   * @param {float} tee moment in time
+   * @return {float} nutation at tee
+   */
+  function nutation (tee) {
+      var centuries = julianCenturies (tee),
+          capA = poly (centuries, [ 124.90, -1934.134, 0.002063 ]),
+          capB = poly (centuries, [ 201.11, 72001.5377, 0.00057 ]);
+
+      return -0.004778  * dsin (capA) +
+             -0.0003667 * dsin (capB);
+  }
+
+  astro.nutation = nutation;
+
+  /**
+   * Determine the difference, in seconds, between Dynamical time and Universal time.
+   * @param {int} year Gregorian year
+   * @return {float} time difference
+   */
+  function deltat (year) {
+    var dt, fraction, index, t0;
+
+    if (year >= 1620 && year <= 2000) {
+      index = Math.floor ((year - 1620) / 2);
+      // Fractional part of year
+      fraction = (year - 1620) / 2 - index;
+
+      return astro.constants.DELTA_T_TAB[index] +
+            (astro.constants.DELTA_T_TAB[index + 1] -
+             astro.constants.DELTA_T_TAB[index]) * fraction;
+    }
+
+    t0 = (year - 2000) / 100;
+
+    if (year < 948) {
+        return 2177 + 497 * t0 + 44.1 * t0 * t0;
+    }
+
+    dt = 102 + 102 * t0 + 25.3 * t0 * t0;
+
+    if (year > 2000 && year < 2100) {
+      dt += 0.37 * (year - 2100);
+    }
+
+    return dt;
+  }
+
+  astro.deltat = deltat;
+
+  /**
+   * Determine the Julian Ephemeris Day of an equinox or solstice.
+   * The `which` argument selects the event to be computed:
+   *
+   * 0 - March equinox
+   * 1 - June solstice
+   * 2 - September equinox
+   * 3 - December solstice
+   * @param {int} year the Gregorian year
+   * @param {int} which event
+   * @return {float} moment in time when event occurs
+   */
+  function equinox (year, which) {
+    var deltaL, index, j0, JDE0, JDE0tab, sum, t0, w0, y0;
+
+    // Initialise terms for mean equinox and solstices. We have two sets:
+    // one for years prior to 1000 and a second for subsequent years.
+    if (year < 1000) {
+      JDE0tab = astro.constants.JDE0_TAB_1000;
+      y0 = year / 1000;
+    } else {
+      JDE0tab = astro.constants.JDE0_TAB_2000;
+      y0 = (year - 2000) / 1000;
+    }
+
+    JDE0 = JDE0tab[which][0] +
+      JDE0tab[which][1] * y0 +
+      JDE0tab[which][2] * y0 * y0 +
+      JDE0tab[which][3] * y0 * y0 * y0 +
+      JDE0tab[which][4] * y0 * y0 * y0 * y0;
+
+    t0     = (JDE0 - 2451545.0) / 36525;
+    w0     = 35999.373 * t0 - 2.47;
+    deltaL = 1 + 0.0334 * dcos(w0) + 0.0007 * dcos(2 * w0);
+
+    // Sum the periodic terms for time t0
+    sum = index = j0 = 0;
+    while (index < 24) {
+      sum += astro.constants.EQUINOX_P_TERMS[j0] * dcos (astro.constants.EQUINOX_P_TERMS[j0 + 1] +
+          astro.constants.EQUINOX_P_TERMS[j0 + 2] * t0);
+      j0 += 3;
+      index += 1;
+    }
+
+    return JDE0 + sum * 0.00001 / deltaL;
+  }
+
+  astro.equinox = equinox;
+
+  /**
+   * Return the aberration at moment, tee.
+   * @param {float} tee moment in time
+   * @return {float} aberration
+   */
   function aberration (tee) {
       var centuries = julianCenturies (tee);
 
@@ -753,13 +746,15 @@ var Calendrical = (function (exports) {
 
   astro.aberration = aberration;
 
-  /*
-  Return the longitude of sun at moment 'tee'.
-    Adapted from 'Planetary Programs and Tables from -4000 to +2800'
-    by Pierre Bretagnon and Jean_Louis Simon, Willmann_Bell, Inc., 1986.
-    See also pag 166 of 'Astronomical Algorithms' by Jean Meeus, 2nd Ed 1998,
-    with corrections Jun 2005.
-  */
+  /**
+   * Return the longitude of sun at moment 'tee'.
+   * Adapted from 'Planetary Programs and Tables from -4000 to +2800'
+   * by Pierre Bretagnon and Jean_Louis Simon, Willmann_Bell, Inc., 1986.
+   * See also pag 166 of 'Astronomical Algorithms' by Jean Meeus, 2nd Ed 1998,
+   * with corrections Jun 2005.
+   * @param {float} tee moment in time
+   * @return {float} solar longitude
+   */
   function solarLongitude (tee) {
     var centuries, lam;
 
@@ -777,6 +772,23 @@ var Calendrical = (function (exports) {
   }
 
   astro.solarLongitude = solarLongitude;
+
+  /**
+   * Return approximate moment at or before tee when solar longitude
+   * just exceeded lam degrees.
+   * @param {float} lam degrees
+   * @param {float} tee moment in time
+   * @return {float} longitude
+   */
+  function estimatePriorSolarLongitude (lam, tee) {
+      var rate = calendar.constants.MEAN_TROPICAL_YEAR / 360,
+          tau = tee - rate * mod (solarLongitude (tee) - lam, 360),
+          capDelta = mod (solarLongitude (tau) - lam + 180, 360) - 180;
+
+      return Math.min (tee, tau - rate * capDelta);
+  }
+
+  astro.estimatePriorSolarLongitude = estimatePriorSolarLongitude;
 
   return exports;
 }(Calendrical || {}));

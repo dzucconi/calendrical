@@ -1,3 +1,9 @@
+/* eslint
+  func-style: [ "error", "declaration" ],
+  max-statements: [ "error", 26, { "ignoreTopLevelFunctions": true } ],
+  no-use-before-define: [ "error", { "functions": true, "classes": true } ],
+  max-params: [ "error", 5 ] */
+
 "use strict";
 
 var Calendrical = (function (exports) {
@@ -11,24 +17,22 @@ var Calendrical = (function (exports) {
   priv = {};
 
   // Is a given year in the Gregorian calendar a leap year?
-  calendar.leapGregorian = function(year) {
-    return ((year % 4) == 0) &&
-      (!(((year % 100) == 0) && ((year % 400) != 0)));
-  }
+  calendar.leapGregorian = function (year) {
+    return year % 4 === 0 &&
+      (year % 100 !== 0 || year % 400 === 0);
+  };
 
   // Determine Julian day number from Gregorian calendar date
-  calendar.gregorianToJd = function(year, month, day) {
-    return (this.constants.gregorian.EPOCH - 1) +
-      (365 * (year - 1)) +
-      Math.floor((year - 1) / 4) +
-      (-Math.floor((year - 1) / 100)) +
-      Math.floor((year - 1) / 400) +
-      Math.floor((((367 * month) - 362) / 12) +
-        ((month <= 2) ? 0 :
-          (this.leapGregorian(year) ? -1 : -2)
-        ) +
+  calendar.gregorianToJd = function (year, month, day) {
+    return this.constants.gregorian.EPOCH - 1 +
+      365 * (year - 1) +
+      Math.floor ((year - 1) / 4) -
+      Math.floor ((year - 1) / 100) +
+      Math.floor ((year - 1) / 400) +
+      Math.floor ((367 * month - 362) / 12 +
+        (month <= 2 ? 0 : this.leapGregorian (year) ? -1 : -2) +
         day);
-  }
+  };
 
   calendar.jdToGregorianYear = function (jd) {
     var wjd, depoch, quadricent, dqc, cent, dcent, quad, dquad, yindex, year;
@@ -55,13 +59,10 @@ var Calendrical = (function (exports) {
   calendar.jdToGregorian = function (jd) {
     var wjd, year, yearday, leapadj, month, day;
 
-    wjd = Math.floor(jd - 0.5) + 0.5;
+    wjd = Math.floor (jd - 0.5) + 0.5;
     year = this.jdToGregorianYear (jd);
-
     yearday = wjd - this.gregorianToJd (year, 1, 1);
-    leapadj = wjd < this.gregorianToJd (year, 3, 1) ? 0 :
-      this.leapGregorian (year) ? 1 : 2;
-
+    leapadj = wjd < this.gregorianToJd (year, 3, 1) ? 0 : this.leapGregorian (year) ? 1 : 2;
     month = Math.floor (((yearday + leapadj) * 12 + 373) / 367);
     day   = wjd - this.gregorianToJd (year, month, 1) + 1;
 
@@ -73,266 +74,260 @@ var Calendrical = (function (exports) {
   };
 
   // Return Julian day of given ISO year, week, and day
-  calendar.nWeeks = function(weekday, jd, nthweek) {
-    var j = 7 * nthweek;
+  calendar.nWeeks = function (weekday, jd, nthweek) {
+    var j0 = 7 * nthweek;
 
     if (nthweek > 0) {
-      j += this.previousWeekday(weekday, jd);
+      j0 += this.previousWeekday (weekday, jd);
     } else {
-      j += this.nextWeekday(weekday, jd);
+      j0 += this.nextWeekday (weekday, jd);
     }
 
-    return j;
-  }
+    return j0;
+  };
 
-  calendar.isoToJulian = function(year, week, day) {
-    return day + this.nWeeks(0, this.gregorianToJd(year - 1, 12, 28), week);
-  }
+  calendar.isoToJulian = function (year, week, day) {
+    return day + this.nWeeks (0, this.gregorianToJd (year - 1, 12, 28), week);
+ };
 
   // Return array of ISO (year, week, day) for Julian day
-  calendar.jdToIso = function(jd) {
+  calendar.jdToIso = function (jd) {
     var year, week, day;
 
-    year = this.jdToGregorian(jd - 3)[0];
+    year = this.jdToGregorian (jd - 3)[0];
 
-    if (jd >= this.isoToJulian(year + 1, 1, 1)) { year++; }
+    if (jd >= this.isoToJulian (year + 1, 1, 1)) {
+        year += 1;
+    }
 
-    week = Math.floor((jd - this.isoToJulian(year, 1, 1)) / 7) + 1;
-    day  = astro.jwday(jd);
+    week = Math.floor ((jd - this.isoToJulian (year, 1, 1)) / 7) + 1;
+    day  = astro.jwday (jd);
 
-    if (day == 0) { day = 7; }
+    if (day === 0) {
+        day = 7;
+    }
 
-    return [year, week, day];
-  }
+    return [ year, week, day ];
+  };
 
   // Return Julian day of given ISO year, and day of year
-  calendar.isoDayToJulian = function(year, day) {
-    return (day - 1) + this.gregorianToJd(year, 1, 1);
-  }
+  calendar.isoDayToJulian = function (year, day) {
+    return day - 1 + this.gregorianToJd (year, 1, 1);
+  };
 
   // Return array of ISO (year, day_of_year) for Julian day
-  calendar.jdToIsoDay = function(jd) {
+  calendar.jdToIsoDay = function (jd) {
     var year, day;
 
-    year = this.jdToGregorian(jd)[0];
-    day = Math.floor(jd - this.gregorianToJd(year, 1, 1)) + 1;
-    return [year, day];
-  }
+    year = this.jdToGregorian (jd)[0];
+    day = Math.floor (jd - this.gregorianToJd (year, 1, 1)) + 1;
 
-  // Pad a string to a given length with a given fill character.
-  calendar.pad = function(str, howlong, padwith) {
-    var s = str.toString();
-
-    while (s.length < howlong) {
-      s = padwith + s;
-    }
-
-    return s;
-  }
+    return [ year, day ];
+  };
 
   // Determine Julian day number from Julian calendar date
-  calendar.leapJulian = function(year) {
-    return astro.mod(year, 4) == ((year > 0) ? 0 : 3);
-  }
+  calendar.leapJulian = function (year) {
+    return astro.mod (year, 4) === (year > 0 ? 0 : 3);
+  };
 
-  calendar.julianToJd = function(year, month, day) {
+  calendar.julianToJd = function (year, month, day) {
+      var y0 = year,
+          m0 = month;
+
     // Adjust negative common era years to the zero-based notation we use.
-    if (year < 1) { year++; }
-
-    // Algorithm as given in *Meeus, **Astronomical Algorithms**, Chapter 7, page 61*
-    if (month <= 2) {
-      year--;
-      month += 12;
+    if (y0 < 1) {
+        y0 += 1;
     }
 
-    return ((Math.floor((365.25 * (year + 4716))) +
-      Math.floor((30.6001 * (month + 1))) +
-      day) - 1524.5);
-  }
+    // Algorithm as given in *Meeus, **Astronomical Algorithms**, Chapter 7, page 61*
+    if (m0 <= 2) {
+      y0 -= 1;
+      m0 += 12;
+    }
+
+    return Math.floor (365.25 * (y0 + 4716)) +
+      Math.floor (30.6001 * (m0 + 1)) +
+      day - 1524.5;
+  };
 
   // Calculate Julian calendar date from Julian day
-  calendar.jdToJulian = function(td) {
-    var z, a, alpha, b, c, d, e, year, month, day;
+  calendar.jdToJulian = function (jd) {
+    var b0, c0, d0, e0, year, month, day;
 
-    td += 0.5;
-    z = Math.floor(td);
+    b0 = Math.floor (jd + 0.5) + 1524;
+    c0 = Math.floor ((b0 - 122.1) / 365.25);
+    d0 = Math.floor (365.25 * c0);
+    e0 = Math.floor ((b0 - d0) / 30.6001);
 
-    a = z;
-    b = a + 1524;
-    c = Math.floor((b - 122.1) / 365.25);
-    d = Math.floor(365.25 * c);
-    e = Math.floor((b - d) / 30.6001);
-
-    month = Math.floor((e < 14) ? (e - 1) : (e - 13));
-    year = Math.floor((month > 2) ? (c - 4716) : (c - 4715));
-    day = b - d - Math.floor(30.6001 * e);
+    month = Math.floor (e0 < 14 ? e0 - 1 : e0 - 13);
+    year = Math.floor (month > 2 ? c0 - 4716 : c0 - 4715);
+    day = b0 - d0 - Math.floor (30.6001 * e0);
 
     // If year is less than 1, subtract one to convert from
     // a zero based date system to the common era system in
     // which the year -1 (1 B.C.E) is followed by year 1 (1 C.E.).
-    if (year < 1) { year--; }
+    if (year < 1) {
+        year -= 1;
+    }
 
-    return [year, month, day];
-  }
+    return [ year, month, day ];
+  };
 
   // Determine Julian day from Hebrew date
   //
   // Is a given Hebrew year a leap year?
-  calendar.hebrewLeap = function(year) {
-    return astro.mod(((year * 7) + 1), 19) < 7;
-  }
+  calendar.hebrewLeap = function (year) {
+    return astro.mod (year * 7 + 1, 19) < 7;
+  };
 
   // How many months are there in a Hebrew year (12 = normal, 13 = leap)
-  calendar.hebrewYearMonths = function(year) {
-    return this.hebrewLeap(year) ? 13 : 12;
-  }
+  calendar.hebrewYearMonths = function (year) {
+    return this.hebrewLeap (year) ? 13 : 12;
+  };
 
   // Test for delay of start of new year and to avoid
   // Sunday, Wednesday, and Friday as start of the new year.
-  calendar.hebrewDelay1 = function(year) {
+  calendar.hebrewDelay1 = function (year) {
     var months, day, parts;
 
-    months = Math.floor(((235 * year) - 234) / 19);
-    parts  = 12084 + (13753 * months);
-    day    = (months * 29) + Math.floor(parts / 25920);
+    months = Math.floor ((235 * year - 234) / 19);
+    parts  = 12084 + 13753 * months;
+    day    = months * 29 + Math.floor (parts / 25920);
 
-    if (astro.mod((3 * (day + 1)), 7) < 3) {
-      day++;
+    if (astro.mod (3 * (day + 1), 7) < 3) {
+      day += 1;
     }
 
     return day;
-  }
+  };
 
   // Check for delay in start of new year due to length of adjacent years
-  calendar.hebrewDelay2 = function(year) {
+  calendar.hebrewDelay2 = function (year) {
     var last, present, next;
 
-    last    = this.hebrewDelay1(year - 1);
-    present = this.hebrewDelay1(year);
-    next    = this.hebrewDelay1(year + 1);
+    last    = this.hebrewDelay1 (year - 1);
+    present = this.hebrewDelay1 (year);
+    next    = this.hebrewDelay1 (year + 1);
 
-    return ((next - present) == 356) ? 2 :
-      (((present - last) == 382) ? 1 : 0);
-  }
+    return next - present === 356 ? 2 : present - last === 382 ? 1 : 0;
+  };
 
   // How many days are in a Hebrew year?
-  calendar.hebrewYearDays = function(year) {
-    return this.hebrewToJd(year + 1, 7, 1) - this.hebrewToJd(year, 7, 1);
-  }
+  calendar.hebrewYearDays = function (year) {
+    return this.hebrewToJd (year + 1, 7, 1) - this.hebrewToJd (year, 7, 1);
+  };
 
   // How many days are in a given month of a given year
-  calendar.hebrewMonthDays = function(year, month) {
+  calendar.hebrewMonthDays = function (year, month) {
     // First of all, dispose of fixed-length 29 day months
-    if (month == 2 || month == 4 || month == 6 ||
-      month == 10 || month == 13) {
+    if (month === 2 || month === 4 || month === 6 || month === 10 || month === 13) {
       return 29;
     }
 
     // If it's not a leap year, Adar has 29 days
-    if (month == 12 && !this.hebrewLeap(year)) {
+    if (month === 12 && !this.hebrewLeap (year)) {
       return 29;
     }
 
     // If it's Heshvan, days depend on length of year
-    if (month == 8 && !(astro.mod(this.hebrewYearDays(year), 10) == 5)) {
+    if (month === 8 && astro.mod (this.hebrewYearDays (year), 10) !== 5) {
       return 29;
     }
 
     // Similarly, Kislev varies with the length of year
-    if (month == 9 && (astro.mod(this.hebrewYearDays(year), 10) == 3)) {
+    if (month === 9 && astro.mod (this.hebrewYearDays (year), 10) === 3) {
       return 29;
     }
 
     // Nope, it's a 30 day month
     return 30;
-  }
+  };
 
   // Finally, wrap it all up into...
-  calendar.hebrewToJd = function(year, month, day) {
+  calendar.hebrewToJd = function (year, month, day) {
     var jd, mon, months;
 
-    months = this.hebrewYearMonths(year);
+    months = this.hebrewYearMonths (year);
 
-    jd = this.constants.hebrew.EPOCH + this.hebrewDelay1(year) +
-      this.hebrewDelay2(year) + day + 1;
+    jd = this.constants.hebrew.EPOCH + this.hebrewDelay1 (year) +
+      this.hebrewDelay2 (year) + day + 1;
 
     if (month < 7) {
-      for (mon = 7; mon <= months; mon++) {
-        jd += this.hebrewMonthDays(year, mon);
+      for (mon = 7; mon <= months; mon += 1) {
+        jd += this.hebrewMonthDays (year, mon);
       }
-      for (mon = 1; mon < month; mon++) {
-        jd += this.hebrewMonthDays(year, mon);
+      for (mon = 1; mon < month; mon += 1) {
+        jd += this.hebrewMonthDays (year, mon);
       }
     } else {
-      for (mon = 7; mon < month; mon++) {
-        jd += this.hebrewMonthDays(year, mon);
+      for (mon = 7; mon < month; mon += 1) {
+        jd += this.hebrewMonthDays (year, mon);
       }
     }
 
     return jd;
-  }
+  };
 
   // Convert Julian date to Hebrew date
   // This works by making multiple calls to
   // the inverse function, and is this very slow.
-  calendar.jdToHebrew = function(jd) {
-    var year, month, day, i, count, first;
+  calendar.jdToHebrew = function (jd) {
+    var jd0, year, month, day, index, count, first;
 
-    jd    = Math.floor(jd) + 0.5;
-    count = Math.floor(((jd - this.constants.hebrew.EPOCH) * 98496.0) / 35975351.0);
+    jd0   = Math.floor (jd) + 0.5;
+    count = Math.floor ((jd0 - this.constants.hebrew.EPOCH) * 98496.0 / 35975351.0);
     year  = count - 1;
 
-    for (i = count; jd >= this.hebrewToJd(i, 7, 1); i++) {
-      year++;
+    for (index = count; jd0 >= this.hebrewToJd (index, 7, 1); index += 1) {
+      year += 1;
     }
 
-    first = (jd < this.hebrewToJd(year, 1, 1)) ? 7 : 1;
+    first = jd0 < this.hebrewToJd (year, 1, 1) ? 7 : 1;
     month = first;
 
-    for (i = first; jd > this.hebrewToJd(year, i, this.hebrewMonthDays(year, i)); i++) {
-      month++;
+    for (index = first; jd0 > this.hebrewToJd (year, index, this.hebrewMonthDays (year, index)); index += 1) {
+      month += 1;
     }
 
-    day = (jd - this.hebrewToJd(year, month, 1)) + 1;
+    day = jd0 - this.hebrewToJd (year, month, 1) + 1;
 
-    return [year, month, day];
-  }
-
+    return [ year, month, day ];
+  };
 
   // Determine Julian day and fraction of the
   // September equinox at the Paris meridian in
   // a given Gregorian year.
-  calendar.equinoxeAParis = function(year) {
+  calendar.equinoxeAParis = function (year) {
     var equJED, equJD, equAPP, equParis, dtParis;
 
     // September equinox in dynamical time
-    equJED = astro.equinox(year, 2);
+    equJED = astro.equinox (year, 2);
 
     // Correct for delta T to obtain Universal time
-    equJD = equJED - (astro.deltat(year) / (24 * 60 * 60));
+    equJD = equJED - astro.deltat (year) / (24 * 60 * 60);
 
     // Apply the equation of time to yield the apparent time at Greenwich
-    equAPP = equJD + astro.equationOfTime(equJED);
+    equAPP = equJD + astro.equationOfTime (equJED);
 
     // Finally, we must correct for the constant difference between
     // the Greenwich meridian and that of Paris, 2°20'15" to the East.
-    dtParis = (2 + (20 / 60.0) + (15 / (60 * 60.0))) / 360;
+    dtParis = (2 + 20 / 60.0 + 15 / (60 * 60.0)) / 360;
     equParis = equAPP + dtParis;
 
     return equParis;
-  }
+  };
 
   // Calculate Julian day during which the
   // September equinox, reckoned from the Paris
   // meridian, occurred for a given Gregorian year.
-  calendar.parisEquinoxeJd = function(year) {
+  calendar.parisEquinoxeJd = function (year) {
     var ep, epg;
 
-    ep  = this.equinoxeAParis(year);
-    epg = Math.floor(ep - 0.5) + 0.5;
+    ep  = this.equinoxeAParis (year);
+    epg = Math.floor (ep - 0.5) + 0.5;
 
     return epg;
-  }
+  };
 
   // Determine the year in the French
   // revolutionary calendar in which a given Julian day falls.
@@ -340,130 +335,132 @@ var Calendrical = (function (exports) {
   //
   // **[0]** Année de la Révolution
   // **[1]** Julian day number containing equinox for this year.
-  calendar.anneeDaLaRevolution = function(jd) {
-    var guess = this.jdToGregorian(jd)[0] - 2,
+  calendar.anneeDaLaRevolution = function (jd) {
+    var guess = this.jdToGregorian (jd)[0] - 2,
       lasteq, nexteq, adr;
 
-    lasteq = this.parisEquinoxeJd(guess);
+    lasteq = this.parisEquinoxeJd (guess);
 
     while (lasteq > jd) {
-      guess--;
-      lasteq = this.parisEquinoxeJd(guess);
+      guess -= 1;
+      lasteq = this.parisEquinoxeJd (guess);
     }
 
     nexteq = lasteq - 1;
 
-    while (!((lasteq <= jd) && (jd < nexteq))) {
+    while (lasteq > jd || jd >= nexteq) {
       lasteq = nexteq;
-      guess++;
-      nexteq = this.parisEquinoxeJd(guess);
+      guess += 1;
+      nexteq = this.parisEquinoxeJd (guess);
     }
 
-    adr = Math.round((lasteq - this.constants.french_revolutionary.EPOCH) /
-                        astro.constants.TROPICAL_YEAR) + 1;
+    adr = Math.round (
+        (lasteq - this.constants.french_revolutionary.EPOCH) /
+        astro.constants.TROPICAL_YEAR) + 1;
 
-    return [adr, lasteq];
-  }
+    return [ adr, lasteq ];
+  };
 
   // Calculate date in the French Revolutionary
   // calendar from Julian day. The five or six
   // "sansculottides" are considered a thirteenth
   // month in the results of this function.
-  calendar.jdToFrenchRevolutionary = function(jd) {
-    var an, mois, decade, jour,
-      adr, equinoxe;
+  calendar.jdToFrenchRevolutionary = function (jd) {
+    var jd0, an, mois, decadi, jour, adr, equinoxe;
 
-    jd       = Math.floor(jd) + 0.5;
-    adr      = this.anneeDaLaRevolution(jd);
+    jd0      = Math.floor (jd) + 0.5;
+    adr      = this.anneeDaLaRevolution (jd0);
     an       = adr[0];
     equinoxe = adr[1];
-    mois     = Math.floor((jd - equinoxe) / 30) + 1;
-    jour     = (jd - equinoxe) % 30;
-    decade   = Math.floor(jour / 10) + 1;
-    jour     = (jour % 10) + 1;
+    mois     = Math.floor ((jd0 - equinoxe) / 30) + 1;
+    jour     = (jd0 - equinoxe) % 30;
+    decadi   = Math.floor (jour / 10) + 1;
+    jour     = jour % 10 + 1;
 
-    return [an, mois, decade, jour];
-  }
+    return [ an, mois, decadi, jour ];
+  };
 
   // Obtain Julian day from a given French
   // Revolutionary calendar date.
-  calendar.frenchRevolutionaryToJd = function(an, mois, decade, jour) {
+  calendar.frenchRevolutionaryToJd = function (an, mois, decade, jour) {
     var adr, equinoxe, guess, jd;
 
-    guess = this.constants.french_revolutionary.EPOCH + (astro.constants.TROPICAL_YEAR * ((an - 1) - 1));
-    adr = [an - 1, 0];
+    guess = this.constants.french_revolutionary.EPOCH +
+           astro.constants.TROPICAL_YEAR * (an - 2);
+    adr = [ an - 1, 0 ];
 
     while (adr[0] < an) {
-      adr = this.anneeDaLaRevolution(guess);
+      adr = this.anneeDaLaRevolution (guess);
       guess = adr[1] + (astro.constants.TROPICAL_YEAR + 2);
     }
-    equinoxe = adr[1];
 
-    jd = equinoxe + (30 * (mois - 1)) + (10 * (decade - 1)) + (jour - 1);
+    equinoxe = adr[1];
+    jd = equinoxe + 30 * (mois - 1) + 10 * (decade - 1) + jour - 1;
+
     return jd;
-  }
+  };
 
   // Is a given year a leap year in the Islamic calendar?
-  calendar.leapIslamic = function(year) {
-    return (((year * 11) + 14) % 30) < 11;
-  }
+  calendar.leapIslamic = function (year) {
+    return (year * 11 + 14) % 30 < 11;
+  };
 
   // Determine Julian day from Islamic date
-  calendar.islamicToJd = function(year, month, day) {
-    return (day +
-      Math.ceil(29.5 * (month - 1)) +
+  calendar.islamicToJd = function (year, month, day) {
+    return day +
+      Math.ceil (29.5 * (month - 1)) +
       (year - 1) * 354 +
-      Math.floor((3 + (11 * year)) / 30) +
-      this.constants.islamic.EPOCH) - 1;
-  }
+      Math.floor ((3 + 11 * year) / 30) +
+      this.constants.islamic.EPOCH - 1;
+  };
 
   // Calculate Islamic date from Julian day
-  calendar.jdToIslamic = function(jd) {
-    var year, month, day;
+  calendar.jdToIslamic = function (jd) {
+    var jd0, year, month, day;
 
-    jd    = Math.floor(jd) + 0.5;
-    year  = Math.floor(((30 * (jd - this.constants.islamic.EPOCH)) + 10646) / 10631);
-    month = Math.min(12, Math.ceil((jd - (29 + this.islamicToJd(year, 1, 1))) / 29.5) + 1);
-    day   = (jd - this.islamicToJd(year, month, 1)) + 1;
+    jd0   = Math.floor (jd) + 0.5;
+    year  = Math.floor ((30 * (jd0 - this.constants.islamic.EPOCH) + 10646) / 10631);
+    month = Math.min (12, Math.ceil ((jd0 - (29 + this.islamicToJd (year, 1, 1))) / 29.5) + 1);
+    day   = jd0 - this.islamicToJd (year, month, 1) + 1;
 
-    return [year, month, day];
-  }
+    return [ year, month, day ];
+  };
 
   // Determine Julian day and fraction of the
   // March equinox at the Tehran meridian in
   // a given Gregorian year.
-  calendar.tehranEquinox = function(year) {
+  calendar.tehranEquinox = function (year) {
     var equJED, equJD, equAPP, equTehran, dtTehran;
 
     // March equinox in dynamical time
-    equJED = astro.equinox(year, 0);
+    equJED = astro.equinox (year, 0);
 
     // Correct for delta T to obtain Universal time
-    equJD = equJED - (astro.deltat(year) / (24 * 60 * 60));
+    equJD = equJED - astro.deltat (year) / (24 * 60 * 60);
 
     // Apply the equation of time to yield the apparent time at Greenwich
-    equAPP = equJD + astro.equationOfTime(equJED);
+    equAPP = equJD + astro.equationOfTime (equJED);
 
     // Finally, we must correct for the constant difference between
     // the Greenwich meridian andthe time zone standard for
     // Iran Standard time, 52°30' to the East.
-    dtTehran  = (52 + (30 / 60.0) + (0 / (60.0 * 60.0))) / 360;
+    dtTehran  = 52.5 / 360;
     equTehran = equAPP + dtTehran;
 
     return equTehran;
-  }
+  };
 
   // Calculate Julian day during which the
   // March equinox, reckoned from the Tehran
   // meridian, occurred for a given Gregorian year.
-  calendar.tehranEquinoxJd = function(year) {
+  calendar.tehranEquinoxJd = function (year) {
     var ep, epg;
 
-    ep  = this.tehranEquinox(year);
-    epg = Math.floor(ep - 0.5) + 0.5;
+    ep  = this.tehranEquinox (year);
+    epg = Math.floor (ep - 0.5) + 0.5;
 
     return epg;
-  }
+  };
 
   // Determine the year in the astronomical calendar in which a
   // given Julian day falls, given the epoch.
@@ -484,7 +481,7 @@ var Calendrical = (function (exports) {
 
     nexteq = lasteq - 1;
 
-    while (!(lasteq <= jd && jd < nexteq)) {
+    while (lasteq > jd || jd >= nexteq) {
       lasteq = nexteq;
       guess += 1;
       nexteq = this.tehranEquinoxJd (guess);
@@ -573,7 +570,7 @@ var Calendrical = (function (exports) {
   calendar.persianToJd = function (year, month, day) {
     var temp, nowRuz;
 
-    temp = year > 0 ? year - 1 : year
+    temp = year > 0 ? year - 1 : year;
     nowRuz = this.persianNewYearOnOrBefore (this.constants.persian.EPOCH_RD + 180 +
         Math.floor (this.constants.MEAN_TROPICAL_YEAR * temp));
 
@@ -627,53 +624,48 @@ var Calendrical = (function (exports) {
   };
 
   // Determine Julian day from Mayan long count
-  calendar.mayanCountToJd = function(baktun, katun, tun, uinal, kin) {
+  calendar.mayanCountToJd = function (baktun, katun, tun, uinal, kin) {
     return this.constants.mayan.COUNT_EPOCH +
-      (baktun * 144000) +
-      (katun * 7200) +
-      (tun * 360) +
-      (uinal * 20) +
+      baktun * 144000 +
+      katun * 7200 +
+      tun * 360 +
+      uinal * 20 +
       kin;
-  }
+  };
 
   // Calculate Mayan long count from Julian day
-  calendar.jdToMayanCount = function(jd) {
-    var d, baktun, katun, tun, uinal, kin;
+  calendar.jdToMayanCount = function (jd) {
+    var d0, baktun, katun, tun, uinal, kin;
 
-    jd     = Math.floor(jd) + 0.5;
-    d      = jd - this.constants.mayan.COUNT_EPOCH;
-    baktun = Math.floor(d / 144000);
-    d      = astro.mod(d, 144000);
-    katun  = Math.floor(d / 7200);
-    d      = astro.mod(d, 7200);
-    tun    = Math.floor(d / 360);
-    d      = astro.mod(d, 360);
-    uinal  = Math.floor(d / 20);
-    kin    = astro.mod(d, 20);
+    d0     = Math.floor (jd) + 0.5 - this.constants.mayan.COUNT_EPOCH;
+    baktun = Math.floor (d0 / 144000);
+    d0     = astro.mod (d0, 144000);
+    katun  = Math.floor (d0 / 7200);
+    d0     = astro.mod (d0, 7200);
+    tun    = Math.floor (d0 / 360);
+    d0     = astro.mod (d0, 360);
+    uinal  = Math.floor (d0 / 20);
+    kin    = astro.mod (d0, 20);
 
-    return [baktun, katun, tun, uinal, kin];
-  }
+    return [ baktun, katun, tun, uinal, kin ];
+  };
 
   // Determine Mayan Haab "month" and day from Julian day
-  calendar.jdToMayanHaab = function(jd) {
+  calendar.jdToMayanHaab = function (jd) {
     var lcount, day;
 
-    jd     = Math.floor(jd) + 0.5;
-    lcount = jd - this.constants.mayan.COUNT_EPOCH;
-    day    = astro.mod(lcount + 8 + ((18 - 1) * 20), 365);
+    lcount = Math.floor (jd) + 0.5 - this.constants.mayan.COUNT_EPOCH;
+    day    = astro.mod (lcount + 8 + (18 - 1) * 20, 365);
 
-    return [Math.floor(day / 20) + 1, astro.mod(day, 20)];
-  }
+    return [ Math.floor (day / 20) + 1, astro.mod (day, 20) ];
+  };
 
   // Determine Mayan Tzolkin "month" and day from Julian day
-  calendar.jdToMayanTzolkin = function(jd) {
-    var lcount;
+  calendar.jdToMayanTzolkin = function (jd) {
+    var lcount = Math.floor (jd) + 0.5 - this.constants.mayan.COUNT_EPOCH;
 
-    jd     = Math.floor(jd) + 0.5;
-    lcount = jd - this.constants.mayan.COUNT_EPOCH;
-
-    return [astro.amod(lcount + 20, 20), astro.amod(lcount + 4, 13)];
-  }
+    return [ astro.amod (lcount + 20, 20), astro.amod (lcount + 4, 13) ];
+  };
 
   // Determine the year in the Bahai // astronomical calendar in which a
   // given Julian day falls.
@@ -681,25 +673,26 @@ var Calendrical = (function (exports) {
   //
   // **[0]** Bahai year
   // **[1]** Julian day number containing equinox for this year.
-  calendar.bahaiYear = function(jd) {
-     return this.lastTehranEquinox(jd, this.constants.bahai.EPOCH);
-  }
+  calendar.bahaiYear = function (jd) {
+     return this.lastTehranEquinox (jd, this.constants.bahai.EPOCH);
+  };
 
   // Bahai uses same leap rule as Gregorian until 171 Bahai Era
   // From 172 onwards, it uses the Bahai leap year algorithm
   // The year 171 of the Bahai Era corresponds to Gregorian year 2015
-  calendar.leapBahai = function(bahaiYear) {
-    var gy = 1843 + bahaiYear, days, eq1, eq2;
+  calendar.leapBahai = function (bahaiYear) {
+    var gy = 1843 + bahaiYear,
+        days, eq1, eq2;
 
     if (gy < 2015) {
-      return this.leapGregorian(gy);
+      return this.leapGregorian (gy);
     }
 
-    eq1 = astro.equinox(gy, 0);
-    eq1 = Math.floor(eq1 - 0.115192) + 0.5;
+    eq1 = astro.equinox (gy, 0);
+    eq1 = Math.floor (eq1 - 0.115192) + 0.5;
 
-    eq2 = astro.equinox(gy + 1, 0);
-    eq2 = Math.floor(eq2 - 0.115192) + 0.5;
+    eq2 = astro.equinox (gy + 1, 0);
+    eq2 = Math.floor (eq2 - 0.115192) + 0.5;
     days = eq2 - eq1;
 
     return days > 365;
@@ -710,14 +703,14 @@ var Calendrical = (function (exports) {
     var by, gy, jd, leap, yearDays;
 
     by = 361 * (major - 1) + 19 * (vahid - 1) + year;
-    gy = by + this.jdToGregorian(this.constants.bahai.EPOCH)[0] - 1;
+    gy = by + this.jdToGregorian (this.constants.bahai.EPOCH)[0] - 1;
 
     if (by < 172) {
       leap = this.leapGregorian (gy + 1);
-      jd = this.gregorianToJd(gy, 3, 20);
+      jd = this.gregorianToJd (gy, 3, 20);
     } else {
       leap = this.leapBahai (by);
-      jd = this.tehranEquinoxJd(gy);
+      jd = this.tehranEquinoxJd (gy);
     }
 
     if (month === 0) {
@@ -732,25 +725,23 @@ var Calendrical = (function (exports) {
   };
 
   // Calculate Bahai date from Julian day
-  calendar.jdToBahai = function(jd) {
-    var major, vahid, year, month, day,
-        gy, bstarty, by, bys, days, old, leap, leapDays;
+  calendar.jdToBahai = function (jd) {
+    var jd0, major, vahid, year, month, day, gy, bstarty, by, bys, days, old, leap, leapDays;
 
-    jd = Math.floor(jd - 0.5) + 0.5;
-
-    old = jd < this.constants.bahai.EPOCH172;
+    jd0 = Math.floor (jd - 0.5) + 0.5;
+    old = jd0 < this.constants.bahai.EPOCH172;
 
     if (old) {
-      gy      = this.jdToGregorian (jd)[0];
+      gy      = this.jdToGregorian (jd0)[0];
       leap    = this.leapGregorian (gy + 1);
       bstarty = this.jdToGregorian (this.constants.bahai.EPOCH)[0];
       bys     = gy - (bstarty + (this.gregorianToJd (gy, 1, 1) <= jd &&
                     jd <= this.gregorianToJd (gy, 3, 20) ? 1 : 0)) + 1;
     } else {
-      by      = this.bahaiYear(jd);
+      by      = this.bahaiYear (jd0);
       bys     = by[0];
       leap    = this.leapBahai (bys);
-      days    = jd - by[1];
+      days    = jd0 - by[1];
     }
 
     major     = Math.floor (bys / 361) + 1;
@@ -759,7 +750,7 @@ var Calendrical = (function (exports) {
     leapDays  = leap ? 5 : 4;
 
     if (old) {
-      days    = jd - this.bahaiToJd(major, vahid, year, 1, 1) + 1;
+      days    = jd0 - this.bahaiToJd (major, vahid, year, 1, 1) + 1;
     }
 
     if (days <= 18 * 19) {
@@ -811,9 +802,9 @@ var Calendrical = (function (exports) {
 
      sun = priv.jdToHinduDayCount (jd) + 0.25;
      newMoon = sun - astro.mod (sun, this.constants.ARYA_LUNAR_MONTH);
-     leap = (this.constants.ARYA_SOLAR_MONTH - this.constants.ARYA_LUNAR_MONTH >=
-             astro.mod (newMoon, this.constants.ARYA_SOLAR_MONTH)) &&
-             (astro.mod (newMoon, this.constants.ARYA_SOLAR_MONTH) > 0)
+     leap = this.constants.ARYA_SOLAR_MONTH - this.constants.ARYA_LUNAR_MONTH >=
+             astro.mod (newMoon, this.constants.ARYA_SOLAR_MONTH) &&
+             astro.mod (newMoon, this.constants.ARYA_SOLAR_MONTH) > 0;
      month = astro.mod (Math.ceil (newMoon / this.constants.ARYA_SOLAR_MONTH), 12) + 1;
      day = astro.mod (Math.floor (sun / this.constants.ARYA_LUNAR_DAY), 30) + 1;
      year = Math.ceil ((newMoon + this.constants.ARYA_SOLAR_MONTH) / this.constants.ARYA_SOLAR_YEAR) - 1;
@@ -855,53 +846,51 @@ var Calendrical = (function (exports) {
 
   // Obtain Julian day for Indian Civil date
   calendar.indianCivilToJd = function (year, month, day) {
-    var Caitra, gyear, leap, start, jd, m;
+    var Caitra, gyear, leap, start, jd, m0;
 
     gyear  = year + 78;
-    leap   = this.leapGregorian(gyear); // Is this a leap year ?
-    start  = this.gregorianToJd(gyear, 3, leap ? 21 : 22);
+    leap   = this.leapGregorian (gyear); // Is this a leap year ?
+    start  = this.gregorianToJd (gyear, 3, leap ? 21 : 22);
     Caitra = leap ? 31 : 30;
 
     if (month === 1) {
-      jd = start + (day - 1);
-    } else {
-      jd = start + Caitra;
-      m = month - 2;
-      m = Math.min(m, 5);
-      jd += m * 31;
-
-      if (month >= 8) {
-        m = month - 7;
-        jd += m * 30;
-      }
-
-      jd += day - 1;
+      return start + day - 1;
     }
 
-    return jd;
-  }
+    jd = start + Caitra;
+    m0 = month - 2;
+    m0 = Math.min (m0, 5);
+    jd += m0 * 31;
+
+    if (month >= 8) {
+        m0 = month - 7;
+        jd += m0 * 30;
+    }
+
+    return jd + day - 1;
+  };
 
   // Calculate Indian Civil date from Julian day
-  calendar.jdToIndianCivil = function(jd) {
-    var Caitra, Saka, greg, greg0, leap, start, year, month, day, yday, mday;
+  calendar.jdToIndianCivil = function (jd) {
+    var jd0, Caitra, Saka, greg, greg0, leap, start, year, month, day, yday, mday;
 
     // Offset in years from Saka era to Gregorian epoch
     Saka  = 79 - 1;
     // Day offset between Saka and Gregorian
     start = 80;
 
-    jd     = Math.floor(jd) + 0.5;
-    greg   = this.jdToGregorian(jd); // Gregorian date for Julian day
-    leap   = this.leapGregorian(greg[0]); // Is this a leap year?
+    jd0    = Math.floor (jd) + 0.5;
+    greg   = this.jdToGregorian (jd0); // Gregorian date for Julian day
+    leap   = this.leapGregorian (greg[0]); // Is this a leap year?
     year   = greg[0] - Saka; // Tentative year in Saka era
-    greg0  = this.gregorianToJd(greg[0], 1, 1); // JD at start of Gregorian year
-    yday   = jd - greg0; // Day number (0 based) in Gregorian year
+    greg0  = this.gregorianToJd (greg[0], 1, 1); // JD at start of Gregorian year
+    yday   = jd0 - greg0; // Day number (0 based) in Gregorian year
     Caitra = leap ? 31 : 30; // Days in Caitra this year
 
     if (yday < start) {
       // Day is at the end of the preceding Saka year
-      year--;
-      yday += Caitra + (31 * 5) + (30 * 3) + 10 + start;
+      year -= 1;
+      yday += Caitra + 31 * 5 + 30 * 3 + 10 + start;
     }
 
     yday -= start;
@@ -911,13 +900,13 @@ var Calendrical = (function (exports) {
       day = yday + 1;
     } else {
       mday = yday - Caitra;
-      if (mday < (31 * 5)) {
-        month = Math.floor(mday / 31) + 2;
-        day = (mday % 31) + 1;
+      if (mday < 31 * 5) {
+        month = Math.floor (mday / 31) + 2;
+        day = mday % 31 + 1;
       } else {
         mday -= 31 * 5;
-        month = Math.floor(mday / 30) + 7;
-        day = (mday % 30) + 1;
+        month = Math.floor (mday / 30) + 7;
+        day = mday % 30 + 1;
       }
     }
 
@@ -925,7 +914,7 @@ var Calendrical = (function (exports) {
   };
 
   priv.isFloat = function (num) {
-      return !!Boolean(num % 1);
+      return Boolean (Boolean (num % 1));
   };
 
   priv.tibetanSunEquation = function (alpha) {
@@ -1037,4 +1026,4 @@ var Calendrical = (function (exports) {
   };
 
   return exports;
-}(Calendrical || {}));
+} (Calendrical || {}));
