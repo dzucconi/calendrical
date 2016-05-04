@@ -270,9 +270,9 @@ var Calendrical = (function (exports) {
 
     data.indian_civil = {
       year: indcal[0],
-      month: this.constants.indian_civil.MONTHS[indcal[1] - 1],
+      month: this.constants.hindu.MONTHS[indcal[1] - 1],
       day: indcal[2],
-      weekday: this.constants.indian_civil.WEEKDAYS[astro.jwday (jd)],
+      weekday: this.constants.hindu.WEEKDAYS[astro.jwday (jd)],
       leap: this.leapGregorian (indcal[0] + 78)
     };
 
