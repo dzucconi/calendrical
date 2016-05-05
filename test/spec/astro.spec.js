@@ -74,4 +74,36 @@ describe ("Astro spec", function () {
   it ("should calculate mid-day of a location", function () {
     expect (astro.midDay (49203, cal.constants.persian.TEHRAN_LOCATION)).toEqual (49203.49889952117);
   });
+
+  it ("should sort an array with binary search", function () {
+      var fMinusY, predicate, discriminator, func,
+          x1 = 1.0,
+          y1 = 1.0;
+
+      func = function (arg) {
+          return arg;
+      };
+
+      fMinusY = function (x0, y0) {
+          return func (x0) - y0;
+      };
+
+      predicate = function (a0, b0) {
+          return Math.abs (fMinusY ((a0 + b0) / 2, y1)) <= 1e-5;
+      };
+
+      discriminator = function (x0) {
+          return fMinusY (x0, y1) >= 0;
+      };
+
+    expect (astro.binarySearch (0.0, 3.1, predicate, discriminator)).toBeCloseTo (1.0, 4);
+
+    x1 = 2.0;
+    y1 = 0.0;
+    func = function (x0) {
+        return x0 * x0 - 4 * x0 + 4;
+    };
+
+    expect (astro.binarySearch (1.5, 2.5, predicate, discriminator)).toBeCloseTo (2.0, 4);
+  });
 });

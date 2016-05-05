@@ -1,7 +1,9 @@
 /* eslint
   func-style: [ "error", "declaration" ],
   max-statements: [ "error", 16, { "ignoreTopLevelFunctions": true } ],
-  no-use-before-define: [ "error", { "functions": true, "classes": true } ] */
+  no-use-before-define: [ "error", { "functions": true, "classes": true } ],
+  max-params: [ "error", 4 ]
+*/
 
 "use strict";
 
@@ -343,6 +345,31 @@ var Calendrical = (function (exports) {
   }
 
   astro.sigma = sigma;
+
+  /**
+   * Bisection search for x in [low, high] such that condition 'predicate' holds.
+   * 'discriminator' determines when to go left.
+   * @param {floa} low low end of the range
+   * @param {float} high high end of the range
+   * @param {function} predicate selection function
+   * @param {function} discriminator partitioning function
+   * @return {float} sorted value
+   */
+  function binarySearch (low, high, predicate, discriminator) {
+    var x0 = (low + high) / 2;
+
+    if (predicate (low, high)) {
+        return x0;
+    }
+
+    if (discriminator (x0)) {
+        return binarySearch (low, x0, predicate, discriminator);
+    }
+
+    return binarySearch (x0, high, predicate, discriminator);
+  }
+
+  astro.binarySearch = binarySearch;
 
   /**
    * Return standard time from teeRomU in universal time at location

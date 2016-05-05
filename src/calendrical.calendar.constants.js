@@ -28,6 +28,8 @@ var Calendrical = (function (exports) {
     ARYA_LUNAR_MONTH: 1577917500 / 53433336, // 29.5305818076,
     ARYA_LUNAR_DAY: 1577917500 / 53433336 / 30, // 0.984352726919,
     MEAN_TROPICAL_YEAR: 365.242189,
+    MEAN_SIDEREAL_YEAR: 365.25636,
+    MEAN_SYNODIC_MONTH: 29.530588861,
 
     SPRING: 0,
     SUMMER: 90,
@@ -110,6 +112,7 @@ var Calendrical = (function (exports) {
       ANOMALISTIC_YEAR: 1577917828000 / (4320000000 - 387),
       ANOMALISTIC_MONTH: 1577917828 / (57753336 - 488199),
       SOLAR_ERA: 3179,
+      LUNAR_ERA: 3044,
       UJJAIN_LOCATION: [ 23.15, 75 + 461 / 600, 0, (5 + 461 / 9000) / 24 ],
       WEEKDAYS: [ "ravivara", "somavara", "mangalavara", "budhavara", "brahaspativara", "sukravara", "sanivara" ],
       MONTHS: [ "Caitra", "Vaisakha", "Jyaistha", "Asadha", "Sravana", "Bhadra", "Asvina", "Kartika", "Agrahayana", "Pausa", "Magha", "Phalguna" ]
