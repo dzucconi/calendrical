@@ -12,7 +12,7 @@ describe ("Hindu Solar Old calendar spec", function () {
     data4.forEach (function (data) {
         date     = data.hinduSolarOld;
         expected = data.rataDie + cal.constants.J0000;
-        actual   = cal.hinduSolarOldToJd ([ date.year, date.month, date.day ]);
+        actual   = cal.hinduSolarOldToJd (date.year, date.month, date.day);
 
         expect (expected).toEqual (actual);
     });

@@ -12,7 +12,7 @@ describe ("Tibetan calendar spec", function () {
     data4.forEach (function (data) {
         date     = data.tibetan;
         expected = data.rataDie + cal.constants.J0000;
-        actual   = cal.tibetanToJd ([ date.year, date.month, date.leapMonth, date.day, date.leapDay ]);
+        actual   = cal.tibetanToJd (date.year, date.month, date.leapMonth, date.day, date.leapDay);
         expect (expected).toEqual (actual);
     });
   });
