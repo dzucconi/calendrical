@@ -1231,25 +1231,6 @@ var Calendrical = (function (exports) {
             siderealSolarLongitude (tee) / 360);
   }
 
-  // Return the Astronomical Hindu (Tamil) solar date equivalent to fixed date.
-  /*
-  calendar.jdToHinduSolarAstro = function (jd) {
-      var critical, year, month, approx, begin, day;
-
-      critical = hinduAstroSunset (jd);
-      month    = siderealZodiac (critical);
-      year     = hinduAstroCalendarYear (critical) - calendar.constants.hindu.SOLAR_ERA;
-      approx   = jd - 3 - astro.mod (Math.floor (
-                     siderealSolarLongitude (critical)), 30);
-      begin    = astro.next (approx, function (index) {
-             return siderealZodiac (hinduAstroSunset (index)) === month;
-        });
-      day      = jd - begin + 1;
-
-      return [ year, month, day ];
-  };
-  */
-
   /**
    * Return the phase of moon (tithi) at moment tee, in the range [ 1 .. 30 ]
    * @param {float} tee a moment in time
@@ -1335,6 +1316,45 @@ var Calendrical = (function (exports) {
         });
 
     return dayLeap ? date + 1 : date;
+  };
+
+  /**
+   * Return the geometrical sunset at Hindu location on date.
+   * @param {float} date moment in time
+   * @return {float} sunset of that date
+   */
+  function hinduAstroSunset (date) {
+      return astro.dusk (date, calendar.constants.hindu.UJJAIN_LOCATION, 0);
+  }
+
+  // Return the Astronomical Hindu (Tamil) solar date equivalent to fixed date.
+  calendar.jdToHinduSolarAstro = function (jd) {
+      var jd0, critical, year, month, approx, begin, day;
+
+      jd0      = jd - this.constants.J0000;
+      critical = hinduAstroSunset (jd0);
+      month    = siderealZodiac (critical);
+      year     = hinduAstroCalendarYear (critical) - calendar.constants.hindu.SOLAR_ERA;
+      approx   = jd0 - 3 - astro.mod (Math.floor (siderealSolarLongitude (critical)), 30);
+      begin    = astro.next (approx, function (index) {
+             return siderealZodiac (hinduAstroSunset (index)) === month;
+        });
+      day      = jd0 - begin + 1;
+
+      return [ year, month, day ];
+  };
+
+  // Return the fixed date corresponding to Astronomical Hindu Solar date (Tamil rule; Saka era).
+  calendar.hinduSolarAstroToJd = function (year, month, day) {
+    var approx = this.constants.hindu.EPOCH - 3 +
+              Math.floor ((year + this.constants.hindu.SOLAR_ERA +
+                  (month - 1) / 12) * this.constants.MEAN_SIDEREAL_YEAR) -
+                  this.constants.J0000,
+        begin = astro.next (approx, function (i0) {
+             return siderealZodiac (hinduAstroSunset (i0)) === month;
+        });
+
+    return this.constants.J0000 + begin + day - 1;
   };
 
   // Obtain Julian day for Indian Civil date
