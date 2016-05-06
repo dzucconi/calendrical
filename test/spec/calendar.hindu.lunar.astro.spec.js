@@ -8,7 +8,6 @@ describe ("Hindu Lunar Astro calendar spec", function () {
 
   cal = Calendrical.calendar;
 
-  /*
   it ("should convert a Hindu Lunar Astro date to Julian day", function () {
     data4.forEach (function (data) {
         date     = data.hinduLunarAstro;
@@ -17,15 +16,12 @@ describe ("Hindu Lunar Astro calendar spec", function () {
         expect (expected).toEqual (actual);
     });
   });
-  */
 
   it ("should convert a Julian day to a Hindu Lunar Astro date", function () {
     data4.forEach (function (data) {
         date     = data.hinduLunarAstro;
         expected = [ date.year, date.month, date.leapMonth, date.day, date.leapDay ];
         actual   = cal.jdToHinduLunarAstro (data.rataDie + cal.constants.J0000);
-        // actual   = cal.jdToHinduLunarAstro (data.rataDie);
-
         expect (expected).toEqual (actual);
     });
   });
