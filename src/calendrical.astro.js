@@ -8,7 +8,7 @@
 "use strict";
 
 var Calendrical = (function (exports) {
-    var astro, calendar;
+    var astro, calendar, cons;
 
   exports.astro = exports.astro || {};
   exports.calendar = exports.calendar || {};
@@ -139,6 +139,7 @@ var Calendrical = (function (exports) {
     ]
   };
 
+  cons = astro.constants;
 
   /**
    * Pad a string to a given length with a given fill character.
@@ -683,9 +684,9 @@ var Calendrical = (function (exports) {
       // Fractional part of year
       fraction = (year - 1620) / 2 - index;
 
-      return astro.constants.DELTA_T_TAB[index] +
-            (astro.constants.DELTA_T_TAB[index + 1] -
-             astro.constants.DELTA_T_TAB[index]) * fraction;
+      return cons.DELTA_T_TAB[index] +
+            (cons.DELTA_T_TAB[index + 1] -
+             cons.DELTA_T_TAB[index]) * fraction;
     }
 
     t0 = (year - 2000) / 100;
@@ -721,10 +722,10 @@ var Calendrical = (function (exports) {
     // Initialise terms for mean equinox and solstices. We have two sets:
     // one for years prior to 1000 and a second for subsequent years.
     if (year < 1000) {
-      JDE0tab = astro.constants.JDE0_TAB_1000;
+      JDE0tab = cons.JDE0_TAB_1000;
       y0 = year / 1000;
     } else {
-      JDE0tab = astro.constants.JDE0_TAB_2000;
+      JDE0tab = cons.JDE0_TAB_2000;
       y0 = (year - 2000) / 1000;
     }
 
@@ -741,8 +742,8 @@ var Calendrical = (function (exports) {
     // Sum the periodic terms for time t0
     sum = index = j0 = 0;
     while (index < 24) {
-      sum += astro.constants.EQUINOX_P_TERMS[j0] * cosDeg (astro.constants.EQUINOX_P_TERMS[j0 + 1] +
-          astro.constants.EQUINOX_P_TERMS[j0 + 2] * t0);
+      sum += cons.EQUINOX_P_TERMS[j0] * cosDeg (cons.EQUINOX_P_TERMS[j0 + 1] +
+          cons.EQUINOX_P_TERMS[j0 + 2] * t0);
       j0 += 3;
       index += 1;
     }
@@ -771,32 +772,32 @@ var Calendrical = (function (exports) {
    * @return {float} solar longitude
    */
   function solarLongitude (tee) {
-    var centuries, lam;
+    var centuries, lambda;
 
     centuries = julianCenturies (tee);
-    lam = 282.7771834 + 36000.76953744 * centuries + 0.000005729577951308232 *
+    lambda = 282.7771834 + 36000.76953744 * centuries + 0.000005729577951308232 *
          sigma ([
-             astro.constants.SOLAR_LONGITUDE_COEFFICIENTS,
-             astro.constants.SOLAR_LONGITUDE_ADDENDS,
-             astro.constants.SOLAR_LONGITUDE_MULTIPLIERS ], function (x0, y0, z0) {
+             cons.SOLAR_LONGITUDE_COEFFICIENTS,
+             cons.SOLAR_LONGITUDE_ADDENDS,
+             cons.SOLAR_LONGITUDE_MULTIPLIERS ], function (x0, y0, z0) {
                 return x0 * sinDeg (y0 + z0 * centuries);
              }
     );
 
-    return mod (lam + aberration (tee) + nutation (tee), 360);
+    return mod (lambda + aberration (tee) + nutation (tee), 360);
   }
 
   /**
    * Return approximate moment at or before tee when solar longitude
-   * just exceeded lam degrees.
-   * @param {float} lam degrees
+   * just exceeded lambda degrees.
+   * @param {float} lambda degrees
    * @param {float} tee moment in time
    * @return {float} longitude
    */
-  function estimatePriorSolarLongitude (lam, tee) {
+  function estimatePriorSolarLongitude (lambda, tee) {
       var rate = calendar.constants.MEAN_TROPICAL_YEAR / 360,
-          tau = tee - rate * mod (solarLongitude (tee) - lam, 360),
-          capDelta = mod (solarLongitude (tau) - lam + 180, 360) - 180;
+          tau = tee - rate * mod (solarLongitude (tee) - lambda, 360),
+          capDelta = mod (solarLongitude (tau) - lambda + 180, 360) - 180;
 
       return Math.min (tee, tau - rate * capDelta);
   }
@@ -825,16 +826,16 @@ var Calendrical = (function (exports) {
   }
 
   /**
-   * Return declination at moment UT tee of object at longitude lam and latitude beta.
+   * Return declination at moment UT tee of object at longitude lambda and latitude beta.
    * @param {float} tee moment in time
    * @param {float} beta latitude
-   * @param {float} lam longitude
+   * @param {float} lambda longitude
    * @return {float} declination
    */
-  function declination (tee, beta, lam) {
+  function declination (tee, beta, lambda) {
     var eps = obliquity (tee);
 
-    return arcSinDeg (sinDeg (beta) * cosDeg (eps) + cosDeg (beta) * sinDeg (eps) * sinDeg (lam));
+    return arcSinDeg (sinDeg (beta) * cosDeg (eps) + cosDeg (beta) * sinDeg (eps) * sinDeg (lambda));
   }
 
   /**
