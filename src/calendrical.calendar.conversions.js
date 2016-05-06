@@ -40,11 +40,11 @@ var Calendrical = (function (exports) {
     wjd        = Math.floor (jd - 0.5) + 0.5;
     depoch     = wjd - this.constants.gregorian.EPOCH;
     quadricent = Math.floor (depoch / 146097);
-    dqc        = depoch % 146097; // astro.mod (depoch, 146097);
+    dqc        = astro.mod (depoch, 146097);
     cent       = Math.floor (dqc / 36524);
-    dcent      = dqc % 36524; // astro.mod (dqc, 36524);
+    dcent      = astro.mod (dqc, 36524);
     quad       = Math.floor (dcent / 1461);
-    dquad      = dcent % 1461; // astro.mod (dcent, 1461);
+    dquad      = astro.mod (dcent, 1461);
     yindex     = Math.floor (dquad / 365);
     year       = quadricent * 400 + cent * 100 + quad * 4 + yindex;
 
@@ -735,8 +735,8 @@ var Calendrical = (function (exports) {
       gy      = this.jdToGregorian (jd0)[0];
       leap    = this.leapGregorian (gy + 1);
       bstarty = this.jdToGregorian (this.constants.bahai.EPOCH)[0];
-      bys     = gy - (bstarty + (this.gregorianToJd (gy, 1, 1) <= jd &&
-                    jd <= this.gregorianToJd (gy, 3, 20) ? 1 : 0)) + 1;
+      bys     = gy - (bstarty + (this.gregorianToJd (gy, 1, 1) <= jd0 &&
+                    jd0 <= this.gregorianToJd (gy, 3, 20) ? 1 : 0)) + 1;
     } else {
       by      = this.bahaiYear (jd0);
       bys     = by[0];
