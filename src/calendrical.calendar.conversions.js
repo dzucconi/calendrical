@@ -1265,7 +1265,7 @@ var Calendrical = (function (exports) {
     if (k0 > 3 && k0 < 27) {
         temp = k0;
     } else {
-        mid = this.jdToHinduLunarAstro (s0 - 15);
+        mid = this.jdToHinduLunarAstro (s0 - 15 + cons.J0000);
 
         if (mid[1] !== month || (mid[2] && !monthLeap)) {
             temp = astro.mod (k0 + 15, 30) - 15;
@@ -1281,9 +1281,13 @@ var Calendrical = (function (exports) {
                d2 = astro.amod (day + 1, 30);
 
            return d1 === day || d1 === d2;
-        });
+       });
 
-    return dayLeap ? date + 1 : date;
+     if (dayLeap) {
+         date += 1;
+     }
+
+    return cons.J0000 + date;
   };
 
   /**
