@@ -7,7 +7,7 @@ describe ("Bahai calendar spec", function () {
   var cal = Calendrical.calendar,
       date = new Date (2013, 5, 24),
       julian = date.getJulian (),
-      bahai, expected, actual;
+      expected, actual;
 
   it ("should convert a date to Bahai calendar", function () {
     expect (date.getBahai()).toEqual ({
@@ -29,8 +29,8 @@ describe ("Bahai calendar spec", function () {
 
     data2.forEach (function (data) {
         expected = data.rataDie + cal.constants.J0000;
-        bahai = data.bahai;
-        actual = cal.bahaiToJd (bahai.kull_i_shay, bahai.vahid, bahai.year, bahai.month, bahai.day);
+        date = data.bahai;
+        actual = cal.bahaiToJd (date.kull_i_shay, date.vahid, date.year, date.month, date.day);
 
         expect (expected).toEqual (actual);
     });
@@ -42,8 +42,8 @@ describe ("Bahai calendar spec", function () {
 
     data2.forEach (function (data) {
         julian = data.rataDie + cal.constants.J0000;
-        bahai = data.bahai;
-        expected = [ bahai.kull_i_shay, bahai.vahid, bahai.year, bahai.month, bahai.day ];
+        date = data.bahai;
+        expected = [ date.kull_i_shay, date.vahid, date.year, date.month, date.day ];
         actual = cal.jdToBahai (julian);
 
         expect (expected).toEqual (actual);
