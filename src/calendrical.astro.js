@@ -938,6 +938,25 @@ var Calendrical = (function (exports) {
   }
 
   /**
+   * Return standard time in evening on fixed date at location when depression
+   * angle of sun is alpha.
+   * Return -1 if there is no dusk on date.
+   * @param {float} date moment in time
+   * @param {location} location geo-location
+   * @param {float} alpha angle
+   * @return {float} time of dusk
+   */
+  function dusk (date, location, alpha) {
+    var result = momentOfDepression (date + 0.75, location, alpha, false);
+
+    if (result === -1) {
+        return -1;
+    }
+
+    return localToStandard (result, location);
+  }
+
+  /**
    * Return the moment of n-th new moon after (or before) the new moon of January 11, 1.
    * Adapted from "Astronomical Algorithms" by Jean Meeus, Willmann_Bell, Inc., 2nd ed., 1998.
    * @param {float} n0 moment in time
@@ -1172,6 +1191,7 @@ var Calendrical = (function (exports) {
   astro.dawn = dawn;
   astro.degreesToRadians = degreesToRadians;
   astro.deltat = deltat;
+  astro.dusk = dusk;
   astro.dynamicalToUniversal = dynamicalToUniversal;   // only to be tested, required for nutation!
   astro.ephemerisCorrection = ephemerisCorrection;   // only to be tested!
   astro.equationOfTime = equationOfTime;
