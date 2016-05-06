@@ -105,15 +105,16 @@ var Calendrical = (function (exports) {
     hindu: {
       EPOCH: 588465.5,
       EPOCH_RD: -1132959, // Julian 3102/02/18 BCE
-      SIDERAL_YEAR: 365 + 279457 / 1080000,
-      CREATION: -714403429586.0, // EPOCH - 1955880000 * SIDERAL_YEAR
-      SIDERAL_MONTH: 27 + 4644439 / 14438334,
+      SIDEREAL_YEAR: 365 + 279457 / 1080000,
+      CREATION: -714403429586.0, // EPOCH - 1955880000 * SIDEREAL_YEAR
+      SIDEREAL_MONTH: 27 + 4644439 / 14438334,
       SYNODIC_MONTH: 29 + 7087771 / 13358334,
       ANOMALISTIC_YEAR: 1577917828000 / (4320000000 - 387),
       ANOMALISTIC_MONTH: 1577917828 / (57753336 - 488199),
       SOLAR_ERA: 3179,
       LUNAR_ERA: 3044,
       UJJAIN_LOCATION: [ 23.15, 75 + 461 / 600, 0, (5 + 461 / 9000) / 24 ],
+      SIDEREAL_START: 336.13605090692613,
       WEEKDAYS: [ "ravivara", "somavara", "mangalavara", "budhavara", "brahaspativara", "sukravara", "sanivara" ],
       MONTHS: [ "Caitra", "Vaisakha", "Jyaistha", "Asadha", "Sravana", "Bhadra", "Asvina", "Kartika", "Agrahayana", "Pausa", "Magha", "Phalguna" ]
     },

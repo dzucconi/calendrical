@@ -21,7 +21,7 @@ describe ("Astro spec", function () {
   it ("should calculate a polynomial", function () {
     expect (astro.poly (1, [
         -0.00002, 0.000297, 0.025184, -0.181133,
-         0.553040, -0.861938, 0.677066, -0.212591 ])).toEqual (-0.00009500000000002161);
+         0.553040, -0.861938, 0.677066, -0.212591 ])).toBeCloseTo (-0.000095, 6);
 
     expect (astro.poly (50, [
        -0.00002, 0.000297, 0.025184, -0.181133,
@@ -33,21 +33,21 @@ describe ("Astro spec", function () {
   });
 
   it ("should calculate a Julian centuries relative to 2000-01-01", function () {
-    expect (astro.julianCenturies (584023)).toEqual (-3.99993151306895);
+    expect (astro.julianCenturies (584023)).toBeCloseTo (-4, 1);
   });
 
-   it ("should calculate the obliquity of an ecliptic of a fixed date", function () {
+  it ("should calculate the obliquity of an ecliptic of a fixed date", function () {
     expect (astro.obliquity (fixed)).toEqual (23.437538210850892);
   });
 
   it ("should calculate an ephemeris correction", function () {
-    expect (astro.ephemerisCorrection (584023)).toEqual (0.0014851565792882565);
+    expect (astro.ephemerisCorrection (584023)).toBeCloseTo (0.001485, 5);
   });
 
   it ("should calculate the equation of time", function () {
-    expect (astro.equationOfTime (fixed)).toEqual (-0.0017755066724487007);
+    expect (astro.equationOfTime (fixed)).toBeCloseTo (-0.0017755, 7);
 
-    expect (astro.equationOfTime (49203.35716666667)).toEqual (0.004100478836863293);
+    expect (astro.equationOfTime (49203.35716666667)).toBeCloseTo (0.00410048, 8);
   });
 
   it ("should calculate a sigma of a matrix", function () {
@@ -77,7 +77,6 @@ describe ("Astro spec", function () {
 
   it ("should sort an array with binary search", function () {
       var fMinusY, predicate, discriminator, func,
-          x1 = 1.0,
           y1 = 1.0;
 
       func = function (arg) {
@@ -98,7 +97,6 @@ describe ("Astro spec", function () {
 
     expect (astro.binarySearch (0.0, 3.1, predicate, discriminator)).toBeCloseTo (1.0, 4);
 
-    x1 = 2.0;
     y1 = 0.0;
     func = function (x0) {
         return x0 * x0 - 4 * x0 + 4;

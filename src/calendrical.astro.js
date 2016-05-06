@@ -1,8 +1,8 @@
 /* eslint
   func-style: [ "error", "declaration" ],
-  max-statements: [ "error", 16, { "ignoreTopLevelFunctions": true } ],
+  max-statements: [ "error", 21, { "ignoreTopLevelFunctions": true } ],
   no-use-before-define: [ "error", { "functions": true, "classes": true } ],
-  max-params: [ "error", 4 ]
+  max-params: [ "error", 5 ]
 */
 
 "use strict";
@@ -140,8 +140,14 @@ var Calendrical = (function (exports) {
   };
 
 
-  // Pad a string to a given length with a given fill character.
-  astro.pad = function (str, length, filler) {
+  /**
+   * Pad a string to a given length with a given fill character.
+   * @param {String} str initial string
+   * @param {int} length max. length
+   * @param {character} filler the character to fill in the gaps
+   * @return {String} padded String
+   */
+  function pad (str, length, filler) {
     var s0 = str.toString ();
 
     while (s0.length < length) {
@@ -149,29 +155,25 @@ var Calendrical = (function (exports) {
     }
 
     return s0;
-  };
+  }
 
   /**
    * arc seconds to radians
    * @param {float} arcs arc seconds
    * @return {float} radians value
    */
-  function astor (arcs) {
-    return arcs * Math.PI / (180.0 * 3600.0);
-  }
-
-  astro.astor = astor;
+  // astro.astor = function (arcs) {
+  //    return arcs * Math.PI / (180.0 * 3600.0);
+  // };
 
   /**
    * degrees to radians
-   * @param {float} degrees angle in degrees
+   * @param {float} degree angle in degrees
    * @return {float} radians value
    */
-  function degreesToRadians (degrees) {
-    return degrees * Math.PI / 180.0;
+  function degreesToRadians (degree) {
+    return degree * Math.PI / 180.0;
   }
-
-  astro.degreesToRadians = degreesToRadians;
 
   /**
    * radians to degrees
@@ -182,71 +184,16 @@ var Calendrical = (function (exports) {
     return radians * 180.0 / Math.PI;
   }
 
-  astro.radiansToDegrees = radiansToDegrees;
-
   /**
    * angle from degrees:minutes:seconds
-   * @param {float} degrees angle integral portion
-   * @param {float} minutes angle minutes fraction
-   * @param {float} seconds angle seconds fraction
+   * @param {float} degree angle integral portion
+   * @param {float} minute angle minutes fraction
+   * @param {float} second angle seconds fraction
    * @return {float} angle
    */
-  function angle (degrees, minutes, seconds) {
-      return degrees + (minutes + seconds / 60) / 60;
+  function angle (degree, minute, second) {
+      return degree + (minute + second / 60) / 60;
   }
-
-  astro.angle = angle;
-
-  /**
-   * Range reduce angle in degrees
-   * @param {float} alpha angle
-   * @return {float} degrees
-   */
-  astro.fixAngle = function (alpha) {
-    return alpha - 360.0 * Math.floor (alpha / 360.0);
-  };
-
-  /**
-   * Range reduce angle in radians
-   * @param {float} alpha angle
-   * @return {float} radians
-   */
-  astro.fixAngleRadians = function (alpha) {
-    return alpha - 2 * Math.PI * Math.floor (alpha / (2 * Math.PI));
-  };
-
-  /**
-   * Sine of an angle in degrees
-   * @param {float} theta angle
-   * @return {float} degrees
-   */
-  function sinDeg (theta) {
-    return Math.sin (degreesToRadians (theta));
-  }
-
-  astro.sinDeg = sinDeg;
-
-  /**
-   * Cosine of an angle in degrees
-   * @param {float} theta angle
-   * @return {float} degrees
-   */
-  function cosDeg (theta) {
-    return Math.cos (degreesToRadians (theta));
-  }
-
-  astro.cosDeg = cosDeg;
-
-  /**
-   * Tangens of an angle in degrees
-   * @param {float} theta angle
-   * @return {float} degrees
-   */
-  function tanDeg (theta) {
-    return Math.tan (degreesToRadians (theta));
-  }
-
-  astro.tanDeg = tanDeg;
 
   /**
    * Modulus function which works for non-integers
@@ -258,7 +205,90 @@ var Calendrical = (function (exports) {
     return amount - numerator * Math.floor (amount / numerator);
   }
 
-  astro.mod = mod;
+  /**
+   * Return a normalized angle theta to range [ 0, 360 ) degrees.
+   * @param {float} theta angle in degrees
+   * @return {float} normalized angle in degrees
+   */
+  function degrees (theta) {
+      return mod (theta, 360);
+  }
+
+  /**
+   * Range reduce angle in degrees
+   * @param {float} alpha angle
+   * @return {float} degrees
+   */
+  // astro.fixAngle = function (alpha) {
+  //    return alpha - 360.0 * Math.floor (alpha / 360.0);
+  // };
+
+  /**
+   * Range reduce angle in radians
+   * @param {float} alpha angle
+   * @return {float} radians
+   */
+  // astro.fixAngleRadians = function (alpha) {
+  //    return alpha - 2 * Math.PI * Math.floor (alpha / (2 * Math.PI));
+  // };
+
+  /**
+   * Sine of an angle in degrees
+   * @param {float} theta angle
+   * @return {float} degrees
+   */
+  function sinDeg (theta) {
+    return Math.sin (degreesToRadians (theta));
+  }
+
+  /**
+   * Cosine of an angle in degrees
+   * @param {float} theta angle
+   * @return {float} degrees
+   */
+  function cosDeg (theta) {
+    return Math.cos (degreesToRadians (theta));
+  }
+
+  /**
+   * Tangens of an angle in degrees
+   * @param {float} theta angle
+   * @return {float} degrees
+   */
+  function tanDeg (theta) {
+    return Math.tan (degreesToRadians (theta));
+  }
+
+  /**
+   * Arc-tangent of y0 / x0 in degrees
+   * @param {float} y0 y-value
+   * @param {float} x0 x-value
+   * @return {float} arc tangent
+   */
+  function arcTanDeg (y0, x0) {
+      var alpha;
+
+    if (x0 === 0 && y0 !== 0) {
+       return mod (Math.sign (y0) * 90, 360);
+    }
+
+    alpha = radiansToDegrees (Math.atan (y0 / x0));
+
+    if (x0 >= 0) {
+        return alpha;
+    }
+
+    return mod (alpha + 180, 360);
+  }
+
+  /**
+   * Calculate arc sine in degrees
+   * @param {float} alpha angle
+   * @return {float} value
+   */
+  function arcSinDeg (alpha) {
+      return radiansToDegrees (Math.asin (alpha));
+  }
 
   /**
    * Modulus function which returns numerator if modulus is zero
@@ -269,8 +299,6 @@ var Calendrical = (function (exports) {
   function amod (amount, numerator) {
     return mod (amount - 1, numerator) + 1;
   }
-
-  astro.amod = amod;
 
   /**
    * Return first integer greater or equal to initial index iter,
@@ -283,8 +311,6 @@ var Calendrical = (function (exports) {
     return predicate (iter) ? iter : next (iter + 1, predicate);
   }
 
-  astro.next = next;
-
   /**
    * Return last integer greater or equal to initial index iter,
    * such that condition predicate holds.
@@ -295,8 +321,6 @@ var Calendrical = (function (exports) {
   function final (iter, predicate) {
     return predicate (iter) ? final (iter + 1, predicate) : iter - 1;
   }
-
-  astro.final = final;
 
   /**
    * Calculate polynomial with coefficients 'a' at point x.
@@ -316,10 +340,21 @@ var Calendrical = (function (exports) {
       index -= 1;
     }
 
-  return result;
-}
+    return result;
+  }
 
-  astro.poly = poly;
+  /**
+   * Zip up arrays element-wise
+   * @param {float[]} arrays multi-dimensional array (matrix)
+   * @return {float} zipped array
+   */
+  function zip (arrays) {
+    return arrays.length === 0 ? [] : arrays[0].map (function (igore, index) {
+        return arrays.map (function (array) {
+          return array[index];
+        });
+    });
+  }
 
   /**
    * Return the sum of applying the function func for indices i [ 1 .. n ]
@@ -329,22 +364,14 @@ var Calendrical = (function (exports) {
    * @param {function} func application function
    * @return {float} sum of products
    */
-  function sigma (matrix, func) {
-     var columns = matrix[0].length,
-         result = 0,
-         index, x0, y0, z0;
-
-     for (index = 0; index < columns; index += 1) {
-         x0 = matrix[0][index];
-         y0 = matrix[1][index];
-         z0 = matrix[2][index];
-         result += func (x0, y0, z0);
-     }
-
-     return result;
-  }
-
-  astro.sigma = sigma;
+   function sigma (matrix, func) {
+     return zip (matrix).map (function (v0) {
+       return func.apply (null, v0);
+     })
+     .reduce (function (memo, n0) {
+           return memo + n0;
+         }, 0);
+   }
 
   /**
    * Bisection search for x in [low, high] such that condition 'predicate' holds.
@@ -369,7 +396,14 @@ var Calendrical = (function (exports) {
     return binarySearch (x0, high, predicate, discriminator);
   }
 
-  astro.binarySearch = binarySearch;
+  /**
+   * Return fixed momentToFixed
+   * @param {float} tee moment in time
+   * @return {int} fixed momentToFixed
+   */
+  function momentToFixed (tee) {
+      return Math.floor (tee);
+  }
 
   /**
    * Return standard time from teeRomU in universal time at location
@@ -381,8 +415,6 @@ var Calendrical = (function (exports) {
       return teeRomU + location[3];
   }
 
-  astro.universalToStandard = universalToStandard;
-
   /**
    * Return universal time from teeRomU in standard time at location
    * @param {float} teeRomS moment in time
@@ -392,8 +424,6 @@ var Calendrical = (function (exports) {
   function standardToUniversal (teeRomS, location) {
       return teeRomS - location[3];
   }
-
-  astro.standardToUniversal = standardToUniversal;
 
   /**
    * Return the difference between UT and local mean time at longitude
@@ -405,17 +435,15 @@ var Calendrical = (function (exports) {
       return phi / 360;
   }
 
-  astro.longitudeToZone = longitudeToZone;
-
   /**
    * Return local time from teeRomU in universal time at location
    * @param {float} teeRomU moment in time
    * @param {location} location geographic location
    * @return {float} converted time
    */
-  function universalToLocal (teeRomU, location) {
-      return teeRomU + longitudeToZone (location[1]);
-  }
+  // function universalToLocal (teeRomU, location) {
+  //   return teeRomU + longitudeToZone (location[1]);
+  // }
 
   /**
    * Return universal time from teeEll in local time at location
@@ -427,8 +455,6 @@ var Calendrical = (function (exports) {
       return teeEll - longitudeToZone (location[1]);
   }
 
-  astro.localToUniversal = localToUniversal;
-
   /**
    * Return standard time from teeEll in local time at location
    * @param {float} teeEll moment in time
@@ -439,19 +465,15 @@ var Calendrical = (function (exports) {
     return universalToStandard (localToUniversal (teeEll, location), location);
   }
 
-  astro.localToStandard = localToStandard;
-
   /**
    * Return local time from teeRomS in standard time at location
    * @param {float} teeRomS moment in time
    * @param {location} location geographic location
    * @return {float} converted time
    */
-  function standardToLocal (teeRomS, location) {
-      return universalToLocal (standardToUniversal (teeRomS, location), location);
-  }
-
-  astro.standardToLocal = standardToLocal;
+  // function standardToLocal (teeRomS, location) {
+  //    return universalToLocal (standardToUniversal (teeRomS, location), location);
+  // }
 
   /**
    * Return Dynamical Time minus Universal Time (in days) for moment, tee.
@@ -499,8 +521,6 @@ var Calendrical = (function (exports) {
       return (result * result / 41048480 - 15) / 86400;
   }
 
-  astro.ephemerisCorrection = ephemerisCorrection;
-
   /**
    * Return Dynamical Time at Universal moment tee
    * @param {float} tee moment in time
@@ -510,7 +530,14 @@ var Calendrical = (function (exports) {
       return tee + ephemerisCorrection (tee);
   }
 
-  astro.universalToDynamical = universalToDynamical;
+  /**
+   * Return Universal moment from Dynamical time, tee
+   * @param {float} tee moment in time
+   * @return {float} converted time
+   */
+  function dynamicalToUniversal (tee) {
+      return tee - ephemerisCorrection (tee);
+  }
 
   /**
    * Return Julian centuries since 2000 at moment tee.
@@ -520,8 +547,6 @@ var Calendrical = (function (exports) {
   function julianCenturies (tee) {
     return (universalToDynamical (tee) - calendar.constants.J2000) / 36525;
   }
-
-  astro.julianCenturies = julianCenturies;
 
   /**
    * Calculate the obliquity of the ecliptic for a given Julian date.
@@ -544,8 +569,6 @@ var Calendrical = (function (exports) {
                 angle (0, 0, -0.00059),
                 angle (0, 0, 0.001813) ]);
   }
-
-  astro.obliquity = obliquity;
 
   /**
    * Compute equation of time for a given moment.
@@ -575,19 +598,15 @@ var Calendrical = (function (exports) {
     return Math.sign (equation) * Math.min (Math.abs (equation), 0.5);
   }
 
-  astro.equationOfTime = equationOfTime;
-
   /**
    * Return sundial time at local time tee at location, location
    * @param {float} tee moment in time
    * @param {location} location geographic location
    * @return {float} converted time
    */
-  function localToApparent (tee, location) {
-      return tee + equationOfTime (localToUniversal (tee, location));
-  }
-
-  astro.localToApparent = localToApparent;
+  // function localToApparent (tee, location) {
+  //   return tee + equationOfTime (localToUniversal (tee, location));
+  // }
 
   /**
    * Return local time from sundial time tee at location, location
@@ -599,8 +618,6 @@ var Calendrical = (function (exports) {
       return tee - equationOfTime (localToUniversal (tee, location));
   }
 
-  astro.apparentToLocal = apparentToLocal;
-
   /**
    * Return standard time on fixed date date, of midday at location location
    * @param {float} date fixed
@@ -610,19 +627,6 @@ var Calendrical = (function (exports) {
   function midDay (date, location) {
       return localToStandard (apparentToLocal (date + 0.5, location), location);
   }
-
-  astro.midDay = midDay;
-
-  /**
-   * Return Universal moment from Dynamical time, tee
-   * @param {float} tee moment in time
-   * @return {float} converted time
-   */
-  function dynamicalToUniversal (tee) {
-      return tee - ephemerisCorrection (tee);
-  }
-
-  astro.dynamicalToUniversal = dynamicalToUniversal;
 
   /**
    * Convert Julian time to hour, minutes, and seconds, returned as a three-element array
@@ -643,8 +647,6 @@ var Calendrical = (function (exports) {
     ];
   }
 
-  astro.jhms = jhms;
-
   /**
    * Calculate day of week from Julian day
    * @param {float} jd Julian day number
@@ -653,8 +655,6 @@ var Calendrical = (function (exports) {
   function jwday (jd) {
     return mod (Math.floor (jd - 0.5), 7);
   }
-
-  astro.jwday = jwday;
 
   /**
    * Return the longitudinal nutation at moment tee
@@ -669,8 +669,6 @@ var Calendrical = (function (exports) {
       return -0.004778  * sinDeg (capA) +
              -0.0003667 * sinDeg (capB);
   }
-
-  astro.nutation = nutation;
 
   /**
    * Determine the difference, in seconds, between Dynamical time and Universal time.
@@ -704,8 +702,6 @@ var Calendrical = (function (exports) {
 
     return dt;
   }
-
-  astro.deltat = deltat;
 
   /**
    * Determine the Julian Ephemeris Day of an equinox or solstice.
@@ -754,8 +750,6 @@ var Calendrical = (function (exports) {
     return JDE0 + sum * 0.00001 / deltaL;
   }
 
-  astro.equinox = equinox;
-
   /**
    * Return the aberration at moment, tee.
    * @param {float} tee moment in time
@@ -766,8 +760,6 @@ var Calendrical = (function (exports) {
 
       return 0.0000974 * cosDeg (177.63 + 35999.01848 * centuries) - 0.005575;
   }
-
-  astro.aberration = aberration;
 
   /**
    * Return the longitude of sun at moment 'tee'.
@@ -794,8 +786,6 @@ var Calendrical = (function (exports) {
     return mod (lam + aberration (tee) + nutation (tee), 360);
   }
 
-  astro.solarLongitude = solarLongitude;
-
   /**
    * Return approximate moment at or before tee when solar longitude
    * just exceeded lam degrees.
@@ -811,7 +801,405 @@ var Calendrical = (function (exports) {
       return Math.min (tee, tau - rate * capDelta);
   }
 
+  /**
+   * Return the precession at moment tee using 0,0 as J2000 coordinates.
+   * Adapted from "Astronomical Algorithms" by Jean Meeus, Willmann-Bell, Inc., 1991.
+   * @param {float} tee moment in time
+   * @return {float} precession value
+   */
+  function precession (tee) {
+      var centuries, eta, capP, p0, capA, capB, arg;
+
+      centuries = julianCenturies (tee);
+      eta  = mod (poly (centuries,
+                 [ 0, 47.0029 / 3600, -0.03302 / 3600, 0.000060 / 3600 ]), 360);
+      capP = mod (poly (centuries,
+                 [ 174.876384, -869.8089 / 3600, 0.03536 / 3600 ]), 360);
+      p0   = mod (poly (centuries,
+                 [ 0, 5029.0966 / 3600, 1.11113 / 3600, 0.000006 / 3600 ]), 360);
+      capA = cosDeg (eta) * sinDeg (capP);
+      capB = cosDeg (capP);
+      arg  = arcTanDeg (capA, capB);
+
+      return mod (p0 + capP - arg, 360);
+  }
+
+  /**
+   * Return declination at moment UT tee of object at longitude lam and latitude beta.
+   * @param {float} tee moment in time
+   * @param {float} beta latitude
+   * @param {float} lam longitude
+   * @return {float} declination
+   */
+  function declination (tee, beta, lam) {
+    var eps = obliquity (tee);
+
+    return arcSinDeg (sinDeg (beta) * cosDeg (eps) + cosDeg (beta) * sinDeg (eps) * sinDeg (lam));
+  }
+
+  /**
+   * Return sine of angle between position of sun at local time tee and when
+   * its depression is alpha at location. Out of range when it does not occur.
+   * @param {float} tee moment ini time
+   * @param {location} location geo-location
+   * @param {float} alpha angle
+   * @return {float} sine offset
+   */
+   function sineOffset (tee, location, alpha) {
+       var phi = location[0],
+           teePrime = localToUniversal (tee, location),
+           delta = declination (teePrime, 0, solarLongitude (teePrime));
+
+        return tanDeg (phi) * tanDeg (delta) +
+               sinDeg (alpha) / cosDeg (delta) * cosDeg (phi);
+    }
+
+  /**
+   * Return the moment in local time near tee when depression angle of sun is
+   * alpha (negative if above horizon) at location; early is true when MORNING
+   * event is sought and false for EVENING.
+   * Returns -1 if depression angle is not reached.
+   * @param {float} tee moment in time
+   * @param {location} location geo-location
+   * @param {float} alpha angle
+   * @param {boolean} early MORNING or EVENING
+   * @return {float} moment of depression
+   */
+  function approxMomentOfDepression (tee, location, alpha, early) {
+    var ttry = sineOffset (tee, location, alpha),
+        date = momentToFixed (tee),
+        alt, value, temp;
+
+    if (alpha >= 0) {
+        alt = early ? date : date + 1;
+    } else {
+        alt = date + 0.5;
+    }
+
+    if (Math.abs (ttry) > 1) {
+        value = sineOffset (alt, location, alpha);
+    } else {
+        value = ttry;
+    }
+
+    if (Math.abs (value) <= 1) {
+        temp = early ? -1 : 1;
+        temp *= mod (0.5 + arcSinDeg (value) / 360, 1) - 0.25;
+        temp += date + 0.5;
+
+        return apparentToLocal (temp, location);
+    }
+
+    return -1;
+  }
+
+  /**
+   * Return the moment in local time near approx when depression angle of sun is
+   * alpha (negative if above horizon) at location; early is true when MORNING
+   * event is sought, and false for EVENING.
+   * Returns -1 if depression angle is not reached.
+   * @param {float} approx approximation
+   * @param {location} location geo-location
+   * @param {float} alpha angle of the sun
+   * @param {boolean} early MORNING or EVENING
+   * @return {float} moment of depression
+   */
+  function momentOfDepression (approx, location, alpha, early) {
+      var tee = approxMomentOfDepression (approx, location, alpha, early);
+
+      if (tee === -1) {
+          return -1;
+      }
+
+      if (Math.abs (approx - tee) < 30 / 86400) {
+          return tee;
+      }
+
+      return momentOfDepression (tee, location, alpha, early);
+  }
+
+  /**
+   * Return standard time in morning on fixed date date at location when
+   * depression angle of sun is alpha.
+   * Returns -1 if there is no dawn on date.
+   * @param {float} date moment in time
+   * @param {location} location geo-location
+   * @param {float} alpha angle
+   * @return {float} time of dawn
+   */
+  function dawn (date, location, alpha) {
+    var result = momentOfDepression (date + 0.25, location, alpha, true);
+
+    if (result === -1) {
+        return -1;
+    }
+
+    return localToStandard (result, location);
+  }
+
+  /**
+   * Return the moment of n-th new moon after (or before) the new moon of January 11, 1.
+   * Adapted from "Astronomical Algorithms" by Jean Meeus, Willmann_Bell, Inc., 2nd ed., 1998.
+   * @param {float} n0 moment in time
+   * @return {float} moment of the n-th moon
+   */
+  function nthNewMoon (n0) {
+      var k0, c0, approx, capE, solarAnomaly2, lunarAnomaly2, moonArg, capO,
+          eFactor, solarCoeff, lunarCoeff, moonCoeff, sineCoeff, correction,
+          addConst, addCoeff, addFactor, extra, additional;
+
+    k0 = n0 - 24724;
+    c0 = k0 / 1236.85;
+    approx = calendar.constants.J2000 +
+              poly (c0, [ 5.09766, calendar.constants.MEAN_SYNODIC_MONTH * 1236.85, 0.0001437, -0.000000150, 0.00000000073 ]);
+    capE = poly (c0, [ 1, -0.002516, -0.0000074 ]);
+    solarAnomaly2 = poly (c0, [ 2.5534, 1236.85 * 29.10535669, -0.0000014, -0.00000011 ]);
+    lunarAnomaly2 = poly (c0, [ 201.5643, 385.81693528 * 1236.85, 0.0107582, 0.00001238, -0.000000058 ]);
+    moonArg = poly (c0, [ 160.7108, 390.67050284 * 1236.85, -0.0016118, -0.00000227, 0.000000011 ]);
+    capO = poly (c0, [ 124.7746, -1.56375588 * 1236.85, 0.0020672, 0.00000215 ]);
+    eFactor = [ 0, 1, 0, 0, 1, 1, 2, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 ];
+    solarCoeff = [ 0, 1, 0, 0, -1, 1, 2, 0, 0, 1, 0, 1, 1, -1, 2, 0, 3, 1, 0, 1, -1, -1, 1, 0 ];
+    lunarCoeff = [ 1, 0, 2, 0, 1, 1, 0, 1, 1, 2, 3, 0, 0, 2, 1, 2, 0, 1, 2, 1, 1, 1, 3, 4 ];
+    moonCoeff = [ 0, 0, 0, 2, 0, 0, 0, -2, 2, 0, 0, 2, -2, 0, 0, -2, 0, -2, 2, 2, 2, -2, 0, 0 ];
+    sineCoeff = [ -0.40720, 0.17241, 0.01608, 0.01039,  0.00739, -0.00514,
+                  0.00208, -0.00111, -0.00057, 0.00056, -0.00042, 0.00042,
+                  0.00038, -0.00024, -0.00007, 0.00004, 0.00004, 0.00003,
+                  0.00003, -0.00003, 0.00003, -0.00002, -0.00002, 0.00002 ];
+    correction = -0.00017 * sinDeg (capO) +
+      sigma ([ sineCoeff, eFactor, solarCoeff, lunarCoeff, moonCoeff ],
+        function (v0, w0, x0, y0, z0) {
+          return v0 * Math.pow (capE, w0) *
+            sinDeg (x0 * solarAnomaly2 + y0 * lunarAnomaly2 + z0 * moonArg);
+          });
+    addConst = [ 251.88, 251.83, 349.42, 84.66, 141.74, 207.14, 154.84, 34.52,
+                 207.19, 291.34, 161.72, 239.56, 331.55 ];
+    addCoeff = [ 0.016321, 26.651886, 36.412478, 18.206239, 53.303771, 2.453732,
+                 7.306860, 27.261239, 0.121824, 1.844379, 24.198154, 25.513099, 3.592518 ];
+    addFactor = [ 0.000165, 0.000164, 0.000126, 0.000110, 0.000062, 0.000060,
+                  0.000056, 0.000047, 0.000042, 0.000040, 0.000037, 0.000035, 0.000023 ];
+    extra = 0.000325 * sinDeg (poly (c0, [ 299.77, 132.8475848, -0.009173 ]));
+    additional = sigma ([ addConst, addCoeff, addFactor ],
+        function (i0, j0, l0) {
+            return l0 * sinDeg (i0 + j0 * k0);
+        });
+
+    return dynamicalToUniversal (approx + correction + extra + additional);
+  }
+
+  /**
+   * Return mean longitude of moon (in degrees) at moment given in Julian centuries.
+   * (including the constant term of the effect of the light-time (-0".70).
+   * Adapted from eq. 47.1 in "Astronomical Algorithms" by Jean Meeus,
+   * Willmann_Bell, Inc., 2nd ed. with corrections, 2005.
+   * @param {float} centuries Julian centuries relative to 2000-01-01
+   * @return {float} mean lunar longitude
+   */
+  function meanLunarLongitude (centuries) {
+    return degrees (poly (centuries,
+        [ 218.3164477, 481267.88123421, -0.0015786, 1 / 538841, -1 / 65194000 ]));
+  }
+
+  /**
+   * Return elongation of moon (in degrees) at moment given in Julian centuries.
+   * Adapted from eq. 47.2 in "Astronomical Algorithms" by Jean Meeus,
+   * Willmann_Bell, Inc., 2nd ed. with corrections, 2005.
+   * @param {float} centuries Julian centuries relative to 2000-01-01
+   * @return {float} lunar elongation
+   */
+  function lunarElongation (centuries) {
+    return degrees (poly (centuries,
+        [ 297.8501921, 445267.1114034, -0.0018819, 1 / 545868, -1 / 113065000 ]));
+  }
+
+  /**
+   * Return mean anomaly of sun (in degrees) at moment given in Julian centuries.
+   * Adapted from eq. 47.3 in "Astronomical Algorithms" by Jean Meeus,
+   * Willmann_Bell, Inc., 2nd ed. with corrections, 2005.
+   * @param {float} centuries Julian centuries relative to 2000-01-01
+   * @return {float} solar anomaly
+   */
+  function solarAnomaly (centuries) {
+    return degrees (poly (centuries,
+        [ 357.5291092, 35999.0502909, -0.0001536, 1 / 24490000 ]));
+  }
+
+  /**
+   * Return mean anomaly of moon (in degrees) at moment given in Julian centuries.
+   * Adapted from eq. 47.4 in "Astronomical Algorithms" by Jean Meeus,
+   * Willmann_Bell, Inc., 2nd ed. with corrections, 2005.
+   * @param {float} centuries Julian centuries relative to 2000-01-01
+   * @return {float} lunar anomaly
+   */
+  function lunarAnomaly (centuries) {
+    return degrees (poly (centuries,
+        [ 134.9633964, 477198.8675055, 0.0087414, 1 / 69699, -1 / 14712000 ]));
+  }
+
+  /**
+   * Return Moon's argument of latitude (in degrees) at moment given in Julian centuries.
+   * Adapted from eq. 47.5 in "Astronomical Algorithms" by Jean Meeus,
+   * Willmann_Bell, Inc., 2nd ed. with corrections, 2005.
+   * @param {float} centuries Julian centuries relative to 2000-01-01
+   * @return {float} moon node
+   */
+  function moonNode (centuries) {
+    return degrees (poly (centuries,
+        [ 93.2720950, 483202.0175233, -0.0036539, -1 / 3526000, 1 / 863310000 ]));
+  }
+
+  /**
+   * Return longitude of moon (in degrees) at moment tee.
+   * Adapted from "Astronomical Algorithms" by Jean Meeus, Willmann_Bell, Inc., 2nd ed., 1998.
+   * @param {float} tee moment in time
+   * @return {float} lunar longitude
+   */
+  function lunarLongitude (tee) {
+      var centuries, capLprime, capD, capM, capMprime, capF, capE, lunarElongationArgs,
+          solarAnomalyArgs, lunarAnomalyArgs, moonNodeArgs, sineCoeff, correction,
+          A1, venus, A2, jupiter, flatEarth;
+
+    centuries = julianCenturies (tee);
+    capLprime = meanLunarLongitude (centuries);
+    capD      = lunarElongation (centuries);
+    capM      = solarAnomaly (centuries);
+    capMprime = lunarAnomaly (centuries);
+    capF      = moonNode (centuries);
+    // see eq. 47.6 in Meeus
+    capE      = poly (centuries, [ 1, -0.002516, -0.0000074 ]);
+
+    lunarElongationArgs = [ 0, 2, 2, 0, 0, 0, 2, 2, 2, 2, 0, 1, 0, 2, 0, 0, 4, 0, 4, 2, 2, 1,
+             1, 2, 2, 4, 2, 0, 2, 2, 1, 2, 0, 0, 2, 2, 2, 4, 0, 3, 2, 4, 0, 2,
+             2, 2, 4, 0, 4, 1, 2, 0, 1, 3, 4, 2, 0, 1, 2 ];
+    solarAnomalyArgs = [ 0, 0, 0, 0, 1, 0, 0, -1, 0, -1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 1,
+             0, 1, -1, 0, 0, 0, 1, 0, -1, 0, -2, 1, 2, -2, 0, 0, -1, 0, 0, 1,
+             -1, 2, 2, 1, -1, 0, 0, -1, 0, 1, 0, 1, 0, 0, -1, 2, 1, 0 ];
+    lunarAnomalyArgs = [ 1, -1, 0, 2, 0, 0, -2, -1, 1, 0, -1, 0, 1, 0, 1, 1, -1, 3, -2,
+             -1, 0, -1, 0, 1, 2, 0, -3, -2, -1, -2, 1, 0, 2, 0, -1, 1, 0,
+             -1, 2, -1, 1, -2, -1, -1, -2, 0, 1, 4, 0, -2, 0, 2, 1, -2, -3,
+             2, 1, -1, 3 ];
+    moonNodeArgs = [ 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, 0, -2, 2, -2, 0, 0, 0, 0, 0,
+             0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 0, 0, 0, 0, -2, 2, 0, 2, 0, 0, 0, 0,
+             0, 0, -2, 0, 0, 0, 0, -2, -2, 0, 0, 0, 0, 0, 0, 0 ];
+    sineCoeff = [ 6288774, 1274027, 658314, 213618, -185116, -114332,
+             58793, 57066, 53322, 45758, -40923, -34720, -30383,
+             15327, -12528, 10980, 10675, 10034, 8548, -7888,
+             -6766, -5163, 4987, 4036, 3994, 3861, 3665, -2689,
+             -2602,  2390, -2348, 2236, -2120, -2069, 2048, -1773,
+             -1595, 1215, -1110, -892, -810, 759, -713, -700, 691,
+             596, 549, 537, 520, -487, -399, -381, 351, -340, 330,
+             327, -323, 299, 294 ];
+    correction = 1 / 1000000 *
+      sigma ([ sineCoeff, lunarElongationArgs, solarAnomalyArgs, lunarAnomalyArgs, moonNodeArgs ],
+        function (v0, w0, x0, y0, z0) {
+            return v0 * Math.pow (capE, Math.abs (x0)) *
+                sinDeg (w0 * capD + x0 * capM + y0 * capMprime + z0 * capF);
+        });
+
+    A1 = 119.75 + centuries * 131.849;
+    venus = 3958 / 1000000 * sinDeg (A1);
+    A2 = 53.09 + centuries * 479264.29;
+    jupiter = 318 / 1000000 * sinDeg (A2);
+    flatEarth = 1962 / 1000000 * sinDeg (capLprime - capF);
+
+    return mod (capLprime + correction + venus +
+               jupiter + flatEarth + nutation (tee), 360);
+  }
+
+  /**
+   * Return the lunar phase, as an angle in degrees, at moment tee.
+   * An angle of
+   *    0 means a new moon
+   *   90 means the first quarter,
+   *  180 means a full moon
+   *  270 degrees means the last quarter
+   * @param {float} tee moment in time
+   * @return {float} lunar phase at tee
+   */
+  function lunarPhase (tee) {
+      var phi, t0, n0, phi2;
+
+    phi  = mod (lunarLongitude (tee) - solarLongitude (tee), 360);
+    t0   = nthNewMoon (0);
+    n0   = Math.round ((tee - t0) / calendar.constants.MEAN_SYNODIC_MONTH);
+    phi2 = 360 * mod ((tee - nthNewMoon (n0)) /
+              calendar.constants.MEAN_SYNODIC_MONTH, 1);
+
+    if (Math.abs (phi - phi2) > 180) {
+        return phi2;
+    }
+
+    return phi;
+  }
+
+  /**
+   * Return the moment UT of last new moon before moment tee.
+   * @param {float} tee moment in time
+   * @return {float} new moon event before tee
+   */
+  function newMoonBefore (tee) {
+    var t0 = nthNewMoon (0),
+        phi = lunarPhase (tee),
+        n0  = Math.round ((tee - t0) / calendar.constants.MEAN_SYNODIC_MONTH - phi / 360);
+
+    return nthNewMoon (final (n0 - 1,
+        function (k0) {
+            return nthNewMoon (k0) < tee;
+        }));
+  }
+
+  /**
+   * Return the moment UT of first new moon at or after moment tee.
+   * @param {float} tee moment in time
+   * @return {float} new moon event before tee
+   */
+  function newMoonAtOrAfter (tee) {
+    var t0 = nthNewMoon (0),
+        phi = lunarPhase (tee),
+        n0  = Math.round ((tee - t0) / calendar.constants.MEAN_SYNODIC_MONTH - phi / 360);
+
+    return nthNewMoon (next (n0,
+        function (k0) {
+            return nthNewMoon (k0) >= tee;
+        }));
+  }
+
+  astro.amod = amod;
+  astro.angle = angle;
+  astro.apparentToLocal = apparentToLocal;
+  // astro.astor = astor;
+  astro.binarySearch = binarySearch;
+  astro.cosDeg = cosDeg;
+  astro.dawn = dawn;
+  astro.degreesToRadians = degreesToRadians;
+  astro.deltat = deltat;
+  astro.dynamicalToUniversal = dynamicalToUniversal;   // only to be tested, required for nutation!
+  astro.ephemerisCorrection = ephemerisCorrection;   // only to be tested!
+  astro.equationOfTime = equationOfTime;
+  astro.equinox = equinox;
   astro.estimatePriorSolarLongitude = estimatePriorSolarLongitude;
+  astro.final = final;
+  // astro.fixAngle;
+  // astro.fixAngleRadians;
+  astro.jhms = jhms;
+  astro.julianCenturies = julianCenturies;   // only to be tested!
+  astro.jwday = jwday;
+  astro.lunarPhase = lunarPhase;
+  astro.midDay = midDay;
+  astro.mod = mod;
+  astro.newMoonAtOrAfter = newMoonAtOrAfter;
+  astro.newMoonBefore = newMoonBefore;
+  astro.next = next;
+  astro.nutation = nutation;   // only to be tested!
+  astro.obliquity = obliquity;   // only to be tested!
+  astro.pad = pad;
+  astro.poly = poly;   // only to be tested!
+  astro.precession = precession;
+  astro.radiansToDegrees = radiansToDegrees;
+  astro.sigma = sigma;   // only to be tested!
+  astro.sinDeg = sinDeg;
+  astro.solarLongitude = solarLongitude;
+  astro.standardToUniversal = standardToUniversal;
+  astro.tanDeg = tanDeg;
 
   return exports;
 }(Calendrical || {}));
