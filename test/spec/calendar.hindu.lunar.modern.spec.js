@@ -12,7 +12,7 @@ describe ("Hindu Lunar Modern calendar spec", function () {
     data4.forEach (function (data) {
         date     = data.hinduLunarNew;
         expected = data.rataDie + cal.constants.J0000;
-        actual   = cal.hinduLunarToJd (date.year, date.month, date.leapMonth, date.day, date.leapDay);
+        actual   = cal.hinduLunarToJd (date.year, date.month, date.monthLeap, date.day, date.dayLeap);
         expect (expected).toEqual (actual);
     });
   });
@@ -20,7 +20,7 @@ describe ("Hindu Lunar Modern calendar spec", function () {
   it ("should convert a Julian day to a Hindu Lunar Modern date", function () {
     data4.forEach (function (data) {
         date     = data.hinduLunarNew;
-        expected = [ date.year, date.month, date.leapMonth, date.day, date.leapDay ];
+        expected = [ date.year, date.month, date.monthLeap, date.day, date.dayLeap ];
         actual   = cal.jdToHinduLunar (data.rataDie + cal.constants.J0000);
 
         expect (expected).toEqual (actual);

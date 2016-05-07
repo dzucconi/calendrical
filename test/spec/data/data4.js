@@ -39,23 +39,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": -529,
       "month": 6,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 11,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": -529,
       "month": 6,
-      "leapMonth": true,
+      "monthLeap": true,
       "day": 11,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": -459,
       "month": 8,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 11,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -96,23 +96,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": -111,
       "month": 9,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 27,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": -111,
       "month": 9,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 27,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": -41,
       "month": 12,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 27,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -153,23 +153,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 127,
       "month": 8,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 3,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 127,
       "month": 8,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 3,
-      "leapDay": true
+      "dayLeap": true
     },
     "tibetan": {
       "year": 197,
       "month": 10,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 3,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -210,23 +210,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 192,
       "month": 8,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 9,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 192,
       "month": 8,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 9,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 262,
       "month": 10,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 9,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -267,23 +267,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 526,
       "month": 11,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 19,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 526,
       "month": 10,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 20,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 596,
       "month": 12,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 19,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -324,23 +324,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 633,
       "month": 3,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 5,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 633,
       "month": 3,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 5,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 703,
       "month": 5,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 4,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -381,23 +381,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 751,
       "month": 9,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 15,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 751,
       "month": 8,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 15,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 821,
       "month": 10,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 15,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -438,23 +438,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1070,
       "month": 2,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 6,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1070,
       "month": 2,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 6,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 1140,
       "month": 4,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 6,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -495,23 +495,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1153,
       "month": 3,
-      "leapMonth": true,
+      "monthLeap": true,
       "day": 23,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1153,
       "month": 2,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 23,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 1223,
       "month": 4,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 23,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -552,23 +552,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1247,
       "month": 1,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 8,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1247,
       "month": 1,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 8,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 1317,
       "month": 3,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 8,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -609,23 +609,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1297,
       "month": 1,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 8,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1296,
       "month": 12,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 8,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 1367,
       "month": 2,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 8,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -666,23 +666,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1345,
       "month": 1,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 22,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1345,
       "month": 1,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 23,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 1415,
       "month": 2,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 22,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -723,23 +723,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1355,
       "month": 2,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 8,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1355,
       "month": 2,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 8,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 1425,
       "month": 4,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 8,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -780,23 +780,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1448,
       "month": 4,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 1,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1448,
       "month": 4,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 1,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 1518,
       "month": 5,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 1,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -837,23 +837,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1492,
       "month": 11,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 7,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1492,
       "month": 11,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 7,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 1563,
       "month": 1,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 7,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -894,23 +894,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1549,
       "month": 2,
-      "leapMonth": true,
+      "monthLeap": true,
       "day": 3,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1549,
       "month": 2,
-      "leapMonth": true,
+      "monthLeap": true,
       "day": 4,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 1619,
       "month": 3,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 3,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -951,23 +951,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1610,
       "month": 7,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 2,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1610,
       "month": 7,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 2,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 1680,
       "month": 8,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 2,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -1008,23 +1008,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1616,
       "month": 11,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 28,
-      "leapDay": true
+      "dayLeap": true
     },
     "hinduLunarAstro": {
       "year": 1616,
       "month": 11,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 29,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 1687,
       "month": 1,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 29,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -1065,23 +1065,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1705,
       "month": 3,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 20,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1705,
       "month": 3,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 20,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 1775,
       "month": 4,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 20,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -1122,23 +1122,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1737,
       "month": 4,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 4,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1737,
       "month": 4,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 5,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 1807,
       "month": 6,
-      "leapMonth": true,
+      "monthLeap": true,
       "day": 4,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -1179,23 +1179,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1773,
       "month": 5,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 6,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1773,
       "month": 5,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 6,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 1843,
       "month": 6,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 6,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -1236,23 +1236,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1825,
       "month": 4,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 5,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1825,
       "month": 4,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 5,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 1895,
       "month": 5,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 5,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -1293,23 +1293,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1876,
       "month": 5,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 11,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1876,
       "month": 5,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 11,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 1946,
       "month": 6,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 11,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -1350,23 +1350,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1896,
       "month": 1,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 13,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1896,
       "month": 1,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 13,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 1966,
       "month": 2,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 13,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -1407,23 +1407,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1960,
       "month": 1,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 22,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1960,
       "month": 1,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 22,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 2030,
       "month": 2,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 22,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -1464,23 +1464,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1986,
       "month": 5,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 20,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1986,
       "month": 5,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 20,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 2056,
       "month": 7,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 20,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -1521,23 +1521,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 1998,
       "month": 7,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 9,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 1998,
       "month": 7,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 9,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 2068,
       "month": 8,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 9,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -1578,23 +1578,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 2000,
       "month": 1,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 14,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 2000,
       "month": 1,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 14,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 2070,
       "month": 3,
-      "leapMonth": true,
+      "monthLeap": true,
       "day": 14,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -1635,23 +1635,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 2000,
       "month": 7,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 8,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 2000,
       "month": 7,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 8,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 2070,
       "month": 8,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 8,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -1692,23 +1692,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 2048,
       "month": 12,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 14,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 2048,
       "month": 12,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 14,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 2119,
       "month": 1,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 14,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -1749,23 +1749,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 2052,
       "month": 12,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 7,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 2052,
       "month": 12,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 7,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 2123,
       "month": 1,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 7,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -1806,23 +1806,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 2095,
       "month": 8,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 14,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 2095,
       "month": 8,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 14,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 2165,
       "month": 9,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 14,
-      "leapDay": false
+      "dayLeap": false
     }
   },
   {
@@ -1863,23 +1863,23 @@ var data4 = [
     "hinduLunarNew": {
       "year": 2151,
       "month": 4,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 6,
-      "leapDay": false
+      "dayLeap": false
     },
     "hinduLunarAstro": {
       "year": 2151,
       "month": 4,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 6,
-      "leapDay": false
+      "dayLeap": false
     },
     "tibetan": {
       "year": 2221,
       "month": 6,
-      "leapMonth": false,
+      "monthLeap": false,
       "day": 6,
-      "leapDay": false
+      "dayLeap": false
     }
   }
 ];
