@@ -1,8 +1,3 @@
-/* eslint
-  func-style: [ "error", "declaration" ],
-  max-statements: [ "error", 16, { "ignoreTopLevelFunctions": true } ],
-  no-use-before-define: [ "error", { "functions": true, "classes": true } ] */
-
 "use strict";
 
 var Calendrical = (function (exports) {

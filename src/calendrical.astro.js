@@ -1,9 +1,4 @@
-/* eslint
-  func-style: [ "error", "declaration" ],
-  max-statements: [ "error", 21, { "ignoreTopLevelFunctions": true } ],
-  no-use-before-define: [ "error", { "functions": true, "classes": true } ],
-  max-params: [ "error", 5 ]
-*/
+/* eslint "max-params": [ "error", 5 ] */
 
 "use strict";
 
