@@ -17,16 +17,16 @@ describe ("Astro spec", function () {
 
   it ("should calculate a polynomial", function () {
     expect (astro.poly (1, [
-        -0.00002, 0.000297, 0.025184, -0.181133,
-         0.553040, -0.861938, 0.677066, -0.212591 ])).toBeCloseTo (-0.000095, 6);
+      -0.00002, 0.000297, 0.025184, -0.181133,
+      0.553040, -0.861938, 0.677066, -0.212591 ])).toBeCloseTo (-0.000095, 6);
 
     expect (astro.poly (50, [
-       -0.00002, 0.000297, 0.025184, -0.181133,
-        0.553040, -0.861938, 0.677066, -0.212591 ])).toEqual (-1.557734842036502e+11);
+      -0.00002, 0.000297, 0.025184, -0.181133,
+      0.553040, -0.861938, 0.677066, -0.212591 ])).toEqual (-1.557734842036502e+11);
 
-     expect (astro.poly (7000, [
-        -0.00002, 0.000297, 0.025184, -0.181133,
-         0.553040, -0.861938, 0.677066, -0.212591 ])).toEqual (-1.749981882604302e+26);
+    expect (astro.poly (7000, [
+      -0.00002, 0.000297, 0.025184, -0.181133,
+      0.553040, -0.861938, 0.677066, -0.212591 ])).toEqual (-1.749981882604302e+26);
   });
 
   it ("should calculate a Julian centuries relative to 2000-01-01", function () {
@@ -73,30 +73,30 @@ describe ("Astro spec", function () {
   });
 
   it ("should sort an array with binary search", function () {
-      var fMinusY, predicate, discriminator, func,
-          y1 = 1.0;
+    var fMinusY, predicate, discriminator, func,
+        y1 = 1.0;
 
-      func = function (arg) {
-          return arg;
-      };
+    func = function (arg) {
+      return arg;
+    };
 
-      fMinusY = function (x0, y0) {
-          return func (x0) - y0;
-      };
+    fMinusY = function (x0, y0) {
+      return func (x0) - y0;
+    };
 
-      predicate = function (a0, b0) {
-          return Math.abs (fMinusY ((a0 + b0) / 2, y1)) <= 1e-5;
-      };
+    predicate = function (a0, b0) {
+      return Math.abs (fMinusY ((a0 + b0) / 2, y1)) <= 1e-5;
+    };
 
-      discriminator = function (x0) {
-          return fMinusY (x0, y1) >= 0;
-      };
+    discriminator = function (x0) {
+      return fMinusY (x0, y1) >= 0;
+    };
 
     expect (astro.binarySearch (0.0, 3.1, predicate, discriminator)).toBeCloseTo (1.0, 4);
 
     y1 = 0.0;
     func = function (x0) {
-        return x0 * x0 - 4 * x0 + 4;
+      return x0 * x0 - 4 * x0 + 4;
     };
 
     expect (astro.binarySearch (1.5, 2.5, predicate, discriminator)).toBeCloseTo (2.0, 4);

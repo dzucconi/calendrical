@@ -24,7 +24,7 @@ var Calendrical = (function (exports) {
 
   // Determine Julian day number from Gregorian calendar date
   calendar.gregorianToJd = function (year, month, day) {
-      var y1 = year - 1;
+    var y1 = year - 1;
 
     return cons.gregorian.EPOCH - 1 + 365 * y1 +
       Math.floor (y1 / 4) -
@@ -50,7 +50,7 @@ var Calendrical = (function (exports) {
     year       = quadricent * 400 + cent * 100 + quad * 4 + yindex;
 
     if (cent !== 4 && yindex !== 4) {
-        year += 1;
+      year += 1;
     }
 
     return year;
@@ -71,7 +71,7 @@ var Calendrical = (function (exports) {
   };
 
   calendar.gregorianDateDifference = function (date1, date2) {
-      return this.gregorianToJd (date2) - this.gregorianToJd (date1);
+    return this.gregorianToJd (date2) - this.gregorianToJd (date1);
   };
 
   // Return Julian day of given ISO year, week, and day
@@ -89,7 +89,7 @@ var Calendrical = (function (exports) {
 
   calendar.isoToJulian = function (year, week, day) {
     return day + this.nWeeks (0, this.gregorianToJd (year - 1, 12, 28), week);
- };
+  };
 
   // Return array of ISO (year, week, day) for Julian day
   calendar.jdToIso = function (jd) {
@@ -98,14 +98,14 @@ var Calendrical = (function (exports) {
     year = this.jdToGregorian (jd - 3)[0];
 
     if (jd >= this.isoToJulian (year + 1, 1, 1)) {
-        year += 1;
+      year += 1;
     }
 
     week = Math.floor ((jd - this.isoToJulian (year, 1, 1)) / 7) + 1;
     day  = astro.jwday (jd);
 
     if (day === 0) {
-        day = 7;
+      day = 7;
     }
 
     return [ year, week, day ];
@@ -132,12 +132,12 @@ var Calendrical = (function (exports) {
   };
 
   calendar.julianToJd = function (year, month, day) {
-      var y0 = year,
-          m0 = month;
+    var y0 = year,
+        m0 = month;
 
     // Adjust negative common era years to the zero-based notation we use.
     if (y0 < 1) {
-        y0 += 1;
+      y0 += 1;
     }
 
     // Algorithm as given in *Meeus, **Astronomical Algorithms**, Chapter 7, page 61*
@@ -168,7 +168,7 @@ var Calendrical = (function (exports) {
     // a zero based date system to the common era system in
     // which the year -1 (1 B.C.E) is followed by year 1 (1 C.E.).
     if (year < 1) {
-        year -= 1;
+      year -= 1;
     }
 
     return [ year, month, day ];
@@ -338,7 +338,7 @@ var Calendrical = (function (exports) {
   // **[1]** Julian day number containing equinox for this year.
   calendar.anneeDaLaRevolution = function (jd) {
     var guess = this.jdToGregorian (jd)[0] - 2,
-      lasteq, nexteq, adr;
+        lasteq, nexteq, adr;
 
     lasteq = this.parisEquinoxeJd (guess);
 
@@ -469,7 +469,7 @@ var Calendrical = (function (exports) {
   // **[1]** Julian day number containing equinox for this year.
   calendar.lastTehranEquinox = function (jd, epoch) {
     var guess = this.jdToGregorian (jd)[0] - 2,
-      lasteq, nexteq, adr;
+        lasteq, nexteq, adr;
 
     lasteq = this.tehranEquinoxJd (guess);
 
@@ -494,11 +494,11 @@ var Calendrical = (function (exports) {
   // Obtain Julian day from a given Persian
   // arithmetic calendar date.
   calendar.persianArithmeticToJd = function (year, month, day) {
-      var y0     = year > 0 ? year - 474 : year - 473,
-          y1     = astro.mod (y0, 2820) + 474,
-          offset = month <= 7 ? 31 * (month - 1) : 30 * (month - 1) + 6;
+    var y0     = year > 0 ? year - 474 : year - 473,
+        y1     = astro.mod (y0, 2820) + 474,
+        offset = month <= 7 ? 31 * (month - 1) : 30 * (month - 1) + 6;
 
-      return cons.persian.EPOCH - 1 +
+    return cons.persian.EPOCH - 1 +
               1029983 * Math.floor (y0 / 2820) +
               365 * (y1 - 1) +
               Math.floor ((31 * y1 - 5) / 128) +
@@ -523,45 +523,45 @@ var Calendrical = (function (exports) {
   // Calculate date in the Persian astronomical
   // calendar from Julian day.
   calendar.jdToPersianArithmetic = function (jd) {
-      var year, month, yDay, day;
+    var year, month, yDay, day;
 
-      year  = this.jdToPersianArithmeticYear (jd);
-      yDay  = jd - this.persianArithmeticToJd (year, 1, 1) + 1;
+    year  = this.jdToPersianArithmeticYear (jd);
+    yDay  = jd - this.persianArithmeticToJd (year, 1, 1) + 1;
 
-      if (yDay <= 186) {
-          month = Math.ceil (yDay / 31);
-          day   = astro.amod (yDay, 31);
-      } else {
-          yDay -= 6;
-          month = Math.ceil (yDay / 30);
-          day   = astro.amod (yDay, 30);
-      }
+    if (yDay <= 186) {
+      month = Math.ceil (yDay / 31);
+      day   = astro.amod (yDay, 31);
+    } else {
+      yDay -= 6;
+      month = Math.ceil (yDay / 30);
+      day   = astro.amod (yDay, 30);
+    }
 
-      return [ year, month, day ];
+    return [ year, month, day ];
   };
 
   // Is a given year a leap year in the Persian arithmetic alendar?
   calendar.leapPersianArithmetic = function (year) {
-      var y0 = year > 0 ? year - 474 : year - 473,
-          y1 = astro.mod (y0, 2820) + 474;
+    var y0 = year > 0 ? year - 474 : year - 473,
+        y1 = astro.mod (y0, 2820) + 474;
 
-      return astro.mod ((y1 + 38) * 31, 128) < 31;
+    return astro.mod ((y1 + 38) * 31, 128) < 31;
   };
 
   // Return  Universal time of midday on fixed date, date, in Tehran
   calendar.midDayInTehran = function (date) {
-      return astro.standardToUniversal (
+    return astro.standardToUniversal (
           astro.midDay (date, cons.persian.TEHRAN_LOCATION),
           cons.persian.TEHRAN_LOCATION);
   };
 
   // Return the fixed date of Astronomical Persian New Year on or before fixed date
   calendar.persianNewYearOnOrBefore = function (date) {
-      var approx = astro.estimatePriorSolarLongitude (cons.SPRING, this.midDayInTehran (date));
+    var approx = astro.estimatePriorSolarLongitude (cons.SPRING, this.midDayInTehran (date));
 
-      return astro.next (Math.floor (approx) - 1, function (day) {
-          return astro.solarLongitude (calendar.midDayInTehran (day)) <= cons.SPRING + 2;
-      });
+    return astro.next (Math.floor (approx) - 1, function (day) {
+      return astro.solarLongitude (calendar.midDayInTehran (day)) <= cons.SPRING + 2;
+    });
   };
 
   // Determine Julian day from Persian astronomical date
@@ -580,7 +580,7 @@ var Calendrical = (function (exports) {
   // Calculate Persian date from Julian day
   calendar.jdToPersian = function (jd) {
     var year, month, day, depoch, cycle, cyear, ycycle,
-      aux1, aux2, yday;
+        aux1, aux2, yday;
 
     depoch = jd - this.persianToJd (475, 1, 1);
     cycle  = Math.floor (depoch / 1029983);
@@ -597,18 +597,18 @@ var Calendrical = (function (exports) {
     year = ycycle + 2820 * cycle + 474;
 
     if (year <= 0) {
-        year -= 1;
+      year -= 1;
     }
 
     yday  = jd - this.persianToJd (year, 1, 1) + 1;
 
     if (yday <= 186) {
-        month = Math.ceil (yday / 31);
-        day   = astro.amod (yday, 31);
+      month = Math.ceil (yday / 31);
+      day   = astro.amod (yday, 31);
     } else {
-        yday -= 6;
-        month = Math.ceil (yday / 30);
-        day   = astro.amod (yday, 30);
+      yday -= 6;
+      month = Math.ceil (yday / 30);
+      day   = astro.amod (yday, 30);
     }
 
     return [ year, month, day ];
@@ -672,7 +672,7 @@ var Calendrical = (function (exports) {
   // **[0]** Bahai year
   // **[1]** Julian day number containing equinox for this year.
   calendar.bahaiYear = function (jd) {
-     return this.lastTehranEquinox (jd, cons.bahai.EPOCH);
+    return this.lastTehranEquinox (jd, cons.bahai.EPOCH);
   };
 
   // Bahai uses same leap rule as Gregorian until 171 Bahai Era
@@ -712,11 +712,11 @@ var Calendrical = (function (exports) {
     }
 
     if (month === 0) {
-        yearDays = 342;
+      yearDays = 342;
     } else if (month === 19) {
-        yearDays = 342 + (leap ? 5 : 4);
+      yearDays = 342 + (leap ? 5 : 4);
     } else {
-        yearDays = (month - 1) * 19;
+      yearDays = (month - 1) * 19;
     }
 
     return jd + yearDays + day;
@@ -752,14 +752,14 @@ var Calendrical = (function (exports) {
     }
 
     if (days <= 18 * 19) {
-        month = 1 + Math.floor ((days - 1) / 19);
-        day   = astro.amod (days, 19);
+      month = 1 + Math.floor ((days - 1) / 19);
+      day   = astro.amod (days, 19);
     } else if (days > 18 * 19 + leapDays) {
-        month = 19;
-        day   = astro.amod (days - leapDays - 1, 19);
+      month = 19;
+      day   = astro.amod (days - leapDays - 1, 19);
     } else {
-        month = 0;
-        day   = days - 18 * 19;
+      month = 0;
+      day   = days - 18 * 19;
     }
 
     return [ major, vahid, year, month, day ];
@@ -771,18 +771,18 @@ var Calendrical = (function (exports) {
    * @return {float} Hindu day count
    */
   function jdToHinduDayCount (jd) {
-     return jd - cons.hindu.EPOCH;
+    return jd - cons.hindu.EPOCH;
   }
 
   calendar.jdToHinduSolarOld = function (jd) {
-     var sun, year, month, day;
+    var sun, year, month, day;
 
-     sun = jdToHinduDayCount (jd) + 0.25;
-     year = Math.floor (sun / cons.ARYA_SOLAR_YEAR);
-     month = astro.mod (Math.floor (sun / cons.ARYA_SOLAR_MONTH), 12) + 1;
-     day = Math.floor (astro.mod (sun, cons.ARYA_SOLAR_MONTH)) + 1;
+    sun = jdToHinduDayCount (jd) + 0.25;
+    year = Math.floor (sun / cons.ARYA_SOLAR_YEAR);
+    month = astro.mod (Math.floor (sun / cons.ARYA_SOLAR_MONTH), 12) + 1;
+    day = Math.floor (astro.mod (sun, cons.ARYA_SOLAR_MONTH)) + 1;
 
-     return [ year, month, day ];
+    return [ year, month, day ];
   };
 
   calendar.hinduSolarOldToJd = function (year, month, day) {
@@ -791,18 +791,18 @@ var Calendrical = (function (exports) {
   };
 
   calendar.jdToHinduLunarOld = function (jd) {
-     var sun, newMoon, leap, year, month, day;
+    var sun, newMoon, leap, year, month, day;
 
-     sun = jdToHinduDayCount (jd) + 0.25;
-     newMoon = sun - astro.mod (sun, cons.ARYA_LUNAR_MONTH);
-     leap = cons.ARYA_SOLAR_MONTH - cons.ARYA_LUNAR_MONTH >=
+    sun = jdToHinduDayCount (jd) + 0.25;
+    newMoon = sun - astro.mod (sun, cons.ARYA_LUNAR_MONTH);
+    leap = cons.ARYA_SOLAR_MONTH - cons.ARYA_LUNAR_MONTH >=
              astro.mod (newMoon, cons.ARYA_SOLAR_MONTH) &&
              astro.mod (newMoon, cons.ARYA_SOLAR_MONTH) > 0;
-     month = astro.mod (Math.ceil (newMoon / cons.ARYA_SOLAR_MONTH), 12) + 1;
-     day = astro.mod (Math.floor (sun / cons.ARYA_LUNAR_DAY), 30) + 1;
-     year = Math.ceil ((newMoon + cons.ARYA_SOLAR_MONTH) / cons.ARYA_SOLAR_YEAR) - 1;
+    month = astro.mod (Math.ceil (newMoon / cons.ARYA_SOLAR_MONTH), 12) + 1;
+    day = astro.mod (Math.floor (sun / cons.ARYA_LUNAR_DAY), 30) + 1;
+    year = Math.ceil ((newMoon + cons.ARYA_SOLAR_MONTH) / cons.ARYA_SOLAR_YEAR) - 1;
 
-     return [ year, month, leap, day ];
+    return [ year, month, leap, day ];
   };
 
   calendar.hinduLunarOldToJd = function (date) {
@@ -818,9 +818,9 @@ var Calendrical = (function (exports) {
     temp = Math.ceil ((lunarNewYear - mina) / (cons.ARYA_SOLAR_MONTH - cons.ARYA_LUNAR_MONTH));
 
     if (leap || temp > month) {
-        temp = month - 1;
+      temp = month - 1;
     } else {
-        temp = month;
+      temp = month;
     }
 
     return Math.ceil (cons.hindu.EPOCH + lunarNewYear + cons.ARYA_LUNAR_MONTH * temp +
@@ -829,7 +829,7 @@ var Calendrical = (function (exports) {
 
   // Is an Old Hindu Lunar year leap ?
   calendar.leapHinduLunarOld = function (year) {
-      return astro.mod (year * cons.ARYA_SOLAR_YEAR - cons.ARYA_SOLAR_MONTH,
+    return astro.mod (year * cons.ARYA_SOLAR_YEAR - cons.ARYA_SOLAR_MONTH,
                  cons.ARYA_LUNAR_MONTH) >= 23902504679 / 1282400064;
   };
 
@@ -891,7 +891,7 @@ var Calendrical = (function (exports) {
    * @return {float} position in degrees
    */
   function hinduMeanPosition (tee, period) {
-      return 360 * astro.mod ((tee - cons.hindu.CREATION) / period, 1);
+    return 360 * astro.mod ((tee - cons.hindu.CREATION) / period, 1);
   }
 
   /**
@@ -904,14 +904,14 @@ var Calendrical = (function (exports) {
    * @return {float} position at tee
    */
   function hinduTruePosition (tee, period, size, anomalistic, change) {
-      var lambda, offset, contraction, equation;
+    var lambda, offset, contraction, equation;
 
-      lambda      = hinduMeanPosition (tee, period);
-      offset      = hinduSine (hinduMeanPosition (tee, anomalistic));
-      contraction = Math.abs (offset) * change * size;
-      equation    = hinduArcsin (offset * (size - contraction));
+    lambda      = hinduMeanPosition (tee, period);
+    offset      = hinduSine (hinduMeanPosition (tee, anomalistic));
+    contraction = Math.abs (offset) * change * size;
+    equation    = hinduArcsin (offset * (size - contraction));
 
-      return astro.mod (lambda - equation, 360);
+    return astro.mod (lambda - equation, 360);
   }
 
   /**
@@ -932,12 +932,12 @@ var Calendrical = (function (exports) {
    * @return {float} tropical longitude at jd
    */
   function hinduTropicalLongitude (jd) {
-      var days, precession;
+    var days, precession;
 
-      days       = Math.floor (jd - cons.hindu.EPOCH_RD);
-      precession = 27 - Math.abs (54 - astro.mod (27 + 108 * 600 / 1577917828 * days, 108));
+    days       = Math.floor (jd - cons.hindu.EPOCH_RD);
+    precession = 27 - Math.abs (54 - astro.mod (27 + 108 * 600 / 1577917828 * days, 108));
 
-      return astro.mod (hinduSolarLongitude (jd) - precession, 360);
+    return astro.mod (hinduSolarLongitude (jd) - precession, 360);
   }
 
    /**
@@ -946,16 +946,16 @@ var Calendrical = (function (exports) {
     * @param {location} location geo-location
     * @return {float} difference
     */
-   function hinduAscensionalDifference (jd, location) {
-      var sinDelta, phi, diurnal, tanPhi, earthSine;
+  function hinduAscensionalDifference (jd, location) {
+    var sinDelta, phi, diurnal, tanPhi, earthSine;
 
-      sinDelta  = 1397 / 3438 * hinduSine (hinduTropicalLongitude (jd));
-      phi       = location[0];
-      diurnal   = hinduSine (90 + hinduArcsin (sinDelta));
-      tanPhi    = hinduSine (phi) / hinduSine (90 + phi);
-      earthSine = sinDelta * tanPhi;
+    sinDelta  = 1397 / 3438 * hinduSine (hinduTropicalLongitude (jd));
+    phi       = location[0];
+    diurnal   = hinduSine (90 + hinduArcsin (sinDelta));
+    tanPhi    = hinduSine (phi) / hinduSine (90 + phi);
+    earthSine = sinDelta * tanPhi;
 
-      return hinduArcsin (-earthSine / diurnal);
+    return hinduArcsin (-earthSine / diurnal);
   }
 
   /**
@@ -964,9 +964,9 @@ var Calendrical = (function (exports) {
    * @return {float} speed
    */
   function hinduRisingSign (jd) {
-      var index = astro.mod (Math.floor (hinduTropicalLongitude (jd) / 30), 6);
+    var index = astro.mod (Math.floor (hinduTropicalLongitude (jd) / 30), 6);
 
-      return [ 1670, 1795, 1935, 1935, 1795, 1670 ][index] / 1800;
+    return [ 1670, 1795, 1935, 1935, 1795, 1670 ][index] / 1800;
   }
 
   /**
@@ -975,16 +975,16 @@ var Calendrical = (function (exports) {
    * @return {float} daily motion
    */
   function hinduDailyMotion (jd) {
-      var motion, anomaly, epicycle, entry, step, factor;
+    var motion, anomaly, epicycle, entry, step, factor;
 
-      motion   = 360 / cons.hindu.SIDEREAL_YEAR;
-      anomaly  = hinduMeanPosition (jd, cons.hindu.ANOMALISTIC_YEAR);
-      epicycle = 14 / 360 - Math.abs (hinduSine (anomaly)) / 1080;
-      entry    = Math.floor (anomaly / astro.angle (0, 225, 0));
-      step     = hinduSineTable (entry + 1) - hinduSineTable (entry);
-      factor   = -3438 / 225 * step * epicycle;
+    motion   = 360 / cons.hindu.SIDEREAL_YEAR;
+    anomaly  = hinduMeanPosition (jd, cons.hindu.ANOMALISTIC_YEAR);
+    epicycle = 14 / 360 - Math.abs (hinduSine (anomaly)) / 1080;
+    entry    = Math.floor (anomaly / astro.angle (0, 225, 0));
+    step     = hinduSineTable (entry + 1) - hinduSineTable (entry);
+    factor   = -3438 / 225 * step * epicycle;
 
-      return motion * (factor + 1);
+    return motion * (factor + 1);
   }
 
   /**
@@ -993,12 +993,12 @@ var Calendrical = (function (exports) {
    * @return {float} time
    */
   function hinduEquationOfTime (jd) {
-      var offset, equationSun;
+    var offset, equationSun;
 
-      offset = hinduSine (hinduMeanPosition (jd, cons.hindu.ANOMALISTIC_YEAR));
-      equationSun = offset * astro.angle (57, 18, 0) * (14 / 360 - Math.abs (offset) / 1080);
+    offset = hinduSine (hinduMeanPosition (jd, cons.hindu.ANOMALISTIC_YEAR));
+    equationSun = offset * astro.angle (57, 18, 0) * (14 / 360 - Math.abs (offset) / 1080);
 
-      return hinduDailyMotion (jd) / 360 * equationSun / 360 * cons.hindu.SIDEREAL_YEAR;
+    return hinduDailyMotion (jd) / 360 * equationSun / 360 * cons.hindu.SIDEREAL_YEAR;
   }
 
   /**
@@ -1007,7 +1007,7 @@ var Calendrical = (function (exports) {
    * @return {float} difference
    */
   function hinduSolarSiderealDifference (jd) {
-      return hinduDailyMotion (jd) * hinduRisingSign (jd);
+    return hinduDailyMotion (jd) * hinduRisingSign (jd);
   }
 
   /**
@@ -1016,7 +1016,7 @@ var Calendrical = (function (exports) {
    * @return {float} time
    */
   function hinduSunrise (jd) {
-      return jd + 0.25 - hinduEquationOfTime (jd) + 1577917828 / 1582237828 / 360 *
+    return jd + 0.25 - hinduEquationOfTime (jd) + 1577917828 / 1582237828 / 360 *
                (hinduAscensionalDifference (jd, cons.hindu.UJJAIN_LOCATION) +
                 hinduSolarSiderealDifference (jd) / 4);
   }
@@ -1027,7 +1027,7 @@ var Calendrical = (function (exports) {
    * @return {int} zodiac
    */
   function hinduZodiac (tee) {
-      return Math.floor (hinduSolarLongitude (tee) / 30) + 1;
+    return Math.floor (hinduSolarLongitude (tee) / 30) + 1;
   }
 
   /**
@@ -1046,7 +1046,7 @@ var Calendrical = (function (exports) {
    * @return {float} distance
    */
   function hinduLunarPhase (tee) {
-      return astro.mod (
+    return astro.mod (
           hinduLunarLongitude (tee) - hinduSolarLongitude (tee), 360);
   }
 
@@ -1056,7 +1056,7 @@ var Calendrical = (function (exports) {
    * @return {int} day in the Hindu lunar cycle
    */
   function hinduLunarDayFromMoment (tee) {
-      return Math.floor (hinduLunarPhase (tee) / 12) + 1;
+    return Math.floor (hinduLunarPhase (tee) / 12) + 1;
   }
 
   /**
@@ -1065,7 +1065,7 @@ var Calendrical = (function (exports) {
    * @return {int} solar year
    */
   function hinduCalendarYear (tee) {
-      return Math.round ((tee - cons.hindu.EPOCH_RD) / cons.hindu.SIDEREAL_YEAR -
+    return Math.round ((tee - cons.hindu.EPOCH_RD) / cons.hindu.SIDEREAL_YEAR -
                  hinduSolarLongitude (tee) / 360);
   }
 
@@ -1081,62 +1081,62 @@ var Calendrical = (function (exports) {
 
     return astro.binarySearch (tau - 1, Math.min (tee, tau + 1),
         function (lower, upper) {
-             return hinduZodiac (lower) === hinduZodiac (upper) || upper - lower < eps;
+          return hinduZodiac (lower) === hinduZodiac (upper) || upper - lower < eps;
         },
         function (x0) {
-             return hinduLunarPhase (x0) < 180;
+          return hinduLunarPhase (x0) < 180;
         });
   }
 
   calendar.jdToHinduSolar = function (jd) {
-      var jd0, critical, month, year, day, approx, begin;
+    var jd0, critical, month, year, day, approx, begin;
 
-      jd0      = jd - cons.J0000;
-      critical = hinduSunrise (jd0 + 1);
-      month    = hinduZodiac (critical);
-      year     = hinduCalendarYear (critical) - cons.hindu.SOLAR_ERA;
-      approx   = jd0 - 3 - astro.mod (Math.floor (hinduSolarLongitude (critical)), 30);
+    jd0      = jd - cons.J0000;
+    critical = hinduSunrise (jd0 + 1);
+    month    = hinduZodiac (critical);
+    year     = hinduCalendarYear (critical) - cons.hindu.SOLAR_ERA;
+    approx   = jd0 - 3 - astro.mod (Math.floor (hinduSolarLongitude (critical)), 30);
 
-      begin    = astro.next (approx, function (index) {
-          return hinduZodiac (hinduSunrise (index + 1)) === month;
-      });
+    begin    = astro.next (approx, function (index) {
+      return hinduZodiac (hinduSunrise (index + 1)) === month;
+    });
 
-      day      = jd0 - begin + 1;
+    day      = jd0 - begin + 1;
 
-      return [ year, month, day ];
+    return [ year, month, day ];
   };
 
   calendar.hinduSolarToJd = function (year, month, day) {
-      var begin = Math.floor ((year + cons.hindu.SOLAR_ERA +
+    var begin = Math.floor ((year + cons.hindu.SOLAR_ERA +
                  (month - 1) / 12) * cons.hindu.SIDEREAL_YEAR + cons.hindu.EPOCH_RD);
 
-      return day - 1 + astro.next (begin - 3, function (param) {
-          var zodiac, sunrise;
+    return day - 1 + astro.next (begin - 3, function (param) {
+      var zodiac, sunrise;
 
-          sunrise = hinduSunrise (param + 1);
-          zodiac = hinduZodiac (sunrise);
+      sunrise = hinduSunrise (param + 1);
+      zodiac = hinduZodiac (sunrise);
 
-          return zodiac === month;
-      }) + cons.J0000;
+      return zodiac === month;
+    }) + cons.J0000;
   };
 
   // Return the Hindu lunar date, new_moon scheme, equivalent to fixed date
   calendar.jdToHinduLunar = function (jd) {
-      var jd0, critical, day, dayLeap, lastNewMoon, nextNewMoon, monthSolar,
-          monthLeap, month, year;
+    var jd0, critical, day, dayLeap, lastNewMoon, nextNewMoon, monthSolar,
+        monthLeap, month, year;
 
-      jd0      = jd - cons.J0000;
-      critical = hinduSunrise (jd0);
-      day      = hinduLunarDayFromMoment (critical);
-      dayLeap  = day === hinduLunarDayFromMoment (hinduSunrise (jd0 - 1));
-      lastNewMoon = hinduNewMoonBefore (critical);
-      nextNewMoon = hinduNewMoonBefore (Math.floor (lastNewMoon) + 35);
-      monthSolar  = hinduZodiac (lastNewMoon);
-      monthLeap   = monthSolar === hinduZodiac (nextNewMoon);
-      month    = astro.amod (monthSolar + 1, 12);
-      year     = hinduCalendarYear (month <= 2 ? jd0 + 180 : jd0) - cons.hindu.LUNAR_ERA;
+    jd0      = jd - cons.J0000;
+    critical = hinduSunrise (jd0);
+    day      = hinduLunarDayFromMoment (critical);
+    dayLeap  = day === hinduLunarDayFromMoment (hinduSunrise (jd0 - 1));
+    lastNewMoon = hinduNewMoonBefore (critical);
+    nextNewMoon = hinduNewMoonBefore (Math.floor (lastNewMoon) + 35);
+    monthSolar  = hinduZodiac (lastNewMoon);
+    monthLeap   = monthSolar === hinduZodiac (nextNewMoon);
+    month    = astro.amod (monthSolar + 1, 12);
+    year     = hinduCalendarYear (month <= 2 ? jd0 + 180 : jd0) - cons.hindu.LUNAR_ERA;
 
-      return [ year, month, monthLeap, day, dayLeap ];
+    return [ year, month, monthLeap, day, dayLeap ];
   };
 
   calendar.hinduLunarToJd = function (year, month, monthLeap, day, dayLeap) {
@@ -1149,29 +1149,29 @@ var Calendrical = (function (exports) {
     k0     = hinduLunarDayFromMoment (s0 + 0.25);
 
     if (k0 > 3 && k0 < 27) {
-        temp = k0;
+      temp = k0;
     } else {
-        mid = calendar.jdToHinduLunar (s0 - 15 + cons.J0000);
+      mid = calendar.jdToHinduLunar (s0 - 15 + cons.J0000);
 
-        if (mid[1] !== month || (mid[2] && !monthLeap)) {
-            temp = astro.mod (k0 + 15, 30) - 15;
-        } else {
-            temp = astro.mod (k0 - 15, 30) + 15;
-        }
+      if (mid[1] !== month || (mid[2] && !monthLeap)) {
+        temp = astro.mod (k0 + 15, 30) - 15;
+      } else {
+        temp = astro.mod (k0 - 15, 30) + 15;
+      }
     }
 
     est = s0 + day - temp;
     tau = est - astro.mod (hinduLunarDayFromMoment (est + 0.25) - day + 15, 30) + 15;
 
     date = astro.next (tau - 1, function (d0) {
-        var d1 = hinduLunarDayFromMoment (hinduSunrise (d0)),
-            d2 = astro.amod (day + 1, 30);
+      var d1 = hinduLunarDayFromMoment (hinduSunrise (d0)),
+          d2 = astro.amod (day + 1, 30);
 
-        return d1 === day || d1 === d2;
+      return d1 === day || d1 === d2;
     });
 
     if (dayLeap) {
-        date += 1;
+      date += 1;
     }
 
     return date + cons.J0000;
@@ -1183,7 +1183,7 @@ var Calendrical = (function (exports) {
    * @return {float} longitude
    */
   function siderealSolarLongitude (tee) {
-      return astro.mod (astro.solarLongitude (tee) - astro.precession (tee) +
+    return astro.mod (astro.solarLongitude (tee) - astro.precession (tee) +
         cons.hindu.SIDEREAL_START, 360);
   }
 
@@ -1193,7 +1193,7 @@ var Calendrical = (function (exports) {
    * @return {int} solar year
    */
   function hinduAstroCalendarYear (tee) {
-      return Math.round ((tee - cons.hindu.EPOCH_RD) / cons.MEAN_SIDEREAL_YEAR -
+    return Math.round ((tee - cons.hindu.EPOCH_RD) / cons.MEAN_SIDEREAL_YEAR -
             siderealSolarLongitude (tee) / 360);
   }
 
@@ -1224,13 +1224,13 @@ var Calendrical = (function (exports) {
    * @return {int} zodiacal
    */
   function siderealZodiac (tee) {
-      return Math.floor (siderealSolarLongitude (tee) / 30) + 1;
+    return Math.floor (siderealSolarLongitude (tee) / 30) + 1;
   }
 
   // Return the astronomical Hindu lunar date equivalent to fixed date.
   calendar.jdToHinduLunarAstro = function (jd) {
-      var jd0, critical, day, dayLeap, lastNewMoon, nextNewMoon, monthSolar,
-          monthLeap, month, year;
+    var jd0, critical, day, dayLeap, lastNewMoon, nextNewMoon, monthSolar,
+        monthLeap, month, year;
 
     jd0         = jd - cons.J0000;
     critical    = altHinduSunrise (jd0);
@@ -1248,7 +1248,7 @@ var Calendrical = (function (exports) {
 
   // Return the fixed date corresponding to Hindu lunar date.
   calendar.hinduLunarAstroToJd = function (year, month, monthLeap, day, dayLeap) {
-      var approx, s0, k0, temp, mid, est, tau, date;
+    var approx, s0, k0, temp, mid, est, tau, date;
 
     approx = cons.hindu.EPOCH_RD + cons.MEAN_SIDEREAL_YEAR *
              (year + cons.hindu.LUNAR_ERA + (month - 1) / 12);
@@ -1257,29 +1257,29 @@ var Calendrical = (function (exports) {
     k0 = astroLunarDayFromMoment (s0 + 0.25);
 
     if (k0 > 3 && k0 < 27) {
-        temp = k0;
+      temp = k0;
     } else {
-        mid = this.jdToHinduLunarAstro (s0 - 15 + cons.J0000);
+      mid = this.jdToHinduLunarAstro (s0 - 15 + cons.J0000);
 
-        if (mid[1] !== month || (mid[2] && !monthLeap)) {
-            temp = astro.mod (k0 + 15, 30) - 15;
-        } else {
-            temp = astro.mod (k0 - 15, 30) + 15;
-        }
+      if (mid[1] !== month || (mid[2] && !monthLeap)) {
+        temp = astro.mod (k0 + 15, 30) - 15;
+      } else {
+        temp = astro.mod (k0 - 15, 30) + 15;
+      }
     }
 
     est = s0 + day - temp;
     tau = est - astro.mod (astroLunarDayFromMoment (est + 0.25) - day + 15, 30) + 15;
     date = astro.next (tau - 1, function (d0) {
-           var d1 = astroLunarDayFromMoment (altHinduSunrise (d0)),
-               d2 = astro.amod (day + 1, 30);
+      var d1 = astroLunarDayFromMoment (altHinduSunrise (d0)),
+          d2 = astro.amod (day + 1, 30);
 
-           return d1 === day || d1 === d2;
-       });
+      return d1 === day || d1 === d2;
+    });
 
-     if (dayLeap) {
-         date += 1;
-     }
+    if (dayLeap) {
+      date += 1;
+    }
 
     return cons.J0000 + date;
   };
@@ -1290,24 +1290,24 @@ var Calendrical = (function (exports) {
    * @return {float} sunset of that date
    */
   function hinduAstroSunset (date) {
-      return astro.dusk (date, cons.hindu.UJJAIN_LOCATION, 0);
+    return astro.dusk (date, cons.hindu.UJJAIN_LOCATION, 0);
   }
 
   // Return the Astronomical Hindu (Tamil) solar date equivalent to fixed date.
   calendar.jdToHinduSolarAstro = function (jd) {
-      var jd0, critical, year, month, approx, begin, day;
+    var jd0, critical, year, month, approx, begin, day;
 
-      jd0      = jd - cons.J0000;
-      critical = hinduAstroSunset (jd0);
-      month    = siderealZodiac (critical);
-      year     = hinduAstroCalendarYear (critical) - cons.hindu.SOLAR_ERA;
-      approx   = jd0 - 3 - astro.mod (Math.floor (siderealSolarLongitude (critical)), 30);
-      begin    = astro.next (approx, function (index) {
-             return siderealZodiac (hinduAstroSunset (index)) === month;
-        });
-      day      = jd0 - begin + 1;
+    jd0      = jd - cons.J0000;
+    critical = hinduAstroSunset (jd0);
+    month    = siderealZodiac (critical);
+    year     = hinduAstroCalendarYear (critical) - cons.hindu.SOLAR_ERA;
+    approx   = jd0 - 3 - astro.mod (Math.floor (siderealSolarLongitude (critical)), 30);
+    begin    = astro.next (approx, function (index) {
+      return siderealZodiac (hinduAstroSunset (index)) === month;
+    });
+    day      = jd0 - begin + 1;
 
-      return [ year, month, day ];
+    return [ year, month, day ];
   };
 
   // Return the fixed date corresponding to Astronomical Hindu Solar date (Tamil rule; Saka era).
@@ -1315,7 +1315,7 @@ var Calendrical = (function (exports) {
     var approx = cons.hindu.EPOCH - 3 + Math.floor ((year + cons.hindu.SOLAR_ERA +
                   (month - 1) / 12) * cons.MEAN_SIDEREAL_YEAR) - cons.J0000,
         begin = astro.next (approx, function (i0) {
-             return siderealZodiac (hinduAstroSunset (i0)) === month;
+          return siderealZodiac (hinduAstroSunset (i0)) === month;
         });
 
     return cons.J0000 + begin + day - 1;
@@ -1340,8 +1340,8 @@ var Calendrical = (function (exports) {
     jd += m0 * 31;
 
     if (month >= 8) {
-        m0 = month - 7;
-        jd += m0 * 30;
+      m0 = month - 7;
+      jd += m0 * 30;
     }
 
     return jd + day - 1;
@@ -1396,7 +1396,7 @@ var Calendrical = (function (exports) {
    * @return {boolean} is it float ?
    */
   function isFloat (num) {
-      return Boolean (Boolean (num % 1));
+    return Boolean (Boolean (num % 1));
   }
 
   /**
@@ -1405,18 +1405,18 @@ var Calendrical = (function (exports) {
    * @return {float} sine value
    */
   function tibetanSunEquation (alpha) {
-      var alphaInt = Math.floor (alpha);
+    var alphaInt = Math.floor (alpha);
 
     if (alpha > 6) {
-        return -tibetanSunEquation (alpha - 6);
+      return -tibetanSunEquation (alpha - 6);
     }
 
     if (alpha > 3) {
-        return tibetanSunEquation (6 - alpha);
+      return tibetanSunEquation (6 - alpha);
     }
 
     if (!isFloat (alpha)) {
-        return [ 0, 6, 10, 11 ][alphaInt] / 60;
+      return [ 0, 6, 10, 11 ][alphaInt] / 60;
     }
 
     return astro.mod ( alpha, 1) * tibetanSunEquation (Math.ceil (alpha)) +
@@ -1429,18 +1429,18 @@ var Calendrical = (function (exports) {
    * @return {float} sine value
    */
   function tibetanMoonEquation (alpha) {
-      var alphaInt = Math.floor (alpha);
+    var alphaInt = Math.floor (alpha);
 
     if (alpha > 14) {
-        return -tibetanMoonEquation (alpha - 14);
+      return -tibetanMoonEquation (alpha - 14);
     }
 
     if (alpha > 7) {
-        return tibetanMoonEquation (14 - alpha);
+      return tibetanMoonEquation (14 - alpha);
     }
 
     if (!isFloat (alpha)) {
-        return [ 0, 5, 10, 15, 19, 22, 24, 25 ][alphaInt] / 60;
+      return [ 0, 5, 10, 15, 19, 22, 24, 25 ][alphaInt] / 60;
     }
 
     return astro.mod ( alpha, 1) * tibetanMoonEquation (Math.ceil (alpha)) +
@@ -1448,7 +1448,7 @@ var Calendrical = (function (exports) {
   }
 
   calendar.tibetanToJd = function (year, month, monthLeap, day, dayLeap) {
-      var months, days, mean, solAnomaly, lunAnomaly, sun, moon;
+    var months, days, mean, solAnomaly, lunAnomaly, sun, moon;
 
     months     = Math.floor (804 / 65 * (year - 1) + 67 / 65 * month + (monthLeap ? -1 : 0) + 64 / 65);
     days       = 30 * months + day;
@@ -1462,53 +1462,53 @@ var Calendrical = (function (exports) {
   };
 
   calendar.jdToTibetan = function (jd) {
-      var capY, years, year0, month0, est, day0, monthLeap, day, month, year, temp, dayLeap;
+    var capY, years, year0, month0, est, day0, monthLeap, day, month, year, temp, dayLeap;
 
-      capY = 365 + 4975 / 18382;
-      years = Math.ceil ((jd - cons.tibetan.EPOCH) / capY);
+    capY = 365 + 4975 / 18382;
+    years = Math.ceil ((jd - cons.tibetan.EPOCH) / capY);
 
-      year0 = astro.final (years, function (y0) {
-          return jd >= calendar.tibetanToJd (y0, 1, false, 1, false);
-      });
+    year0 = astro.final (years, function (y0) {
+      return jd >= calendar.tibetanToJd (y0, 1, false, 1, false);
+    });
 
-      month0 = astro.final (1, function (m0) {
-          return jd >= calendar.tibetanToJd (year0, m0, false, 1, false);
-      });
+    month0 = astro.final (1, function (m0) {
+      return jd >= calendar.tibetanToJd (year0, m0, false, 1, false);
+    });
 
-      est = jd - this.tibetanToJd (year0, month0, false, 1, false);
+    est = jd - this.tibetanToJd (year0, month0, false, 1, false);
 
-      day0 = astro.final (est - 2, function (d0) {
-          return jd >= calendar.tibetanToJd (year0, month0, false, d0, false);
-      });
+    day0 = astro.final (est - 2, function (d0) {
+      return jd >= calendar.tibetanToJd (year0, month0, false, d0, false);
+    });
 
-      monthLeap = day0 > 30;
-      day = astro.amod (day0, 30);
+    monthLeap = day0 > 30;
+    day = astro.amod (day0, 30);
 
-      if (day > day0) {
-          temp = month0 - 1;
-      } else if (monthLeap) {
-          temp = month0 + 1;
-      } else {
-          temp = month0;
-      }
+    if (day > day0) {
+      temp = month0 - 1;
+    } else if (monthLeap) {
+      temp = month0 + 1;
+    } else {
+      temp = month0;
+    }
 
-      month = astro.amod (temp, 12);
+    month = astro.amod (temp, 12);
 
-      if (day > day0 && month0 === 1) {
-          year = year0 - 1;
-      } else if (monthLeap && month0 === 12) {
-          year = year0 + 1;
-      } else {
-          year = year0;
-      }
+    if (day > day0 && month0 === 1) {
+      year = year0 - 1;
+    } else if (monthLeap && month0 === 12) {
+      year = year0 + 1;
+    } else {
+      year = year0;
+    }
 
-      dayLeap = jd === this.tibetanToJd ([ year, month, monthLeap, day, true ]);
+    dayLeap = jd === this.tibetanToJd ([ year, month, monthLeap, day, true ]);
 
-      return [ year, month, monthLeap, day, dayLeap ];
+    return [ year, month, monthLeap, day, dayLeap ];
   };
 
   calendar.tibetanMonthLeap = function (year, month) {
-      return month === this.jdToTibetan (this.tibetanToJd (year, month, true, 2, false))[1];
+    return month === this.jdToTibetan (this.tibetanToJd (year, month, true, 2, false))[1];
   };
 
   return exports;

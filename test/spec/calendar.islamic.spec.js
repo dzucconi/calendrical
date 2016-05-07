@@ -9,22 +9,22 @@ describe ("Islamic calendar spec", function () {
 
   it ("should convert a Islamic date to Julian day", function () {
     data2.forEach (function (data) {
-        expected = data.rataDie + cal.constants.J0000;
-        date     = data.islamic;
-        actual   = cal.islamicToJd (date.year, date.month, date.day);
+      expected = data.rataDie + cal.constants.J0000;
+      date     = data.islamic;
+      actual   = cal.islamicToJd (date.year, date.month, date.day);
 
-        expect (expected).toEqual (actual);
+      expect (expected).toEqual (actual);
     });
   });
 
   it ("should convert a Julian day to a Islamic date", function () {
     data2.forEach (function (data) {
-        julian   = data.rataDie + cal.constants.J0000;
-        date     = data.islamic;
-        expected = [ date.year, date.month, date.day ];
-        actual   = cal.jdToIslamic (julian);
+      julian   = data.rataDie + cal.constants.J0000;
+      date     = data.islamic;
+      expected = [ date.year, date.month, date.day ];
+      actual   = cal.jdToIslamic (julian);
 
-        expect (expected).toEqual (actual);
+      expect (expected).toEqual (actual);
     });
   });
 

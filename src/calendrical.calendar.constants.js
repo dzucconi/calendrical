@@ -120,7 +120,7 @@ var Calendrical = (function (exports) {
       EPOCH: -46410 + 1721424.5, // 172/12/07 BCE (Gregorian)
       EPOCH_RD: -46410 // 172/12/07 BCE (Gregorian)
     }
- };
+  };
 
   return exports;
 }(Calendrical || {}));

@@ -60,7 +60,7 @@ module.exports = {
         "id-blacklist": "error",
         "id-length": "error",
         "id-match": "error",
-        "indent": "off",
+        "indent": [ 2, 2, { "SwitchCase": 1, "VariableDeclarator": 2 } ],
         "init-declarations": "off",
         "jsx-quotes": "error",
         "key-spacing": "error",
