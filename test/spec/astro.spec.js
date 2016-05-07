@@ -1,8 +1,5 @@
 /* global Calendrical describe it expect:true*/
 /* eslint
-  func-style: [ "error", "declaration" ],
-  max-statements: [ "error", 10, { "ignoreTopLevelFunctions": true } ],
-  no-use-before-define: [ "error", { "functions": true, "classes": true } ],
   max-params: [ "error", 4 ] */
 
 'use strict';

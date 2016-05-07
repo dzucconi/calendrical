@@ -1,5 +1,4 @@
 /* global Calendrical data4 describe it expect:true*/
-/* eslint no-undef: "error"*/
 
 'use strict';
 

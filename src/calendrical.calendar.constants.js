@@ -1,6 +1,3 @@
-/* global */
-/* eslint no-undef: "error"*/
-
 "use strict";
 
 var Calendrical = (function (exports) {
