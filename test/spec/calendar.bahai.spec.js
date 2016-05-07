@@ -10,15 +10,15 @@ describe ("Bahai calendar spec", function () {
 
   it ("should convert a date to Bahai calendar", function () {
     expect (date.getBahai()).toEqual ({
-        kull_i_shay: 1,
-        vahid: 9,
-        year: 'Abhá',
-        month: 'Rahmat',
-        day: 'Bahá',
-        weekday: 'Jalál',
-        leap: false,
-        official: true
-      }
+      kull_i_shay: 1,
+      vahid: 9,
+      year: 'Abhá',
+      month: 'Rahmat',
+      day: 'Bahá',
+      weekday: 'Jalál',
+      leap: false,
+      official: true
+    }
     );
   });
 
@@ -27,11 +27,11 @@ describe ("Bahai calendar spec", function () {
     expect (cal.bahaiToJd ( 1, 10,  2,  0,  1)).toEqual (2457810.5);
 
     data2.forEach (function (data) {
-        expected = data.rataDie + cal.constants.J0000;
-        date = data.bahai;
-        actual = cal.bahaiToJd (date.kull_i_shay, date.vahid, date.year, date.month, date.day);
+      expected = data.rataDie + cal.constants.J0000;
+      date = data.bahai;
+      actual = cal.bahaiToJd (date.kull_i_shay, date.vahid, date.year, date.month, date.day);
 
-        expect (expected).toEqual (actual);
+      expect (expected).toEqual (actual);
     });
   });
 
@@ -40,12 +40,12 @@ describe ("Bahai calendar spec", function () {
     expect (cal.jdToBahai (2457810.5)).toEqual ([ 1, 10,  2,  0,  1 ]);
 
     data2.forEach (function (data) {
-        julian = data.rataDie + cal.constants.J0000;
-        date = data.bahai;
-        expected = [ date.kull_i_shay, date.vahid, date.year, date.month, date.day ];
-        actual = cal.jdToBahai (julian);
+      julian = data.rataDie + cal.constants.J0000;
+      date = data.bahai;
+      expected = [ date.kull_i_shay, date.vahid, date.year, date.month, date.day ];
+      actual = cal.jdToBahai (julian);
 
-        expect (expected).toEqual (actual);
+      expect (expected).toEqual (actual);
     });
   });
 

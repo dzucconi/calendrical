@@ -17,10 +17,10 @@ describe ("Hindu Solar Modern calendar spec", function () {
 
   it ("should convert a Julian day to a Hindu Solar Modern date", function () {
     data4.forEach (function (data) {
-        date     = data.hinduSolarNew;
-        expected = [ date.year, date.month, date.day ];
-        actual   = cal.jdToHinduSolar (data.rataDie + cal.constants.J0000);
-        expect (expected).toEqual (actual);
+      date     = data.hinduSolarNew;
+      expected = [ date.year, date.month, date.day ];
+      actual   = cal.jdToHinduSolar (data.rataDie + cal.constants.J0000);
+      expect (expected).toEqual (actual);
     });
   });
 });

@@ -3,7 +3,7 @@
 "use strict";
 
 var Calendrical = (function (exports) {
-    var astro, calendar, cons;
+  var astro, calendar, cons;
 
   exports.astro = exports.astro || {};
   exports.calendar = exports.calendar || {};
@@ -60,24 +60,24 @@ var Calendrical = (function (exports) {
       182,  27.85, 445267.112,
       156,  73.14,  45036.886,
       136, 171.52,  22518.443,
-       77, 222.54,  65928.934,
-       74, 296.72,   3034.906,
-       70, 243.58,   9037.513,
-       58, 119.81,  33718.147,
-       52, 297.17,    150.678,
-       50,  21.02,   2281.226,
-       45, 247.54,  29929.562,
-       44, 325.15,  31555.956,
-       29,  60.93,   4443.417,
-       18, 155.12,  67555.328,
-       17, 288.79,   4562.452,
-       16, 198.04,  62894.029,
-       14, 199.76,  31436.921,
-       12,  95.39,  14577.848,
-       12, 287.11,  31931.756,
-       12, 320.81,  34777.259,
-        9, 227.73,   1222.114,
-        8,  15.45,  16859.074
+      77, 222.54,  65928.934,
+      74, 296.72,   3034.906,
+      70, 243.58,   9037.513,
+      58, 119.81,  33718.147,
+      52, 297.17,    150.678,
+      50,  21.02,   2281.226,
+      45, 247.54,  29929.562,
+      44, 325.15,  31555.956,
+      29,  60.93,   4443.417,
+      18, 155.12,  67555.328,
+      17, 288.79,   4562.452,
+      16, 198.04,  62894.029,
+      14, 199.76,  31436.921,
+      12,  95.39,  14577.848,
+      12, 287.11,  31931.756,
+      12, 320.81,  34777.259,
+      9, 227.73,   1222.114,
+      8,  15.45,  16859.074
     ],
 
     JDE0_TAB_1000: [
@@ -95,63 +95,46 @@ var Calendrical = (function (exports) {
     ],
 
     SOLAR_LONGITUDE_COEFFICIENTS: [
-        403406, 195207, 119433, 112392, 3891, 2819, 1721,
-        660, 350, 334, 314, 268, 242, 234, 158, 132, 129, 114,
-        99, 93, 86, 78, 72, 68, 64, 46, 38, 37, 32, 29, 28, 27, 27,
-        25, 24, 21, 21, 20, 18, 17, 14, 13, 13, 13, 12, 10, 10, 10,
-        10
+      403406, 195207, 119433, 112392, 3891, 2819, 1721,
+      660, 350, 334, 314, 268, 242, 234, 158, 132, 129, 114,
+      99, 93, 86, 78, 72, 68, 64, 46, 38, 37, 32, 29, 28, 27, 27,
+      25, 24, 21, 21, 20, 18, 17, 14, 13, 13, 13, 12, 10, 10, 10,
+      10
     ],
 
     SOLAR_LONGITUDE_MULTIPLIERS: [
-        0.9287892, 35999.1376958, 35999.4089666,
-        35998.7287385, 71998.20261, 71998.4403,
-        36000.35726, 71997.4812, 32964.4678,
-        -19.4410, 445267.1117, 45036.8840, 3.1008,
-        22518.4434, -19.9739, 65928.9345,
-        9038.0293, 3034.7684, 33718.148, 3034.448,
-        -2280.773, 29929.992, 31556.493, 149.588,
-        9037.750, 107997.405, -4444.176, 151.771,
-        67555.316, 31556.080, -4561.540,
-        107996.706, 1221.655, 62894.167,
-        31437.369, 14578.298, -31931.757,
-        34777.243, 1221.999, 62894.511,
-        -4442.039, 107997.909, 119.066, 16859.071,
-        -4.578, 26895.292, -39.127, 12297.536,
-        90073.778
+      0.9287892, 35999.1376958, 35999.4089666,
+      35998.7287385, 71998.20261, 71998.4403,
+      36000.35726, 71997.4812, 32964.4678,
+      -19.4410, 445267.1117, 45036.8840, 3.1008,
+      22518.4434, -19.9739, 65928.9345,
+      9038.0293, 3034.7684, 33718.148, 3034.448,
+      -2280.773, 29929.992, 31556.493, 149.588,
+      9037.750, 107997.405, -4444.176, 151.771,
+      67555.316, 31556.080, -4561.540,
+      107996.706, 1221.655, 62894.167,
+      31437.369, 14578.298, -31931.757,
+      34777.243, 1221.999, 62894.511,
+      -4442.039, 107997.909, 119.066, 16859.071,
+      -4.578, 26895.292, -39.127, 12297.536,
+      90073.778
     ],
 
     SOLAR_LONGITUDE_ADDENDS: [
-        270.54861, 340.19128, 63.91854, 331.26220,
-        317.843, 86.631, 240.052, 310.26, 247.23,
-        260.87, 297.82, 343.14, 166.79, 81.53,
-        3.50, 132.75, 182.95, 162.03, 29.8,
-        266.4, 249.2, 157.6, 257.8, 185.1,
-        69.9,  8.0, 197.1, 250.4, 65.3,
-        162.7, 341.5, 291.6, 98.5, 146.7,
-        110.0, 5.2, 342.6, 230.9, 256.1,
-        45.3, 242.9, 115.2, 151.8, 285.3,
-        53.3, 126.6, 205.7, 85.9, 146.1
+      270.54861, 340.19128, 63.91854, 331.26220,
+      317.843, 86.631, 240.052, 310.26, 247.23,
+      260.87, 297.82, 343.14, 166.79, 81.53,
+      3.50, 132.75, 182.95, 162.03, 29.8,
+      266.4, 249.2, 157.6, 257.8, 185.1,
+      69.9,  8.0, 197.1, 250.4, 65.3,
+      162.7, 341.5, 291.6, 98.5, 146.7,
+      110.0, 5.2, 342.6, 230.9, 256.1,
+      45.3, 242.9, 115.2, 151.8, 285.3,
+      53.3, 126.6, 205.7, 85.9, 146.1
     ]
   };
 
   cons = astro.constants;
-
-  /**
-   * Pad a string to a given length with a given fill character.
-   * @param {String} str initial string
-   * @param {int} length max. length
-   * @param {character} filler the character to fill in the gaps
-   * @return {String} padded String
-   */
-  function pad (str, length, filler) {
-    var s0 = str.toString ();
-
-    while (s0.length < length) {
-      s0 = filler + s0;
-    }
-
-    return s0;
-  }
 
   /**
    * arc seconds to radians
@@ -188,7 +171,7 @@ var Calendrical = (function (exports) {
    * @return {float} angle
    */
   function angle (degree, minute, second) {
-      return degree + (minute + second / 60) / 60;
+    return degree + (minute + second / 60) / 60;
   }
 
   /**
@@ -207,7 +190,7 @@ var Calendrical = (function (exports) {
    * @return {float} normalized angle in degrees
    */
   function degrees (theta) {
-      return mod (theta, 360);
+    return mod (theta, 360);
   }
 
   /**
@@ -262,16 +245,16 @@ var Calendrical = (function (exports) {
    * @return {float} arc tangent
    */
   function arcTanDeg (y0, x0) {
-      var alpha;
+    var alpha;
 
     if (x0 === 0 && y0 !== 0) {
-       return mod (Math.sign (y0) * 90, 360);
+      return mod (Math.sign (y0) * 90, 360);
     }
 
     alpha = radiansToDegrees (Math.atan (y0 / x0));
 
     if (x0 >= 0) {
-        return alpha;
+      return alpha;
     }
 
     return mod (alpha + 180, 360);
@@ -283,7 +266,7 @@ var Calendrical = (function (exports) {
    * @return {float} value
    */
   function arcSinDeg (alpha) {
-      return radiansToDegrees (Math.asin (alpha));
+    return radiansToDegrees (Math.asin (alpha));
   }
 
   /**
@@ -346,9 +329,9 @@ var Calendrical = (function (exports) {
    */
   function zip (arrays) {
     return arrays.length === 0 ? [] : arrays[0].map (function (igore, index) {
-        return arrays.map (function (array) {
-          return array[index];
-        });
+      return arrays.map (function (array) {
+        return array[index];
+      });
     });
   }
 
@@ -360,14 +343,13 @@ var Calendrical = (function (exports) {
    * @param {function} func application function
    * @return {float} sum of products
    */
-   function sigma (matrix, func) {
-     return zip (matrix).map (function (v0) {
-       return func.apply (null, v0);
-     })
-     .reduce (function (memo, n0) {
-           return memo + n0;
-         }, 0);
-   }
+  function sigma (matrix, func) {
+    return zip (matrix).map (function (v0) {
+      return func.apply (null, v0);
+    }).reduce (function (memo, n0) {
+      return memo + n0;
+    }, 0);
+  }
 
   /**
    * Bisection search for x in [low, high] such that condition 'predicate' holds.
@@ -382,11 +364,11 @@ var Calendrical = (function (exports) {
     var x0 = (low + high) / 2;
 
     if (predicate (low, high)) {
-        return x0;
+      return x0;
     }
 
     if (discriminator (x0)) {
-        return binarySearch (low, x0, predicate, discriminator);
+      return binarySearch (low, x0, predicate, discriminator);
     }
 
     return binarySearch (x0, high, predicate, discriminator);
@@ -398,7 +380,7 @@ var Calendrical = (function (exports) {
    * @return {int} fixed momentToFixed
    */
   function momentToFixed (tee) {
-      return Math.floor (tee);
+    return Math.floor (tee);
   }
 
   /**
@@ -408,7 +390,7 @@ var Calendrical = (function (exports) {
    * @return {float} converted time
    */
   function universalToStandard (teeRomU, location) {
-      return teeRomU + location[3];
+    return teeRomU + location[3];
   }
 
   /**
@@ -418,7 +400,7 @@ var Calendrical = (function (exports) {
    * @return {float} converted time
    */
   function standardToUniversal (teeRomS, location) {
-      return teeRomS - location[3];
+    return teeRomS - location[3];
   }
 
   /**
@@ -428,7 +410,7 @@ var Calendrical = (function (exports) {
    * @return {float} fraction of a day
    */
   function longitudeToZone (phi) {
-      return phi / 360;
+    return phi / 360;
   }
 
   /**
@@ -448,7 +430,7 @@ var Calendrical = (function (exports) {
    * @return {float} converted time
    */
   function localToUniversal (teeEll, location) {
-      return teeEll - longitudeToZone (location[1]);
+    return teeEll - longitudeToZone (location[1]);
   }
 
   /**
@@ -478,43 +460,43 @@ var Calendrical = (function (exports) {
    * @return {float} converted time
    */
   function ephemerisCorrection (tee) {
-      var year, centuries, result;
+    var year, centuries, result;
 
-      year = calendar.jdToGregorianYear (Math.floor (tee + calendar.constants.gregorian.EPOCH));
+    year = calendar.jdToGregorianYear (Math.floor (tee + calendar.constants.gregorian.EPOCH));
 
-      if (year >= 1988 && year <= 2019) {
-         return (year - 1933) / 86400;
-      }
+    if (year >= 1988 && year <= 2019) {
+      return (year - 1933) / 86400;
+    }
 
-      centuries = (calendar.gregorianToJd (year, calendar.constants.JULY, 1) -
+    centuries = (calendar.gregorianToJd (year, calendar.constants.JULY, 1) -
             calendar.gregorianToJd (1900, calendar.constants.JANUARY, 1)) / 36525;
 
-      if (year >= 1900 && year <= 1987) {
-          return poly (centuries, [
-              -0.00002, 0.000297, 0.025184, -0.181133,
-              0.553040, -0.861938, 0.677066, -0.212591 ]);
-      }
+    if (year >= 1900 && year <= 1987) {
+      return poly (centuries, [
+        -0.00002, 0.000297, 0.025184, -0.181133,
+        0.553040, -0.861938, 0.677066, -0.212591 ]);
+    }
 
-      if (year >= 1800 && year <= 1899) {
-          return poly (centuries, [
-              -0.000009, 0.003844, 0.083563, 0.865736, 4.867575,
-              15.845535, 31.332267, 38.291999, 28.316289, 11.636204, 2.043794 ]);
-      }
+    if (year >= 1800 && year <= 1899) {
+      return poly (centuries, [
+        -0.000009, 0.003844, 0.083563, 0.865736, 4.867575,
+        15.845535, 31.332267, 38.291999, 28.316289, 11.636204, 2.043794 ]);
+    }
 
-      if (year >= 1700 && year <= 1799) {
-          return poly (year - 1700, [
-              8.118780842, -0.005092142, 0.003336121, -0.0000266484 ]) / 86400;
-      }
+    if (year >= 1700 && year <= 1799) {
+      return poly (year - 1700, [
+        8.118780842, -0.005092142, 0.003336121, -0.0000266484 ]) / 86400;
+    }
 
-      if (year >= 1620 && year <= 1699) {
-          return poly (year - 1600, [ 196.58333, -4.0675, 0.0219167 ]) / 86400;
-      }
+    if (year >= 1620 && year <= 1699) {
+      return poly (year - 1600, [ 196.58333, -4.0675, 0.0219167 ]) / 86400;
+    }
 
-      result = 0.5 + (calendar.gregorianToJd (year, calendar.constants.JANUARY, 1) -
+    result = 0.5 + (calendar.gregorianToJd (year, calendar.constants.JANUARY, 1) -
                calendar.gregorianToJd (1810, calendar.constants.JANUARY, 1)
            );
 
-      return (result * result / 41048480 - 15) / 86400;
+    return (result * result / 41048480 - 15) / 86400;
   }
 
   /**
@@ -523,7 +505,7 @@ var Calendrical = (function (exports) {
    * @return {float} converted time
    */
   function universalToDynamical (tee) {
-      return tee + ephemerisCorrection (tee);
+    return tee + ephemerisCorrection (tee);
   }
 
   /**
@@ -532,7 +514,7 @@ var Calendrical = (function (exports) {
    * @return {float} converted time
    */
   function dynamicalToUniversal (tee) {
-      return tee - ephemerisCorrection (tee);
+    return tee - ephemerisCorrection (tee);
   }
 
   /**
@@ -560,10 +542,10 @@ var Calendrical = (function (exports) {
 
     return angle (23, 26, 21.448) +
             poly (centuries, [
-                0,
-                angle (0, 0, -46.8150),
-                angle (0, 0, -0.00059),
-                angle (0, 0, 0.001813) ]);
+              0,
+              angle (0, 0, -46.8150),
+              angle (0, 0, -0.00059),
+              angle (0, 0, 0.001813) ]);
   }
 
   /**
@@ -611,7 +593,7 @@ var Calendrical = (function (exports) {
    * @return {float} converted time
    */
   function apparentToLocal (tee, location) {
-      return tee - equationOfTime (localToUniversal (tee, location));
+    return tee - equationOfTime (localToUniversal (tee, location));
   }
 
   /**
@@ -621,7 +603,7 @@ var Calendrical = (function (exports) {
    * @return {float} converted time
    */
   function midDay (date, location) {
-      return localToStandard (apparentToLocal (date + 0.5, location), location);
+    return localToStandard (apparentToLocal (date + 0.5, location), location);
   }
 
   /**
@@ -658,11 +640,11 @@ var Calendrical = (function (exports) {
    * @return {float} nutation at tee
    */
   function nutation (tee) {
-      var centuries = julianCenturies (tee),
-          capA = poly (centuries, [ 124.90, -1934.134, 0.002063 ]),
-          capB = poly (centuries, [ 201.11, 72001.5377, 0.00057 ]);
+    var centuries = julianCenturies (tee),
+        capA = poly (centuries, [ 124.90, -1934.134, 0.002063 ]),
+        capB = poly (centuries, [ 201.11, 72001.5377, 0.00057 ]);
 
-      return -0.004778  * sinDeg (capA) +
+    return -0.004778  * sinDeg (capA) +
              -0.0003667 * sinDeg (capB);
   }
 
@@ -687,7 +669,7 @@ var Calendrical = (function (exports) {
     t0 = (year - 2000) / 100;
 
     if (year < 948) {
-        return 2177 + 497 * t0 + 44.1 * t0 * t0;
+      return 2177 + 497 * t0 + 44.1 * t0 * t0;
     }
 
     dt = 102 + 102 * t0 + 25.3 * t0 * t0;
@@ -752,9 +734,9 @@ var Calendrical = (function (exports) {
    * @return {float} aberration
    */
   function aberration (tee) {
-      var centuries = julianCenturies (tee);
+    var centuries = julianCenturies (tee);
 
-      return 0.0000974 * cosDeg (177.63 + 35999.01848 * centuries) - 0.005575;
+    return 0.0000974 * cosDeg (177.63 + 35999.01848 * centuries) - 0.005575;
   }
 
   /**
@@ -772,11 +754,11 @@ var Calendrical = (function (exports) {
     centuries = julianCenturies (tee);
     lambda = 282.7771834 + 36000.76953744 * centuries + 0.000005729577951308232 *
          sigma ([
-             cons.SOLAR_LONGITUDE_COEFFICIENTS,
-             cons.SOLAR_LONGITUDE_ADDENDS,
-             cons.SOLAR_LONGITUDE_MULTIPLIERS ], function (x0, y0, z0) {
-                return x0 * sinDeg (y0 + z0 * centuries);
-             }
+           cons.SOLAR_LONGITUDE_COEFFICIENTS,
+           cons.SOLAR_LONGITUDE_ADDENDS,
+           cons.SOLAR_LONGITUDE_MULTIPLIERS ], function (x0, y0, z0) {
+           return x0 * sinDeg (y0 + z0 * centuries);
+         }
     );
 
     return mod (lambda + aberration (tee) + nutation (tee), 360);
@@ -790,11 +772,11 @@ var Calendrical = (function (exports) {
    * @return {float} longitude
    */
   function estimatePriorSolarLongitude (lambda, tee) {
-      var rate = calendar.constants.MEAN_TROPICAL_YEAR / 360,
-          tau = tee - rate * mod (solarLongitude (tee) - lambda, 360),
-          capDelta = mod (solarLongitude (tau) - lambda + 180, 360) - 180;
+    var rate = calendar.constants.MEAN_TROPICAL_YEAR / 360,
+        tau = tee - rate * mod (solarLongitude (tee) - lambda, 360),
+        capDelta = mod (solarLongitude (tau) - lambda + 180, 360) - 180;
 
-      return Math.min (tee, tau - rate * capDelta);
+    return Math.min (tee, tau - rate * capDelta);
   }
 
   /**
@@ -804,20 +786,20 @@ var Calendrical = (function (exports) {
    * @return {float} precession value
    */
   function precession (tee) {
-      var centuries, eta, capP, p0, capA, capB, arg;
+    var centuries, eta, capP, p0, capA, capB, arg;
 
-      centuries = julianCenturies (tee);
-      eta  = mod (poly (centuries,
+    centuries = julianCenturies (tee);
+    eta  = mod (poly (centuries,
                  [ 0, 47.0029 / 3600, -0.03302 / 3600, 0.000060 / 3600 ]), 360);
-      capP = mod (poly (centuries,
+    capP = mod (poly (centuries,
                  [ 174.876384, -869.8089 / 3600, 0.03536 / 3600 ]), 360);
-      p0   = mod (poly (centuries,
+    p0   = mod (poly (centuries,
                  [ 0, 5029.0966 / 3600, 1.11113 / 3600, 0.000006 / 3600 ]), 360);
-      capA = cosDeg (eta) * sinDeg (capP);
-      capB = cosDeg (capP);
-      arg  = arcTanDeg (capA, capB);
+    capA = cosDeg (eta) * sinDeg (capP);
+    capB = cosDeg (capP);
+    arg  = arcTanDeg (capA, capB);
 
-      return mod (p0 + capP - arg, 360);
+    return mod (p0 + capP - arg, 360);
   }
 
   /**
@@ -841,14 +823,14 @@ var Calendrical = (function (exports) {
    * @param {float} alpha angle
    * @return {float} sine offset
    */
-   function sineOffset (tee, location, alpha) {
-       var phi = location[0],
-           teePrime = localToUniversal (tee, location),
-           delta = declination (teePrime, 0, solarLongitude (teePrime));
+  function sineOffset (tee, location, alpha) {
+    var phi = location[0],
+        teePrime = localToUniversal (tee, location),
+        delta = declination (teePrime, 0, solarLongitude (teePrime));
 
-        return tanDeg (phi) * tanDeg (delta) +
+    return tanDeg (phi) * tanDeg (delta) +
                sinDeg (alpha) / cosDeg (delta) * cosDeg (phi);
-    }
+  }
 
   /**
    * Return the moment in local time near tee when depression angle of sun is
@@ -867,23 +849,23 @@ var Calendrical = (function (exports) {
         alt, value, temp;
 
     if (alpha >= 0) {
-        alt = early ? date : date + 1;
+      alt = early ? date : date + 1;
     } else {
-        alt = date + 0.5;
+      alt = date + 0.5;
     }
 
     if (Math.abs (ttry) > 1) {
-        value = sineOffset (alt, location, alpha);
+      value = sineOffset (alt, location, alpha);
     } else {
-        value = ttry;
+      value = ttry;
     }
 
     if (Math.abs (value) <= 1) {
-        temp = early ? -1 : 1;
-        temp *= mod (0.5 + arcSinDeg (value) / 360, 1) - 0.25;
-        temp += date + 0.5;
+      temp = early ? -1 : 1;
+      temp *= mod (0.5 + arcSinDeg (value) / 360, 1) - 0.25;
+      temp += date + 0.5;
 
-        return apparentToLocal (temp, location);
+      return apparentToLocal (temp, location);
     }
 
     return -1;
@@ -901,17 +883,17 @@ var Calendrical = (function (exports) {
    * @return {float} moment of depression
    */
   function momentOfDepression (approx, location, alpha, early) {
-      var tee = approxMomentOfDepression (approx, location, alpha, early);
+    var tee = approxMomentOfDepression (approx, location, alpha, early);
 
-      if (tee === -1) {
-          return -1;
-      }
+    if (tee === -1) {
+      return -1;
+    }
 
-      if (Math.abs (approx - tee) < 30 / 86400) {
-          return tee;
-      }
+    if (Math.abs (approx - tee) < 30 / 86400) {
+      return tee;
+    }
 
-      return momentOfDepression (tee, location, alpha, early);
+    return momentOfDepression (tee, location, alpha, early);
   }
 
   /**
@@ -927,7 +909,7 @@ var Calendrical = (function (exports) {
     var result = momentOfDepression (date + 0.25, location, alpha, true);
 
     if (result === -1) {
-        return -1;
+      return -1;
     }
 
     return localToStandard (result, location);
@@ -946,7 +928,7 @@ var Calendrical = (function (exports) {
     var result = momentOfDepression (date + 0.75, location, alpha, false);
 
     if (result === -1) {
-        return -1;
+      return -1;
     }
 
     return localToStandard (result, location);
@@ -959,9 +941,9 @@ var Calendrical = (function (exports) {
    * @return {float} moment of the n-th moon
    */
   function nthNewMoon (n0) {
-      var k0, c0, approx, capE, solarAnomaly2, lunarAnomaly2, moonArg, capO,
-          eFactor, solarCoeff, lunarCoeff, moonCoeff, sineCoeff, correction,
-          addConst, addCoeff, addFactor, extra, additional;
+    var k0, c0, approx, capE, solarAnomaly2, lunarAnomaly2, moonArg, capO,
+        eFactor, solarCoeff, lunarCoeff, moonCoeff, sineCoeff, correction,
+        addConst, addCoeff, addFactor, extra, additional;
 
     k0 = n0 - 24724;
     c0 = k0 / 1236.85;
@@ -985,7 +967,7 @@ var Calendrical = (function (exports) {
         function (v0, w0, x0, y0, z0) {
           return v0 * Math.pow (capE, w0) *
             sinDeg (x0 * solarAnomaly2 + y0 * lunarAnomaly2 + z0 * moonArg);
-          });
+        });
     addConst = [ 251.88, 251.83, 349.42, 84.66, 141.74, 207.14, 154.84, 34.52,
                  207.19, 291.34, 161.72, 239.56, 331.55 ];
     addCoeff = [ 0.016321, 26.651886, 36.412478, 18.206239, 53.303771, 2.453732,
@@ -995,7 +977,7 @@ var Calendrical = (function (exports) {
     extra = 0.000325 * sinDeg (poly (c0, [ 299.77, 132.8475848, -0.009173 ]));
     additional = sigma ([ addConst, addCoeff, addFactor ],
         function (i0, j0, l0) {
-            return l0 * sinDeg (i0 + j0 * k0);
+          return l0 * sinDeg (i0 + j0 * k0);
         });
 
     return dynamicalToUniversal (approx + correction + extra + additional);
@@ -1069,9 +1051,9 @@ var Calendrical = (function (exports) {
    * @return {float} lunar longitude
    */
   function lunarLongitude (tee) {
-      var centuries, capLprime, capD, capM, capMprime, capF, capE, lunarElongationArgs,
-          solarAnomalyArgs, lunarAnomalyArgs, moonNodeArgs, sineCoeff, correction,
-          A1, venus, A2, jupiter, flatEarth;
+    var centuries, capLprime, capD, capM, capMprime, capF, capE, lunarElongationArgs,
+        solarAnomalyArgs, lunarAnomalyArgs, moonNodeArgs, sineCoeff, correction,
+        A1, venus, A2, jupiter, flatEarth;
 
     centuries = julianCenturies (tee);
     capLprime = meanLunarLongitude (centuries);
@@ -1106,7 +1088,7 @@ var Calendrical = (function (exports) {
     correction = 1 / 1000000 *
       sigma ([ sineCoeff, lunarElongationArgs, solarAnomalyArgs, lunarAnomalyArgs, moonNodeArgs ],
         function (v0, w0, x0, y0, z0) {
-            return v0 * Math.pow (capE, Math.abs (x0)) *
+          return v0 * Math.pow (capE, Math.abs (x0)) *
                 sinDeg (w0 * capD + x0 * capM + y0 * capMprime + z0 * capF);
         });
 
@@ -1131,7 +1113,7 @@ var Calendrical = (function (exports) {
    * @return {float} lunar phase at tee
    */
   function lunarPhase (tee) {
-      var phi, t0, n0, phi2;
+    var phi, t0, n0, phi2;
 
     phi  = mod (lunarLongitude (tee) - solarLongitude (tee), 360);
     t0   = nthNewMoon (0);
@@ -1140,7 +1122,7 @@ var Calendrical = (function (exports) {
               calendar.constants.MEAN_SYNODIC_MONTH, 1);
 
     if (Math.abs (phi - phi2) > 180) {
-        return phi2;
+      return phi2;
     }
 
     return phi;
@@ -1158,7 +1140,7 @@ var Calendrical = (function (exports) {
 
     return nthNewMoon (final (n0 - 1,
         function (k0) {
-            return nthNewMoon (k0) < tee;
+          return nthNewMoon (k0) < tee;
         }));
   }
 
@@ -1174,7 +1156,7 @@ var Calendrical = (function (exports) {
 
     return nthNewMoon (next (n0,
         function (k0) {
-            return nthNewMoon (k0) >= tee;
+          return nthNewMoon (k0) >= tee;
         }));
   }
 
@@ -1207,7 +1189,6 @@ var Calendrical = (function (exports) {
   astro.next = next;
   astro.nutation = nutation;   // only to be tested!
   astro.obliquity = obliquity;   // only to be tested!
-  astro.pad = pad;
   astro.poly = poly;   // only to be tested!
   astro.precession = precession;
   astro.radiansToDegrees = radiansToDegrees;

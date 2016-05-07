@@ -8,6 +8,23 @@ var Calendrical = (function (exports) {
   calendar = exports.calendar;
   data     = exports.data;
 
+  /**
+   * Pad a string to a given length with a given fill character.
+   * @param {String} str initial string
+   * @param {int} length max. length
+   * @param {character} filler the character to fill in the gaps
+   * @return {String} padded String
+   */
+  function pad (str, length, filler) {
+    var s0 = str.toString ();
+
+    while (s0.length < length) {
+      s0 = filler + s0;
+    }
+
+    return s0;
+  }
+
   // Perform calculation starting with a Gregorian date
   calendar.calcGregorian = function () {
     this.updateFromGregorian ();
@@ -24,9 +41,9 @@ var Calendrical = (function (exports) {
     data.gregorian.year  = date[0];
     data.gregorian.month = date[1] - 1;
     data.gregorian.day   = date[2];
-    data.gregorian.hour  = astro.pad (time[0], 2, ' ');
-    data.gregorian.min   = astro.pad (time[1], 2, '0');
-    data.gregorian.sec   = astro.pad (time[2], 2, '0');
+    data.gregorian.hour  = pad (time[0], 2, ' ');
+    data.gregorian.min   = pad (time[1], 2, '0');
+    data.gregorian.sec   = pad (time[2], 2, '0');
 
     this.updateFromGregorian ();
   };
@@ -129,7 +146,7 @@ var Calendrical = (function (exports) {
       decade = 0;
 
       if (jours > 5) {
-          jours = 0;
+        jours = 0;
       }
     }
 
@@ -159,7 +176,7 @@ var Calendrical = (function (exports) {
     // we're going to celebrate your extinction like it was
     // February 29 ... 1900.
     if (day > 60) {
-        day -= 1;
+      day -= 1;
     }
 
     this.setJulian (day - 1 + calendar.constants.J1900);
@@ -181,7 +198,7 @@ var Calendrical = (function (exports) {
   calendar.calcIsoWeek = function () {
     var year = data.isoweek.year,
         week = data.isoweek.week,
-         day = data.isoweek.day;
+        day = data.isoweek.day;
 
     this.setJulian (calendar.isoToJulian (year, week, day));
   };
@@ -189,7 +206,7 @@ var Calendrical = (function (exports) {
   // Update from specified ISO year and day of year
   calendar.calcIsoDay = function () {
     var year = data.isoday.year,
-      day = data.isoday.day;
+        day = data.isoday.day;
 
     this.setJulian (this.isoDayToJulian (year, day));
   };

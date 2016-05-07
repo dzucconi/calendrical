@@ -17,10 +17,10 @@ describe ("Hindu Solar Astro calendar spec", function () {
 
   it ("should convert a Julian day to a Hindu Solar Astro date", function () {
     data4.forEach (function (data) {
-        date     = data.hinduSolarAstro;
-        expected = [ date.year, date.month, date.day ];
-        actual   = cal.jdToHinduSolarAstro (data.rataDie + cal.constants.J0000);
-        expect (expected).toEqual (actual);
+      date     = data.hinduSolarAstro;
+      expected = [ date.year, date.month, date.day ];
+      actual   = cal.jdToHinduSolarAstro (data.rataDie + cal.constants.J0000);
+      expect (expected).toEqual (actual);
     });
   });
 });
