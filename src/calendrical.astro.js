@@ -2,7 +2,9 @@
 
 "use strict";
 
-var Calendrical = (function (exports) {
+var Calendrical = {};
+
+Calendrical = (function (exports) {
   var astro, calendar, cons;
 
   exports.astro = exports.astro || {};
@@ -185,7 +187,7 @@ var Calendrical = (function (exports) {
   }
 
   /**
-   * Return a normalized angle theta to range [ 0, 360 ) degrees.
+   * Return a normalized angle theta to range [ 0, 360 ] degrees.
    * @param {float} theta angle in degrees
    * @return {float} normalized angle in degrees
    */
@@ -304,7 +306,6 @@ var Calendrical = (function (exports) {
   /**
    * Calculate polynomial with coefficients 'a' at point x.
    * The polynomial is  a[0] + a[1] * x + a[2] * x^2 + ...a[n-1]x^(n-1)
-   * the result is      a[0] + x(a[1] + x(a[2] +...+ x(a[n-1])...)
    * @param {float} term denotes x in the formula above
    * @param {float[]} array denotes a[] in the formula above
    * @return {float} polynomial value
@@ -985,7 +986,7 @@ var Calendrical = (function (exports) {
 
   /**
    * Return mean longitude of moon (in degrees) at moment given in Julian centuries.
-   * (including the constant term of the effect of the light-time (-0".70).
+   * including the constant term of the effect of the light-time (-0".70).
    * Adapted from eq. 47.1 in "Astronomical Algorithms" by Jean Meeus,
    * Willmann_Bell, Inc., 2nd ed. with corrections, 2005.
    * @param {float} centuries Julian centuries relative to 2000-01-01
@@ -1199,4 +1200,4 @@ var Calendrical = (function (exports) {
   astro.tanDeg = tanDeg;
 
   return exports;
-}(Calendrical || {}));
+} (Calendrical));

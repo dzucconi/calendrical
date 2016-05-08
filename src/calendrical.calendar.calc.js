@@ -1,6 +1,8 @@
+/* global Calendrical:true */
+
 "use strict";
 
-var Calendrical = (function (exports) {
+(function (exports) {
   var astro, calendar, data;
 
   exports.calendar = exports.calendar || {};

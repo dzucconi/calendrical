@@ -1,10 +1,12 @@
+/* global Calendrical:true */
+
 /* eslint
   "max-statements": [ "error", 26, { "ignoreTopLevelFunctions": true } ],
   "max-params": [ "error", 4 ] */
 
 "use strict";
 
-var Calendrical = (function (exports) {
+(function (exports) {
   var astro, calendar, data;
 
   exports.calendar = exports.calendar || {};
@@ -408,7 +410,7 @@ var Calendrical = (function (exports) {
   calendar.updateTo = function (date) {
     var dt = date;
 
-    if (typeof (dt) === "undefined") {
+    if (typeof dt === "undefined") {
       dt = new Date ();
     }
 
@@ -419,4 +421,4 @@ var Calendrical = (function (exports) {
   };
 
   return exports;
-} (Calendrical || {}));
+} (Calendrical));
