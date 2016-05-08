@@ -566,7 +566,7 @@ Calendrical = (function (exports) {
     eccentricity = poly (centuries, [ 0.016708617, -0.000042037, -0.0000001236 ]);
     varepsilon = obliquity (tee);
     y0 = tanDeg (varepsilon / 2);
-    y0 *= y0;
+    y0 = Math.pow (y0, 2);
 
     equation = 0.5 / Math.PI * (y0 * sinDeg (2 * lambda) +
                -2 * eccentricity * sinDeg (anomaly) +
@@ -709,9 +709,9 @@ Calendrical = (function (exports) {
 
     JDE0 = JDE0tab[which][0] +
       JDE0tab[which][1] * y0 +
-      JDE0tab[which][2] * y0 * y0 +
-      JDE0tab[which][3] * y0 * y0 * y0 +
-      JDE0tab[which][4] * y0 * y0 * y0 * y0;
+      JDE0tab[which][2] * Math.pow (y0, 2) +
+      JDE0tab[which][3] * Math.pow (y0, 3) +
+      JDE0tab[which][4] * Math.pow (y0, 4);
 
     t0     = (JDE0 - 2451545.0) / 36525;
     w0     = 35999.373 * t0 - 2.47;

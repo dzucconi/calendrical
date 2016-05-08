@@ -12,7 +12,6 @@ module.exports = function (config) {
       'test/spec/*.spec.js'
     ],
     exclude: [
-      'bower_components/**/*'
     ],
     preprocessors: { },
     reporters: [ 'progress' ],
@@ -20,15 +19,13 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: false,
-    browsers: [ 'PhantonJS' ],
-    /*
+    browsers: [ 'PhantomJS' ],
     customLaunchers: {
-      PhantonJS_customised: {
+      PhantomJS_customised: {
         base: 'PhantomJS',
         debug: true
       }
     },
-    */
     singleRun: true,
     concurrency: 1
   });
