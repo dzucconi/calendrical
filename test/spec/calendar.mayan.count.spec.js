@@ -2,11 +2,11 @@
 
 'use strict';
 
-describe ("Mayan Count calendar spec", function () {
+describe ('Mayan Count calendar spec', function () {
   var cal = Calendrical.calendar,
       date, julian, expected, actual;
 
-  it ("should convert a Mayan Count to Julian day", function () {
+  it ('should convert a Mayan Count to Julian day', function () {
     data2.forEach (function (data) {
       expected = data.rataDie + cal.constants.J0000;
       date     = data.mayanLong;
@@ -16,7 +16,7 @@ describe ("Mayan Count calendar spec", function () {
     });
   });
 
-  it ("should convert a Julian day to a Mayan Count", function () {
+  it ('should convert a Julian day to a Mayan Count', function () {
     data2.forEach (function (data) {
       julian   = data.rataDie + cal.constants.J0000;
       date     = data.mayanLong;

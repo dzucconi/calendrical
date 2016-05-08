@@ -2,13 +2,13 @@
 
 'use strict';
 
-describe ("French revolutionary calendar spec", function () {
+describe ('French revolutionary calendar spec', function () {
   var astro, cal, date, expected, actual, decade, jour;
 
   astro = Calendrical.astro;
   cal = Calendrical.calendar;
 
-  it ("should convert a French revolutionary date to Julian day", function () {
+  it ('should convert a French revolutionary date to Julian day', function () {
     data3.forEach (function (data) {
       date     = data.french;
       expected = data.rataDie + cal.constants.J0000;
@@ -20,7 +20,7 @@ describe ("French revolutionary calendar spec", function () {
     });
   });
 
-  it ("should convert a Julian day to a French revolutionary date", function () {
+  it ('should convert a Julian day to a French revolutionary date', function () {
     data3.forEach (function (data) {
       date     = data.french;
       jour     = date.day;

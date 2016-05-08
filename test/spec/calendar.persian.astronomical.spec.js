@@ -2,12 +2,12 @@
 
 'use strict';
 
-describe ("Persian astronomical calendar spec", function () {
+describe ('Persian astronomical calendar spec', function () {
   var cal, date, expected, actual;
 
   cal = Calendrical.calendar;
 
-  it ("should convert a Persian astronomical date to Julian day", function () {
+  it ('should convert a Persian astronomical date to Julian day', function () {
     data3.forEach (function (data) {
       date     = data.persianAstro;
       expected = data.rataDie + cal.constants.J0000;
@@ -16,7 +16,7 @@ describe ("Persian astronomical calendar spec", function () {
     });
   });
 
-  it ("should convert a Julian day to a Persian astronomical date", function () {
+  it ('should convert a Julian day to a Persian astronomical date', function () {
     data3.forEach (function (data) {
       date     = data.persianAstro;
       expected = [ date.year, date.month, date.day ];
@@ -25,7 +25,7 @@ describe ("Persian astronomical calendar spec", function () {
     });
   });
 
-  it ("should determine whether a Persian astronomical year is leap year", function () {
+  it ('should determine whether a Persian astronomical year is leap year', function () {
     [ 38, 75, 112, 149, 186, 223, 260, 1111, 1148, 1185, 1222, 1259, 1296, 1333, 1370 ].forEach (function (year) {
       expect (cal.leapPersian (year)).toBe (true);
     });

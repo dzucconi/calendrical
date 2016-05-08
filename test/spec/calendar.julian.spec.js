@@ -2,11 +2,11 @@
 
 'use strict';
 
-describe ("Julian calendar spec", function () {
+describe ('Julian calendar spec', function () {
   var cal = Calendrical.calendar,
       date, expected, actual;
 
-  it ("should convert a Julian date to Julian day", function () {
+  it ('should convert a Julian date to Julian day', function () {
     data1.forEach (function (data) {
       date = data.julianDate;
       expected = data.julianDay;
@@ -16,7 +16,7 @@ describe ("Julian calendar spec", function () {
     });
   });
 
-  it ("should convert a Julian day to a Julian date", function () {
+  it ('should convert a Julian day to a Julian date', function () {
     data1.forEach (function (data) {
       date = data.julianDate;
       expected = [ date.year, date.month, date.day ];
@@ -26,7 +26,7 @@ describe ("Julian calendar spec", function () {
     });
   });
 
-  it ("should determine whether a Julian year is leap year", function () {
+  it ('should determine whether a Julian year is leap year', function () {
     [ 4, 20, 1600, 1700, 1760, 1800, 1840, 1904, 1980, 2000 ].forEach (function (year) {
       expect (cal.leapJulian (year)).toBe (true);
     });

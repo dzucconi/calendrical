@@ -1,25 +1,25 @@
 /* global Calendrical:true*/
 /* eslint no-extend-native: [ "error", { "exceptions": [ "Date" ] } ]*/
 
-"use strict";
+'use strict';
 
 (function () {
   var methods = [
-    "ModifiedJulianDay",
-    "Hebrew",
-    "Islamic",
-    "Persian",
-    "Persiana",
-    "Mayan",
-    "Bahai",
-    "IndianCivil",
-    "FrenchRevolutionary",
-    "GregorianSerial",
-    "Excel1900",
-    "Excel1904",
-    "UnixTime",
-    "IsoWeek",
-    "IsoDay"
+    'ModifiedJulianDay',
+    'Hebrew',
+    'Islamic',
+    'Persian',
+    'Persiana',
+    'Mayan',
+    'Bahai',
+    'IndianCivil',
+    'FrenchRevolutionary',
+    'GregorianSerial',
+    'Excel1900',
+    'Excel1904',
+    'UnixTime',
+    'IsoWeek',
+    'IsoDay'
   ];
 
   Date.prototype.getJulian = function () {

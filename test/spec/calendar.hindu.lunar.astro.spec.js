@@ -2,12 +2,12 @@
 
 'use strict';
 
-describe ("Hindu Lunar Astro calendar spec", function () {
+describe ('Hindu Lunar Astro calendar spec', function () {
   var cal, date, expected, actual;
 
   cal = Calendrical.calendar;
 
-  it ("should convert a Hindu Lunar Astro date to Julian day", function () {
+  it ('should convert a Hindu Lunar Astro date to Julian day', function () {
     data4.forEach (function (data) {
       date     = data.hinduLunarAstro;
       expected = data.rataDie + cal.constants.J0000;
@@ -16,7 +16,7 @@ describe ("Hindu Lunar Astro calendar spec", function () {
     });
   });
 
-  it ("should convert a Julian day to a Hindu Lunar Astro date", function () {
+  it ('should convert a Julian day to a Hindu Lunar Astro date', function () {
     data4.forEach (function (data) {
       date     = data.hinduLunarAstro;
       expected = [ date.year, date.month, date.monthLeap, date.day, date.dayLeap ];

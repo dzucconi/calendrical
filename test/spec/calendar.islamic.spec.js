@@ -2,12 +2,12 @@
 
 'use strict';
 
-describe ("Islamic calendar spec", function () {
+describe ('Islamic calendar spec', function () {
   var cal, julian, date, expected, actual;
 
   cal = Calendrical.calendar;
 
-  it ("should convert a Islamic date to Julian day", function () {
+  it ('should convert a Islamic date to Julian day', function () {
     data2.forEach (function (data) {
       expected = data.rataDie + cal.constants.J0000;
       date     = data.islamic;
@@ -17,7 +17,7 @@ describe ("Islamic calendar spec", function () {
     });
   });
 
-  it ("should convert a Julian day to a Islamic date", function () {
+  it ('should convert a Julian day to a Islamic date', function () {
     data2.forEach (function (data) {
       julian   = data.rataDie + cal.constants.J0000;
       date     = data.islamic;
@@ -28,7 +28,7 @@ describe ("Islamic calendar spec", function () {
     });
   });
 
-  it ("should determine whether a Islamic year is leap year", function () {
+  it ('should determine whether a Islamic year is leap year', function () {
     expect (cal.leapIslamic (1)).toBe (false);
     expect (cal.leapIslamic (168)).toBe (true);
     expect (cal.leapIslamic (169)).toBe (false);
