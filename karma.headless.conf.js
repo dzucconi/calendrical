@@ -12,8 +12,7 @@ module.exports = function (config) {
       'test/spec/*.spec.js'
     ],
     exclude: [
-      'bower_components/**/*',
-      'node_modules/**/*'
+      'bower_components/**/*'
     ],
     preprocessors: { },
     reporters: [ 'progress' ],
