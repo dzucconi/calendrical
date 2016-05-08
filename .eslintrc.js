@@ -7,7 +7,7 @@ module.exports = {
     },
     "extends": [ "eslint:recommended", "plugin:jasmine/recommended" ],
     "parserOptions": {
-        "sourceType": "module"
+        "sourceType": { "sourceType": "module" }
     },
     "plugins": [ "jasmine" ],
     "rules": {

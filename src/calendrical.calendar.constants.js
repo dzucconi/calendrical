@@ -1,6 +1,8 @@
+/* global Calendrical:true */
+
 "use strict";
 
-var Calendrical = (function (exports) {
+(function (exports) {
   var calendar;
 
   exports.calendar = exports.calendar || {};
@@ -123,4 +125,4 @@ var Calendrical = (function (exports) {
   };
 
   return exports;
-}(Calendrical || {}));
+} (Calendrical || {}));

@@ -6,7 +6,7 @@
 
 "use strict";
 
-var Calendrical = (function (exports) {
+(function (exports) {
   var astro, calendar, cons;
 
   exports.calendar = exports.calendar || {};
@@ -1512,4 +1512,4 @@ var Calendrical = (function (exports) {
   };
 
   return exports;
-} (Calendrical || {}));
+} (Calendrical));
