@@ -31,8 +31,8 @@
   };
 
   methods.map (function (method) {
-    Date.prototype[`get${method}`] = function () {
-      return Calendrical.calendar[`update${method}`](this.getJulian ());
+    Date.prototype['get' + method] = function () {
+      return Calendrical.calendar['update' + method](this.getJulian ());
     };
 
     return 0;

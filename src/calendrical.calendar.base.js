@@ -189,7 +189,7 @@
       year: islcal[0],
       month: this.constants.islamic.MONTHS[islcal[1] - 1],
       day: islcal[2],
-      wday: `yawm ${this.constants.islamic.WEEKDAYS[astro.jwday (jd)]}`,
+      wday: 'yawm ' + this.constants.islamic.WEEKDAYS[astro.jwday (jd)],
       leap: this.leapIslamic (islcal[0])
     };
 
@@ -238,8 +238,8 @@
       tun: mayancal[2],
       uinal: mayancal[3],
       kin: mayancal[4],
-      haab: `${mayhaabcal[1]} ${this.constants.mayan.HAAB_MONTHS[mayhaabcal[0] - 1]}`,
-      tzolkin: `${maytzolkincal[1]} ${this.constants.mayan.TZOLKIN_MONTHS[maytzolkincal[0] - 1]}`
+      haab: mayhaabcal[1] + ' ' + this.constants.mayan.HAAB_MONTHS[mayhaabcal[0] - 1],
+      tzolkin: maytzolkincal[1] + ' ' + this.constants.mayan.TZOLKIN_MONTHS[maytzolkincal[0] - 1]
     };
 
     return data.mayan_count;

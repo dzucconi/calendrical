@@ -20,7 +20,15 @@ module.exports = function (config) {
     colors: true,
     logLevel: config.LOG_INFO,
     autoWatch: false,
-    browsers: [ 'PhantomJS' ],
+    browsers: [ 'PhantonJS' ],
+    /*
+    customLaunchers: {
+      PhantonJS_customised: {
+        base: 'PhantomJS',
+        debug: true
+      }
+    },
+    */
     singleRun: true,
     concurrency: 1
   });
