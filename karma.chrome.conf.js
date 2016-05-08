@@ -11,14 +11,14 @@ module.exports = function (config) {
       'test/spec/*.spec.js'
     ],
     exclude: [
-      'bower_components/**/*'
     ],
     preprocessors: { },
-    reporters: [ 'progress', 'super-dots', 'verbose' ],
+    // reporters: [ 'progress', 'super-dots', 'verbose' ],
+    reporters: [ 'progress' ],
     port: 9876,
     colors: true,
     logLevel: config.LOG_INFO,
-    autoWatch: false,
+    autoWatch: true,
     browsers: [ 'Chrome_without_web_security' ],
     customLaunchers: {
       Chrome_without_web_security: {
