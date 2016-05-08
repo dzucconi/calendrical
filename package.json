@@ -26,12 +26,18 @@
     "grunt-cli": "^1.2.0",
     "grunt-contrib-uglify": "^1.0.1",
     "grunt-shell": "^1.3.0",
-    "jasmine": "^2.4.1"
+    "jasmine": "^2.4.1",
+    "karma": "^0.13.22",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-jasmine": "^1.0.2",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "phantomjs-prebuilt": "^2.1.7"
   },
   "scripts": {
-    "lint-src": "eslint src/*.js",
-    "lint-test": "eslint test/spec/*.js",
-    "lint-test-data": "eslint test/spec/data/*.js",
-    "doc": "docco src/*.js"
+    "doc": "docco src/*.js",
+    "lint-src": "eslint --quiet src/*.js",
+    "lint-test": "eslint --quiet test/spec/*.js test/spec/data/*.js",
+    "karma-dev": "karma start karma.chrome.conf.js",
+    "karma-batch": "karma start karma.headless.conf.js"
   }
 }
