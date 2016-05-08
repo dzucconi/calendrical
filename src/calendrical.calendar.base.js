@@ -4,7 +4,7 @@
   "max-statements": [ "error", 26, { "ignoreTopLevelFunctions": true } ],
   "max-params": [ "error", 4 ] */
 
-"use strict";
+'use strict';
 
 (function (exports) {
   var astro, calendar, data;
@@ -150,31 +150,31 @@
 
     switch (this.hebrewYearDays (hebcal[0])) {
       case 353:
-        data.hebrew.leap = "Common deficient (353 days)";
+        data.hebrew.leap = 'Common deficient (353 days)';
         break;
 
       case 354:
-        data.hebrew.leap = "Common regular (354 days)";
+        data.hebrew.leap = 'Common regular (354 days)';
         break;
 
       case 355:
-        data.hebrew.leap = "Common complete (355 days)";
+        data.hebrew.leap = 'Common complete (355 days)';
         break;
 
       case 383:
-        data.hebrew.leap = "Embolismic deficient (383 days)";
+        data.hebrew.leap = 'Embolismic deficient (383 days)';
         break;
 
       case 384:
-        data.hebrew.leap = "Embolismic regular (384 days)";
+        data.hebrew.leap = 'Embolismic regular (384 days)';
         break;
 
       case 385:
-        data.hebrew.leap = "Embolismic complete (385 days)";
+        data.hebrew.leap = 'Embolismic complete (385 days)';
         break;
 
       default:
-        data.hebrew.leap = `Invalid year length: ${this.hebrewYearDays (hebcal[0])} days.`;
+        data.hebrew.leap = 'Invalid year length: ' + this.hebrewYearDays (hebcal[0]) + ' days.';
         break;
     }
 
@@ -189,7 +189,7 @@
       year: islcal[0],
       month: this.constants.islamic.MONTHS[islcal[1] - 1],
       day: islcal[2],
-      wday: `yawm ${this.constants.islamic.WEEKDAYS[astro.jwday (jd)]}`,
+      wday: 'yawm ' + this.constants.islamic.WEEKDAYS[astro.jwday (jd)],
       leap: this.leapIslamic (islcal[0])
     };
 
@@ -238,8 +238,8 @@
       tun: mayancal[2],
       uinal: mayancal[3],
       kin: mayancal[4],
-      haab: `${mayhaabcal[1]} ${this.constants.mayan.HAAB_MONTHS[mayhaabcal[0] - 1]}`,
-      tzolkin: `${maytzolkincal[1]} ${this.constants.mayan.TZOLKIN_MONTHS[maytzolkincal[0] - 1]}`
+      haab: mayhaabcal[1] + ' ' + this.constants.mayan.HAAB_MONTHS[mayhaabcal[0] - 1],
+      tzolkin: maytzolkincal[1] + ' ' + this.constants.mayan.TZOLKIN_MONTHS[maytzolkincal[0] - 1]
     };
 
     return data.mayan_count;
@@ -410,7 +410,7 @@
   calendar.updateTo = function (date) {
     var dt = date;
 
-    if (typeof dt === "undefined") {
+    if (typeof dt === 'undefined') {
       dt = new Date ();
     }
 

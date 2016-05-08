@@ -4,7 +4,7 @@
   "no-extra-parens": [ "error", "all", { "conditionalAssign": false } ]
   */
 
-"use strict";
+'use strict';
 
 (function (exports) {
   var astro, calendar, cons;

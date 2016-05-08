@@ -2,12 +2,12 @@
 
 'use strict';
 
-describe ("Hindu Lunar Old calendar spec", function () {
+describe ('Hindu Lunar Old calendar spec', function () {
   var cal, date, expected, actual;
 
   cal = Calendrical.calendar;
 
-  it ("should convert a Hindu Lunar Old date to Julian day", function () {
+  it ('should convert a Hindu Lunar Old date to Julian day', function () {
     data4.forEach (function (data) {
       date     = data.hinduLunarOld;
       expected = data.rataDie + cal.constants.J0000;
@@ -17,7 +17,7 @@ describe ("Hindu Lunar Old calendar spec", function () {
     });
   });
 
-  it ("should convert a Julian day to a Hindu Lunar Old date", function () {
+  it ('should convert a Julian day to a Hindu Lunar Old date', function () {
     data4.forEach (function (data) {
       date     = data.hinduLunarOld;
       expected = [ date.year, date.month, date.leap, date.day ];
@@ -27,7 +27,7 @@ describe ("Hindu Lunar Old calendar spec", function () {
     });
   });
 
-  it ("should establish whether a Hindu Lunar Old year is leap", function () {
+  it ('should establish whether a Hindu Lunar Old year is leap', function () {
     [ 2933, 3570, 3795, 4197, 4340, 4389,
         4492, 4536, 4593, 4660, 4869, 4940
       ].forEach (function (year) {

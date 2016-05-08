@@ -1,6 +1,6 @@
 /* global Calendrical:true */
 
-"use strict";
+'use strict';
 
 (function (exports) {
   var astro, calendar, data;

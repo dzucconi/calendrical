@@ -2,12 +2,12 @@
 
 'use strict';
 
-describe ("Gregorian calendar spec", function () {
+describe ('Gregorian calendar spec', function () {
   var cal = Calendrical.calendar,
       date, expected, actual;
 
 
-  it ("should convert a Gregorian date to Julian day", function () {
+  it ('should convert a Gregorian date to Julian day', function () {
     data1.forEach (function (data) {
       date = data.gregorian;
       expected = data.julianDay;
@@ -17,7 +17,7 @@ describe ("Gregorian calendar spec", function () {
     });
   });
 
-  it ("should convert a Julian day to a Gregorian date", function () {
+  it ('should convert a Julian day to a Gregorian date', function () {
     data1.forEach (function (data) {
       date = data.gregorian;
       expected = [ date.year, date.month, date.day ];
@@ -27,7 +27,7 @@ describe ("Gregorian calendar spec", function () {
     });
   });
 
-  it ("should determine whether a Gregorian year is leap year", function () {
+  it ('should determine whether a Gregorian year is leap year', function () {
     [ 0, 4, 20, 1600, 1760, 1840, 1904, 1980, 2000 ].forEach (function (year) {
       expect (cal.leapGregorian (year)).toBe (true);
     });

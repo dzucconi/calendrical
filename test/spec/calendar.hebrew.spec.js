@@ -2,12 +2,12 @@
 
 'use strict';
 
-describe ("Hebrew calendar spec", function () {
+describe ('Hebrew calendar spec', function () {
   var cal, date, expected, actual;
 
   cal = Calendrical.calendar;
 
-  it ("should convert a Hebrew date to Julian day", function () {
+  it ('should convert a Hebrew date to Julian day', function () {
     data3.forEach (function (data) {
       date = data.hebrew;
       expected = data.rataDie + cal.constants.J0000;
@@ -17,7 +17,7 @@ describe ("Hebrew calendar spec", function () {
     });
   });
 
-  it ("should convert a Julian day to a Hebrew date", function () {
+  it ('should convert a Julian day to a Hebrew date', function () {
     data3.forEach (function (data) {
       date = data.hebrew;
       expected = [ date.year, date.month, date.day ];
@@ -27,7 +27,7 @@ describe ("Hebrew calendar spec", function () {
     });
   });
 
-  it ("should determine whether a Hebrew year is leap year", function () {
+  it ('should determine whether a Hebrew year is leap year', function () {
     [ 5700, 5703, 5706, 5708, 5711, 5714, 5717 ].forEach (function (year) {
       expect (cal.hebrewLeap (year)).toBe (true);
     });

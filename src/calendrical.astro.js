@@ -1,6 +1,6 @@
 /* eslint "max-params": [ "error", 5 ] */
 
-"use strict";
+'use strict';
 
 var Calendrical = {};
 
@@ -31,7 +31,7 @@ Calendrical = (function (exports) {
     TROPICAL_YEAR: 365.24219878,
 
     // *Weekdays*
-    WEEKDAYS: [ "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" ],
+    WEEKDAYS: [ 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday' ],
 
     // *Table of observed Delta T values at the beginning of
     // even numbered years from 1620 through 2002.*

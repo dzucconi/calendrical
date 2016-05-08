@@ -1,8 +1,8 @@
 module.exports = function (grunt) {
-  "use strict";
+  'use strict';
 
   grunt.initConfig({
-    pkg: grunt.file.readJSON("package.json"),
+    pkg: grunt.file.readJSON('package.json'),
 
     uglify: {
       options: {
@@ -28,27 +28,27 @@ module.exports = function (grunt) {
           side_effects: true, // drop side-effect-free statements
           warnings: true
         },
-        report: "gzip"
+        report: 'gzip'
       },
       plugin: {
         files: [ {
-          "build/calendrical.min.js": [ "src/calendrical.*.js" ],
-          "build/calendrical.astro.min.js": [ "src/calendrical.astro.js" ],
-          "build/calendrical.calendar.min.js": [ "src/calendrical.calendar.*.js" ]
+          'build/calendrical.min.js': [ 'src/calendrical.*.js' ],
+          'build/calendrical.astro.min.js': [ 'src/calendrical.astro.js' ],
+          'build/calendrical.calendar.min.js': [ 'src/calendrical.calendar.*.js' ]
         } ]
       }
     },
 
     shell: {
       generateDocs: {
-        command: "docco src/calendrical.*.js"
+        command: 'docco src/calendrical.*.js'
       }
     }
   });
 
-  grunt.loadNpmTasks("grunt-shell");
-  grunt.loadNpmTasks("grunt-contrib-uglify");
+  grunt.loadNpmTasks('grunt-shell');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
-  grunt.registerTask("build", [ "uglify", "shell:generateDocs" ]);
-  grunt.registerTask("default", "build");
+  grunt.registerTask('build', [ 'uglify', 'shell:generateDocs' ]);
+  grunt.registerTask('default', 'build');
 };

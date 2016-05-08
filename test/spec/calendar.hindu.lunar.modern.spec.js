@@ -2,12 +2,12 @@
 
 'use strict';
 
-describe ("Hindu Lunar Modern calendar spec", function () {
+describe ('Hindu Lunar Modern calendar spec', function () {
   var cal, date, expected, actual;
 
   cal = Calendrical.calendar;
 
-  it ("should convert a Hindu Lunar Modern date to Julian day", function () {
+  it ('should convert a Hindu Lunar Modern date to Julian day', function () {
     data4.forEach (function (data) {
       date     = data.hinduLunarNew;
       expected = data.rataDie + cal.constants.J0000;
@@ -16,7 +16,7 @@ describe ("Hindu Lunar Modern calendar spec", function () {
     });
   });
 
-  it ("should convert a Julian day to a Hindu Lunar Modern date", function () {
+  it ('should convert a Julian day to a Hindu Lunar Modern date', function () {
     data4.forEach (function (data) {
       date     = data.hinduLunarNew;
       expected = [ date.year, date.month, date.monthLeap, date.day, date.dayLeap ];
