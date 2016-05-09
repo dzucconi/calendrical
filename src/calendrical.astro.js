@@ -1,10 +1,9 @@
 /* eslint "max-params": [ "error", 5 ] */
 
-'use strict';
-
 var Calendrical = {};
 
 Calendrical = (function (exports) {
+  'use strict';
   var astro, calendar, cons;
 
   exports.astro = exports.astro || {};

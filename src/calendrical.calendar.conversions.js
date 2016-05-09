@@ -1,12 +1,13 @@
+/* global Calendrical:true */
+
 /* eslint
   "max-statements": [ "error", 26, { "ignoreTopLevelFunctions": true } ],
   "max-params": [ "error", 5 ]
   "no-extra-parens": [ "error", "all", { "conditionalAssign": false } ]
   */
 
-'use strict';
-
 (function (exports) {
+  'use strict';
   var astro, calendar, cons;
 
   exports.calendar = exports.calendar || {};
