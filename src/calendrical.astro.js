@@ -1199,4 +1199,4 @@ Calendrical = (function (exports) {
   astro.tanDeg = tanDeg;
 
   return exports;
-} (Calendrical));
+} (Calendrical || {}));

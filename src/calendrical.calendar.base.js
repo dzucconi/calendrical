@@ -421,4 +421,4 @@
   };
 
   return exports;
-} (Calendrical));
+} (Calendrical || {}));

@@ -125,4 +125,4 @@
   };
 
   return exports;
-} (Calendrical));
+} (Calendrical || {}));

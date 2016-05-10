@@ -1513,4 +1513,4 @@
   };
 
   return exports;
-} (Calendrical));
+} (Calendrical || {}));

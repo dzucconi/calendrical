@@ -1,12 +1,9 @@
-/* global Calendrical data3 describe it expect:true*/
+/* global astro cal data3 describe expect it: true */
 
 'use strict';
 
 describe ('French revolutionary calendar spec', function () {
-  var astro, cal, date, expected, actual, decade, jour;
-
-  astro = Calendrical.astro;
-  cal = Calendrical.calendar;
+  var date, expected, actual, decade, jour;
 
   it ('should convert a French revolutionary date to Julian day', function () {
     data3.forEach (function (data) {
@@ -16,7 +13,7 @@ describe ('French revolutionary calendar spec', function () {
       decade   = Math.floor ((jour - 1) / 10) + 1;
       jour     = astro.amod (jour, 10);
       actual   = cal.frenchRevolutionaryToJd (date.year, date.month, decade, jour);
-      expect (expected).toEqual (actual);
+      expect (expected).to.be.equal (actual);
     });
   });
 
@@ -29,7 +26,7 @@ describe ('French revolutionary calendar spec', function () {
       expected = [ date.year, date.month, decade, jour ];
       actual   = cal.jdToFrenchRevolutionary (data.rataDie + cal.constants.J0000);
 
-      expect (expected).toEqual (actual);
+      expect (expected).to.be.eql (actual);
     });
   });
 });
