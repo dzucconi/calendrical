@@ -1,11 +1,9 @@
-/* global Calendrical data4 describe it expect:true*/
+/* global cal data4 describe expect it: true */
 
 'use strict';
 
 describe ('Hindu Lunar Old calendar spec', function () {
-  var cal, date, expected, actual;
-
-  cal = Calendrical.calendar;
+  var date, expected, actual;
 
   it ('should convert a Hindu Lunar Old date to Julian day', function () {
     data4.forEach (function (data) {
@@ -13,7 +11,7 @@ describe ('Hindu Lunar Old calendar spec', function () {
       expected = data.rataDie + cal.constants.J0000;
       actual   = cal.hinduLunarOldToJd ([ date.year, date.month, date.leap, date.day ]);
 
-      expect (expected).toEqual (actual);
+      expect (expected).to.be.equal (actual);
     });
   });
 
@@ -23,7 +21,7 @@ describe ('Hindu Lunar Old calendar spec', function () {
       expected = [ date.year, date.month, date.leap, date.day ];
       actual   = cal.jdToHinduLunarOld (data.rataDie + cal.constants.J0000);
 
-      expect (expected).toEqual (actual);
+      expect (expected).to.be.eql (actual);
     });
   });
 
@@ -32,14 +30,14 @@ describe ('Hindu Lunar Old calendar spec', function () {
         4492, 4536, 4593, 4660, 4869, 4940
       ].forEach (function (year) {
         actual   = cal.leapHinduLunarOld (year);
-        expect (true).toEqual (actual);
+        expect (true).to.be.equal (actual);
       });
 
     [ 2515, 3171, 3236, 3677, 4114, 4291, 4399, 4654, 4749, 4781,
         4817, 4920, 5004, 5030, 5042, 5044, 5092, 5096, 5139, 5195
       ].forEach (function (year) {
         actual   = cal.leapHinduLunarOld (year);
-        expect (false).toEqual (actual);
+        expect (false).to.be.equal (actual);
       });
   });
 });

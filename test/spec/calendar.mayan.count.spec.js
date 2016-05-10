@@ -1,10 +1,9 @@
-/* global Calendrical data2 describe it expect:true*/
+/* global cal data2 describe expect it: true */
 
 'use strict';
 
 describe ('Mayan Count calendar spec', function () {
-  var cal = Calendrical.calendar,
-      date, julian, expected, actual;
+  var date, julian, expected, actual;
 
   it ('should convert a Mayan Count to Julian day', function () {
     data2.forEach (function (data) {
@@ -12,7 +11,7 @@ describe ('Mayan Count calendar spec', function () {
       date     = data.mayanLong;
       actual   = cal.mayanCountToJd (date.baktun, date.katun, date.tun, date.uinal, date.kin);
 
-      expect (expected).toEqual (actual);
+      expect (expected).to.be.equal (actual);
     });
   });
 
@@ -23,7 +22,7 @@ describe ('Mayan Count calendar spec', function () {
       expected = [ date.baktun, date.katun, date.tun, date.uinal, date.kin ];
       actual   = cal.jdToMayanCount (julian);
 
-      expect (expected).toEqual (actual);
+      expect (expected).to.be.eql (actual);
     });
   });
 });

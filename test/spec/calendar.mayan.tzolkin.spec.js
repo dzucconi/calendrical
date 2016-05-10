@@ -1,10 +1,9 @@
-/* global Calendrical data2 describe it expect:true*/
+/* global cal data2 describe expect it: true */
 
 'use strict';
 
 describe ('Mayan Tzolkin calendar spec', function () {
-  var cal = Calendrical.calendar,
-      date, julian, expected, actual;
+  var date, julian, expected, actual;
 
   it ('should convert a Julian day to a Mayan Tzolkin', function () {
     data2.forEach (function (data) {
@@ -13,7 +12,7 @@ describe ('Mayan Tzolkin calendar spec', function () {
       expected = [ date.day, date.month ];
       actual   = cal.jdToMayanTzolkin (julian);
 
-      expect (expected).toEqual (actual);
+      expect (expected).to.be.eql (actual);
     });
   });
 });
