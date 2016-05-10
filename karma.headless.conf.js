@@ -5,7 +5,7 @@ module.exports = function (config) {
   config.set ({
 
     basePath: '',
-    frameworks: [ 'jasmine' ],
+    frameworks: [ 'mocha' ],
     files: [
       'src/*.js',
       'test/spec/data/data?.js',

@@ -5,11 +5,11 @@ module.exports = {
         'es6': true,
         'node': true
     },
-    'extends': [ 'eslint:recommended', 'plugin:jasmine/recommended' ],
+    'extends': [ 'eslint:recommended' ],
     'parserOptions': {
         'sourceType': { 'sourceType': 'module' }
     },
-    'plugins': [ 'jasmine' ],
+    'plugins': [ 'mocha' ],
     'rules': {
         'accessor-pairs': 'error',
         'array-bracket-spacing': [
@@ -75,6 +75,12 @@ module.exports = {
         'max-nested-callbacks': 'error',
         'max-params': 'error',
         'max-statements': [ 'error', 21, { 'ignoreTopLevelFunctions': true } ],
+        'mocha/handle-done-callback': 2,
+        'mocha/no-exclusive-tests': 2,
+        'mocha/no-global-tests': 2,
+        'mocha/no-pending-tests': 2,
+        'mocha/no-skipped-tests': 2,
+        'mocha/no-synchronous-tests': 0,
         'new-cap': 'error',
         'new-parens': 'error',
         'newline-after-var': [
